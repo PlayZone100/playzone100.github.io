@@ -9,11 +9,11 @@
 *{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none}
 html{height:100%;overscroll-behavior:none}
 :root{--bg1:#1e3c1e;--bg2:#0a1a0a}
-body{background:radial-gradient(ellipse at center,var(--bg1),var(--bg2));height:100dvh;width:100%;position:fixed;inset:0;display:flex;justify-content:center;align-items:center;font-family:'Fredoka',sans-serif;overflow:hidden;overscroll-behavior:none;-webkit-overflow-scrolling:touch}
+body{background:radial-gradient(ellipse at center,var(--bg1),var(--bg2));height:100vh;height:100%;height:100dvh;width:100%;position:fixed;inset:0;display:flex;justify-content:center;align-items:center;font-family:'Fredoka',sans-serif;overflow:hidden;overscroll-behavior:none;-webkit-overflow-scrolling:touch}
 #wrap{position:relative;width:100%;max-width:1100px;aspect-ratio:16/9;background:#000;border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.8), inset 0 0 0 2px rgba(255,255,255,.1)}
 canvas{display:block;width:100%;height:100%;cursor:none;touch-action:none}
 @media (max-width:760px), (max-height:560px){
- #wrap{width:100vw;height:100dvh;max-width:none;max-height:none;border-radius:0;aspect-ratio:auto;box-shadow:none}
+ #wrap{width:100vw;height:100vh;height:100%;height:100dvh;max-width:none;max-height:none;border-radius:0;aspect-ratio:auto;box-shadow:none}
  .hud-item{padding:6px 12px;font-size:12px}
  .hud-item b{font-size:15px}
  #soundBtn{width:32px;height:32px;font-size:13px}
@@ -103,10 +103,19 @@ function playSound(type){
 const canvas=document.getElementById('c'); const ctx=canvas.getContext('2d');
 let W,H,DPR,mouse={x:0,y:0};
 function resize(){
- const r=document.getElementById('wrap').getBoundingClientRect(); W=r.width; H=r.height; DPR=Math.min(devicePixelRatio,2);
- canvas.width=W*DPR; canvas.height=H*DPR; canvas.style.width=W+'px'; canvas.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0);
+ const wrapEl=document.getElementById('wrap');
+ let r=wrapEl.getBoundingClientRect();
+ if(r.width<10||r.height<10){
+  const vw=(window.visualViewport&&window.visualViewport.width)||window.innerWidth||document.documentElement.clientWidth||360;
+  const vh=(window.visualViewport&&window.visualViewport.height)||window.innerHeight||document.documentElement.clientHeight||640;
+  wrapEl.style.width=vw+'px'; wrapEl.style.height=vh+'px';
+  r=wrapEl.getBoundingClientRect();
+ }
+ W=r.width; H=r.height; DPR=Math.min(devicePixelRatio||1,2);
+ canvas.width=Math.max(1,W*DPR); canvas.height=Math.max(1,H*DPR); canvas.style.width=W+'px'; canvas.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0);
 }
 resize(); addEventListener('resize',resize);
+if(window.visualViewport) window.visualViewport.addEventListener('resize',resize);
 
 const WIN_WAVE=12;
 const MAX_DIFF_WAVE=20;
