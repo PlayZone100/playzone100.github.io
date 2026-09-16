@@ -2,15 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Garden Guardians - Pro Edition</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-user-select:none;touch-action:none}
+*{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none}
+html{height:100%;overscroll-behavior:none}
 :root{--bg1:#1e3c1e;--bg2:#0a1a0a}
-body{background:radial-gradient(ellipse at center,var(--bg1),var(--bg2));height:100vh;display:flex;justify-content:center;align-items:center;font-family:'Fredoka',sans-serif;overflow:hidden}
+body{background:radial-gradient(ellipse at center,var(--bg1),var(--bg2));height:100dvh;width:100%;position:fixed;inset:0;display:flex;justify-content:center;align-items:center;font-family:'Fredoka',sans-serif;overflow:hidden;overscroll-behavior:none;-webkit-overflow-scrolling:touch}
 #wrap{position:relative;width:100%;max-width:1100px;aspect-ratio:16/9;background:#000;border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.8), inset 0 0 0 2px rgba(255,255,255,.1)}
-canvas{display:block;width:100%;height:100%;cursor:none}
+canvas{display:block;width:100%;height:100%;cursor:none;touch-action:none}
+@media (max-width:760px), (max-height:560px){
+ #wrap{width:100vw;height:100dvh;max-width:none;max-height:none;border-radius:0;aspect-ratio:auto;box-shadow:none}
+ .hud-item{padding:6px 12px;font-size:12px}
+ .hud-item b{font-size:15px}
+ #soundBtn{width:32px;height:32px;font-size:13px}
+ h1{font-size:clamp(28px,9vw,54px)}
+ .sub{font-size:15px}
+ #powerlist{margin-top:10px}
+ #screen{padding:16px}
+}
 #hud{position:absolute;top:0;left:0;right:0;padding:14px 20px;display:flex;justify-content:space-between;z-index:5;pointer-events:none;gap:10px}
 .hud-item{background:linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,.4));border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(12px);padding:8px 18px;border-radius:100px;color:#fff;display:flex;align-items:center;gap:8px;font-family:'Outfit',sans-serif;box-shadow:0 4px 15px rgba(0,0,0,.4);white-space:nowrap}
 .hud-item b{font-size:20px}
@@ -45,7 +56,7 @@ h1 span{background:linear-gradient(#aaffaa,#33ff33);-webkit-background-clip:text
 <div id="hud">
   <div class="hud-item">🍎 <b id="fruits">40</b> <small style="opacity:.6">FRUITS</small></div>
   <div class="hud-item">⭐ <b id="score">0</b></div>
-  <div class="hud-item">❤️ <b id="hp">5</b> <small style="opacity:.6">LIVES</small> &nbsp;|&nbsp; 🌊 <b id="wave">1</b></div>
+  <div class="hud-item">❤️ <b id="hp">5</b> <small style="opacity:.6">LIVES</small> &nbsp;|&nbsp; 🌊 <b id="wave">1</b><small style="opacity:.6">/12</small></div>
   <button id="soundBtn" onclick="toggleMute()">🔊</button>
 </div>
 <div id="comboWrap"><div id="comboBadge"></div></div>
@@ -55,7 +66,7 @@ h1 span{background:linear-gradient(#aaffaa,#33ff33);-webkit-background-clip:text
 <div id="screen">
   <div style="font-size:80px;filter:drop-shadow(0 5px 10px rgba(0,0,0,.5))">🌳🔫🐦‍⬛</div>
   <h1>GARDEN <span>GUARDIANS</span></h1>
-  <p class="sub">Crows are raiding your orchard! Chain hits for combo multipliers, grab power-ups, and survive 12 waves to win.</p>
+  <p class="sub">Crows are raiding your orchard! Chain hits for combo multipliers, grab power-ups, fell a boss crow every 5th wave, and push into Endless Mode after wave 12 to chase your high score.</p>
   <div class="badge">🖱️ MOUSE TO AIM • CLICK TO SHOOT • 🎧 SOUND ON</div>
   <div id="bestWrap"></div>
   <div id="powerlist">
@@ -63,9 +74,10 @@ h1 span{background:linear-gradient(#aaffaa,#33ff33);-webkit-background-clip:text
     <div class="plist-item"><span>❄️</span>Freeze Crows</div>
     <div class="plist-item"><span>🛡️</span>Shield</div>
     <div class="plist-item"><span>💥</span>Bird Bomb</div>
+    <div class="plist-item"><span>❤️</span>Extra Life</div>
   </div>
   <button class="btn" onclick="start()">PLAY NOW ▶</button>
-  <p style="margin-top:14px;font-size:12px;opacity:.5">Combos + Power-ups + Sound FX + Particles + Mobile Support</p>
+  <p style="margin-top:14px;font-size:12px;opacity:.5">10 Crow Species + Boss Waves + Endless Mode + Combos + Power-ups</p>
 </div>
 </div>
 <script>
@@ -97,15 +109,30 @@ function resize(){
 resize(); addEventListener('resize',resize);
 
 const WIN_WAVE=12;
+const MAX_DIFF_WAVE=20;
 let HIGH=0;
 try{ HIGH=parseInt(localStorage.getItem('gg_highscore')||'0',10)||0; }catch(e){ HIGH=0; }
 
 let score,fruits,hp,wave,running,paused,trees,birds,bullets,particles,clouds,powerups,texts,lastSpawn=0,spawnInt=1100,shakeT=0;
 let combo=0,lastHitTime=0,multiShots=0,freezeUntil=0,shieldActive=false,lastShotTime=0;
+let killsThisWave=0,waveTarget=7,bossPending=false,bossAlive=false;
+function waveTargetFor(w){ return Math.min(6+w, 24); }
+function diffWave(){ return Math.min(wave, MAX_DIFF_WAVE); }
 
 /* ---------- entities ---------- */
+const FRUIT_TYPES=[
+ {name:'apple',   hi:'#ff8a80', core:'#e53935', rim:'#b71c1c', r:8},
+ {name:'orange',  hi:'#ffcc80', core:'#fb8c00', rim:'#e65100', r:8},
+ {name:'lemon',   hi:'#fff59d', core:'#fdd835', rim:'#f9a825', r:7},
+ {name:'pear',    hi:'#dcedc8', core:'#9ccc65', rim:'#558b2f', r:8},
+ {name:'plum',    hi:'#ce93d8', core:'#8e24aa', rim:'#4a148c', r:7},
+ {name:'cherry',  hi:'#f8bbd0', core:'#d81b60', rim:'#880e4f', r:5}
+];
 class Tree{
- constructor(x,scale=1){ this.x=x; this.y=H*0.72; this.scale=scale; this.fruits=12; this.max=12; this.sway=Math.random()*10; }
+ constructor(x,scale=1){
+  this.x=x; this.y=H*0.72; this.scale=scale; this.fruits=16; this.max=16; this.sway=Math.random()*10;
+  this.fruitTypes=[]; for(let i=0;i<this.max;i++) this.fruitTypes.push(FRUIT_TYPES[Math.floor(Math.random()*FRUIT_TYPES.length)]);
+ }
  draw(t){
   ctx.save(); ctx.translate(this.x,this.y); ctx.scale(this.scale,this.scale);
   let sway=Math.sin(t*0.001+this.sway)*2;
@@ -122,13 +149,20 @@ class Tree{
   }
   if(this.fruits>0){
    for(let i=0;i<this.fruits;i++){
-    let ang=(i/this.fruits)*Math.PI*1.4 -0.7; let rad=50 + Math.random()*8;
+    let ang=(i/this.max)*Math.PI*1.4 -0.7; let rad=50 + ((i*37)%8);
     let fx=Math.cos(ang)*rad + sway; let fy=Math.sin(ang)*rad*0.6 -35;
-    let ag=ctx.createRadialGradient(fx-2,fy-2,1,fx,fy,9);
-    ag.addColorStop(0,'#ff8a80'); ag.addColorStop(0.3,'#e53935'); ag.addColorStop(1,'#b71c1c');
-    ctx.fillStyle=ag; ctx.beginPath(); ctx.arc(fx,fy,8,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='rgba(255,255,255,.7)'; ctx.beginPath(); ctx.arc(fx+2,fy-2,2.2,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='#3e2723'; ctx.fillRect(fx-1,fy-9,2,4);
+    let ft=this.fruitTypes[i];
+    let ag=ctx.createRadialGradient(fx-2,fy-2,1,fx,fy,ft.r+1);
+    ag.addColorStop(0,ft.hi); ag.addColorStop(0.3,ft.core); ag.addColorStop(1,ft.rim);
+    ctx.fillStyle=ag;
+    if(ft.name==='cherry'){
+     ctx.beginPath(); ctx.arc(fx-3,fy,ft.r,0,Math.PI*2); ctx.fill();
+     ctx.beginPath(); ctx.arc(fx+4,fy+3,ft.r,0,Math.PI*2); ctx.fill();
+    } else {
+     ctx.beginPath(); ctx.arc(fx,fy,ft.r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.fillStyle='rgba(255,255,255,.7)'; ctx.beginPath(); ctx.arc(fx+2,fy-2,2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#3e2723'; ctx.fillRect(fx-1,fy-ft.r-1,2,4);
    }
   } else {
    ctx.font='28px sans-serif'; ctx.fillText('💀',-14,-10);
@@ -136,22 +170,44 @@ class Tree{
   ctx.restore();
  }
 }
+const SPECIES=[
+ {name:'Common Crow',    body:'#0a0a0a', wing:'#1c1c1c', beak:'#FFC107', accent:null,      speed:1,    size:1},
+ {name:'Raven',          body:'#050505', wing:'#171017', beak:'#8d6e63', accent:'#4a148c', speed:0.82, size:1.28, accentZone:'head'},
+ {name:'Magpie',         body:'#0a0a0a', wing:'#1c1c1c', beak:'#616161', accent:'#f5f5f5', speed:1.12, size:0.9,  accentZone:'belly'},
+ {name:'Blue Jay',       body:'#3949ab', wing:'#5c6bc0', beak:'#455a64', accent:'#e3f2fd', speed:1.18, size:0.82, accentZone:'belly'},
+ {name:'Grackle',        body:'#132a1a', wing:'#1b5e20', beak:'#212121', accent:'#66bb6a', speed:1.05, size:0.95, accentZone:'sheen'},
+ {name:'Rook',           body:'#0d0d0d', wing:'#222',    beak:'#bdbdbd', accent:'#bdbdbd', speed:0.95, size:1.06, accentZone:'beakbase'},
+ {name:'Jackdaw',        body:'#0d0d0d', wing:'#37474f', beak:'#546e7a', accent:'#90a4ae', speed:1.22, size:0.8,  accentZone:'nape'},
+ {name:'Hooded Crow',    body:'#616161', wing:'#424242', beak:'#212121', accent:'#0d0d0d', speed:1,    size:1,    accentZone:'hood'},
+ {name:'Red-shoulder',   body:'#0a0a0a', wing:'#1c1c1c', beak:'#455a64', accent:'#e53935', speed:1.1,  size:0.85, accentZone:'shoulder'},
+ {name:'Golden Crow',    body:'#0a0a0a', wing:'#1c1c1c', beak:'#ffca28', accent:'#ffd700', speed:0.9,  size:1.1,  accentZone:'head'}
+];
 class Bird{
- constructor(){
+ constructor(isBoss){
   this.side=Math.random()<0.5?-100:W+100; this.x=this.side; this.y=50+Math.random()*H*0.35;
-  this.target=trees[Math.floor(Math.random()*trees.length)]; this.state='fly'; this.eatT=0; this.wing=0; this.speed=1.2+wave*0.18+Math.random()*0.8;
+  this.target=trees[Math.floor(Math.random()*trees.length)]; this.state='fly'; this.eatT=0; this.wing=Math.random()*6;
+  this.isBoss=!!isBoss;
+  this.sp=SPECIES[Math.floor(Math.random()*SPECIES.length)];
+  const dw=diffWave();
+  this.speed=(1.2+dw*0.16+Math.random()*0.8)*this.sp.speed*(this.isBoss?0.62:1);
+  this.facing=this.side<W/2?1:-1;
+  this.hp=this.isBoss?3:1; this.hpMax=this.hp;
+  this.hitFlash=0;
  }
  freezeFactor(){ return performance.now()<freezeUntil ? 0.25 : 1; }
  update(){
   const f=this.freezeFactor();
   this.wing+=0.5*f;
   if(this.state==='fly'){
-   this.x+=(this.target.x-this.x)*0.014*this.speed*f; this.y+=(this.target.y-70 - this.y)*0.014*this.speed*f;
-   if(Math.hypot(this.x-this.target.x,this.y-(this.target.y-70))<30){
+   const dx=this.target.x-this.x, dy=(this.target.y-70)-this.y;
+   this.x+=dx*0.014*this.speed*f; this.y+=dy*0.014*this.speed*f;
+   if(Math.abs(dx)>1) this.facing=dx>0?1:-1;
+   if(Math.hypot(dx,dy)<30){
     if(this.target.fruits>0) this.state='eat'; else this.pickNew();
    }
   } else if(this.state==='eat'){
    this.eatT+=f; this.x=this.target.x+Math.sin(this.eatT*0.06)*10; this.y=this.target.y-55+Math.cos(this.eatT*0.06)*6;
+   this.facing=Math.cos(this.eatT*0.06)>=0?1:-1;
    if(Math.floor(this.eatT)%36===0 && this.eatT>0 && this.target.fruits>0){
     this.target.fruits--; fruits--; document.getElementById('fruits').textContent=fruits;
     playSound('eat'); spawnParticles(this.x,this.y,6,'#ff5252');
@@ -159,30 +215,45 @@ class Bird{
    }
    if(Math.random()<0.012*f) this.state='dive';
   } else if(this.state==='dive'){
-   this.x+=(W/2-this.x)*0.04*f; this.y+=(H-10-this.y)*0.06*f;
+   const dx=(W/2)-this.x;
+   this.x+=dx*0.04*f; this.y+=(H-10-this.y)*0.06*f;
+   if(Math.abs(dx)>1) this.facing=dx>0?1:-1;
    if(this.y>H-25){
     if(shieldActive){ shieldActive=false; spawnText(this.x,this.y-20,'SHIELD BLOCKED!','#4fc3f7',20); flash('#4fc3f7',0.25); }
     else { hp--; document.getElementById('hp').textContent=hp; playSound('hurt'); flash('#ff0000',0.3); shakeT=12; spawnParticles(this.x,this.y,12,'#fff'); }
+    if(this.isBoss) bossAlive=false;
     birds.splice(birds.indexOf(this),1); if(hp<=0){ endGame(false); return; }
    }
   }
  }
  pickNew(){ let alive=trees.filter(t=>t.fruits>0); if(!alive.length){endGame(false);return;} this.target=alive[Math.floor(Math.random()*alive.length)]; this.state='fly'; }
  draw(){
-  ctx.save(); ctx.translate(this.x,this.y); if(this.side<W/2) ctx.scale(-1,1);
-  let wy=Math.sin(this.wing)*14;
-  ctx.fillStyle='#0a0a0a'; ctx.beginPath(); ctx.ellipse(-6,wy,20,10,-0.2,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#222'; ctx.beginPath(); ctx.ellipse(-5,wy,16,7,-0.2,0,Math.PI*2); ctx.fill();
+  const sp=this.sp, s=sp.size*(this.isBoss?1.55:1);
+  if(this.hitFlash>0) this.hitFlash--;
+  if(this.isBoss){
+   ctx.save(); ctx.globalAlpha=0.55+Math.sin(this.wing*0.5)*0.15; ctx.strokeStyle='#ff1744'; ctx.lineWidth=3; ctx.shadowColor='#ff1744'; ctx.shadowBlur=16;
+   ctx.beginPath(); ctx.arc(this.x,this.y,34*sp.size,0,Math.PI*2); ctx.stroke(); ctx.restore();
+  }
+  ctx.save(); ctx.translate(this.x,this.y); ctx.scale(s*this.facing,s);
+  const flap=Math.sin(this.wing); let wy=flap*13;
+  ctx.fillStyle='rgba(0,0,0,.25)'; ctx.beginPath(); ctx.ellipse(-6,wy,20,10,-0.2,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=sp.wing; ctx.beginPath(); ctx.ellipse(-6,wy,20,10,-0.2,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=sp.accentZone==='sheen'?sp.accent:sp.body; ctx.globalAlpha=sp.accentZone==='sheen'?0.5:1; ctx.beginPath(); ctx.ellipse(-5,wy,16,7,-0.2,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
   ctx.fillStyle='#111'; ctx.beginPath(); ctx.moveTo(-16,0); ctx.lineTo(-26,-4); ctx.lineTo(-26,4); ctx.fill();
-  let bg=ctx.createLinearGradient(-10,-8,10,8); bg.addColorStop(0,'#444'); bg.addColorStop(1,'#111');
+  let bg=ctx.createLinearGradient(-10,-8,10,8); bg.addColorStop(0, this.hitFlash>0?'#ff8a80':(sp.accentZone==='hood'?sp.body:'#555')); bg.addColorStop(1,sp.body);
   ctx.fillStyle=bg; ctx.beginPath(); ctx.ellipse(0,0,18,11,0,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#1a1a1a'; ctx.beginPath(); ctx.arc(13,-3,10,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#FFC107'; ctx.beginPath(); ctx.moveTo(21,-3); ctx.lineTo(31,0); ctx.lineTo(21,3); ctx.fill();
-  ctx.fillStyle='#ff1744'; ctx.beginPath(); ctx.arc(15,-5,3,0,Math.PI*2); ctx.fill();
+  if(sp.accentZone==='belly'){ ctx.fillStyle=sp.accent; ctx.beginPath(); ctx.ellipse(-1,4,10,5,0,0,Math.PI*2); ctx.fill(); }
+  if(sp.accentZone==='shoulder'){ ctx.fillStyle=sp.accent; ctx.beginPath(); ctx.ellipse(-6,wy-6,6,4,-0.2,0,Math.PI*2); ctx.fill(); }
+  let headColor= (sp.accentZone==='head'||sp.accentZone==='hood') ? sp.accent : (sp.accentZone==='nape'?sp.accent:'#1a1a1a');
+  ctx.fillStyle=headColor; ctx.beginPath(); ctx.arc(13,-3,10,0,Math.PI*2); ctx.fill();
+  if(sp.accentZone==='beakbase'){ ctx.fillStyle=sp.accent; ctx.beginPath(); ctx.arc(20,-1,4,0,Math.PI*2); ctx.fill(); }
+  ctx.fillStyle=sp.beak; ctx.beginPath(); ctx.moveTo(21,-3); ctx.lineTo(31,0); ctx.lineTo(21,3); ctx.fill();
+  ctx.fillStyle=this.isBoss?'#ffea00':'#ff1744'; ctx.beginPath(); ctx.arc(15,-5,this.isBoss?4:3,0,Math.PI*2); ctx.fill();
   ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(16,-5.5,1,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#0a0a0a'; ctx.beginPath(); ctx.ellipse(2,wy*0.6,18,9,0.3,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=sp.wing; ctx.beginPath(); ctx.ellipse(2,wy*0.6,18,9,0.3,0,Math.PI*2); ctx.fill();
   ctx.restore();
-  if(this.state==='eat'){ ctx.fillStyle='#fff'; ctx.font='bold 13px Fredoka'; ctx.fillText('NOM!',this.x+22,this.y-18); }
+  if(this.isBoss){ ctx.fillStyle='#fff'; ctx.font='bold 11px Outfit'; ctx.textAlign='center'; ctx.fillText('👑 BOSS '+this.hp+'/'+this.hpMax, this.x, this.y-38); ctx.textAlign='left'; }
+  if(this.state==='eat'){ ctx.fillStyle='#fff'; ctx.font='bold 13px Fredoka'; ctx.fillText('NOM!',this.x+22*this.facing,this.y-18); }
   if(performance.now()<freezeUntil){ ctx.save(); ctx.globalAlpha=.5; ctx.fillStyle='#b3e5fc'; ctx.font='16px sans-serif'; ctx.fillText('❄️',this.x-8,this.y-20); ctx.restore(); }
  }
 }
@@ -190,7 +261,7 @@ class Bullet{
  constructor(x,y,tx,ty){ let a=Math.atan2(ty-y,tx-x); this.x=x; this.y=y; this.vx=Math.cos(a)*18; this.vy=Math.sin(a)*18; this.life=90; }
  update(){
   this.x+=this.vx; this.y+=this.vy; this.life--;
-  for(let b of birds){ if(Math.hypot(this.x-b.x,this.y-b.y)<30){ registerHit(b); return 1; } }
+  for(let b of birds){ if(Math.hypot(this.x-b.x,this.y-b.y)<(b.isBoss?42:30)){ registerHit(b); return 1; } }
   for(let p of powerups){ if(Math.hypot(this.x-p.x,this.y-p.y)<26){ collectPower(p); return 1; } }
   return (this.life<=0||this.x<0||this.x>W||this.y<0||this.y>H) ? 2 : 0;
  }
@@ -200,7 +271,8 @@ const POWER_TYPES=[
  {type:'multi',icon:'✨',color:'#ba68c8',label:'TRIPLE SHOT!'},
  {type:'freeze',icon:'❄️',color:'#4fc3f7',label:'CROWS FROZEN!'},
  {type:'shield',icon:'🛡️',color:'#81c784',label:'SHIELD UP!'},
- {type:'bomb',icon:'💥',color:'#ff8a65',label:'BOOM!'}
+ {type:'bomb',icon:'💥',color:'#ff8a65',label:'BOOM!'},
+ {type:'life',icon:'❤️',color:'#f06292',label:'+1 LIFE!'}
 ];
 class PowerUp{
  constructor(x,y){ this.x=x; this.y=y; this.vy=1.4; this.def=POWER_TYPES[Math.floor(Math.random()*POWER_TYPES.length)]; this.life=340; this.spin=0; }
@@ -215,7 +287,8 @@ function collectPower(p){
  if(p.def.type==='multi') multiShots+=6;
  if(p.def.type==='freeze') freezeUntil=performance.now()+4500;
  if(p.def.type==='shield') shieldActive=true;
- if(p.def.type==='bomb'){ for(const b of [...birds]){ score+=15; spawnParticles(b.x,b.y,14,'#333'); } birds=[]; document.getElementById('score').textContent=score; }
+ if(p.def.type==='life'){ hp=Math.min(hp+1,7); document.getElementById('hp').textContent=hp; }
+ if(p.def.type==='bomb'){ const killed=birds.filter(b=>!b.isBoss); killed.forEach(b=>{ score+=15; spawnParticles(b.x,b.y,14,'#333'); }); killsThisWave+=killed.length; birds=birds.filter(b=>b.isBoss); document.getElementById('score').textContent=score; if(running && killsThisWave>=waveTarget) advanceWave(); }
 }
 function spawnParticles(x,y,n,c){ for(let i=0;i<n;i++) particles.push({x,y,vx:(Math.random()-0.5)*10,vy:(Math.random()-0.5)*10-1,life:28+Math.random()*20,c,sz:2+Math.random()*3,rot:Math.random()*6}); }
 function drawParticles(){ for(let i=particles.length-1;i>=0;i--){ let p=particles[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.18; p.life--; p.vx*=0.98; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz*1.6); ctx.restore(); if(p.life<=0) particles.splice(i,1);} }
@@ -227,16 +300,37 @@ function flash(color,alpha){ const el=document.getElementById('flash'); el.style
 const comboBadge=document.getElementById('comboBadge');
 function registerHit(bird){
  const now=performance.now();
+ bird.hp--; bird.hitFlash=6;
+ if(bird.hp>0){
+  playSound('hit'); spawnParticles(bird.x,bird.y,8,'#ff8a80'); flash('#ff1744',0.1);
+  spawnText(bird.x,bird.y-18,'HIT!','#ff8a80',16);
+  return;
+ }
  combo = (now-lastHitTime<1400) ? combo+1 : 1;
  lastHitTime=now;
  const mult=Math.min(combo,5);
- const pts=10*mult;
+ const pts=(bird.isBoss?60:10)*mult;
  score+=pts; document.getElementById('score').textContent=score;
- playSound('hit'); spawnParticles(bird.x,bird.y,18,'#333'); spawnParticles(bird.x,bird.y,8,'#ffcc00');
+ playSound('hit'); spawnParticles(bird.x,bird.y,bird.isBoss?32:18,'#333'); spawnParticles(bird.x,bird.y,8,'#ffcc00');
  spawnText(bird.x,bird.y-18,'+'+pts, mult>1?'#ffeb3b':'#fff', 18+mult*2);
  if(mult>=2){ showCombo(mult); shakeT=Math.max(shakeT,4+mult*2); }
- if(Math.random()<0.16) powerups.push(new PowerUp(bird.x,bird.y));
+ if(bird.isBoss){ bossAlive=false; spawnText(bird.x,bird.y-40,'👑 BOSS DOWN!','#ffd700',26); powerups.push(new PowerUp(bird.x,bird.y)); shakeT=Math.max(shakeT,18); }
+ else if(Math.random()<0.16) powerups.push(new PowerUp(bird.x,bird.y));
  birds.splice(birds.indexOf(bird),1);
+ killsThisWave++;
+ if(running && killsThisWave>=waveTarget) advanceWave();
+}
+function advanceWave(){
+ wave++; killsThisWave=0; waveTarget=waveTargetFor(wave); bossPending=(wave%5===0);
+ const wl=document.getElementById('wave'); wl.parentElement.querySelector('small:last-child')?.remove();
+ wl.textContent=wave;
+ if(wave<=WIN_WAVE){ wl.insertAdjacentHTML('afterend', `<small style="opacity:.6">/${WIN_WAVE}</small>`); }
+ else { wl.insertAdjacentHTML('afterend', `<small style="opacity:.75;color:#ffca28">🔥ENDLESS</small>`); }
+ const bonus=25*wave; score+=bonus; document.getElementById('score').textContent=score;
+ playSound('wave');
+ if(wave===WIN_WAVE) spawnText(W/2,H*0.22,'🏆 ORCHARD LEGEND! ENDLESS MODE UNLOCKED','#ffd700',24);
+ else if(bossPending) spawnText(W/2,H*0.22,'⚠️ WAVE '+wave+'! A BOSS CROW APPROACHES','#ff1744',24);
+ else spawnText(W/2,H*0.22,'🌊 WAVE '+wave+'!  +'+bonus,'#4fc3f7',28);
 }
 function showCombo(mult){
  comboBadge.textContent='🔥 COMBO x'+mult;
@@ -247,9 +341,8 @@ function showCombo(mult){
 }
 function breakCombo(){ if(combo>1) spawnText(W/2,H*0.4,'COMBO BROKEN','#ef5350',20); combo=0; comboBadge.classList.remove('show'); }
 
-/* ---------- input ---------- */
-canvas.addEventListener('mousemove',e=>{ const r=canvas.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; });
-canvas.addEventListener('touchmove',e=>{ e.preventDefault(); const r=canvas.getBoundingClientRect(); mouse.x=e.touches[0].clientX-r.left; mouse.y=e.touches[0].clientY-r.top; },{passive:false});
+/* ---------- input (unified pointer events: works for mouse, touch, pen) ---------- */
+function setPointerFromEvent(e){ const r=canvas.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; }
 function shoot(){
  if(!running||paused) return;
  const now=performance.now(); if(now-lastShotTime<130) return; lastShotTime=now;
@@ -261,20 +354,26 @@ function shoot(){
  } else bullets.push(new Bullet(gx,gy,mouse.x,mouse.y));
  playSound('shoot'); flash('#fff',0.15); spawnParticles(gx,gy,5,'#ffcc00'); shakeT=Math.max(shakeT,4); if(navigator.vibrate) navigator.vibrate(15);
 }
-canvas.addEventListener('mousedown',shoot);
-canvas.addEventListener('touchstart',e=>{ e.preventDefault(); const r=canvas.getBoundingClientRect(); mouse.x=e.touches[0].clientX-r.left; mouse.y=e.touches[0].clientY-r.top; shoot(); },{passive:false});
+canvas.style.touchAction='none';
+canvas.addEventListener('pointermove',e=>{ setPointerFromEvent(e); },{passive:true});
+canvas.addEventListener('pointerdown',e=>{ e.preventDefault(); setPointerFromEvent(e); shoot(); },{passive:false});
+canvas.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('visibilitychange',()=>{ paused=document.hidden; if(!paused) lastSpawn=performance.now(); document.getElementById('pauseHint').style.display=paused?'flex':'none'; });
+addEventListener('orientationchange',()=>setTimeout(resize,250));
 
 /* ---------- game flow ---------- */
 function start(){
  initAudio(); score=0; fruits=0; hp=5; wave=1; combo=0; lastHitTime=0; multiShots=0; freezeUntil=0; shieldActive=false; paused=false;
+ killsThisWave=0; waveTarget=waveTargetFor(1); bossPending=false; bossAlive=false;
  birds=[]; bullets=[]; particles=[]; powerups=[]; texts=[];
  clouds=[{x:100,y:60,s:1},{x:400,y:40,s:1.2},{x:700,y:70,s:0.9}];
  spawnInt=1100;
  let count=W<650?3:4; trees=[]; for(let i=0;i<count;i++){ trees.push(new Tree((W/(count+1))*(i+1), W<650?0.85:1)); }
  fruits=trees.reduce((s,t)=>s+t.fruits,0);
  document.getElementById('fruits').textContent=fruits; document.getElementById('score').textContent=0;
- document.getElementById('hp').textContent=hp; document.getElementById('wave').textContent=wave;
+ document.getElementById('hp').textContent=hp;
+ const wl=document.getElementById('wave'); wl.textContent=wave; wl.parentElement.querySelector('small:last-child')?.remove();
+ wl.insertAdjacentHTML('afterend', `<small style="opacity:.6">/${WIN_WAVE}</small>`);
  comboBadge.classList.remove('show');
  document.getElementById('screen').classList.add('hide');
  running=true; lastSpawn=performance.now(); requestAnimationFrame(loop);
@@ -283,9 +382,10 @@ function endGame(win){
  running=false;
  let newBest=false;
  if(score>HIGH){ HIGH=score; newBest=true; try{ localStorage.setItem('gg_highscore',String(HIGH)); }catch(e){} }
- if(win) playSound('win');
+ if(win) playSound('win'); else playSound('die');
  const sc=document.getElementById('screen'); sc.classList.remove('hide');
- sc.innerHTML=`<div style="font-size:80px">${win?'🏆':'💀'}</div><h1>${win?'YOU WIN!':'GAME OVER'}</h1><p class="sub">${win?'All '+WIN_WAVE+' waves survived — orchard saved, legend confirmed!':'The crows got the better of you this time.'}</p><p style="font-size:28px;margin:10px">⭐ Score: ${score}</p>${newBest?`<p class="new-best">🎉 NEW HIGH SCORE!</p>`:`<p class="best">🏆 Best: ${HIGH}</p>`}<button class="btn" onclick="start()">PLAY AGAIN 🔄</button>`;
+ const survived = wave>WIN_WAVE ? `You held the orchard for <b>${wave}</b> waves — deep into Endless Mode!` : `You made it to wave <b>${wave}</b> of ${WIN_WAVE}.`;
+ sc.innerHTML=`<div style="font-size:80px">${win?'🏆':'💀'}</div><h1>${win?'YOU WIN!':'GAME OVER'}</h1><p class="sub">${win?'All '+WIN_WAVE+' waves survived — orchard saved, legend confirmed!':survived}</p><p style="font-size:28px;margin:10px">⭐ Score: ${score}</p>${newBest?`<p class="new-best">🎉 NEW HIGH SCORE!</p>`:`<p class="best">🏆 Best: ${HIGH}</p>`}<button class="btn" onclick="start()">PLAY AGAIN 🔄</button>`;
 }
 (function initScreen(){ if(HIGH>0) document.getElementById('bestWrap').innerHTML=`<div class="best">🏆 Best Score: ${HIGH}</div>`; })();
 
@@ -301,18 +401,18 @@ function loop(now){
  ctx.fillStyle='rgba(0,0,0,.15)'; for(let i=0;i<W;i+=30){ ctx.fillRect(i,H*0.72+Math.sin(i*0.05+now*0.001)*3,20,3); }
  trees.forEach(t=>t.draw(now));
  if(now-lastSpawn>spawnInt){
-  if(birds.length<3+wave){
-   birds.push(new Bird()); lastSpawn=now; spawnInt=Math.max(350,1150-wave*90);
-   if(Math.random()<0.25){
-    wave++; document.getElementById('wave').textContent=wave;
-    const bonus=25*wave; score+=bonus; document.getElementById('score').textContent=score;
-    playSound('wave'); spawnText(W/2,H*0.22,'🌊 WAVE '+wave+'!  +'+bonus,'#4fc3f7',28);
-    if(wave>=WIN_WAVE){ ctx.restore(); endGame(true); return; }
+  const cap=Math.min(3+wave,10);
+  if(birds.length<cap){
+   if(bossPending && !bossAlive){
+    birds.push(new Bird(true)); bossAlive=true; bossPending=false;
+   } else {
+    birds.push(new Bird());
    }
+   lastSpawn=now; spawnInt=Math.max(380,1150-diffWave()*80);
   }
  }
  birds.forEach(b=>{b.update(); if(running) b.draw();});
- if(!running){ return; }
+ if(!running){ ctx.restore(); return; }
  for(let i=bullets.length-1;i>=0;i--){ const r=bullets[i].update(); if(r===1){ bullets.splice(i,1); } else if(r===2){ bullets.splice(i,1); breakCombo(); } else bullets[i].draw(); }
  for(let i=powerups.length-1;i>=0;i--){ if(powerups[i].update()) powerups.splice(i,1); else powerups[i].draw(); }
  drawParticles(); drawTexts();
