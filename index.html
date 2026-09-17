@@ -42,6 +42,7 @@ const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/games?ref=main
 function iconFor(name){
  if(name.includes('monkey')) return '🐒';
  if(name.includes('garden')) return '🌳';
+ if(name.includes('monster') || name.includes('wild') || name.includes('bird') || name.includes('savage') || name.includes('wings') || name.includes('cut')) return '🦅⚔️';
  if(name.includes('racing')||name.includes('car')) return '🏎';
  if(name.includes('zombie')) return '🧟';
  if(name.includes('space')) return '🚀';
