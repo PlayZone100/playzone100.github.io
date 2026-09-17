@@ -1,98 +1,565 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PlayZone100 - Game Center</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#080a0f;color:#fff;font-family:'Space Grotesk',sans-serif;min-height:100vh}
-header{padding:28px 20px;text-align:center;border-bottom:1px solid rgba(255,255,255,.08)}
-header h1{font-family:'Outfit',sans-serif;font-size:42px;letter-spacing:-1px}
-header h1 span{background:linear-gradient(90deg,#7cff5e,#00e5ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-header p{opacity:.6;margin-top:6px;font-size:14px;letter-spacing:2px}
-#status{text-align:center;padding:20px;opacity:.7;font-size:13px}
-#grid{max-width:1100px;margin:0 auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
-.card{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:18px;transition:.2s}
-.card:hover{transform:translateY(-4px);border-color:rgba(124,255,94,.4)}
-.icon{font-size:42px;margin-bottom:10px}
-.title{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase}
-.path{font-size:12px;opacity:.5;margin:6px 0 12px;word-break:break-all}
-.btn{display:inline-block;padding:10px 22px;border-radius:100px;background:linear-gradient(90deg,#7cff5e,#00e5ff);color:#000;font-weight:800;text-decoration:none;font-size:14px}
-#how{max-width:700px;margin:40px auto;padding:18px;border:1px dashed rgba(255,255,255,.2);border-radius:12px;text-align:center;opacity:.6;font-size:13px;line-height:1.6}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QuestMart | Free Browser Games & Digital Products</title>
+  <meta name="description" content="QuestMart is an independent digital marketplace for free browser games, premium game downloads, and creative digital products. Play instantly and discover new experiences.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#070b14">
+  <link rel="canonical" href="https://questmart.online/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "QuestMart",
+    "url": "https://questmart.online/",
+    "description": "Free browser games and digital products from an independent creator.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://questmart.online/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #070b14;
+      --bg-2: #0d1220;
+      --panel: #111b2d;
+      --panel-2: #172239;
+      --line: rgba(255,255,255,0.1);
+      --text: #edf3ff;
+      --muted: #a3b2cf;
+      --cyan: #69e0ff;
+      --violet: #b08cff;
+      --lime: #c8ff75;
+      --gold: #ffd76a;
+      --shadow: rgba(21, 32, 55, 0.8);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 85% -10%, rgba(176, 140, 255, 0.28), transparent 25%),
+        radial-gradient(circle at 10% 0%, rgba(105, 224, 255, 0.18), transparent 25%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    input { font: inherit; }
+
+    .wrap {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      font: 700 24px "Space Grotesk", sans-serif;
+      letter-spacing: -0.06em;
+    }
+
+    .logo span {
+      color: var(--cyan);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 70px;
+      align-items: center;
+      padding: 88px 0 72px;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 18px 0 20px;
+      font: 700 clamp(46px, 7vw, 86px) "Space Grotesk", sans-serif;
+      line-height: 0.96;
+      letter-spacing: -0.065em;
+    }
+
+    .gradient {
+      background: linear-gradient(95deg, var(--cyan), var(--violet) 54%, var(--lime));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 590px;
+      margin: 0;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+      border-radius: 999px;
+      padding: 12px 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      font-weight: 700;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+
+    .btn.primary {
+      color: #071017;
+      border: none;
+      background: linear-gradient(100deg, var(--cyan), var(--lime));
+    }
+
+    .orb {
+      position: relative;
+      min-height: 370px;
+      background: linear-gradient(145deg, rgba(105,224,255,0.15), rgba(176,140,255,0.1));
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.28);
+    }
+
+    .orb::before,
+    .orb::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(105,224,255,0.35);
+      border-radius: 50%;
+      width: 280px;
+      height: 280px;
+    }
+
+    .orb::after {
+      width: 430px;
+      height: 430px;
+      border-color: rgba(200,255,117,0.15);
+    }
+
+    .orb-mark {
+      position: relative;
+      z-index: 1;
+      font-size: 112px;
+      filter: drop-shadow(0 0 35px rgba(105,224,255,0.55));
+    }
+
+    .section {
+      padding: 30px 0 80px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .section h2 {
+      margin: 8px 0 0;
+      font: 700 34px "Space Grotesk", sans-serif;
+      letter-spacing: -0.04em;
+    }
+
+    .section-head p {
+      margin: 5px 0 0;
+      color: var(--muted);
+    }
+
+    .count {
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .search {
+      width: min(360px, 100%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: var(--muted);
+    }
+
+    .search input {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      outline: 0;
+      color: var(--text);
+    }
+
+    .search input::placeholder { color: var(--muted); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--panel-2), var(--panel));
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(105,224,255,0.5);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.24);
+    }
+
+    .cover {
+      height: 150px;
+      display: grid;
+      place-items: center;
+      font-size: 56px;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.18), transparent 25%), linear-gradient(135deg, #20314e, #3a255c);
+    }
+
+    .card:nth-child(2) .cover { background: linear-gradient(135deg, #164f3c, #1e2d1a); }
+    .card:nth-child(3) .cover { background: linear-gradient(135deg, #5a2c20, #151927); }
+    .card:nth-child(4) .cover { background: linear-gradient(135deg, #3d1f5f, #1b1b2d); }
+
+    .card-content {
+      padding: 18px 18px 16px;
+    }
+
+    .tag {
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .card h3 {
+      margin: 8px 0 6px;
+      font: 700 20px "Space Grotesk", sans-serif;
+      letter-spacing: -0.04em;
+    }
+
+    .card p {
+      margin: 0 0 15px;
+      color: var(--muted);
+      font-size: 13px;
+      min-height: 40px;
+    }
+
+    .play {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      background: rgba(105,224,255,0.12);
+      border: 1px solid rgba(105,224,255,0.2);
+      color: var(--cyan);
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      padding: 28px 18px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.01);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .info {
+      padding: 28px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+    }
+
+    .info h3 {
+      margin-top: 0;
+      font: 700 22px "Space Grotesk", sans-serif;
+      letter-spacing: -0.04em;
+    }
+
+    .info p {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 26px 0 52px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding-top: 56px;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 28px, 1180px); }
+      nav a:nth-child(2) { display: none; }
+      .grid, .about-grid { grid-template-columns: 1fr; }
+      footer { display: block; }
+      .orb { min-height: 240px; }
+      .orb-mark { font-size: 84px; }
+      h1 { font-size: 48px; }
+      .section h2 { font-size: 28px; }
+    }
+  </style>
 </head>
 <body>
-<header>
-<h1>PLAYZONE<span>100</span></h1>
-<p>GAME CENTER • AUTO-DISCOVERY • NEVER EDIT AGAIN</p>
-</header>
-<div id="status">Loading games from /games/ ...</div>
-<div id="grid"></div>
-<div id="how">
-To add a new game: create <b>games/your-game-name/index.html</b> and push to <b>main</b> branch.<br>
-It will appear here automatically. No need to edit this file ever again.
-</div>
-<script>
-const OWNER='playzone100';
-const REPO='playzone100.github.io';
-const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/games?ref=main&nocache=${Date.now()}`;
+  <header class="wrap topbar">
+    <a href="./" class="logo" aria-label="QuestMart home">QUEST<span>MART</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#games">Games</a>
+      <a href="#marketplace">Marketplace</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
 
-function iconFor(name){
- if(name.includes('monkey')) return '🐒';
- if(name.includes('garden')) return '🌳';
- if(name.includes('monster') || name.includes('wild') || name.includes('bird') || name.includes('savage') || name.includes('wings') || name.includes('cut')) return '🦅⚔️';
- if(name.includes('racing')||name.includes('car')) return '🏎';
- if(name.includes('zombie')) return '🧟';
- if(name.includes('space')) return '🚀';
- return '🎮';
-}
-function titleFor(name){
- return name.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
-}
+  <main>
+    <section class="wrap hero">
+      <div>
+        <div class="eyebrow">Independent digital playground</div>
+        <h1>Play more.<br><span class="gradient">Discover more.</span></h1>
+        <p class="lead">QuestMart is a growing digital home for free browser games, premium titles, and creative products built for curious players.</p>
+        <div class="actions">
+          <a class="btn primary" href="#games">Explore games →</a>
+          <a class="btn" href="#marketplace">Marketplace</a>
+        </div>
+      </div>
 
-async function load(){
- const grid=document.getElementById('grid');
- const status=document.getElementById('status');
- try{
-  const res=await fetch(API);
-  if(!res.ok) throw new Error('API '+res.status);
-  const data=await res.json();
-  const folders=data.filter(x=>x.type==='dir').map(x=>x.name);
-  if(folders.length===0) throw new Error('No folders found - make sure you pushed to main branch');
-  status.textContent=`${folders.length} GAMES LIVE • AUTO-DISCOVERED`;
-  grid.innerHTML='';
-  folders.forEach(name=>{
-   const div=document.createElement('div');
-   div.className='card';
-   div.innerHTML=`
-    <div class="icon">${iconFor(name)}</div>
-    <div class="title">${titleFor(name)}</div>
-    <div class="path">./games/${name}/</div>
-    <a class="btn" href="./games/${name}/">PLAY NOW →</a>
-   `;
-   grid.appendChild(div);
-  });
- }catch(e){
-  status.innerHTML=`API failed (${e.message}). Showing known games. Push folders to main to auto-detect.<br><small>Tip: If you are on branch bari20202, merge to main.</small>`;
-  // fallback - show what we know exists
-  const fallback=['monkey','garden-guardians'];
-  grid.innerHTML='';
-  fallback.forEach(name=>{
-   const div=document.createElement('div');
-   div.className='card';
-   div.innerHTML=`
-    <div class="icon">${iconFor(name)}</div>
-    <div class="title">${titleFor(name)} ${name==='monkey'?'':'• LIVE'}</div>
-    <div class="path">./games/${name}/</div>
-    <a class="btn" href="./games/${name}/">PLAY NOW →</a>
-   `;
-   grid.appendChild(div);
-  });
- }
-}
-load();
-</script>
+      <div class="orb" aria-hidden="true">
+        <div class="orb-mark">⚡</div>
+      </div>
+    </section>
+
+    <section class="wrap section" id="games">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Instant play</div>
+          <h2>Featured games</h2>
+          <p>Every game runs in the browser. No install required.</p>
+        </div>
+        <div class="count" id="gameCount">Loading…</div>
+      </div>
+
+      <div class="toolbar">
+        <label class="search" aria-label="Search games">
+          <span aria-hidden="true">⌕</span>
+          <input id="search" type="text" placeholder="Search games…" autocomplete="off">
+        </label>
+      </div>
+
+      <div id="gameGrid" class="grid" aria-live="polite"></div>
+    </section>
+
+    <section class="wrap section" id="marketplace">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Coming to QuestMart</div>
+          <h2>Digital marketplace</h2>
+          <p>Free experiences, premium drops, and indie digital products in one place.</p>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <article class="info">
+          <h3>Free to explore</h3>
+          <p>Try games and interactive experiments instantly. New releases are added as they appear in the game library.</p>
+          <a class="btn" href="#games">Browse free games →</a>
+        </article>
+
+        <article class="info">
+          <h3>Built for creators</h3>
+          <p>QuestMart is designed for original games, digital tools, assets, and creative products that deserve a proper storefront.</p>
+          <a class="btn" href="https://github.com/PlayZone100/playzone100.github.io" target="_blank" rel="noopener">View project on GitHub →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap section" id="about">
+      <div class="info">
+        <div class="eyebrow">Why QuestMart?</div>
+        <h2>Small ideas. Big replay value.</h2>
+        <p>QuestMart combines a clean storefront feel with the flexibility of a game portal. It is built to be easy to discover, quick to play, and ready for new titles to join at any time.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <span>© 2026 QuestMart. Built for curious players.</span>
+    <span>Free games · Digital products · New adventures</span>
+  </footer>
+
+  <script>
+    const OWNER = 'PlayZone100';
+    const REPO = 'playzone100.github.io';
+    const fallbackGames = [
+      { slug: 'billiard ', title: 'Break & Run', icon: '🎱', desc: 'A polished 8-ball pool experience with physics, spin, and local or online play.' },
+      { slug: 'garden-guardians', title: 'Garden Guardians', icon: '🌳', desc: 'Defend the orchard, chase combos, and beat the crow invasion.' },
+      { slug: 'monkey', title: 'Flying Carnage', icon: '🐒', desc: 'Hunt the winged monkeys and build score streaks in a kinetic arcade shooter.' },
+      { slug: 'monster-cut', title: 'Talon Strike', icon: '🦅', desc: 'Slice incoming birds, switch weapons, and protect your jungle estate.' }
+    ];
+
+    const gameGrid = document.getElementById('gameGrid');
+    const gameCount = document.getElementById('gameCount');
+    const search = document.getElementById('search');
+
+    let games = [...fallbackGames];
+
+    function titleFromSlug(slug) {
+      return slug
+        .split('-')
+        .map(part => part ? part.charAt(0).toUpperCase() + part.slice(1) : '')
+        .join(' ');
+    }
+
+    function gameUrl(slug) {
+      return './games/' + encodeURIComponent(slug) + '/';
+    }
+
+    function render() {
+      const q = search.value.trim().toLowerCase();
+      const filtered = games.filter(game => {
+        const text = `${game.title} ${game.desc} ${game.slug}`.toLowerCase();
+        return text.includes(q);
+      });
+
+      gameCount.textContent = `${games.length} Games Live`;
+
+      if (!filtered.length) {
+        gameGrid.innerHTML = '<div class="empty">No matching games found. Try a different search.</div>';
+        return;
+      }
+
+      gameGrid.innerHTML = filtered.map(game => `
+        <article class="card">
+          <div class="cover" aria-hidden="true">${game.icon}</div>
+          <div class="card-content">
+            <div class="tag">Browser game · Free</div>
+            <h3>${game.title}</h3>
+            <p>${game.desc}</p>
+            <a class="play" href="${gameUrl(game.slug)}">Play now →</a>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    async function discoverGames() {
+      try {
+        const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/games?ref=main`);
+        if (!response.ok) throw new Error('GitHub API unavailable');
+        const data = await response.json();
+        const dirs = Array.isArray(data) ? data.filter(item => item.type === 'dir').map(item => item.name) : [];
+
+        dirs.forEach(slug => {
+          const alreadyExists = games.some(game => game.slug === slug);
+          if (!alreadyExists) {
+            games.push({
+              slug,
+              title: titleFromSlug(slug),
+              icon: '🎮',
+              desc: 'A new QuestMart browser game is ready to play.'
+            });
+          }
+        });
+      } catch (error) {
+        // Fallback is already set; keep the original game list.
+      }
+
+      render();
+    }
+
+    search.addEventListener('input', render);
+    render();
+    discoverGames();
+  </script>
 </body>
 </html>
