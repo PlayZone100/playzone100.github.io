@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" role="img" aria-labelledby="title desc">
+  <title id="title">QuestMart logo</title>
+  <desc id="desc">QuestMart wordmark with a neon quest spark</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#69e0ff"/>
+      <stop offset=".55" stop-color="#b08cff"/>
+      <stop offset="1" stop-color="#c8ff75"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="720" height="180" rx="42" fill="#0d1220"/>
+  <path d="M91 29 109 70l42 18-42 18-18 42-18-42-42-18 42-18Z" fill="url(#g)" filter="url(#glow)"/>
+  <path d="m91 48 9 31 31 9-31 9-9 31-9-31-31-9 31-9Z" fill="#fff" opacity=".9"/>
+  <text x="182" y="116" fill="#edf3ff" font-family="Arial,Helvetica,sans-serif" font-size="78" font-weight="800" letter-spacing="-4">QUEST</text>
+  <text x="458" y="116" fill="url(#g)" font-family="Arial,Helvetica,sans-serif" font-size="78" font-weight="800" letter-spacing="-4">MART</text>
+</svg>
