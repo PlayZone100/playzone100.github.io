@@ -1,0 +1,10 @@
+/* QuestMart galaxy showcase enhancement
+   Add <link rel="stylesheet" href="./assets/galaxy.css"> inside index.html <head>. */
+.showcase{isolation:isolate;background:radial-gradient(ellipse at 72% 38%,rgba(188,147,255,.35) 0,rgba(91,71,174,.14) 22%,transparent 48%),radial-gradient(ellipse at 30% 65%,rgba(87,203,255,.28) 0,transparent 42%),linear-gradient(135deg,#0d1530,#17132d 55%,#0b1226)!important}
+.showcase:before{content:"";position:absolute;inset:0;width:auto!important;height:auto!important;border:0!important;border-radius:0!important;z-index:0;background-image:radial-gradient(circle at 7% 17%,#fff 0 1px,transparent 1.8px),radial-gradient(circle at 17% 78%,#b9e9ff 0 1px,transparent 1.8px),radial-gradient(circle at 26% 31%,#fff 0 1.5px,transparent 2px),radial-gradient(circle at 36% 84%,#f0a1ff 0 1px,transparent 1.8px),radial-gradient(circle at 47% 14%,#fff 0 1px,transparent 1.7px),radial-gradient(circle at 58% 72%,#c8ff75 0 1px,transparent 1.8px),radial-gradient(circle at 68% 18%,#fff 0 1.4px,transparent 2px),radial-gradient(circle at 77% 83%,#b9e9ff 0 1px,transparent 1.8px),radial-gradient(circle at 88% 29%,#fff 0 1px,transparent 1.8px),radial-gradient(circle at 95% 68%,#f0a1ff 0 1px,transparent 1.8px);opacity:.9;animation:starsDrift 18s linear infinite}
+.showcase:after{content:"";position:absolute;width:430px!important;height:430px!important;border:1px solid rgba(240,161,255,.22)!important;border-radius:50%!important;z-index:1;box-shadow:0 0 80px rgba(117,201,255,.14),inset 0 0 90px rgba(157,135,255,.12);animation:galaxyPulse 7s ease-in-out infinite!important}
+.showcase img{z-index:3!important}
+.showcase .float-card{z-index:4}
+@keyframes starsDrift{from{transform:scale(1) translate3d(0,0,0)}50%{transform:scale(1.04) translate3d(-5px,3px,0)}to{transform:scale(1) translate3d(0,0,0)}}
+@keyframes galaxyPulse{0%,100%{transform:scale(.94) rotate(0deg);opacity:.7}50%{transform:scale(1.04) rotate(180deg);opacity:1}}
+@media (prefers-reduced-motion:reduce){.showcase:before,.showcase:after{animation:none!important}}
