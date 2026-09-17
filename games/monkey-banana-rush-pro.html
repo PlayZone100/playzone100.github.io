@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#123524">
+  <title>Monkey Banana Rush</title>
+  <style>
+    :root{--green:#123524;--green2:#1f5c3f;--gold:#ffd84d;--cream:#fff8ed}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at top,#246344,var(--green) 55%,#07140f);color:var(--cream)}
+    body{display:grid;place-items:center;padding:14px}.shell{width:min(430px,100%)}
+    header{display:flex;justify-content:space-between;align-items:center;margin:0 4px 10px;font-weight:800}header a{color:var(--gold);text-decoration:none;font-size:.85rem}
+    .frame{position:relative;overflow:hidden;border:3px solid var(--green2);border-radius:24px;background:#dff4ff;box-shadow:0 22px 45px #0008}
+    canvas{display:block;width:100%;height:auto;aspect-ratio:3/5;touch-action:none}
+    .hud{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;pointer-events:none;font-weight:800}.pill{background:#0c2419b5;border-radius:999px;padding:6px 11px}
+    .overlay{position:absolute;inset:0;display:grid;place-items:center;padding:22px;background:#08281ccc;text-align:center}.overlay.hidden{display:none}.card{background:var(--cream);color:#1c1b18;border-radius:20px;padding:24px;max-width:290px;box-shadow:0 18px 34px #0006}.card h1{margin:4px 0 8px;font-size:1.7rem}.card p{color:#4a453d;line-height:1.5}.btn{border:0;border-radius:999px;padding:13px 22px;background:#1c1b18;color:#fff;font-weight:800;cursor:pointer}.btn.alt{background:#fff1d9;color:#1c1b18;margin-top:8px;width:100%}
+    .help{text-align:center;color:#c5ddd2;font-size:.8rem;margin:10px 0 0}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header><span>🍃 Monkey Banana Rush</span><a href="../../products/monkey-banana-rush/">Buy the Mini App →</a></header>
+    <div class="frame">
+      <canvas id="game" width="360" height="600"></canvas>
+      <div class="hud"><div class="pill">⭐ <span id="score">0</span></div><div class="pill">❤️ <span id="lives">3</span></div></div>
+      <div id="start" class="overlay"><div class="card"><div style="font-size:3rem">🐒🍌</div><h1>Monkey Banana Rush</h1><p>Tap the game to jump, collect bananas and dodge the angry coconuts.</p><button id="play" class="btn">Tap to start</button></div></div>
+      <div id="over" class="overlay hidden"><div class="card"><div style="font-size:3rem">🍌</div><h1>Game over</h1><p>Your score: <strong id="final">0</strong></p><button id="again" class="btn">Play again</button><a class="btn alt" href="../../products/monkey-banana-rush/">View product</a></div></div>
+    </div>
+    <p class="help">Tap, click, or press Space to jump.</p>
+  </main>
+  <script>
+    (()=>{
+      const c=document.getElementById('game'),x=c.getContext('2d'),W=360,H=600,ground=78;
+      const scoreEl=document.getElementById('score'),livesEl=document.getElementById('lives'),start=document.getElementById('start'),over=document.getElementById('over'),finalEl=document.getElementById('final');
+      let state='start',score=0,lives=3,y=300,vy=0,last=0,bananas=[],hazards=[];
+      const monkey={x:78,r:24};
+      function reset(){state='play';score=0;lives=3;y=300;vy=0;bananas=[];hazards=[];last=performance.now();start.classList.add('hidden');over.classList.add('hidden');sync()}
+      function sync(){scoreEl.textContent=score;livesEl.textContent=lives}
+      function jump(){if(state==='start'||state==='over'){reset();return}if(state==='play')vy=-13}
+      document.getElementById('play').onclick=reset;document.getElementById('again').onclick=reset;c.addEventListener('pointerdown',e=>{e.preventDefault();jump()},{passive:false});addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();jump()}});
+      function end(){state='over';finalEl.textContent=score;over.classList.remove('hidden')}
+      function draw(t){
+        const sky=x.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#8fd6f2');sky.addColorStop(1,'#eaf9ff');x.fillStyle=sky;x.fillRect(0,0,W,H);
+        x.fillStyle='rgba(255,255,255,.75)';[[60,70],[205,110],[300,50]].forEach(([a,b])=>{x.beginPath();x.arc(a,b,18,0,7);x.arc(a+18,b+4,13,0,7);x.arc(a-14,b+5,12,0,7);x.fill()});
+        x.fillStyle='#4caf50';x.fillRect(0,H-ground,W,ground);x.fillStyle='#81c784';x.fillRect(0,H-ground,W,8);
+        bananas.forEach(b=>{x.save();x.translate(b.x,b.y);x.rotate(b.r);x.fillStyle='#ffd400';x.beginPath();x.ellipse(0,0,10,14,.2,0,7);x.fill();x.fillStyle='#4a2c0a';x.fillRect(-2,-15,4,6);x.restore()});
+        hazards.forEach(h=>{x.fillStyle='#e13f45';x.beginPath();x.arc(h.x,h.y,18,0,7);x.fill();x.fillStyle='#fff';x.beginPath();x.arc(h.x-7,h.y-5,5,0,7);x.arc(h.x+7,h.y-5,5,0,7);x.fill();x.fillStyle='#000';x.beginPath();x.arc(h.x-7,h.y-5,2,0,7);x.arc(h.x+7,h.y-5,2,0,7);x.fill()});
+        x.fillStyle='#8b4513';x.beginPath();x.arc(monkey.x,y,monkey.r,0,7);x.fill();x.fillStyle='#ffd9b4';x.beginPath();x.ellipse(monkey.x,y+8,16,12,0,0,7);x.fill();x.fillStyle='#fff';x.beginPath();x.arc(monkey.x-9,y-6,7,0,7);x.arc(monkey.x+9,y-6,7,0,7);x.fill();x.fillStyle='#111';x.beginPath();x.arc(monkey.x-9,y-5,3,0,7);x.arc(monkey.x+9,y-5,3,0,7);x.fill()
+      }
+      function loop(t){const dt=Math.min(32,t-last);last=t;if(state==='play'){vy+=.62;y+=vy;if(y<35){y=35;vy=0}if(y>H-ground-26){y=H-ground-26;vy=0}
+        if(t-(bananas.last||0)>850){bananas.last=t;bananas.push({x:40+Math.random()*150,y:-20,r:Math.random()*6})}if(t-(hazards.last||0)>1500){hazards.last=t;hazards.push({x:390,y:50+Math.random()*(H-ground-100),s:2.5+score/500})}
+        bananas.forEach(b=>{b.y+=2.4+score/500});hazards.forEach(h=>{h.x-=h.s});
+        bananas=bananas.filter(b=>{if(Math.hypot(b.x-monkey.x,b.y-y)<36){score+=10;sync();return false}return b.y<H+30});hazards=hazards.filter(h=>{if(h.x<-30)return false;if(Math.hypot(h.x-monkey.x,h.y-y)<40){lives--;sync();if(lives<=0)end();return false}return true})}draw(t);requestAnimationFrame(loop)}requestAnimationFrame(loop)
+    })();
+  </script>
+</body>
+</html>
