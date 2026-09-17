@@ -1,20 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" role="img" aria-labelledby="title desc">
-  <title id="title">QuestMart logo</title>
-  <desc id="desc">QuestMart wordmark with a neon quest spark</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 190" role="img" aria-labelledby="title desc">
+  <title id="title">QuestMart</title>
+  <desc id="desc">QuestMart premium digital marketplace logo</desc>
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#69e0ff"/>
-      <stop offset=".55" stop-color="#b08cff"/>
+    <linearGradient id="mark" x1="8" y1="8" x2="92" y2="92" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#69e0ff"/>
+      <stop offset=".48" stop-color="#9f8cff"/>
       <stop offset="1" stop-color="#c8ff75"/>
     </linearGradient>
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="7" result="blur"/>
+    <linearGradient id="word" x1="190" y1="35" x2="650" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f5f8ff"/>
+      <stop offset=".58" stop-color="#dce7ff"/>
+      <stop offset="1" stop-color="#69e0ff"/>
+    </linearGradient>
+    <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
-  <rect width="720" height="180" rx="42" fill="#0d1220"/>
-  <path d="M91 29 109 70l42 18-42 18-18 42-18-42-42-18 42-18Z" fill="url(#g)" filter="url(#glow)"/>
-  <path d="m91 48 9 31 31 9-31 9-9 31-9-31-31-9 31-9Z" fill="#fff" opacity=".9"/>
-  <text x="182" y="116" fill="#edf3ff" font-family="Arial,Helvetica,sans-serif" font-size="78" font-weight="800" letter-spacing="-4">QUEST</text>
-  <text x="458" y="116" fill="url(#g)" font-family="Arial,Helvetica,sans-serif" font-size="78" font-weight="800" letter-spacing="-4">MART</text>
+
+  <!-- Compact premium mark: a Q-shaped portal with a subtle path through it -->
+  <g transform="translate(18 18)">
+    <circle cx="77" cy="77" r="68" fill="#101a2c" stroke="#ffffff18" stroke-width="2"/>
+    <circle cx="77" cy="77" r="52" fill="none" stroke="url(#mark)" stroke-width="13" stroke-linecap="round" stroke-dasharray="268 60" transform="rotate(-38 77 77)" filter="url(#softGlow)"/>
+    <path d="M105 105 137 137" stroke="url(#mark)" stroke-width="13" stroke-linecap="round" filter="url(#softGlow)"/>
+    <circle cx="77" cy="77" r="8" fill="#f5f8ff"/>
+    <circle cx="77" cy="77" r="4" fill="#69e0ff"/>
+  </g>
+
+  <text x="190" y="112" fill="url(#word)" font-family="Space Grotesk,Arial,sans-serif" font-size="76" font-weight="700" letter-spacing="-4">QUEST</text>
+  <text x="514" y="112" fill="url(#mark)" font-family="Space Grotesk,Arial,sans-serif" font-size="76" font-weight="700" letter-spacing="-4">MART</text>
+  <path d="M194 139H695" stroke="url(#mark)" stroke-width="3" stroke-linecap="round" opacity=".75"/>
+  <text x="195" y="165" fill="#a3b2cf" font-family="DM Sans,Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="4">PLAY • DISCOVER • OWN</text>
 </svg>
