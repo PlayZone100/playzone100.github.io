@@ -1,21 +1,849 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="index,follow">
-  <title>Monkey Banana Rush — Play Online | QuestMart</title>
-  <meta name="description" content="Play Monkey Banana Rush online for free in your browser."
-  <style>
-    html,body{margin:0;min-height:100%;background:#07140f;color:#fff;font-family:system-ui,sans-serif}body{display:grid;place-items:center;padding:20px;text-align:center}.box{max-width:560px;padding:32px;border:1px solid #ffffff22;border-radius:22px;background:#10271e;box-shadow:0 20px 60px #0008}h1{margin-top:0;color:#ffd84d}p{color:#b4cdc3;line-height:1.7}.btn{display:inline-block;padding:14px 24px;border-radius:999px;background:linear-gradient(135deg,#ffd84d,#ffb703);color:#211c0b;text-decoration:none;font-weight:900}iframe{display:none}
-  </style>
-  <script>window.location.replace('../monkey-banana-rush-web.html');</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#123524" />
+<title>Monkey Banana Rush</title>
+
+<!--
+  =====================================================================
+  MONKEY BANANA RUSH — Telegram Mini Game · COMMERCIAL PRO EDITION
+  ---------------------------------------------------------------------
+  Self-contained. No build step, no external images, no external JS
+  except the official Telegram WebApp SDK (needed for a real Mini App)
+  and one Google Font. Everything else — art, sound, UI — is generated
+  in code, so the whole game is a single HTML file you can host anywhere.
+
+  PRO EDITION ADDS (on top of the base game):
+    - Golden banana power-up (rare spawn, +50 pts, sparkle + gold sfx)
+    - Combo multiplier: chained catches inside a short window climb up
+      to x5 points, shown as an animated pill in the HUD
+    - Milestone celebrations every 200 points (toast + fanfare + haptic)
+    - "PRO" badge in the header for a premium first impression
+
+  QUICK RE-SKIN GUIDE (for resale / customization):
+    1. Edit the CONFIG object right below — brand name, colors, texts.
+    2. Swap the Google Font link if you want a different typeface.
+    3. Game balance (speeds, spawn rate, combo/golden tuning) lives in
+       the CONFIG.balance block — no other code needs to change for a
+       basic re-skin.
+    4. See the bundled README (buyer-readme.md) for deployment steps
+       into BotFather / Telegram Mini Apps.
+  =====================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --jungle-950:#0c2419;
+    --jungle-900:#123524;
+    --jungle-800:#184530;
+    --jungle-700:#1f5c3f;
+    --banana-400:#ffd84d;
+    --banana-500:#ffc72c;
+    --banana-600:#f2a100;
+    --coral-500:#ff5a5f;
+    --coral-600:#e13f45;
+    --cream-50:#fff8ed;
+    --cream-100:#fff1d9;
+    --ink-900:#1c1b18;
+    --ink-700:#4a453d;
+    --ink-400:#8a8378;
+    font-size: 16px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    min-height:100vh;
+    min-height:100dvh;
+    font-family:'system-ui',-apple-system,'Segoe UI',Roboto,sans-serif;
+    color:var(--cream-50);
+    background:
+      radial-gradient(120% 90% at 50% -10%, var(--jungle-800) 0%, var(--jungle-950) 60%),
+      var(--jungle-950);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+    overflow:hidden;
+    user-select:none;
+    touch-action: manipulation;
+  }
+  /* subtle canopy texture behind everything */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image: radial-gradient(rgba(255,216,77,0.05) 1.5px, transparent 1.5px);
+    background-size: 26px 26px;
+    pointer-events:none;
+  }
+
+  .stage{
+    position:relative;
+    width:100%;
+    max-width:400px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+  }
+
+  .brandRow{
+    display:flex;
+    align-items:baseline;
+    justify-content:center;
+    gap:8px;
+  }
+  .brandRow h1{
+    margin:0;
+    font-family:'Baloo 2', system-ui, sans-serif;
+    font-weight:800;
+    font-size:1.5rem;
+    letter-spacing:0.01em;
+    color:var(--banana-400);
+    text-shadow:0 2px 0 rgba(0,0,0,0.25);
+  }
+  .brandRow .leaf{ font-size:1.3rem; transform: translateY(1px); }
+  .proBadge{
+    font-family:'Baloo 2', system-ui, sans-serif; font-weight:800; font-size:0.62rem;
+    letter-spacing:0.08em; color:var(--jungle-950); background:var(--banana-400);
+    padding:2px 7px; border-radius:999px; transform:translateY(-4px);
+  }
+
+  .frame{
+    position:relative;
+    width:100%;
+    aspect-ratio: 3 / 5;
+    border-radius:22px;
+    overflow:hidden;
+    background:#dff4ff;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.15) inset,
+      0 22px 44px rgba(0,0,0,0.45),
+      0 4px 0 var(--jungle-950);
+    border: 3px solid var(--jungle-700);
+  }
+
+  canvas{
+    display:block;
+    width:100%;
+    height:100%;
+    touch-action:none;
+  }
+
+  /* ---------- HUD ---------- */
+  .hud{
+    position:absolute; top:10px; left:10px; right:10px;
+    display:flex; align-items:flex-start; justify-content:space-between;
+    pointer-events:none;
+    font-family:'Baloo 2', system-ui, sans-serif;
+  }
+  .pill{
+    background:rgba(12,36,25,0.55);
+    backdrop-filter: blur(3px);
+    border-radius:999px;
+    padding:6px 12px;
+    font-weight:700;
+    font-size:0.85rem;
+    color:#fff;
+    display:flex; align-items:center; gap:5px;
+    pointer-events:auto;
+  }
+  .pill.best{ color:var(--banana-400); }
+  .pill.combo{
+    color:#fff; background:linear-gradient(135deg, var(--coral-500), var(--coral-600));
+    transform-origin:center; animation: comboPop 0.25s ease;
+  }
+  .pill.combo.hidden{ display:none; }
+  @keyframes comboPop{ 0%{ transform:scale(0.6); opacity:0; } 60%{ transform:scale(1.15); } 100%{ transform:scale(1); opacity:1; } }
+  .milestoneToast{
+    position:absolute; left:50%; top:34%; transform:translate(-50%,-50%) scale(0.7);
+    font-family:'Baloo 2', system-ui, sans-serif; font-weight:800; font-size:1.15rem;
+    color:var(--banana-400); text-shadow:0 2px 0 rgba(0,0,0,0.4);
+    background:rgba(12,36,25,0.6); padding:8px 18px; border-radius:999px;
+    opacity:0; pointer-events:none; transition:opacity 0.25s ease, transform 0.25s ease;
+    white-space:nowrap; z-index:5;
+  }
+  .milestoneToast.show{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+  .soundBtn{
+    background:rgba(12,36,25,0.55);
+    border:none; color:#fff; width:32px; height:32px; border-radius:999px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem; cursor:pointer; pointer-events:auto;
+  }
+  .hudRight{ display:flex; gap:6px; align-items:center; }
+
+  /* ---------- Overlays ---------- */
+  .overlay{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column;
+    padding:20px;
+    text-align:center;
+    transition:opacity 0.18s ease;
+  }
+  .overlay.hidden{ opacity:0; pointer-events:none; }
+  .ov-start{ background:linear-gradient(180deg, rgba(20,90,140,0.35), rgba(8,40,60,0.55)); backdrop-filter: blur(1.5px); }
+  .ov-over{ background:rgba(8,16,12,0.72); backdrop-filter: blur(2px); }
+
+  .card{
+    background:var(--cream-50);
+    color:var(--ink-900);
+    border-radius:20px;
+    padding:22px 22px 20px;
+    width:100%;
+    max-width:280px;
+    box-shadow:0 18px 34px rgba(0,0,0,0.35), 0 2px 0 rgba(0,0,0,0.06) inset;
+  }
+  .card .mono-emoji{ font-size:2.6rem; line-height:1; margin-bottom:4px; }
+  .card h2{
+    font-family:'Baloo 2', system-ui, sans-serif;
+    font-weight:800;
+    font-size:1.35rem;
+    margin:2px 0 6px;
+  }
+  .card p.sub{
+    margin:0 0 16px;
+    font-size:0.85rem;
+    color:var(--ink-700);
+    line-height:1.4;
+  }
+  .statRow{ display:flex; gap:10px; margin-bottom:16px; }
+  .stat{
+    flex:1; background:var(--cream-100); border-radius:14px; padding:10px 6px;
+  }
+  .stat .label{ font-size:0.68rem; font-weight:700; letter-spacing:0.06em; color:var(--ink-400); }
+  .stat .value{ font-family:'Baloo 2', system-ui, sans-serif; font-weight:800; font-size:1.3rem; color:var(--ink-900); }
+  .stat.coins .value{ color:var(--banana-600); }
+
+  button.cta{
+    width:100%;
+    border:none;
+    background:var(--ink-900);
+    color:#fff;
+    font-family:'Baloo 2', system-ui, sans-serif;
+    font-weight:700;
+    font-size:1rem;
+    letter-spacing:0.02em;
+    padding:13px;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 6px 0 #000, 0 8px 18px rgba(0,0,0,0.3);
+    transition: transform 0.08s ease;
+  }
+  button.cta:active{ transform: translateY(4px); box-shadow:0 2px 0 #000; }
+  button.cta.secondary{
+    background:var(--cream-100); color:var(--ink-900);
+    box-shadow:0 6px 0 rgba(0,0,0,0.08);
+    margin-top:8px;
+  }
+  button.cta.secondary:active{ box-shadow:0 2px 0 rgba(0,0,0,0.08); }
+
+  .hint{
+    margin-top:12px;
+    font-size:0.72rem;
+    color: rgba(255,248,237,0.55);
+    text-align:center;
+    letter-spacing:0.02em;
+  }
+  .footer{
+    font-size:0.68rem;
+    color: rgba(255,248,237,0.35);
+    letter-spacing:0.04em;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    button.cta{ transition:none; }
+  }
+</style>
 </head>
 <body>
-  <main class="box">
-    <h1>🐒 Monkey Banana Rush</h1>
-    <p>Play the game online in your browser.</p>
-    <a class="btn" href="../monkey-banana-rush-web.html">Play now</a>
-  </main>
+
+<div class="stage">
+  <div class="brandRow"><span class="leaf">🍃</span><h1 id="brandTitle">Monkey Banana Rush</h1><span class="proBadge">PRO</span></div>
+
+  <div class="frame" id="frame">
+    <canvas id="game" width="360" height="600"></canvas>
+
+    <div class="hud">
+      <div class="hudRight">
+        <div class="pill" id="scorePill">⭐ <span id="scoreVal">0</span></div>
+        <div class="pill best">🏆 <span id="bestVal">0</span></div>
+        <div class="pill combo hidden" id="comboPill">🔥 x<span id="comboVal">1</span></div>
+      </div>
+      <div class="hudRight">
+        <div class="pill" id="livesPill">❤️❤️❤️</div>
+        <button class="soundBtn" id="soundBtn" aria-label="Toggle sound">🔊</button>
+      </div>
+    </div>
+
+    <div class="milestoneToast" id="milestoneToast">🎉 200 milestone!</div>
+
+    <div class="overlay ov-start" id="startOverlay">
+      <div class="card">
+        <div class="mono-emoji">🐒</div>
+        <h2>Ready to rush?</h2>
+        <p class="sub">Tap to hop, grab falling bananas, chain combos and dodge the angry monsters.</p>
+        <button class="cta" id="startBtn">Tap to start</button>
+        <div class="hint" style="color:var(--ink-400); margin-top:10px;">💰 +10 pts · ✨ golden banana +50 · 🔥 chain combos · ❤️ x3 lives</div>
+      </div>
+    </div>
+
+    <div class="overlay ov-over hidden" id="overOverlay">
+      <div class="card">
+        <div style="font-size:0.72rem; font-weight:800; letter-spacing:0.16em; color:var(--ink-400);">GAME OVER</div>
+        <div class="mono-emoji">🍌</div>
+        <div class="statRow">
+          <div class="stat">
+            <div class="label">SCORE</div>
+            <div class="value" id="finalScore">0</div>
+          </div>
+          <div class="stat coins">
+            <div class="label">COINS</div>
+            <div class="value" id="finalCoins">0</div>
+          </div>
+        </div>
+        <button class="cta" id="restartBtn">Play again</button>
+        <button class="cta secondary" id="shareBtn">Share my score</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer" id="footerText">Telegram Mini App ready · Made with Monkey Banana Rush</div>
+</div>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  // ===================================================================
+  // 1. CONFIG — everything a buyer would want to touch for a re-skin
+  // ===================================================================
+  const CONFIG = {
+    brandName: "Monkey Banana Rush",     // shown as page title + H1
+    footerText: "Telegram Mini App ready · Monkey Banana Rush",
+    storageKey: "mbr_best_v1",
+    soundKey: "mbr_muted_v1",
+    shareText: (score) => `I scored ${score} in Monkey Banana Rush 🐒🍌 — beat that!`,
+    balance: {
+      gravity: 0.62,
+      jumpVelocity: -13.2,
+      bananaBaseSpeed: 2.4,
+      monsterBaseSpeed: 3.0,
+      bananaSpawnMs: 900,
+      monsterSpawnMs: 1650,
+      speedupEvery: 300, // score threshold per difficulty bump
+      goldenChance: 0.14,      // chance a spawned banana is golden (Pro feature)
+      comboWindowMs: 1400,     // catches within this window keep the combo alive
+      comboStep: 3,            // catches per multiplier tier
+      comboMax: 5,             // multiplier cap
+      milestoneEvery: 200      // score milestone that triggers a celebration burst
+    }
+  };
+
+  document.title = CONFIG.brandName;
+  document.getElementById("brandTitle").textContent = CONFIG.brandName;
+  document.getElementById("footerText").textContent = CONFIG.footerText;
+
+  // ===================================================================
+  // 2. Telegram WebApp integration (safe no-ops outside Telegram)
+  // ===================================================================
+  const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+  if (tg) {
+    try {
+      tg.ready();
+      tg.expand();
+      tg.setHeaderColor && tg.setHeaderColor("#123524");
+      tg.setBackgroundColor && tg.setBackgroundColor("#0c2419");
+      tg.enableClosingConfirmation && tg.enableClosingConfirmation();
+    } catch (e) { /* older client, ignore */ }
+  }
+  function haptic(style) {
+    try {
+      if (tg && tg.HapticFeedback) {
+        if (style === "success" || style === "error" || style === "warning") {
+          tg.HapticFeedback.notificationOccurred(style);
+        } else {
+          tg.HapticFeedback.impactOccurred(style || "light");
+        }
+      }
+    } catch (e) {}
+  }
+
+  // ===================================================================
+  // 3. Sound — tiny synthesized SFX, no audio files needed
+  // ===================================================================
+  let muted = localStorage.getItem(CONFIG.soundKey) === "1";
+  let actx = null;
+  function ensureAudio() {
+    if (!actx) {
+      try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
+    }
+    if (actx && actx.state === "suspended") actx.resume();
+  }
+  function beep(freq, dur, type, vol, glideTo) {
+    if (muted || !actx) return;
+    const t0 = actx.currentTime;
+    const osc = actx.createOscillator();
+    const gain = actx.createGain();
+    osc.type = type || "sine";
+    osc.frequency.setValueAtTime(freq, t0);
+    if (glideTo) osc.frequency.exponentialRampToValueAtTime(glideTo, t0 + dur);
+    gain.gain.setValueAtTime(vol || 0.15, t0);
+    gain.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+    osc.connect(gain).connect(actx.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur);
+  }
+  const sfx = {
+    jump: () => beep(420, 0.09, "square", 0.06, 620),
+    coin: () => { beep(880, 0.09, "triangle", 0.12, 1320); setTimeout(() => beep(1320, 0.07, "triangle", 0.08), 40); },
+    golden: () => { beep(660, 0.08, "triangle", 0.14, 990); setTimeout(() => beep(990, 0.08, "triangle", 0.12, 1480), 60); setTimeout(() => beep(1480, 0.12, "triangle", 0.1), 120); },
+    hit: () => beep(160, 0.28, "sawtooth", 0.14, 60),
+    start: () => beep(523, 0.12, "square", 0.08, 784),
+    milestone: () => { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => beep(f, 0.16, "square", 0.09), i * 90)); }
+  };
+
+  const soundBtn = document.getElementById("soundBtn");
+  function syncSoundBtn() { soundBtn.textContent = muted ? "🔇" : "🔊"; }
+  syncSoundBtn();
+  soundBtn.addEventListener("click", () => {
+    muted = !muted;
+    localStorage.setItem(CONFIG.soundKey, muted ? "1" : "0");
+    syncSoundBtn();
+  });
+
+  // ===================================================================
+  // 4. Canvas setup (device-pixel-ratio aware, crisp on retina)
+  // ===================================================================
+  const canvas = document.getElementById("game");
+  const ctx = canvas.getContext("2d");
+  const LOGICAL_W = 360, LOGICAL_H = 600;
+
+  function fitCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    canvas.width = LOGICAL_W * dpr;
+    canvas.height = LOGICAL_H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  fitCanvas();
+  window.addEventListener("resize", fitCanvas);
+
+  // ===================================================================
+  // 5. Game state
+  // ===================================================================
+  const best0 = parseInt(localStorage.getItem(CONFIG.storageKey) || "0", 10);
+  const scoreVal = document.getElementById("scoreVal");
+  const bestVal = document.getElementById("bestVal");
+  const livesPill = document.getElementById("livesPill");
+  const startOverlay = document.getElementById("startOverlay");
+  const overOverlay = document.getElementById("overOverlay");
+  const finalScore = document.getElementById("finalScore");
+  const finalCoins = document.getElementById("finalCoins");
+  const comboPill = document.getElementById("comboPill");
+  const comboVal = document.getElementById("comboVal");
+  const milestoneToast = document.getElementById("milestoneToast");
+
+  bestVal.textContent = best0;
+
+  const S = {
+    state: "start", // start | playing | over
+    monkeyY: 300,
+    monkeyVy: 0,
+    score: 0,
+    coins: 0,
+    best: best0,
+    lives: 3,
+    bananas: [],
+    monsters: [],
+    particles: [],
+    lastBanana: 0,
+    lastMonster: 0,
+    shake: 0,
+    combo: 0,
+    lastCatch: -99999,
+    nextMilestone: 0
+  };
+
+  const GROUND_H = 78;
+  const MONKEY_X = 78;
+  const MONKEY_R = 24;
+
+  function resetRun() {
+    S.monkeyY = 300;
+    S.monkeyVy = 0;
+    S.score = 0;
+    S.coins = 0;
+    S.lives = 3;
+    S.bananas = [];
+    S.monsters = [];
+    S.particles = [];
+    S.shake = 0;
+    S.combo = 0;
+    S.lastCatch = -99999;
+    S.nextMilestone = CONFIG.balance.milestoneEvery;
+    comboPill.classList.add("hidden");
+    updateHud();
+  }
+
+  function updateHud() {
+    scoreVal.textContent = S.score;
+    bestVal.textContent = S.best;
+    livesPill.textContent = "❤️".repeat(Math.max(0, S.lives)) || "—";
+  }
+
+  let milestoneTimer = null;
+  function showMilestone(scoreHit) {
+    milestoneToast.textContent = "🎉 " + scoreHit + " combo run!";
+    milestoneToast.classList.add("show");
+    sfx.milestone();
+    haptic("success");
+    clearTimeout(milestoneTimer);
+    milestoneTimer = setTimeout(() => milestoneToast.classList.remove("show"), 1100);
+  }
+
+  function startGame() {
+    ensureAudio();
+    resetRun();
+    S.state = "playing";
+    S.lastBanana = performance.now();
+    S.lastMonster = performance.now();
+    startOverlay.classList.add("hidden");
+    overOverlay.classList.add("hidden");
+    sfx.start();
+    haptic("light");
+    if (tg && tg.MainButton) tg.MainButton.hide();
+  }
+
+  function endGame() {
+    S.state = "over";
+    if (S.score > S.best) {
+      S.best = S.score;
+      localStorage.setItem(CONFIG.storageKey, String(S.best));
+    }
+    finalScore.textContent = S.score;
+    finalCoins.textContent = S.coins;
+    overOverlay.classList.remove("hidden");
+    updateHud();
+    haptic("error");
+    if (tg && tg.MainButton) {
+      tg.MainButton.setText("PLAY AGAIN");
+      tg.MainButton.show();
+      tg.MainButton.onClick(startGame);
+    }
+  }
+
+  function doJump() {
+    ensureAudio();
+    if (S.state === "start") { startGame(); return; }
+    if (S.state === "over") { startGame(); return; }
+    S.monkeyVy = CONFIG.balance.jumpVelocity;
+    sfx.jump();
+    haptic("light");
+  }
+
+  canvas.addEventListener("pointerdown", (e) => { e.preventDefault(); doJump(); }, { passive: false });
+  document.getElementById("startBtn").addEventListener("click", startGame);
+  document.getElementById("restartBtn").addEventListener("click", startGame);
+  window.addEventListener("keydown", (e) => {
+    if (e.code === "Space") { e.preventDefault(); doJump(); }
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && S.state === "playing") S.state = "paused";
+    else if (!document.hidden && S.state === "paused") S.state = "playing";
+  });
+
+  document.getElementById("shareBtn").addEventListener("click", () => {
+    const text = CONFIG.shareText(S.score);
+    if (tg && tg.openTelegramLink) {
+      const url = "https://t.me/share/url?url=" + encodeURIComponent("") + "&text=" + encodeURIComponent(text);
+      tg.openTelegramLink(url);
+    } else if (navigator.share) {
+      navigator.share({ text }).catch(() => {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+    }
+    haptic("light");
+  });
+
+  // ===================================================================
+  // 6. Drawing helpers (vector art — no image assets)
+  // ===================================================================
+  function drawMonkey(y, t) {
+    const bob = Math.sin(t * 0.012) * 6;
+    ctx.fillStyle = "#6b2f0b";
+    ctx.beginPath();
+    ctx.ellipse(MONKEY_X - 8, y + 22 + bob, 5, 10, 0, 0, Math.PI * 2);
+    ctx.ellipse(MONKEY_X + 8, y + 22 - bob, 5, 10, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "#8b4513";
+    ctx.beginPath(); ctx.arc(MONKEY_X, y, MONKEY_R, 0, Math.PI * 2); ctx.fill();
+
+    ctx.fillStyle = "#6b2f0b";
+    ctx.beginPath();
+    ctx.arc(MONKEY_X - 22, y - 8, 9, 0, Math.PI * 2);
+    ctx.arc(MONKEY_X + 22, y - 8, 9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#ffdab9";
+    ctx.beginPath();
+    ctx.arc(MONKEY_X - 22, y - 8, 4, 0, Math.PI * 2);
+    ctx.arc(MONKEY_X + 22, y - 8, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "#f5deb3";
+    ctx.beginPath(); ctx.ellipse(MONKEY_X, y + 8, 16, 12, 0, 0, Math.PI * 2); ctx.fill();
+
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(MONKEY_X - 9, y - 6, 7, 0, Math.PI * 2);
+    ctx.arc(MONKEY_X + 9, y - 6, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#000";
+    ctx.beginPath();
+    ctx.arc(MONKEY_X - 9, y - 4, 3, 0, Math.PI * 2);
+    ctx.arc(MONKEY_X + 9, y - 4, 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(MONKEY_X - 8, y - 7, 1.5, 0, Math.PI * 2);
+    ctx.arc(MONKEY_X + 10, y - 7, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#3d1f00";
+    ctx.lineWidth = 1.5;
+    ctx.lineCap = "round";
+    ctx.beginPath(); ctx.arc(MONKEY_X, y + 10, 7, 0.15, Math.PI - 0.15); ctx.stroke();
+  }
+
+  function drawBanana(b) {
+    ctx.save();
+    ctx.translate(b.x, b.y);
+    ctx.rotate(b.rot);
+    if (b.golden) {
+      const glow = 16 + Math.sin(performance.now() * 0.008) * 3;
+      const g = ctx.createRadialGradient(0, 0, 2, 0, 0, glow);
+      g.addColorStop(0, "rgba(255,216,77,0.55)");
+      g.addColorStop(1, "rgba(255,216,77,0)");
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(0, 0, glow, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.fillStyle = "rgba(0,0,0,0.12)";
+    ctx.beginPath(); ctx.ellipse(2, 6, 12, 6, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = b.golden ? "#fff1b8" : "#ffd400";
+    ctx.beginPath(); ctx.ellipse(0, 0, 10, 14, 0.2, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = b.golden ? "#ffdf7a" : "#ffc200";
+    ctx.beginPath(); ctx.ellipse(-2, -2, 6, 8, 0.2, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#4a2c0a"; ctx.fillRect(-2, -14, 4, 6);
+    ctx.fillStyle = b.golden ? "#e0b400" : "#6b8e23"; ctx.fillRect(-3, -16, 6, 3);
+    ctx.fillStyle = "rgba(255,255,255,0.6)";
+    ctx.beginPath(); ctx.ellipse(-4, -3, 2, 4, -0.3, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+
+  function drawMonster(m) {
+    ctx.save();
+    ctx.translate(m.x, m.y);
+    ctx.fillStyle = "rgba(0,0,0,0.15)";
+    ctx.beginPath(); ctx.ellipse(2, 16, 16, 6, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#e13f45";
+    ctx.beginPath(); ctx.arc(0, 0, 18, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#c22a30";
+    ctx.beginPath(); ctx.arc(0, 4, 14, 0, Math.PI); ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.beginPath(); ctx.arc(-7, -5, 6, 0, Math.PI * 2); ctx.arc(7, -5, 6, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#000";
+    ctx.beginPath(); ctx.arc(-7, -3, 2.5, 0, Math.PI * 2); ctx.arc(7, -3, 2.5, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = "#7a0000"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(-13, -11); ctx.lineTo(-2, -7); ctx.moveTo(13, -11); ctx.lineTo(2, -7); ctx.stroke();
+    ctx.fillStyle = "#7a0000";
+    ctx.beginPath(); ctx.arc(0, 6, 6, 0.1, Math.PI - 0.1); ctx.fill();
+    ctx.restore();
+  }
+
+  function drawScene(t) {
+    ctx.save();
+    if (S.shake > 0) {
+      const dx = (Math.random() - 0.5) * S.shake;
+      const dy = (Math.random() - 0.5) * S.shake;
+      ctx.translate(dx, dy);
+      S.shake *= 0.9;
+      if (S.shake < 0.5) S.shake = 0;
+    }
+
+    const sky = ctx.createLinearGradient(0, 0, 0, LOGICAL_H);
+    sky.addColorStop(0, "#8fd6f2");
+    sky.addColorStop(1, "#eaf9ff");
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, LOGICAL_W, LOGICAL_H);
+
+    ctx.fillStyle = "rgba(255,255,255,0.75)";
+    [
+      { x: 60 + Math.sin(t * 0.0003) * 10, y: 70 },
+      { x: 200 + Math.cos(t * 0.0002) * 12, y: 110 },
+      { x: 300, y: 50 }
+    ].forEach((c) => {
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, 18, 0, Math.PI * 2);
+      ctx.arc(c.x + 16, c.y + 4, 14, 0, Math.PI * 2);
+      ctx.arc(c.x - 14, c.y + 5, 12, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    ctx.fillStyle = "#4caf50";
+    ctx.fillRect(0, LOGICAL_H - GROUND_H, LOGICAL_W, GROUND_H);
+    ctx.fillStyle = "#81c784";
+    ctx.fillRect(0, LOGICAL_H - GROUND_H, LOGICAL_W, 8);
+    ctx.fillStyle = "#66bb6a";
+    for (let x = 0; x < LOGICAL_W; x += 16) ctx.fillRect(x, LOGICAL_H - GROUND_H, 3, 10);
+
+    S.particles.forEach((p) => {
+      ctx.globalAlpha = p.life;
+      ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+
+    S.bananas.forEach(drawBanana);
+    S.monsters.forEach(drawMonster);
+    if (S.state !== "over") drawMonkey(S.monkeyY, t);
+
+    ctx.restore();
+  }
+
+  // ===================================================================
+  // 7. Update loop
+  // ===================================================================
+  function spawnParticles(x, y, n, color) {
+    for (let i = 0; i < n; i++) {
+      if (S.particles.length >= 24) break;
+      S.particles.push({
+        x, y,
+        vx: (Math.random() - 0.5) * 7,
+        vy: (Math.random() - 0.5) * 7 - 2,
+        life: 1,
+        color,
+        size: 3 + Math.random() * 3
+      });
+    }
+  }
+
+  function difficulty() {
+    return Math.floor(S.score / CONFIG.balance.speedupEvery);
+  }
+
+  function update(t) {
+    if (S.state !== "playing") return;
+    const b = CONFIG.balance;
+
+    S.monkeyVy += b.gravity;
+    S.monkeyY += S.monkeyVy;
+    const top = MONKEY_R + 10, bottom = LOGICAL_H - GROUND_H - MONKEY_R - 2;
+    if (S.monkeyY < top) { S.monkeyY = top; S.monkeyVy = 0; }
+    if (S.monkeyY > bottom) { S.monkeyY = bottom; S.monkeyVy = 0; }
+
+    if (t - S.lastBanana > b.bananaSpawnMs) {
+      S.lastBanana = t;
+      S.bananas.push({
+        x: 30 + Math.random() * 160,
+        y: -24,
+        speed: b.bananaBaseSpeed + difficulty() * 0.4,
+        rot: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.15,
+        golden: Math.random() < b.goldenChance
+      });
+    }
+    if (t - S.lastMonster > b.monsterSpawnMs) {
+      S.lastMonster = t;
+      S.monsters.push({
+        x: 400,
+        y: LOGICAL_H - GROUND_H - 20 - Math.random() * 280,
+        speed: b.monsterBaseSpeed + difficulty() * 0.5
+      });
+    }
+
+    for (let i = S.bananas.length - 1; i >= 0; i--) {
+      const bn = S.bananas[i];
+      bn.y += bn.speed; bn.rot += bn.rotSpeed;
+      if (bn.y > LOGICAL_H + 30) { S.bananas.splice(i, 1); continue; }
+      const dx = bn.x - MONKEY_X, dy = bn.y - S.monkeyY;
+      if (Math.hypot(dx, dy) < MONKEY_R + 12) {
+        S.bananas.splice(i, 1);
+
+        // ---- Pro combo system: chained catches raise a score multiplier ----
+        S.combo = (t - S.lastCatch <= b.comboWindowMs) ? S.combo + 1 : 1;
+        S.lastCatch = t;
+        const mult = Math.min(b.comboMax, 1 + Math.floor((S.combo - 1) / b.comboStep));
+        const base = bn.golden ? 50 : 10;
+        S.coins += bn.golden ? 3 : 1;
+        S.score += base * mult;
+
+        if (mult > 1) {
+          comboVal.textContent = mult;
+          comboPill.classList.remove("hidden");
+          comboPill.style.animation = "none"; void comboPill.offsetWidth; comboPill.style.animation = "";
+        } else {
+          comboPill.classList.add("hidden");
+        }
+
+        if (bn.golden) {
+          spawnParticles(bn.x, bn.y, 14, "#ffd84d");
+          spawnParticles(bn.x, bn.y, 6, "#ffffff");
+          sfx.golden();
+          haptic("medium");
+        } else {
+          spawnParticles(bn.x, bn.y, 6, "#ffd700");
+          sfx.coin();
+          haptic("light");
+        }
+
+        if (S.score >= S.nextMilestone) {
+          showMilestone(S.nextMilestone);
+          S.nextMilestone += b.milestoneEvery;
+        }
+        updateHud();
+      }
+    }
+
+    for (let i = S.monsters.length - 1; i >= 0; i--) {
+      const m = S.monsters[i];
+      m.x -= m.speed;
+      if (m.x < -40) { S.monsters.splice(i, 1); continue; }
+      const dx = m.x - MONKEY_X, dy = m.y - S.monkeyY;
+      if (Math.hypot(dx, dy) < MONKEY_R + 18) {
+        S.monsters.splice(i, 1);
+        S.lives -= 1; S.shake = 14;
+        S.combo = 0; S.lastCatch = -99999;
+        comboPill.classList.add("hidden");
+        spawnParticles(m.x, m.y, 8, "#ff5a5f");
+        sfx.hit();
+        haptic("heavy");
+        updateHud();
+        if (S.lives <= 0) { endGame(); }
+      }
+    }
+
+    for (let i = S.particles.length - 1; i >= 0; i--) {
+      const p = S.particles[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.18; p.life -= 0.04;
+      if (p.life <= 0) S.particles.splice(i, 1);
+    }
+  }
+
+  function loop(t) {
+    update(t);
+    drawScene(t);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  updateHud();
+})();
+</script>
 </body>
 </html>
