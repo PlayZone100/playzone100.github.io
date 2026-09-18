@@ -2,23 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://questmart.online/questmart-studio-pro/">
 <title>QuestMart Studio Pro</title>
 <style>html,body{margin:0;min-height:100%;background:#0f1216;color:#edf0f5;font:16px system-ui}main{min-height:100vh;display:grid;place-items:center;text-align:center}a{color:#f2a93b}</style>
 </head>
 <body>
-<main id="status">Loading QuestMart Studio…<br><a href="/questmart-studio-pro.html">Open fallback</a></main>
+<main id="status">Loading QuestMart Studio Pro…</main>
 <script>
 (async function(){
   try {
-    const response = await fetch('/questmart-studio-pro.html', {cache:'no-store'});
-    if (!response.ok) throw new Error('HTTP '+response.status);
-    const html = await response.text();
+    const source='https://raw.githubusercontent.com/PlayZone100/playzone100.github.io/42cc8e65cc858dae6916e56fe658829bf9fa9040/questmart-studio-pro.html';
+    const response=await fetch(source,{cache:'no-store'});
+    if(!response.ok) throw new Error('HTTP '+response.status);
     document.open();
-    document.write(html);
+    document.write(await response.text());
     document.close();
-  } catch (error) {
-    document.getElementById('status').innerHTML = 'QuestMart Studio could not load.<br><a href="/questmart-studio-pro.html">Open the HTML file directly</a>';
+  }catch(error){
+    document.getElementById('status').innerHTML='QuestMart Studio Pro could not load.<br><a href="/questmart-studio-pro.html">Open fallback</a>';
     console.error(error);
   }
 })();
