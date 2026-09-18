@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlayZone100 - Text to Video (Free)</title>
+<style>
+  :root{
+    --bg:#0b0b12;
+    --panel:#14141f;
+    --accent:#7c5cff;
+    --accent2:#ff5ca8;
+    --text:#eaeaf5;
+    --muted:#9a9ab0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:radial-gradient(circle at 20% 10%, #1a1a2e, var(--bg) 60%);
+    color:var(--text);
+    min-height:100vh;
+  }
+  header{
+    padding:32px 20px 12px;
+    text-align:center;
+  }
+  header h1{
+    margin:0;
+    font-size:2rem;
+    letter-spacing:2px;
+    background:linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  header p{
+    color:var(--muted);
+    margin-top:8px;
+    font-size:.95rem;
+  }
+  .badge{
+    display:inline-block;
+    margin-top:10px;
+    padding:4px 12px;
+    border-radius:999px;
+    background:rgba(124,92,255,.15);
+    border:1px solid var(--accent);
+    color:var(--accent);
+    font-size:.75rem;
+  }
+  main{
+    max-width:960px;
+    margin:0 auto;
+    padding:20px;
+  }
+  .panel{
+    background:var(--panel);
+    border:1px solid #26263a;
+    border-radius:16px;
+    padding:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  .notice{
+    font-size:.85rem;
+    color:var(--muted);
+    line-height:1.5;
+    margin-bottom:14px;
+  }
+  .notice b{color:var(--text);}
+  .frame-wrap{
+    border-radius:12px;
+    overflow:hidden;
+    border:1px solid #26263a;
+    background:#000;
+  }
+  iframe{
+    width:100%;
+    height:780px;
+    border:none;
+    display:block;
+  }
+  .back-link{
+    display:inline-block;
+    margin-top:20px;
+    color:var(--accent);
+    text-decoration:none;
+    font-size:.9rem;
+  }
+  .back-link:hover{text-decoration:underline;}
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:.75rem;
+    padding:24px 12px 40px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>TEXT → VIDEO</h1>
+  <p>Turn a written description into a short AI-generated video</p>
+  <span class="badge">FREE • OPEN SOURCE MODEL</span>
+</header>
+
+<main>
+  <div class="panel">
+    <div class="notice">
+      <b>How it works:</b> This tool runs on a free, open-source AI model (ModelScope Text-to-Video)
+      hosted publicly on Hugging Face. Type your prompt <b>in English</b> below and click generate.
+      <br><br>
+      <b>Please note:</b> this is a shared free service, so during busy times you may wait in a queue.
+      Generated videos are short (a few seconds) and lower resolution — this is a limitation of the
+      free open model, not a bug. This specific model is licensed for
+      <b>non-commercial use only</b>.
+    </div>
+    <div class="frame-wrap">
+      <iframe
+        src="https://ali-vilab-modelscope-text-to-video-synthesis.hf.space"
+        title="Text to Video Generator"
+        allow="clipboard-write; fullscreen"
+        loading="lazy">
+      </iframe>
+    </div>
+  </div>
+
+  <a class="back-link" href="../index.html">← Back to PlayZone100</a>
+</main>
+
+<footer>
+  Powered by an open-source model via Hugging Face Spaces. Not affiliated with Hugging Face.
+</footer>
+
+</body>
+</html>
