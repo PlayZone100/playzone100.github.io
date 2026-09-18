@@ -1,4 +1,4 @@
-// QuestMart Chat - customer support widget
+// QuestMart Chat V2 - customer support widget
 (function () {
   'use strict';
 
@@ -7,7 +7,7 @@
     '#qm-box{position:fixed;bottom:90px;right:20px;width:360px;max-width:92vw;height:480px;background:#fff;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.25);display:none;flex-direction:column;z-index:99999;font-family:sans-serif;overflow:hidden;border:1px solid #eee}\n' +
     '#qm-head{background:#7c3aed;color:#fff;padding:14px;font-weight:bold;display:flex;justify-content:space-between}\n' +
     '#qm-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#fafafa}\n' +
-    '.qm-m{padding:10px 12px;border-radius:12px;max-width:80%;font-size:14px;line-height:1.4;white-space:pre-wrap}\n' +
+    '.qm-m{padding:10px 12px;border-radius:12px;max-width:80%;font-size:14px;line-height:1.5;white-space:pre-wrap}\n' +
     '.qm-u{align-self:flex-end;background:#7c3aed;color:#fff}\n' +
     '.qm-b{align-self:flex-start;background:#fff;border:1px solid #ddd;color:#111}\n' +
     '#qm-in{display:flex;padding:10px;border-top:1px solid #eee;gap:6px}\n' +
@@ -44,7 +44,7 @@
     return element;
   }
 
-  addMessage('Hi! Welcome to QuestMart.online 🌍\nGames, Gift Cards & Digital Files - Instant Delivery!\nHow can I help you?', 'qm-b');
+  addMessage('Hi! Welcome to QuestMart.online 🌍\nGames, Gift Cards & Instant Delivery!\nHow can I help you today?', 'qm-b');
 
   btn.onclick = function () {
     box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
@@ -57,15 +57,26 @@
     addMessage(question, 'qm-u');
     var loading = addMessage('Typing...', 'qm-b');
     try {
-      if (typeof window.puter === 'undefined' || !puter.ai) throw new Error('Puter is not ready');
-      var prompt = 'You are QuestMart.online support. We sell games, gift cards, accounts, and digital files. Instant delivery, secure payment. Answer briefly and in friendly English. Do not invent order status or promise refunds. User: ' + question;
-      var response = await puter.ai.chat(prompt, { model: 'gpt-4o-mini' });
+      var response = await fetch('https://text.pollinations.ai/openai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          model: 'openai',
+          messages: [
+            { role: 'system', content: 'You are QuestMart.online support. We sell games, gift cards, accounts, and digital files. Mention instant delivery only when relevant. Answer briefly in friendly English. Do not invent order status, payment confirmation, or refund promises. For account or order-specific help, direct the customer to support@questmart.online.' },
+            { role: 'user', content: question }
+          ]
+        })
+      });
+      if (!response.ok) throw new Error('AI request failed: HTTP ' + response.status);
+      var data = await response.json();
+      var answer = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+      if (!answer) throw new Error('Empty AI response');
       loading.remove();
-      var answer = typeof response === 'string' ? response : (response && response.message && response.message.content) || 'Please contact support@questmart.online for help.';
       addMessage(answer, 'qm-b');
     } catch (error) {
       loading.remove();
-      addMessage('Sorry, chat is temporarily unavailable. Please email support@questmart.online.', 'qm-b');
+      addMessage('Sorry, the chat is temporarily unavailable. Please email support@questmart.online.', 'qm-b');
       console.error('QuestMart chat error:', error);
     }
   }
