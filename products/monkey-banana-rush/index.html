@@ -178,7 +178,7 @@
     }
     .payment-steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 18px; margin-top: 24px; }
     .step-number {
-      display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,216,77,0.12); color: var(--gold); font-weight: 900; margin-bottom: 12px; border: 1px solid rgba(255,216,77,0.2);
+      display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,216,77,0.12); color: var(--gold); font-weight: 900; margin-bottom: 12px; border: 1px solid rgba(255,216,77,0.22);
     }
     form {
       margin-top: 22px; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px;
@@ -191,6 +191,15 @@
     }
     .field textarea { min-height: 110px; resize: vertical; }
     .full { grid-column: 1 / -1; }
+    .support-strip {
+      margin-top: 18px; padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+    .support-strip strong { color: var(--text); }
     footer {
       border-top: 1px solid var(--line); padding: 24px 0 52px; color: var(--muted); text-align: center;
     }
@@ -224,7 +233,7 @@
         <div>
           <div class="eyebrow">Telegram Mini App • Premium Edition</div>
           <h1>Monkey Banana Rush <span class="gradient">in a juicy arcade-ready pack</span></h1>
-          <p class="lead">A polished, mobile-first mini game built for Telegram audiences. Fast taps, juicy score chases, banana pickups, coconut dangers, and a clean arcade loop that feels made for viral sharing.</p>
+          <p class="lead">A polished, mobile-first mini game built for Telegram audiences. Fast taps, juicy score chases, banana pickups, coconut dangers, and a clean arcade loop that feels made for quick fun.</p>
           <div class="cta-row">
             <a class="btn primary" href="/games/monkey-banana-rush-pro.html">Try the game</a>
             <a class="btn secondary" href="#buy">Buy for $20</a>
@@ -233,6 +242,9 @@
             <span><i class="dot"></i> Single-file HTML</span>
             <span><i class="dot"></i> Ready for Telegram Mini App</span>
             <span><i class="dot"></i> Mobile-friendly</span>
+          </div>
+          <div class="support-strip">
+            <strong>Support:</strong> <a href="mailto:support@questmart.online">support@questmart.online</a>
           </div>
         </div>
 
@@ -350,6 +362,9 @@
         <div class="card" style="margin-top: 26px;">
           <h3>Verification request</h3>
           <p style="margin-bottom: 16px;">Send your order details to the team for confirmation and delivery. This page is a static sales page; verification and delivery are handled manually.</p>
+          <div class="support-strip" style="margin: 0 0 18px;">
+            <strong>Support email:</strong> <a href="mailto:support@questmart.online">support@questmart.online</a>
+          </div>
           <form onsubmit="return submitOrder(event)">
             <label class="field">
               <span>Email</span>
@@ -387,7 +402,7 @@
   </main>
 
   <footer>
-    QuestMart • Monkey Banana Rush • Telegram mini app purchase page
+    QuestMart • Monkey Banana Rush • Support: <a href="mailto:support@questmart.online" style="color: var(--green);">support@questmart.online</a>
   </footer>
 
   <script>
