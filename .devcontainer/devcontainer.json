@@ -1,0 +1,14 @@
+{
+  "name": "PlayZone100 text-to-video API",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "PlayZone100 API",
+      "protocol": "http",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "npm install",
+  "postStartCommand": "bash -lc 'if [ -f .env ]; then nohup npm start > /tmp/playzone100-api.log 2>&1 & else echo \'Create .env from .env.example before generating videos.\'; fi'"
+}
