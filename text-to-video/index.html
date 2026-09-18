@@ -1,135 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PlayZone100 - Text to Video (Free)</title>
-<style>
-  :root{
-    --bg:#0b0b12;
-    --panel:#14141f;
-    --accent:#7c5cff;
-    --accent2:#ff5ca8;
-    --text:#eaeaf5;
-    --muted:#9a9ab0;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:'Segoe UI', Arial, sans-serif;
-    background:radial-gradient(circle at 20% 10%, #1a1a2e, var(--bg) 60%);
-    color:var(--text);
-    min-height:100vh;
-  }
-  header{
-    padding:32px 20px 12px;
-    text-align:center;
-  }
-  header h1{
-    margin:0;
-    font-size:2rem;
-    letter-spacing:2px;
-    background:linear-gradient(90deg, var(--accent), var(--accent2));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  header p{
-    color:var(--muted);
-    margin-top:8px;
-    font-size:.95rem;
-  }
-  .badge{
-    display:inline-block;
-    margin-top:10px;
-    padding:4px 12px;
-    border-radius:999px;
-    background:rgba(124,92,255,.15);
-    border:1px solid var(--accent);
-    color:var(--accent);
-    font-size:.75rem;
-  }
-  main{
-    max-width:960px;
-    margin:0 auto;
-    padding:20px;
-  }
-  .panel{
-    background:var(--panel);
-    border:1px solid #26263a;
-    border-radius:16px;
-    padding:16px;
-    box-shadow:0 10px 30px rgba(0,0,0,.35);
-  }
-  .notice{
-    font-size:.85rem;
-    color:var(--muted);
-    line-height:1.5;
-    margin-bottom:14px;
-  }
-  .notice b{color:var(--text);}
-  .frame-wrap{
-    border-radius:12px;
-    overflow:hidden;
-    border:1px solid #26263a;
-    background:#000;
-  }
-  iframe{
-    width:100%;
-    height:780px;
-    border:none;
-    display:block;
-  }
-  .back-link{
-    display:inline-block;
-    margin-top:20px;
-    color:var(--accent);
-    text-decoration:none;
-    font-size:.9rem;
-  }
-  .back-link:hover{text-decoration:underline;}
-  footer{
-    text-align:center;
-    color:var(--muted);
-    font-size:.75rem;
-    padding:24px 12px 40px;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlayZone100 - Text to Video</title>
+  <style>
+    :root {
+      --bg: #090b12;
+      --bg2: #121827;
+      --panel: rgba(21, 25, 38, 0.9);
+      --panel-border: rgba(255,255,255,0.08);
+      --card: rgba(255,255,255,0.03);
+      --accent: #8b5cf6;
+      --accent-2: #ff5ca8;
+      --text: #edf2ff;
+      --muted: #a7b0c4;
+      --success: #35d399;
+      --shadow: rgba(0,0,0,0.38);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(139,92,246,0.18), transparent 32%),
+        radial-gradient(circle at top right, rgba(255,92,168,0.15), transparent 26%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      color: var(--text);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 36px 20px 10px;
+    }
+
+    .brand {
+      display: inline-block;
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      margin: 12px auto 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      max-width: 720px;
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(139,92,246,0.6);
+      background: rgba(139,92,246,0.12);
+      color: #d8c8ff;
+      font-size: 0.77rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    main {
+      width: min(100%, 1080px);
+      margin: 0 auto;
+      padding: 18px 18px 36px;
+      flex: 1;
+    }
+
+    .container {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 22px;
+      box-shadow: 0 20px 45px var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(6px);
+    }
+
+    .info {
+      padding: 18px 18px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .info p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.92rem;
+    }
+
+    .info strong {
+      color: var(--text);
+    }
+
+    .toolbox {
+      padding: 18px;
+    }
+
+    .frame-wrap {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(255,255,255,0.08);
+      min-height: 760px;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      min-height: 760px;
+      border: 0;
+      background: #000;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 10px 20px rgba(139, 92, 246, 0.28);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .meta {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 12px rgba(53,211,153,0.9);
+      margin-right: 8px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #d8c8ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      padding: 12px 14px 28px;
+    }
+
+    @media (max-width: 700px) {
+      .brand {
+        letter-spacing: 0.05em;
+      }
+
+      .frame-wrap,
+      iframe {
+        min-height: 640px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1 class="brand">Text → Video</h1>
+    <p class="subtitle">Create a short AI-generated video from a written prompt using a free open-source model.</p>
+    <span class="badge">Free • Open Source</span>
+  </header>
 
-<header>
-  <h1>TEXT → VIDEO</h1>
-  <p>Turn a written description into a short AI-generated video</p>
-  <span class="badge">FREE • OPEN SOURCE MODEL</span>
-</header>
+  <main>
+    <div class="container">
+      <div class="info">
+        <p><strong>How it works:</strong> This generator uses the active LTX-Video demo hosted publicly on Hugging Face. Write your prompt in English, then click generate. The free model is short-form and may queue during busy hours.</p>
+      </div>
 
-<main>
-  <div class="panel">
-    <div class="notice">
-      <b>How it works:</b> This tool runs on a free, open-source AI model (LTX-Video by Lightricks)
-      hosted publicly on Hugging Face. Type your prompt <b>in English</b> below and click generate.
-      <br><br>
-      <b>Please note:</b> this is a shared free service, so during busy times you may wait in a queue.
-      Generated clips are short (a few seconds) — this is a limitation of the free open model, not a bug.
-      This model is licensed under Apache-2.0.
+      <div class="toolbox">
+        <div class="frame-wrap">
+          <iframe
+            src="https://lightricks-ltx-video-playground.hf.space"
+            title="LTX-Video Generator"
+            loading="lazy"
+            allow="clipboard-write; fullscreen; autoplay">
+          </iframe>
+        </div>
+
+        <div class="actions">
+          <a class="btn" href="https://lightricks-ltx-video-playground.hf.space" target="_blank" rel="noopener">Open Generator</a>
+          <a class="btn secondary" href="../index.html">Back to PlayZone100</a>
+        </div>
+
+        <div class="meta">
+          <span><span class="status-dot"></span> Model status: Active and publicly available</span>
+          <span>License: Apache-2.0</span>
+        </div>
+      </div>
     </div>
-    <div class="frame-wrap">
-      <iframe
-        src="https://lightricks-ltx-video-playground.hf.space"
-        title="Text to Video Generator"
-        allow="clipboard-write; fullscreen"
-        loading="lazy">
-      </iframe>
-    </div>
-  </div>
 
-  <a class="back-link" href="../index.html">← Back to PlayZone100</a>
-</main>
+    <a class="back-link" href="../index.html">← Back to home</a>
+  </main>
 
-<footer>
-  Powered by an open-source model via Hugging Face Spaces. Not affiliated with Hugging Face.
-</footer>
-
+  <footer>
+    Powered by LTX-Video via Hugging Face Spaces. Not affiliated with Hugging Face.
+  </footer>
 </body>
 </html>
