@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Monkey Banana Rush — QuestMart</title>
   <style>
-    :root{--bg:#07140f;--panel:#10271e;--line:#ffffff22;--text:#f7f3ea;--muted:#aac7be;--gold:#ffd84d;--gold2:#ffb703;--green:#9ceb68}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg),#0d221d);color:var(--text);font:16px/1.6 system-ui,sans-serif}a{color:var(--green)}.wrap{width:min(900px,calc(100% - 32px));margin:auto}.top{padding:18px 0;border-bottom:1px solid var(--line)}.top a{text-decoration:none;font-weight:800}.hero{padding:52px 0 28px}.eyebrow{display:inline-block;padding:7px 12px;border:1px solid #9ceb6855;border-radius:999px;color:var(--green);font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}h1{font-size:clamp(2.5rem,8vw,5rem);line-height:1;margin:18px 0}.lead{color:var(--muted);font-size:1.1rem}.card{margin:22px 0;padding:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#112d22,#0d1f17)}.price{font-size:3rem;font-weight:900;color:var(--gold)}.wallet{padding:12px;margin:10px 0;border:1px solid var(--line);border-radius:12px;word-break:break-all;color:var(--muted)}label{display:block;margin:14px 0;color:var(--muted)}input,select,textarea{display:block;width:100%;margin-top:6px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#ffffff08;color:var(--text);font:inherit}textarea{min-height:90px}.btn{display:inline-flex;border:0;border-radius:999px;padding:13px 20px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#201b0b;font-weight:900;cursor:pointer;text-decoration:none}.btn.secondary{background:#ffffff0a;color:var(--text);border:1px solid var(--line)}.notice{margin-top:18px;padding:18px;border-radius:14px;background:#ffffff08;border:1px solid #9ceb6855;text-align:center}.notice strong{color:var(--gold);font-size:1.5rem}.hidden{display:none}.footer{padding:24px 0 50px;color:var(--muted);text-align:center;border-top:1px solid var(--line)}
+    :root{--bg:#07140f;--panel:#10271e;--line:#ffffff22;--text:#f7f3ea;--muted:#aac7be;--gold:#ffd84d;--gold2:#ffb703;--green:#9ceb68;--danger:#ff6b6b}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg),#0d221d);color:var(--text);font:16px/1.6 system-ui,sans-serif}a{color:var(--green);text-decoration:none}a:hover{text-decoration:underline}.wrap{width:min(900px,calc(100% - 32px));margin:auto}.top{padding:18px 0;border-bottom:1px solid var(--line)}.top a{font-weight:800}.hero{padding:52px 0 28px}.eyebrow{display:inline-block;padding:7px 12px;border:1px solid #9ceb6855;border-radius:999px;color:var(--green);font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}h1{font-size:clamp(2.5rem,8vw,5rem);line-height:1;margin:18px 0}.lead{color:var(--muted);font-size:1.1rem}.card{margin:22px 0;padding:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#112d22,#0d1f17)}.price{font-size:3rem;font-weight:900;color:var(--gold)}.wallet{padding:12px;margin:10px 0;border:1px solid var(--line);border-radius:12px;word-break:break-all;color:var(--muted)}label{display:block;margin:14px 0;color:var(--muted)}input,select,textarea{display:block;width:100%;margin-top:6px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#ffffff08;color:var(--text);font:inherit}textarea{min-height:90px}.btn{display:inline-flex;border:0;border-radius:999px;padding:13px 20px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#201b0b;font-weight:900;cursor:pointer;text-decoration:none}.btn.secondary{background:#ffffff0a;color:var(--text);border:1px solid var(--line)}.notice{margin-top:18px;padding:18px;border-radius:14px;background:#ffffff08;border:1px solid #9ceb6855;text-align:center}.notice strong{color:var(--gold);font-size:1.5rem}.success{border-color:#9ceb6855;background:rgba(156,235,104,0.05)}.hidden{display:none}.footer{padding:24px 0 50px;color:var(--muted);text-align:center;border-top:1px solid var(--line)}.small{font-size:.9rem;color:var(--muted)}.timer-wrap{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}.timer-box{min-width:70px;padding:12px 14px;border-radius:12px;background:#0c1f1a;border:1px solid var(--line);font-weight:900;font-size:1.5rem;color:var(--gold)}
   </style>
 </head>
 <body>
@@ -15,7 +15,7 @@
     <section class="hero">
       <span class="eyebrow">Commercial license</span>
       <h1>Monkey Banana Rush</h1>
-      <p class="lead">A polished, mobile-first Telegram Mini App game. Complete the form below and the download link will become available after a one-minute countdown.</p>
+      <p class="lead">A polished, mobile-first Telegram Mini App game. Complete the form below and your download link will unlock after a 60-second countdown.</p>
       <p>Support: <a href="mailto:support@questmart.online">support@questmart.online</a></p>
     </section>
 
@@ -39,20 +39,52 @@
         <label>Notes<textarea name="notes" placeholder="Telegram username or delivery preference"></textarea></label>
         <button class="btn" type="submit">Submit and unlock download</button>
       </form>
-      <div id="countdown" class="notice hidden" aria-live="polite">Your download link will be available in <strong id="seconds">60</strong> seconds.</div>
-      <div id="downloadBox" class="notice hidden"><strong>Download is ready</strong><p>Your file is ready. Tap the button below to download or open it.</p><a class="btn" href="/games/monkey-banana-rush/index.html" download="monkey-banana-rush.html">Download Monkey Banana Rush</a><p><small>Support: <a href="mailto:support@questmart.online">support@questmart.online</a></small></p></div>
+
+      <div id="countdown" class="notice hidden" aria-live="polite">
+        <div class="timer-wrap">
+          <span>Your request has been received.</span>
+          <div class="timer-box"><span id="seconds">60</span>s</div>
+        </div>
+      </div>
+
+      <div id="successBox" class="notice success hidden">
+        <strong>Request received.</strong>
+        <p>Your order has been queued. Your download link is ready now.</p>
+        <p><a class="btn" href="/games/monkey-banana-rush/index.html" target="_blank" rel="noopener">Open download</a></p>
+        <p class="small">Support: <a href="mailto:support@questmart.online">support@questmart.online</a></p>
+      </div>
     </section>
   </main>
   <footer class="footer"><div class="wrap">QuestMart • Monkey Banana Rush • Support: <a href="mailto:support@questmart.online">support@questmart.online</a></div></footer>
+
   <script>
-    const form=document.getElementById('orderForm'), countdown=document.getElementById('countdown'), seconds=document.getElementById('seconds'), downloadBox=document.getElementById('downloadBox');
-    form.addEventListener('submit', function(event){
+    const form = document.getElementById('orderForm');
+    const countdown = document.getElementById('countdown');
+    const seconds = document.getElementById('seconds');
+    const successBox = document.getElementById('successBox');
+
+    form.addEventListener('submit', function(event) {
       event.preventDefault();
-      form.querySelector('button').disabled=true;
+      const btn = form.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = 'Request submitted';
       countdown.classList.remove('hidden');
-      downloadBox.classList.add('hidden');
-      let remaining=60; seconds.textContent=remaining;
-      const timer=setInterval(()=>{remaining-=1;seconds.textContent=remaining;if(remaining<=0){clearInterval(timer);countdown.classList.add('hidden');downloadBox.classList.remove('hidden');downloadBox.scrollIntoView({behavior:'smooth',block:'center'});}},1000);
+      successBox.classList.add('hidden');
+
+      let remaining = 60;
+      seconds.textContent = remaining;
+
+      const timer = setInterval(() => {
+        remaining -= 1;
+        seconds.textContent = remaining;
+
+        if (remaining <= 0) {
+          clearInterval(timer);
+          countdown.classList.add('hidden');
+          successBox.classList.remove('hidden');
+          successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 1000);
     });
   </script>
 </body>
