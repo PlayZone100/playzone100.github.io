@@ -1,0 +1,41 @@
+name: AI Agent (Gemini)
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  respond:
+    if: contains(github.event.comment.body, '@ai-agent')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Call Gemini and comment
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RESPONSE=$(curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GEMINI_API_KEY" \
+            -H 'Content-Type: application/json' \
+            -d @- <<EOF
+          {
+            "contents": [{
+              "parts": [{
+                "text": "تو یک دستیار برنامه‌نویسی هستی که همیشه به فارسی جواب می‌دهد. این issue را بخوان و کمک کن: $ISSUE_BODY \n\nدرخواست کاربر: $COMMENT_BODY"
+              }]
+            }]
+          }
+          EOF
+          )
+          TEXT=$(echo "$RESPONSE" | python3 -c "import sys, json; print(json.load(sys.stdin)['candidates'][0]['content']['parts'][0]['text'])")
+          gh issue comment "$ISSUE_NUMBER" --repo "$REPO" --body "$TEXT"
