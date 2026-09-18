@@ -1,444 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monkey Banana Rush — Telegram Mini App</title>
-  <meta name="description" content="Buy Monkey Banana Rush, a polished Telegram mini game with premium jungle theme, instant gameplay, video preview and crypto payment options." />
-  <link rel="canonical" href="https://questmart.online/products/monkey-banana-rush/" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Monkey Banana Rush — QuestMart</title>
   <style>
-    :root {
-      --bg: #07140f;
-      --bg2: #0d221d;
-      --line: rgba(255,255,255,0.12);
-      --text: #f7f3ea;
-      --muted: #aac7be;
-      --green: #9ceb68;
-      --green2: #5ad655;
-      --gold: #ffd84d;
-      --gold2: #ffb703;
-      --shadow: rgba(0,0,0,0.35);
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
-      background:
-        radial-gradient(1200px 700px at 50% -20%, rgba(51, 136, 95, 0.28), transparent 60%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
-      color: var(--text);
-    }
-    a { color: inherit; text-decoration: none; }
-    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
-    .topbar {
-      position: sticky; top: 0; z-index: 30;
-      backdrop-filter: blur(12px); background: rgba(7, 20, 15, 0.7); border-bottom: 1px solid var(--line);
-    }
-    .topbar-inner {
-      display: flex; align-items: center; justify-content: space-between; padding: 16px 0; gap: 16px;
-    }
-    .brand {
-      display: flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: .04em; font-size: 1.05rem;
-    }
-    .brand-badge {
-      width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center;
-      background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #1c200f; font-size: 1.2rem;
-      box-shadow: 0 8px 18px rgba(255, 184, 3, 0.35);
-    }
-    .nav { display: flex; align-items: center; gap: 22px; color: var(--muted); font-size: 0.95rem; }
-    .nav a:hover { color: var(--text); }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      border: none; cursor: pointer; border-radius: 999px; padding: 14px 22px; font-weight: 800;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-    }
-    .btn:hover { transform: translateY(-1px); }
-    .btn.primary {
-      background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #1f1b10; box-shadow: 0 10px 26px rgba(255, 183, 3, 0.26);
-    }
-    .btn.secondary {
-      background: rgba(255,255,255,0.03); border: 1px solid var(--line); color: var(--text);
-    }
-    .hero { padding: 52px 0 24px; }
-    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px; align-items: center; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(156, 235, 104, 0.28);
-      background: rgba(156, 235, 104, 0.08); color: var(--green); padding: 8px 12px; border-radius: 999px;
-      font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
-    }
-    h1 {
-      margin: 18px 0 16px; font-size: clamp(2.5rem, 5vw, 5rem); line-height: 0.96; letter-spacing: -0.06em;
-    }
-    .gradient {
-      background: linear-gradient(90deg, #fff8d9, #ffd84d 28%, #ffb703 58%, #7ae57f 100%);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .lead {
-      font-size: 1.08rem; line-height: 1.7; color: var(--muted); max-width: 620px; margin: 0 0 28px;
-    }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 20px; }
-    .mini-stats {
-      display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; color: var(--muted); font-size: 0.95rem;
-    }
-    .mini-stats span { display: inline-flex; align-items: center; gap: 8px; }
-    .mini-stats .dot {
-      width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(135deg, var(--green), var(--green2));
-      box-shadow: 0 0 18px rgba(90,214,85,0.7);
-    }
-    .device {
-      position: relative; border-radius: 30px; border: 1px solid var(--line); overflow: hidden;
-      background: linear-gradient(180deg, rgba(24, 57, 49, 0.9), rgba(8, 17, 12, 0.98));
-      box-shadow: 0 30px 50px rgba(0,0,0,0.45); padding: 12px;
-    }
-    .device-header {
-      display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding: 8px 8px 0;
-      color: var(--muted); font-size: 0.8rem;
-    }
-    .device-dots { display: flex; gap: 8px; }
-    .device-dots span {
-      width: 10px; height: 10px; border-radius: 50%; display: inline-block; opacity: 0.75;
-    }
-    .device-dots span:nth-child(1){ background: #ff5f57; }
-    .device-dots span:nth-child(2){ background: #febc2e; }
-    .device-dots span:nth-child(3){ background: #28c840; }
-    .game-preview {
-      position: relative; aspect-ratio: 3/5; border-radius: 24px; background: linear-gradient(180deg, #dff8ff, #b4e9ff 32%, #9bbf96 32%, #1b5f4a 100%);
-      overflow: hidden; box-shadow: inset 0 0 0 2px rgba(255,255,255,0.12);
-    }
-    .game-preview::before {
-      content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,0.14), transparent 42%);
-    }
-    .preview-sky { position: absolute; inset: 15% 0 auto 0; height: 50%; }
-    .sun { position: absolute; top: 18%; right: 18%; width: 58px; height: 58px; border-radius: 50%; background: rgba(255, 218, 87, 0.88); box-shadow: 0 0 30px rgba(255, 218, 87, 0.5); }
-    .cloud { position: absolute; width: 100px; height: 30px; background: rgba(255,255,255,0.8); border-radius: 999px; }
-    .cloud::before, .cloud::after { content: ""; position: absolute; background: rgba(255,255,255,0.8); border-radius: 50%; }
-    .cloud::before { width: 36px; height: 36px; left: 18px; top: -12px; }
-    .cloud::after { width: 44px; height: 40px; right: 18px; top: -16px; }
-    .cloud.c1 { left: 16%; top: 24%; transform: scale(0.9); }
-    .cloud.c2 { left: 42%; top: 18%; transform: scale(1.2); }
-    .ground { position: absolute; left: 0; right: 0; bottom: 0; height: 120px; background: linear-gradient(180deg, #3f8b5a, #1f5f3f); border-top: 4px solid rgba(223, 245, 155, 0.45); }
-    .monkey { position: absolute; left: 18%; bottom: 48px; width: 94px; height: 120px; }
-    .monkey .body { position: absolute; inset: 30px 16px 18px 16px; background: #8b4513; border-radius: 28px 28px 22px 22px; }
-    .monkey .head { position: absolute; left: 14px; top: 0; width: 62px; height: 58px; background: #8b4513; border-radius: 50%; }
-    .monkey .ear { position: absolute; top: 6px; width: 12px; height: 12px; background: #6b2f0b; border-radius: 50%; }
-    .monkey .ear.left { left: 8px; }
-    .monkey .ear.right { right: 8px; }
-    .monkey .face { position: absolute; left: 19px; top: 18px; width: 38px; height: 28px; background: #ffd9b4; border-radius: 14px; }
-    .monkey .eye { position: absolute; top: 25px; width: 6px; height: 6px; background: #111; border-radius: 50%; }
-    .monkey .eye.left { left: 26px; }
-    .monkey .eye.right { right: 26px; }
-    .banana {
-      position: absolute; right: 18%; bottom: 88px; width: 52px; height: 72px; background: linear-gradient(90deg, #f7d847, #ffc40a 50%, #e2a300 100%);
-      border-radius: 42% 48% 50% 52%; transform: rotate(18deg); box-shadow: inset -6px 0 0 rgba(255,255,255,0.2);
-    }
-    .banana::before {
-      content: ""; position: absolute; inset: 14px 12px 12px 12px; background: linear-gradient(180deg, rgba(255,255,255,0.35), transparent); border-radius: 50%;
-    }
-    .banana::after {
-      content: ""; position: absolute; left: 22px; top: -8px; width: 9px; height: 20px; background: #476b20; border-radius: 10px;
-    }
-    .section { padding: 26px 0 30px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; }
-    .card {
-      background: linear-gradient(180deg, rgba(17, 31, 26, 0.92), rgba(15, 23, 18, 0.92));
-      border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 25px 40px rgba(0,0,0,0.18);
-      padding: 20px;
-    }
-    .card h3 { margin: 0 0 10px; font-size: 1.25rem; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.7; }
-    .trailer-card { padding: 18px; }
-    .video-wrap {
-      margin-top: 18px; width: 100%; border-radius: 18px; overflow: hidden; border: 1px solid var(--line);
-      background: rgba(0,0,0,0.2); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
-    }
-    .video-wrap video {
-      display: block; width: 100%; max-height: 70vh; height: auto; background: #0b140f;
-    }
-    .price-box {
-      margin-top: 26px; background: linear-gradient(180deg, rgba(19, 39, 35, 0.96), rgba(12, 20, 17, 0.9));
-      border: 1px solid var(--line); border-radius: 26px; overflow: hidden; box-shadow: 0 28px 50px rgba(0,0,0,0.26);
-    }
-    .price-box-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; }
-    .price-pane { padding: 26px 24px; }
-    .price-pane h2 { margin: 0 0 12px; font-size: clamp(2rem, 3vw, 3rem); letter-spacing: -0.05em; }
-    .price-pane .amount { font-size: clamp(2.7rem, 4vw, 4rem); font-weight: 900; letter-spacing: -0.06em; }
-    .price-pane .small { color: var(--muted); }
-    .wallet-pane { padding: 26px 24px; border-left: 1px solid var(--line); background: rgba(255,255,255,0.02); }
-    .wallet {
-      background: rgba(255,255,255,0.025); border: 1px solid var(--line); border-radius: 14px; padding: 14px 14px 10px; margin-bottom: 10px;
-    }
-    .wallet .label { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); font-weight: 700; }
-    .wallet code {
-      display: block; margin-top: 8px; white-space: normal; word-break: break-all; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.83rem; color: var(--text); line-height: 1.6;
-    }
-    .copy {
-      display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; border: 1px solid var(--line); background: rgba(255,255,255,0.02); border-radius: 999px; padding: 8px 12px; color: var(--text); cursor: pointer;
-    }
-    .payment-steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 18px; margin-top: 24px; }
-    .step-number {
-      display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,216,77,0.12); color: var(--gold); font-weight: 900; margin-bottom: 12px; border: 1px solid rgba(255,216,77,0.22);
-    }
-    form {
-      margin-top: 22px; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px;
-    }
-    .field {
-      display: flex; flex-direction: column; gap: 8px; color: var(--muted); font-size: 0.9rem;
-    }
-    .field input, .field select, .field textarea {
-      width: 100%; border: 1px solid var(--line); background: rgba(255,255,255,0.02); color: var(--text); border-radius: 12px; padding: 12px 14px; font: inherit;
-    }
-    .field textarea { min-height: 110px; resize: vertical; }
-    .full { grid-column: 1 / -1; }
-    .support-strip {
-      margin-top: 18px; padding: 18px 20px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: rgba(255,255,255,0.02);
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-    .support-strip strong { color: var(--text); }
-    footer {
-      border-top: 1px solid var(--line); padding: 24px 0 52px; color: var(--muted); text-align: center;
-    }
-    @media (max-width: 860px) {
-      .hero-grid, .price-box-inner, .grid-3, .payment-steps, form { grid-template-columns: 1fr; }
-      .wallet-pane { border-left: none; border-top: 1px solid var(--line); }
-      .nav { display: none; }
-      .topbar-inner { padding: 14px 0; }
-    }
+    :root{--bg:#07140f;--panel:#10271e;--line:#ffffff22;--text:#f7f3ea;--muted:#aac7be;--gold:#ffd84d;--gold2:#ffb703;--green:#9ceb68}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg),#0d221d);color:var(--text);font:16px/1.6 system-ui,sans-serif}a{color:var(--green)}.wrap{width:min(900px,calc(100% - 32px));margin:auto}.top{padding:18px 0;border-bottom:1px solid var(--line)}.top a{text-decoration:none;font-weight:800}.hero{padding:52px 0 28px}.eyebrow{display:inline-block;padding:7px 12px;border:1px solid #9ceb6855;border-radius:999px;color:var(--green);font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}h1{font-size:clamp(2.5rem,8vw,5rem);line-height:1;margin:18px 0}.lead{color:var(--muted);font-size:1.1rem}.card{margin:22px 0;padding:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#112d22,#0d1f17)}.price{font-size:3rem;font-weight:900;color:var(--gold)}.wallet{padding:12px;margin:10px 0;border:1px solid var(--line);border-radius:12px;word-break:break-all;color:var(--muted)}label{display:block;margin:14px 0;color:var(--muted)}input,select,textarea{display:block;width:100%;margin-top:6px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#ffffff08;color:var(--text);font:inherit}textarea{min-height:90px}.btn{display:inline-flex;border:0;border-radius:999px;padding:13px 20px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#201b0b;font-weight:900;cursor:pointer;text-decoration:none}.btn.secondary{background:#ffffff0a;color:var(--text);border:1px solid var(--line)}.notice{margin-top:18px;padding:18px;border-radius:14px;background:#ffffff08;border:1px solid #9ceb6855;text-align:center}.notice strong{color:var(--gold);font-size:1.5rem}.hidden{display:none}.footer{padding:24px 0 50px;color:var(--muted);text-align:center;border-top:1px solid var(--line)}
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="wrap topbar-inner">
-      <a class="brand" href="/" aria-label="QuestMart home">
-        <span class="brand-badge">🍌</span>
-        <span>QuestMart</span>
-      </a>
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/products/monkey-banana-rush/">Monkey Banana Rush</a>
-        <a href="/games/monkey-banana-rush-web.html">Demo</a>
-      </nav>
-      <a class="btn primary" href="#buy">Buy for $20</a>
-    </div>
-  </header>
-
-  <main>
+  <header class="top"><div class="wrap"><a href="/">🍌 QuestMart</a></div></header>
+  <main class="wrap">
     <section class="hero">
-      <div class="wrap hero-grid">
-        <div>
-          <div class="eyebrow">Telegram Mini App • Premium Edition</div>
-          <h1>Monkey Banana Rush <span class="gradient">in a juicy arcade-ready pack</span></h1>
-          <p class="lead">A polished, mobile-first mini game built for Telegram audiences. Fast taps, juicy score chases, banana pickups, coconut dangers, and a clean arcade loop that feels made for quick fun.</p>
-          <div class="cta-row">
-            <a class="btn primary" href="/games/monkey-banana-rush-pro.html">Try the game</a>
-            <a class="btn secondary" href="#buy">Buy for $20</a>
-          </div>
-          <div class="mini-stats">
-            <span><i class="dot"></i> Single-file HTML</span>
-            <span><i class="dot"></i> Ready for Telegram Mini App</span>
-            <span><i class="dot"></i> Mobile-friendly</span>
-          </div>
-          <div class="support-strip">
-            <strong>Support:</strong> <a href="mailto:support@questmart.online">support@questmart.online</a>
-          </div>
-        </div>
-
-        <div class="device" aria-label="Game preview">
-          <div class="device-header">
-            <div class="device-dots"><span></span><span></span><span></span></div>
-            <span>Monkey Banana Rush</span>
-          </div>
-          <div class="game-preview"> 
-            <div class="preview-sky">
-              <div class="sun"></div>
-              <div class="cloud c1"></div>
-              <div class="cloud c2"></div>
-            </div>
-            <div class="monkey">
-              <div class="ear left"></div>
-              <div class="ear right"></div>
-              <div class="head"></div>
-              <div class="face"></div>
-              <div class="eye left"></div>
-              <div class="eye right"></div>
-              <div class="body"></div>
-            </div>
-            <div class="banana"></div>
-            <div class="ground"></div>
-          </div>
-        </div>
-      </div>
+      <span class="eyebrow">Commercial license</span>
+      <h1>Monkey Banana Rush</h1>
+      <p class="lead">A polished, mobile-first Telegram Mini App game. Complete the form below and the download link will become available after a one-minute countdown.</p>
+      <p>Support: <a href="mailto:support@questmart.online">support@questmart.online</a></p>
     </section>
 
-    <section class="section">
-      <div class="wrap grid-3">
-        <article class="card">
-          <h3>Arcade gameplay loop</h3>
-          <p>Jump, collect bananas, avoid coconuts, and chase the highest score in a short, highly replayable session designed for casual mobile players.</p>
-        </article>
-        <article class="card">
-          <h3>Brand-ready styling</h3>
-          <p>Simple color system and straightforward config block make it easy to re-skin, resell, or match your own Telegram brand identity.</p>
-        </article>
-        <article class="card">
-          <h3>Instant deployment</h3>
-          <p>Single HTML file, no build step, easy to host anywhere, and friendly to quick launch across Telegram mini app environments.</p>
-        </article>
-      </div>
+    <section class="card">
+      <h2>Purchase</h2>
+      <div class="price">$20</div>
+      <p class="lead">Send payment using one of the supported addresses, then submit your details.</p>
+      <div class="wallet"><b>EVM</b><br>0xC17085C2b5C78726f6EFbE762F2650A4160265dA</div>
+      <div class="wallet"><b>BTC</b><br>bc1qpr2pc8vzkzzyhr4f75glvk3mmamy4fyvlavzaw</div>
+      <div class="wallet"><b>Solana</b><br>8Vu4YXfQQpG3bMxTXkC9EECZ4xdbAtBsFosCghYC7PCm</div>
     </section>
 
-    <section class="section" id="trailer">
-      <div class="wrap">
-        <div class="card trailer-card">
-          <div class="eyebrow">Gameplay preview</div>
-          <h3 style="margin: 14px 0 0; font-size: clamp(1.5rem, 2vw, 2rem);">Watch the game in action</h3>
-          <div class="video-wrap">
-            <video controls playsinline preload="metadata" src="/assets/monkey-banana-rush-pro-promo.mp4"></video>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="buy">
-      <div class="wrap">
-        <div class="price-box">
-          <div class="price-box-inner">
-            <div class="price-pane">
-              <div class="eyebrow" style="display:inline-flex; margin-bottom: 12px;">Commercial license</div>
-              <h2>Monkey Banana Rush</h2>
-              <div class="amount">$20</div>
-              <div class="small">Includes the game file, resale-ready structure, and usage guidance.</div>
-              <div class="cta-row" style="margin-top: 22px;">
-                <a class="btn primary" href="/games/monkey-banana-rush-pro.html">Preview now</a>
-              </div>
-            </div>
-
-            <div class="wallet-pane">
-              <div class="wallet">
-                <div class="label">EVM Wallet</div>
-                <code>0xC17085C2b5C78726f6EFbE762F2650A4160265dA</code>
-              </div>
-              <div class="wallet">
-                <div class="label">BTC Wallet</div>
-                <code>bc1qpr2pc8vzkzzyhr4f75glvk3mmamy4fyvlavzaw</code>
-              </div>
-              <div class="wallet">
-                <div class="label">Solana Wallet</div>
-                <code>8Vu4YXfQQpG3bMxTXkC9EECZ4xdbAtBsFosCghYC7PCm</code>
-              </div>
-              <button class="copy" type="button" onclick="copyAddress()">Copy all payment addresses</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="payment-steps">
-          <div class="card">
-            <div class="step-number">1</div>
-            <h3>Send payment</h3>
-            <p>Send $20 using one of the supported wallet addresses above.</p>
-          </div>
-          <div class="card">
-            <div class="step-number">2</div>
-            <h3>Send proof</h3>
-            <p>Share your wallet address, network, and transaction hash or payment screenshot.</p>
-          </div>
-          <div class="card">
-            <div class="step-number">3</div>
-            <h3>Manual review</h3>
-            <p>The purchase is verified manually before delivery to prevent fraud and duplicate access.</p>
-          </div>
-          <div class="card">
-            <div class="step-number">4</div>
-            <h3>Get access</h3>
-            <p>Once approved, you receive the file or live product link for the game.</p>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top: 26px;">
-          <h3>Verification request</h3>
-          <p style="margin-bottom: 16px;">Send your order details to the team for confirmation and delivery. This page is a static sales page; verification and delivery are handled manually.</p>
-          <div class="support-strip" style="margin: 0 0 18px;">
-            <strong>Support email:</strong> <a href="mailto:support@questmart.online">support@questmart.online</a>
-          </div>
-          <form onsubmit="return submitOrder(event)">
-            <label class="field">
-              <span>Email</span>
-              <input type="email" name="email" placeholder="you@example.com" required />
-            </label>
-            <label class="field">
-              <span>Network</span>
-              <select name="network" required>
-                <option value="">Select a network</option>
-                <option value="EVM">EVM</option>
-                <option value="BTC">BTC</option>
-                <option value="SOL">SOL</option>
-              </select>
-            </label>
-            <label class="field">
-              <span>Wallet Address</span>
-              <input type="text" name="wallet" placeholder="Your payment wallet" required />
-            </label>
-            <label class="field">
-              <span>Transaction Hash</span>
-              <input type="text" name="tx" placeholder="Tx hash or payment reference" required />
-            </label>
-            <label class="field full">
-              <span>Notes</span>
-              <textarea name="notes" placeholder="What is your Telegram username or delivery preference?"></textarea>
-            </label>
-            <div class="full" style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:flex-start;">
-              <button class="btn primary" type="submit">Send verification request</button>
-              <a class="btn secondary" href="mailto:support@questmart.online?subject=Monkey%20Banana%20Rush%20Purchase">Email support</a>
-            </div>
-          </form>
-        </div>
-      </div>
+    <section class="card">
+      <h2>Verification request</h2>
+      <p class="lead">After you submit the form, a 60-second countdown will start. When it finishes, the download link will appear on this page.</p>
+      <form id="orderForm">
+        <label>Email<input type="email" name="email" placeholder="you@example.com" required></label>
+        <label>Network<select name="network" required><option value="">Select a network</option><option>EVM</option><option>BTC</option><option>SOL</option></select></label>
+        <label>Wallet address<input type="text" name="wallet" placeholder="Your payment wallet" required></label>
+        <label>Transaction hash<input type="text" name="tx" placeholder="Tx hash or payment reference" required></label>
+        <label>Notes<textarea name="notes" placeholder="Telegram username or delivery preference"></textarea></label>
+        <button class="btn" type="submit">Submit and unlock download</button>
+      </form>
+      <div id="countdown" class="notice hidden" aria-live="polite">Your download link will be available in <strong id="seconds">60</strong> seconds.</div>
+      <div id="downloadBox" class="notice hidden"><strong>Download is ready</strong><p>Your file is ready. Tap the button below to download or open it.</p><a class="btn" href="/games/monkey-banana-rush/index.html" download="monkey-banana-rush.html">Download Monkey Banana Rush</a><p><small>Support: <a href="mailto:support@questmart.online">support@questmart.online</a></small></p></div>
     </section>
   </main>
-
-  <footer>
-    QuestMart • Monkey Banana Rush • Support: <a href="mailto:support@questmart.online" style="color: var(--green);">support@questmart.online</a>
-  </footer>
-
+  <footer class="footer"><div class="wrap">QuestMart • Monkey Banana Rush • Support: <a href="mailto:support@questmart.online">support@questmart.online</a></div></footer>
   <script>
-    function copyAddress() {
-      const text = [
-        'EVM: 0xC17085C2b5C78726f6EFbE762F2650A4160265dA',
-        'BTC: bc1qpr2pc8vzkzzyhr4f75glvk3mmamy4fyvlavzaw',
-        'SOL: 8Vu4YXfQQpG3bMxTXkC9EECZ4xdbAtBsFosCghYC7PCm'
-      ].join('\n');
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => alert('Payment addresses copied.'));
-      } else {
-        alert(text);
-      }
-    }
-
-    function submitOrder(event) {
+    const form=document.getElementById('orderForm'), countdown=document.getElementById('countdown'), seconds=document.getElementById('seconds'), downloadBox=document.getElementById('downloadBox');
+    form.addEventListener('submit', function(event){
       event.preventDefault();
-      const form = event.target;
-      const data = new FormData(form);
-      const email = data.get('email');
-      const network = data.get('network');
-      const wallet = data.get('wallet');
-      const tx = data.get('tx');
-      const notes = data.get('notes') || '';
-      const subject = encodeURIComponent('Monkey Banana Rush Purchase Verification');
-      const body = encodeURIComponent(
-        'Email: ' + email + '\n' +
-        'Network: ' + network + '\n' +
-        'Wallet: ' + wallet + '\n' +
-        'Tx Hash: ' + tx + '\n' +
-        'Notes: ' + notes
-      );
-      window.location.href = 'mailto:support@questmart.online?subject=' + subject + '&body=' + body;
-      return false;
-    }
+      form.querySelector('button').disabled=true;
+      countdown.classList.remove('hidden');
+      downloadBox.classList.add('hidden');
+      let remaining=60; seconds.textContent=remaining;
+      const timer=setInterval(()=>{remaining-=1;seconds.textContent=remaining;if(remaining<=0){clearInterval(timer);countdown.classList.add('hidden');downloadBox.classList.remove('hidden');downloadBox.scrollIntoView({behavior:'smooth',block:'center'});}},1000);
+    });
   </script>
 </body>
 </html>
