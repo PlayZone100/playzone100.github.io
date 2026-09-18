@@ -5,67 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Text to Video</title>
 <style>
-  :root{--bg:#0b0b12;--panel:#14141f;--accent:#7c5cff;--accent2:#ff5ca8;--text:#eaeaf5;--muted:#9a9ab0;}
-  *{box-sizing:border-box}
-  body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:radial-gradient(circle at 20% 10%,#1a1a2e,var(--bg) 60%);color:var(--text);min-height:100vh}
-  header{text-align:center;padding:32px 20px 12px}
-  h1{margin:0;font-size:2rem;letter-spacing:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  header p{color:var(--muted);margin-top:8px;font-size:.95rem}
-  main{max-width:960px;margin:0 auto;padding:20px}
-  .panel{background:var(--panel);border:1px solid #26263a;border-radius:16px;padding:16px;box-shadow:0 10px 30px #00000059}
-  .notice{font-size:.85rem;color:var(--muted);line-height:1.5;margin-bottom:18px}
-  .notice b{color:var(--text)}
-  label{display:block;font-size:.9rem;font-weight:700;margin-bottom:8px}
-  textarea{display:block;width:100%;min-height:110px;resize:vertical;border:1px solid #393953;border-radius:10px;background:#0d0d17;color:var(--text);padding:12px;font:inherit;line-height:1.45;outline:none}
-  textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #7c5cff26}
-  .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-  button,.open-link{border:0;border-radius:9px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none}
-  button{background:linear-gradient(90deg,var(--accent),var(--accent2));color:white}
-  .open-link{background:#26263a;color:var(--text)}
-  button:hover,.open-link:hover{filter:brightness(1.12)}
-  #status{color:var(--muted);font-size:.82rem;margin-top:10px;min-height:1.2em}
-  .frame-wrap{margin-top:18px;border-radius:12px;overflow:hidden;border:1px solid #26263a;background:#000}
-  iframe{width:100%;height:780px;border:0;display:block}
-  .back-link{display:inline-block;margin-top:20px;color:var(--accent);text-decoration:none;font-size:.9rem}
-  .back-link:hover{text-decoration:underline}
-  footer{text-align:center;color:var(--muted);font-size:.75rem;padding:24px 12px 40px}
-  @media(max-width:600px){iframe{height:700px}.controls>*{width:100%;text-align:center}}
+:root{--bg:#0b0b12;--panel:#14141f;--accent:#7c5cff;--accent2:#ff5ca8;--text:#eaeaf5;--muted:#9a9ab0;--line:#2b2b42}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 10%,#1a1a2e,var(--bg) 60%);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}header{text-align:center;padding:30px 20px 10px}h1{margin:0;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}header p{color:var(--muted)}main{max-width:800px;margin:auto;padding:20px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 10px 30px #0008}label{display:block;font-weight:bold;margin:14px 0 7px}textarea,input{width:100%;border:1px solid #41415d;border-radius:9px;background:#0d0d17;color:var(--text);padding:12px;font:inherit}textarea{min-height:125px;resize:vertical}input{max-width:180px}.row{display:flex;gap:14px;flex-wrap:wrap}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}button{border:0;border-radius:9px;padding:12px 18px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:white;font-weight:bold;cursor:pointer}button:disabled{opacity:.55;cursor:wait}.secondary{background:#2a2a40}.status{color:var(--muted);min-height:24px;margin-top:15px;line-height:1.5}.result{margin-top:18px}.result video{display:block;max-width:100%;border-radius:10px;background:#000}.back{display:inline-block;margin-top:20px;color:var(--accent);text-decoration:none}footer{text-align:center;color:var(--muted);font-size:.75rem;padding:25px}
 </style>
 </head>
 <body>
-<header>
-  <h1>TEXT → VIDEO</h1>
-  <p>Turn a written description into a short AI-generated video</p>
-</header>
-<main>
-  <div class="panel">
-    <div class="notice">
-      <b>Write your prompt below.</b> Use English for the best results, then click “Copy prompt”.
-      The generator is hosted by Hugging Face. If it does not appear inside this page, use “Open generator”.
-      The free service may place you in a queue.
-    </div>
-    <label for="prompt">Video prompt</label>
-    <textarea id="prompt" placeholder="Example: A cinematic sunset over a calm ocean, gentle waves, realistic style"></textarea>
-    <div class="controls">
-      <button id="copy" type="button">Copy prompt</button>
-      <a class="open-link" href="https://ali-vilab-modelscope-text-to-video-synthesis.hf.space" target="_blank" rel="noopener">Open generator</a>
-    </div>
-    <div id="status" role="status"></div>
-    <div class="frame-wrap">
-      <iframe src="https://ali-vilab-modelscope-text-to-video-synthesis.hf.space" title="Text to Video Generator" allow="clipboard-write; fullscreen" loading="lazy"></iframe>
-    </div>
-  </div>
-  <a class="back-link" href="../index.html">← Back to home</a>
-</main>
-<footer>Text-to-video generator powered by Hugging Face.</footer>
-<script>
-const prompt=document.getElementById('prompt');
-const status=document.getElementById('status');
-document.getElementById('copy').addEventListener('click',async()=>{
-  if(!prompt.value.trim()){status.textContent='Write a prompt first.';return;}
-  try{await navigator.clipboard.writeText(prompt.value.trim());status.textContent='Prompt copied. Paste it into the generator.';}
-  catch{prompt.select();document.execCommand('copy');status.textContent='Prompt copied. Paste it into the generator.';}
+<header><h1>TEXT → VIDEO</h1><p>Describe a scene and generate a short video</p></header>
+<main><section class="panel">
+<label for="prompt">Video description</label>
+<textarea id="prompt" placeholder="Example: A cinematic sunset over a calm ocean, gentle waves, realistic style"></textarea>
+<div class="row"><div><label for="seed">Seed</label><input id="seed" type="number" value="-1"></div><div><label for="steps">Quality steps</label><input id="steps" type="number" min="1" max="100" value="25"></div></div>
+<div class="actions"><button id="generate">Generate video</button><button id="clear" class="secondary" type="button">Clear</button></div>
+<div id="status" class="status" role="status"></div><div id="result" class="result"></div>
+</section><a class="back" href="../index.html">← Back to home</a></main>
+<footer>Video generation is provided by the connected open model service.</footer>
+<script type="module">
+import {Client} from 'https://cdn.jsdelivr.net/npm/@gradio/client/+esm';
+const SPACE='ali-vilab/modelscope-text-to-video-synthesis';
+const prompt=document.getElementById('prompt'),seed=document.getElementById('seed'),steps=document.getElementById('steps');
+const generate=document.getElementById('generate'),clear=document.getElementById('clear'),status=document.getElementById('status'),result=document.getElementById('result');
+let client;
+function message(text){status.textContent=text}
+function videoUrl(value){if(!value)return null;if(typeof value==='string')return value;if(value.url)return value.url;if(value.path)return 'https://ali-vilab-modelscope-text-to-video-synthesis.hf.space/file='+value.path;return null}
+generate.addEventListener('click',async()=>{
+ const text=prompt.value.trim(); if(!text){message('Write a video description first.');return}
+ generate.disabled=true;result.innerHTML='';message('Connecting to the generator…');
+ try{
+  client ||= await Client.connect(SPACE);
+  message('Generating video. The free service may place you in a queue…');
+  const response=await client.predict('/generate',{prompt:text,seed:Number(seed.value)||-1,num_frames:16,num_inference_steps:Number(steps.value)||25});
+  const value=response?.data?.[0],url=videoUrl(value);
+  if(!url)throw new Error('The generator returned no video.');
+  result.innerHTML='<video controls autoplay loop></video><p>Video generated successfully.</p>';result.querySelector('video').src=url;message('Done.');
+ }catch(error){console.error(error);message('Generation failed: '+(error?.message||'The service may be unavailable or its API may have changed.'))}
+ finally{generate.disabled=false}
 });
+clear.addEventListener('click',()=>{prompt.value='';result.innerHTML='';message('')});
 </script>
 </body>
 </html>
