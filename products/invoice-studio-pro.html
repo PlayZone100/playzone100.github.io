@@ -1,1 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
+<title>Invoice Studio — Offline Invoice Generator for Freelancers | QuestMart</title>
+<meta name="description" content="Create unlimited invoices, quotes and receipts offline. One HTML file, no account, no monthly fee. 150+ currencies, crypto wallets, 7 languages, 4 print templates. Pay once, $70.">
+<link rel="canonical" href="https://questmart.online/products/invoice-studio-pro.html">
+
+<meta property="og:type" content="product">
+<meta property="og:title" content="Invoice Studio — offline invoicing, bought once">
+<meta property="og:description" content="Unlimited invoices, quotes and receipts in a single offline HTML file. 150+ currencies including crypto. No subscription, no account, no data leaving your computer.">
+<meta property="og:url" content="https://questmart.online/products/invoice-studio-pro.html">
+<meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":"Invoice Studio",
+  "applicationCategory":"BusinessApplication",
+  "operatingSystem":"Windows, macOS, Linux, Android, iOS",
+  "softwareVersion":"1.0",
+  "description":"An offline invoice, quote and receipt generator that runs from a single HTML file. 150+ currencies including cryptocurrency, seven document languages, four print templates, and no subscription.",
+  "offers":{"@type":"Offer","price":"70.00","priceCurrency":"USD","availability":"https://schema.org/InStock"},
+  "featureList":["Offline invoicing","150+ currencies","Crypto payment details","Seven document languages","Right-to-left support","A4 PDF printing","JSON and CSV export"]
+}
+</script>
+
+<style>
+:root{
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#FBFAF6; --ink:#1A1C23; --soft:#575B68; --faint:#8C90A0;
+  --rule:#E2DDD2; --accent:#2B4C9B; --accent-soft:#E9EEF8; --ok:#2F6B4F;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+.wrap{max-width:1020px;margin:0 auto;padding:0 22px}
+a{color:var(--accent)}
+
+/* breadcrumb */
+.crumbs{font-size:13px;color:var(--faint);padding:20px 0 0}
+.crumbs a{color:var(--soft);text-decoration:none}
+.crumbs a:hover{text-decoration:underline}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:start;padding:34px 0 54px}
+h1{font-family:var(--serif);font-size:46px;line-height:1.08;letter-spacing:-.02em;margin:6px 0 16px;font-weight:600}
+.lede{font-size:18.5px;color:var(--soft);max-width:34em;margin:0 0 26px}
+.price{display:flex;align-items:baseline;gap:12px;margin:0 0 6px}
+.price .n{font-family:var(--serif);font-size:40px;font-weight:600;letter-spacing:-.02em}
+.price .was{color:var(--faint);text-decoration:line-through;font-size:17px}
+.price .tag{background:var(--accent-soft);color:var(--accent);font-size:12.5px;padding:3px 9px;border-radius:12px;font-weight:600}
+.once{font-size:14px;color:var(--soft);margin:0 0 20px}
+
+.buy{
+  display:inline-block;background:var(--ink);color:var(--paper);border:0;border-radius:8px;
+  padding:15px 30px;font-size:16.5px;font-weight:600;text-decoration:none;cursor:pointer;
+}
+.buy:hover{background:#2C2F39}
+.buy:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.coins{display:flex;gap:9px;align-items:center;margin-top:13px;font-size:13px;color:var(--faint);flex-wrap:wrap}
+.coin{border:1px solid var(--rule);border-radius:5px;padding:2px 8px;font-family:var(--mono);font-size:11.5px;color:var(--soft);background:#fff}
+.assure{margin:22px 0 0;padding:0;list-style:none;font-size:14.5px;color:var(--soft)}
+.assure li{padding-left:22px;position:relative;margin-bottom:5px}
+.assure li::before{content:"";position:absolute;left:3px;top:.62em;width:7px;height:4px;border-left:2px solid var(--ok);border-bottom:2px solid var(--ok);transform:rotate(-45deg)}
+
+/* mini document preview */
+.shot{background:#fff;border:1px solid var(--rule);border-radius:4px;padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.05),0 18px 40px rgba(26,28,35,.10);font-size:11px;color:#3C4048}
+.shot .t{display:flex;justify-content:space-between;align-items:flex-start}
+.shot h3{font-family:var(--serif);font-size:24px;margin:0;color:var(--ink);font-weight:600}
+.shot .m{color:var(--faint);font-size:10px;margin-top:5px;line-height:1.7}
+.shot .r{text-align:right;line-height:1.55}
+.shot .r b{color:var(--ink)}
+.shot hr{border:0;height:3px;background:var(--accent);margin:13px 0 0;border-radius:2px}
+.shot table{width:100%;border-collapse:collapse;margin-top:16px;font-size:10.5px}
+.shot th{background:var(--accent);color:#fff;text-align:left;padding:5px 7px;font-size:9px;letter-spacing:.05em}
+.shot th:last-child,.shot td:last-child{text-align:right}
+.shot td{padding:6px 7px;border-bottom:1px solid #EDE9E0}
+.shot .tot{display:flex;justify-content:flex-end;margin-top:10px}
+.shot .tot div{border-top:2px solid var(--accent);padding-top:6px;font-weight:700;font-size:14px;color:var(--ink);min-width:150px;display:flex;justify-content:space-between}
+.shot .stamp{display:inline-block;border:2px solid #B3341F;color:#B3341F;padding:3px 12px;font-weight:800;letter-spacing:.12em;transform:rotate(-9deg);margin-top:18px;font-size:13px}
+
+/* sections */
+section{padding:0 0 54px}
+h2{font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.015em;margin:0 0 8px}
+.sub{color:var(--soft);max-width:44em;margin:0 0 26px}
+h3.f{font-size:16.5px;margin:0 0 5px}
+
+.band{background:#fff;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:46px 0}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--rule);border-radius:10px;overflow:hidden;background:#fff}
+.compare > div{padding:24px 26px}
+.compare > div:first-child{border-right:1px solid var(--rule);background:#FCFBF8}
+.compare h3{margin:0 0 14px;font-size:15px;color:var(--soft)}
+.compare ul{margin:0;padding-left:19px}
+.compare li{margin-bottom:8px;font-size:14.5px}
+.compare .big{font-family:var(--serif);font-size:27px;color:var(--ink);margin:14px 0 0;font-weight:600}
+.compare .big small{display:block;font-size:13px;color:var(--faint);font-family:var(--sans);font-weight:400;margin-top:3px}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 34px}
+.grid p{margin:0;font-size:14.5px;color:var(--soft)}
+
+.langbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.langbar span{border:1px solid var(--rule);background:#fff;border-radius:16px;padding:4px 13px;font-size:13.5px;color:var(--soft)}
+
+dl.faq{margin:0}
+dl.faq dt{font-weight:600;margin:0 0 5px;font-size:16px}
+dl.faq dd{margin:0 0 22px;color:var(--soft);max-width:48em}
+
+.inside{border:1px solid var(--rule);border-radius:10px;background:#fff;padding:20px 24px;font-family:var(--mono);font-size:13.5px;color:var(--soft);line-height:2}
+.inside b{color:var(--ink);font-weight:600}
+
+.close{text-align:center;padding:10px 0 70px}
+.close h2{font-size:34px}
+.close p{color:var(--soft);max-width:34em;margin:0 auto 26px}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:34px;padding-top:24px}
+  h1{font-size:34px}
+  .grid{grid-template-columns:1fr}
+  .compare{grid-template-columns:1fr}
+  .compare > div:first-child{border-right:0;border-bottom:1px solid var(--rule)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/">QuestMart</a> › <a href="/#categories">Business tools</a> › Invoice Studio
+  </nav>
+
+  <div class="hero">
+    <div>
+      <h1>Stop renting your invoices.</h1>
+      <p class="lede">Invoice Studio is a complete invoicing desk that lives in one
+      HTML file on your own computer. Unlimited invoices, quotes and receipts. No
+      account to create, no monthly fee, and nothing about your clients ever
+      leaves your machine.</p>
+
+      <div class="price">
+        <span class="n">$70</span>
+        <span class="was">$99</span>
+        <span class="tag">Launch price</span>
+      </div>
+      <p class="once">Paid once. Yours forever. Free updates within version 1.</p>
+
+      <a class="buy" href="/checkout-saas-landing-template.html?product=invoice-studio-pro" data-product="invoice-studio-pro">Buy and download</a>
+
+      <div class="coins">
+        Pay with <span class="coin">BTC</span><span class="coin">ETH</span>
+        <span class="coin">USDT ERC-20</span><span class="coin">USDT TRC-20</span>
+      </div>
+
+      <ul class="assure">
+        <li>Instant download the moment your payment confirms</li>
+        <li>Works with no internet connection, forever</li>
+        <li>Commercial use included — invoice your real clients</li>
+      </ul>
+    </div>
+
+    <div class="shot" aria-label="Example of a finished invoice">
+      <div class="t">
+        <div>
+          <h3>Invoice</h3>
+          <div class="m">Number&nbsp;&nbsp;INV-2026-0042<br>Issued&nbsp;&nbsp;12 Mar 2026<br>Due&nbsp;&nbsp;26 Mar 2026</div>
+        </div>
+        <div class="r"><b>Meridian Studio</b><br>14 Harbour Lane<br>Lisbon, Portugal<br>VAT PT501234567</div>
+      </div>
+      <hr>
+      <table>
+        <tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>
+        <tr><td>Brand identity — full package</td><td>1</td><td>$2,400.00</td><td>$2,400.00</td></tr>
+        <tr><td>Packaging artwork</td><td>3</td><td>$180.00</td><td>$540.00</td></tr>
+        <tr><td>Consultation hours</td><td>6</td><td>$95.00</td><td>$570.00</td></tr>
+      </table>
+      <div class="tot"><div><span>Total</span><span>$4,212.00</span></div></div>
+      <div class="stamp">PAID</div>
+    </div>
+  </div>
+</div>
+
+<div class="band">
+  <div class="wrap">
+    <h2>The maths most freelancers never do</h2>
+    <p class="sub">Invoicing software is the quietest subscription you pay. It is
+    also the one you use for about four minutes a month.</p>
+    <div class="compare">
+      <div>
+        <h3>A typical invoicing subscription</h3>
+        <ul>
+          <li>$15–$29 every month, forever</li>
+          <li>Your client list sits on someone else's server</li>
+          <li>Stops working the month you stop paying</li>
+          <li>Free plans cap you at 3–5 invoices</li>
+          <li>Needs an internet connection and a login</li>
+        </ul>
+        <p class="big">$1,080<small>five years at $18 a month</small></p>
+      </div>
+      <div>
+        <h3>Invoice Studio</h3>
+        <ul>
+          <li>$70 once, and that is the end of it</li>
+          <li>Every figure stays on your own hard drive</li>
+          <li>Still opens in ten years, offline, unchanged</li>
+          <li>Unlimited documents from day one</li>
+          <li>No login, no server, no account to close</li>
+        </ul>
+        <p class="big">$70<small>five years, ten years, the same $70</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section style="padding-top:54px">
+    <h2>Built for people who bill across borders</h2>
+    <p class="sub">Most invoice tools assume one country, one currency and one
+    tax rule. Freelance work has not looked like that for a decade.</p>
+
+    <div class="grid">
+      <div>
+        <h3 class="f">150+ currencies, crypto included</h3>
+        <p>Each currency formats the way its own market expects. Bitcoin, Ethereum,
+        USDT, USDC, Solana and Monero are handled at proper decimal precision
+        instead of being squeezed into two places.</p>
+      </div>
+      <div>
+        <h3 class="f">Wallet addresses on the invoice</h3>
+        <p>List as many wallets as you accept alongside your bank details. They
+        print as selectable text, so a client can copy an address straight out of
+        the PDF without retyping it.</p>
+      </div>
+      <div>
+        <h3 class="f">Tax that matches your country</h3>
+        <p>No tax, a single rate, or a different rate on every line. Prices can be
+        tax-exclusive or tax-inclusive, which is the difference between a correct
+        and an incorrect VAT invoice.</p>
+      </div>
+      <div>
+        <h3 class="f">Seven document languages</h3>
+        <p>Send a German client a Rechnung and a Brazilian client a Fatura from the
+        same file. Only the printed labels change — your own wording stays exactly
+        as you typed it.</p>
+        <div class="langbar">
+          <span>English</span><span>Español</span><span>Français</span><span>Deutsch</span>
+          <span>Português</span><span>العربية</span><span>فارسی</span>
+        </div>
+      </div>
+      <div>
+        <h3 class="f">Right-to-left, properly</h3>
+        <p>Choose Arabic or Persian and the whole document flips: columns, totals,
+        the paid stamp, all of it. Not a mirrored afterthought.</p>
+      </div>
+      <div>
+        <h3 class="f">Four print templates</h3>
+        <p>Classic sets the document in a serif for a formal, printed feel. Modern
+        is clean and contemporary. Compact fits long itemised jobs on one page.
+        Typed is monospaced and plain. Eight accent colours and your own logo.</p>
+      </div>
+      <div>
+        <h3 class="f">Clients remembered</h3>
+        <p>Save a client once and fill their details in with one click next month.
+        Duplicate last month's invoice and change two numbers — retainer billing
+        takes under a minute.</p>
+      </div>
+      <div>
+        <h3 class="f">Part payments and deposits</h3>
+        <p>Record a deposit already received and the document shows the balance
+        due underneath the total, the way a client expects to read it.</p>
+      </div>
+      <div>
+        <h3 class="f">Your books, exportable</h3>
+        <p>A single JSON file backs up everything for a new computer. A CSV export
+        lists every document with its total, ready for a spreadsheet or your
+        accountant at year end.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What arrives in the zip</h2>
+    <div class="inside">
+      <b>index.html</b> — the whole application, 54 KB, no dependencies<br>
+      <b>README.md</b> — setup, printing settings, and how to customise it<br>
+      <b>LICENSE.txt</b> — commercial licence, plain English<br>
+      <b>CHANGELOG.txt</b> — what is in this version
+    </div>
+    <p class="sub" style="margin-top:16px">No installer, no npm, no build step, no
+    framework. One file you can read, edit and keep. Adding a currency or a
+    language is a two-line change, and the README shows you exactly where.</p>
+  </section>
+
+  <section>
+    <h2>Questions people ask first</h2>
+    <dl class="faq">
+      <dt>Does it really work with no internet?</dt>
+      <dd>Yes. Disconnect and try it — nothing changes. There is no server, no API
+      call and no tracking of any kind. That is also why nobody, including us, can
+      see your clients or your figures.</dd>
+
+      <dt>Where are my invoices stored?</dt>
+      <dd>In your browser's local storage on that computer. Use the Backup export
+      to move everything to another machine, or to keep a copy before clearing your
+      browser data. It takes one click and produces one file.</dd>
+
+      <dt>Can I put my own logo and branding on it?</dt>
+      <dd>Yes. Upload a logo, pick an accent colour, choose a template. If you
+      know a little CSS you can change anything else, and the licence allows you to
+      rebrand it for your own business.</dd>
+
+      <dt>Does it make a real PDF?</dt>
+      <dd>It prints through your browser to a proper A4 PDF, which is what every
+      invoicing tool does underneath. The README lists the three print settings that
+      give the cleanest result.</dd>
+
+      <dt>Can I use it for client work?</dt>
+      <dd>Yes — commercial use is included, on as many of your own devices as you
+      like. The one thing the licence does not allow is reselling or redistributing
+      the file itself.</dd>
+
+      <dt>Will it keep working?</dt>
+      <dd>It is plain HTML, CSS and JavaScript with no dependencies, so it has
+      nothing to break and nothing to update. The copy you download today will open
+      in a browser years from now exactly as it does now.</dd>
+
+      <dt>How do I receive it after paying?</dt>
+      <dd>Pay in BTC, ETH or USDT. As soon as the payment confirms on-chain, the
+      download unlocks automatically — no email back and forth and no waiting on
+      anyone to approve it.</dd>
+    </dl>
+  </section>
+
+  <div class="close">
+    <h2>One file. One payment. Every invoice you will ever send.</h2>
+    <p>Download it, open it, and send your first invoice in the next five minutes.</p>
+    <a class="buy" href="/checkout-saas-landing-template.html?product=invoice-studio-pro" data-product="invoice-studio-pro">Buy Invoice Studio — $70</a>
+    <div class="coins" style="justify-content:center">
+      <span class="coin">BTC</span><span class="coin">ETH</span>
+      <span class="coin">USDT ERC-20</span><span class="coin">USDT TRC-20</span>
+    </div>
+  </div>
+
+</div>
+
+<!--
+  HOOKING UP THE BUY BUTTON
+  Both buttons carry data-product="invoice-studio-pro", which is the key in
+  products.json. If your checkout uses a different path than /checkout?product=,
+  change the two href values above, or replace them with a click handler that
+  calls your Worker's order endpoint with that product id.
+-->
+
+</body>
+</html>
