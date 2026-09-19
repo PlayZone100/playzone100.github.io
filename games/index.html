@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QuestMart Games</title>
+<meta name="description" content="Play QuestMart browser games directly in your browser.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<style>
+:root{--bg:#080a12;--panel:#121727cc;--line:#ffffff18;--text:#f2f5ff;--muted:#a9b3cb;--blue:#75c9ff;--purple:#9d87ff;--green:#b9f77a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#151d2e,#080a12 70%);color:var(--text);font:16px/1.5 Arial,sans-serif}.wrap{width:min(1180px,calc(100vw - 40px));margin:auto}header{display:flex;justify-content:space-between;align-items:center;padding:22px 0}header a{color:inherit;text-decoration:none}.brand{font-weight:800;letter-spacing:.08em;text-transform:uppercase}.nav{display:flex;gap:24px;color:var(--muted);font-weight:700}.nav a:hover{color:var(--text)}main{padding:44px 0 70px}.eyebrow{color:var(--green);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}h1{font-size:clamp(2.6rem,6vw,5rem);line-height:1.05;letter-spacing:-.05em;margin:10px 0}.lead{max-width:650px;color:var(--muted);font-size:1.08rem}.search{display:flex;gap:10px;align-items:center;margin:34px 0 22px;padding:15px 18px;border:1px solid var(--line);border-radius:16px;background:#ffffff08}.search input{width:100%;border:0;outline:0;background:transparent;color:var(--text);font:inherit}.search input::placeholder{color:var(--muted)}.count{color:var(--muted);margin-bottom:16px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:linear-gradient(180deg,#ffffff08,#ffffff02);transition:transform .2s,border-color .2s}.card:hover{transform:translateY(-4px);border-color:#ffffff44}.cover{height:150px;display:grid;place-items:center;font-size:3.5rem;background:linear-gradient(135deg,#75c9ff20,#9d87ff20)}.body{padding:18px}.body h2{font-size:1.2rem;margin:0 0 8px}.body p{color:var(--muted);min-height:48px;margin:0 0 14px}.play{display:inline-block;padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,var(--purple),#6b5bf8);font-weight:700}.empty{color:var(--muted);padding:30px 0}@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){.grid{grid-template-columns:1fr}.nav{gap:12px;font-size:.9rem}main{padding-top:20px}}
+</style>
+</head>
+<body>
+<header class="wrap"><a class="brand" href="../">QuestMart</a><nav class="nav"><a href="../">Home</a><a href="../products/">Marketplace</a></nav></header>
+<main class="wrap">
+  <div class="eyebrow">QuestMart · Instant play</div>
+  <h1>Featured games</h1>
+  <p class="lead">Choose a game and start playing directly in your browser.</p>
+  <label class="search" aria-label="Search games"><span>⌕</span><input id="search" placeholder="Search games" autocomplete="off"></label>
+  <div id="count" class="count">Loading games…</div>
+  <section id="grid" class="grid" aria-live="polite"></section>
+</main>
+<script>
+(function(){
+  var fallback=[
+    {slug:'billiard',title:'Break & Run',icon:'🎱',desc:'A polished 8-ball pool experience with physics, spin, and local or online play.'},
+    {slug:'garden-guardians',title:'Garden Guardians',icon:'🌿',desc:'A cozy strategy game with charming upgrades and relaxing defense loops.'},
+    {slug:'monkey',title:'Flying Caravan',icon:'🐵',desc:'Hunt winged monkeys and build score streaks in a kinetic arcade shooter.'},
+    {slug:'monster-cut',title:'Talon Strike',icon:'🦅',desc:'Slice incoming birds, switch weapons, and protect your jungle estate.'}
+  ];
+  var games=fallback,grid=document.getElementById('grid'),count=document.getElementById('count'),search=document.getElementById('search');
+  function render(){var q=search.value.trim().toLowerCase();var list=games.filter(function(g){return (g.title+' '+g.desc+' '+g.slug).toLowerCase().indexOf(q)!==-1});count.textContent=list.length+' game'+(list.length===1?'':'s');grid.innerHTML=list.length?list.map(function(g){return '<article class="card"><div class="cover">'+(g.icon||'🎮')+'</div><div class="body"><h2>'+g.title+'</h2><p>'+g.desc+'</p><a class="play" href="../games/'+encodeURIComponent(g.slug)+'/">Play now →</a></div></article>';}).join(''):'<div class="empty">No matching games found.</div>';}
+  search.addEventListener('input',render);render();
+  fetch('https://api.github.com/repos/PlayZone100/playzone100.github.io/contents/games?ref=main').then(function(r){if(!r.ok)throw Error('games directory unavailable');return r.json();}).then(function(items){if(!Array.isArray(items))return;var discovered=items.filter(function(x){return x.type==='dir'}).map(function(x){return {slug:x.name,title:x.name.split('-').map(function(w){return w.charAt(0).toUpperCase()+w.slice(1)}).join(' '),icon:'🎮',desc:'A QuestMart browser game ready to play.'}});if(discovered.length)games=discovered.concat(fallback.filter(function(f){return !discovered.some(function(d){return d.slug===f.slug})}));render();}).catch(function(){render();});
+})();
+</script>
+<script src="../questmart-chat.js?v=999"></script>
+</body>
+</html>
