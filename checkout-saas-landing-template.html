@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+  Crypto checkout widget — connects to the Cloudflare Worker.
+  1. Deploy the worker (see SETUP.md) and copy its URL below.
+  2. Copy this file's <div id="crypto-checkout">...</div> and <script>
+     into your main site, or link to this page from a "Buy" button.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Meridian Landing Page Template</title>
+<style>
+  body{font-family:Inter,-apple-system,sans-serif;background:#FAF8F4;color:#1B1E2B;max-width:480px;margin:60px auto;padding:0 20px;}
+  .card{background:#fff;border:1px solid #E7E2D6;border-radius:16px;padding:28px;}
+  h1{font-size:1.3rem;margin:0 0 6px;}
+  .sub{color:#62667A;font-size:0.9rem;margin:0 0 22px;}
+  select,button{font:inherit;}
+  select{width:100%;padding:10px;border-radius:8px;border:1px solid #E7E2D6;margin-bottom:16px;}
+  button{width:100%;padding:12px;border-radius:999px;border:none;background:#263866;color:#fff;font-weight:600;cursor:pointer;}
+  button:disabled{opacity:0.6;cursor:default;}
+  .pay-box{margin-top:20px;padding:18px;border:1px dashed #C08A3E;border-radius:12px;display:none;}
+  .pay-box img{display:block;margin:0 auto 14px;}
+  .addr{word-break:break-all;background:#F1EEE6;padding:10px;border-radius:8px;font-size:0.82rem;font-family:monospace;margin-bottom:10px;}
+  .amount{font-size:1.4rem;font-weight:800;text-align:center;margin-bottom:14px;}
+  .status{text-align:center;font-size:0.9rem;color:#62667A;margin-top:14px;}
+  .status.paid{color:#1F5C46;font-weight:700;}
+</style>
+</head>
+<body>
+  <div class="card" id="crypto-checkout">
+    <h1>Meridian — SaaS Product Launch Landing Page</h1>
+    <p class="sub">$40 — pay with the crypto of your choice</p>
+
+    <select id="currency">
+      <option value="USDT_TRC20">USDT (TRC20 / Tron)</option>
+      <option value="USDT_ERC20">USDT (ERC20 / Ethereum)</option>
+      <option value="BTC">Bitcoin (BTC)</option>
+      <option value="ETH">Ethereum (ETH)</option>
+    </select>
+    <button id="create-order">Generate payment address</button>
+
+    <div class="pay-box" id="pay-box">
+      <div class="amount" id="pay-amount"></div>
+      <div class="addr" id="pay-address"></div>
+      <img id="qr" width="180" height="180" alt="Payment QR code">
+      <div class="status" id="pay-status">Waiting for payment…</div>
+    </div>
+  </div>
+
+  <script>
+    // Replace with your deployed Worker URL, e.g.
+    // "https://questmart-crypto-worker.yourname.workers.dev"
+    const WORKER_URL = "https://morning-shape-c098.alice56885236.workers.dev";
+    const PRODUCT_ID = "saas-landing-template";
+
+    const createBtn = document.getElementById("create-order");
+    const payBox = document.getElementById("pay-box");
+    const payAmount = document.getElementById("pay-amount");
+    const payAddress = document.getElementById("pay-address");
+    const payStatus = document.getElementById("pay-status");
+    const qr = document.getElementById("qr");
+
+    let pollTimer = null;
+
+    createBtn.addEventListener("click", async () => {
+      createBtn.disabled = true;
+      createBtn.textContent = "Creating order…";
+      const currency = document.getElementById("currency").value;
+
+      const res = await fetch(`${WORKER_URL}/order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: PRODUCT_ID, currency }),
+      });
+      const order = await res.json();
+      if (order.error) {
+        payStatus.textContent = "Error: " + order.error;
+        createBtn.disabled = false;
+        createBtn.textContent = "Generate payment address";
+        return;
+      }
+
+      payAmount.textContent = `${order.amount} ${order.currency.replace("_", " ")}`;
+      payAddress.textContent = order.address;
+      qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(order.address)}`;
+      payBox.style.display = "block";
+      createBtn.style.display = "none";
+
+      pollTimer = setInterval(() => pollStatus(order.id), 8000);
+    });
+
+    async function pollStatus(orderId) {
+      const res = await fetch(`${WORKER_URL}/order/${orderId}/status`);
+      const data = await res.json();
+      if (data.status === "paid") {
+        clearInterval(pollTimer);
+        payStatus.textContent = "Payment confirmed! Starting download…";
+        payStatus.classList.add("paid");
+        window.location.href = `${WORKER_URL}/order/${orderId}/download`;
+      } else if (data.status === "expired") {
+        clearInterval(pollTimer);
+        payStatus.textContent = "This payment window expired. Please refresh and try again.";
+      }
+    }
+  </script>
+</body>
+</html>
