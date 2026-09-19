@@ -1,4 +1,20 @@
 User-agent: *
 Allow: /
+Allow: /games/
+Disallow: /products/
+Disallow: /questmart-studio-pro/
+Disallow: /questmart-studio/
+Disallow: /studio/
+Disallow: /text-to-video/
+Disallow: /contact.html
+Disallow: /privacy.html
+Disallow: /terms.html
+Disallow: /studio.html
+Disallow: /index-en.html
+Disallow: /index.html.html
+Disallow: /neon-stack.html.html
+Disallow: /questmart-studio-pro.html
+Disallow: /questmart-studio (1).html
+Disallow: /playzone100.github.io/
 
 Sitemap: https://questmart.online/sitemap.xml
