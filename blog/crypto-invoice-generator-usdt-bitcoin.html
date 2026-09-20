@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crypto Invoice Generator: USDT and Bitcoin Invoices Done Right | QuestMart</title>
+<meta name="description" content="How to build a crypto invoice that actually gets paid correctly: network labeling, decimal precision, multiple wallets, and stablecoin vs floating pricing.">
+<link rel="canonical" href="https://questmart.online/blog/crypto-invoice-generator-usdt-bitcoin.html">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Crypto Invoice Generator: USDT and Bitcoin Invoices Done Right | QuestMart">
+<meta property="og:description" content="How to build a crypto invoice that actually gets paid correctly: network labeling, decimal precision, multiple wallets, and stablecoin vs floating pricing.">
+<meta property="og:url" content="https://questmart.online/blog/crypto-invoice-generator-usdt-bitcoin.html">
+<meta property="og:site_name" content="QuestMart">
+<meta property="og:image" content="https://questmart.online/blog/images/invoice-studio-og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Crypto Invoice Generator: USDT and Bitcoin Invoices Done Right | QuestMart">
+<meta name="twitter:description" content="How to build a crypto invoice that actually gets paid correctly: network labeling, decimal precision, multiple wallets, and stablecoin vs floating pricing.">
+<meta name="twitter:image" content="https://questmart.online/blog/images/invoice-studio-og.jpg">
+<style>
+:root{
+  --ink:#1b1f23; --muted:#5b6470; --line:#e6e8eb; --bg:#ffffff; --panel:#f7f8f9;
+  --accent:#0f6b52; --accent-ink:#ffffff; --radius:10px; --maxw:760px;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;font-size:17px;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+img{max-width:100%;display:block;border-radius:var(--radius);}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;}
+header.site{border-bottom:1px solid var(--line);padding:16px 0;}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;}
+.brand{font-weight:700;font-size:18px;color:var(--ink);}
+.nav a{margin-left:18px;color:var(--muted);font-size:14.5px;}
+.crumb{font-size:13.5px;color:var(--muted);margin:28px 0 6px;}
+.crumb a{color:var(--muted);}
+h1{font-size:clamp(28px,4vw,38px);line-height:1.18;margin:6px 0 14px;}
+.lede{font-size:19px;color:var(--muted);margin-bottom:14px;}
+.byline{font-size:13.5px;color:var(--muted);margin-bottom:24px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 34px;}
+.btn{display:inline-block;padding:12px 20px;border-radius:8px;font-size:15px;font-weight:600;}
+.btn-primary{background:var(--accent);color:var(--accent-ink)!important;}
+.btn-primary:hover{opacity:.92;text-decoration:none;}
+.btn-ghost{border:1px solid var(--line);color:var(--ink)!important;}
+.btn-ghost:hover{border-color:var(--accent);text-decoration:none;}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin:30px 0;}
+.toc h2{font-size:15px;margin:0 0 10px;}
+.toc ol{margin:0;padding-left:20px;font-size:15px;}
+.toc li{margin:4px 0;}
+h2{font-size:24px;margin:42px 0 14px;}
+h3{font-size:19px;margin:26px 0 10px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:22px;}
+li{margin:6px 0;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:15px;}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;}
+th{background:var(--panel);}
+.callout{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:18px 20px;margin:28px 0;}
+.callout h3{margin-top:0;font-size:17px;}
+.callout p:last-child{margin-bottom:0;}
+.faq-item{border-top:1px solid var(--line);padding:18px 0;}
+.faq-item:first-child{border-top:none;}
+.faq-item h3{margin:0 0 8px;font-size:16.5px;}
+.faq-item p{margin:0;color:var(--muted);}
+.related{background:var(--panel);border-radius:var(--radius);padding:20px 22px;margin:36px 0;}
+.related h2{margin-top:0;font-size:17px;}
+.related ul{margin:0;padding-left:20px;}
+.final-cta{text-align:center;border:1px solid var(--line);border-radius:var(--radius);padding:36px 26px;margin:44px 0 30px;}
+.final-cta h2{margin-top:0;}
+footer.site{border-top:1px solid var(--line);padding:24px 0;margin-top:40px;font-size:13.5px;color:var(--muted);text-align:center;}
+footer.site a{color:var(--muted);}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Crypto invoice generator: USDT and Bitcoin invoices done right", "description": "How to build a crypto invoice that actually gets paid correctly: network labeling, decimal precision, multiple wallets, and stablecoin vs floating pricing.", "image": "https://questmart.online/blog/images/invoice-studio-og.jpg", "author": {"@type": "Organization", "name": "QuestMart"}, "publisher": {"@type": "Organization", "name": "QuestMart"}, "datePublished": "2026-09-19", "dateModified": "2026-09-19", "mainEntityOfPage": "https://questmart.online/blog/crypto-invoice-generator-usdt-bitcoin.html"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://questmart.online/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://questmart.online/blog/"}, {"@type": "ListItem", "position": 3, "name": "Crypto invoice generator: USDT and Bitcoin invoices done right", "item": "https://questmart.online/blog/crypto-invoice-generator-usdt-bitcoin.html"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Which crypto assets does Invoice Studio support?", "acceptedAnswer": {"@type": "Answer", "text": "BTC, ETH, USDT, USDC, SOL and XMR, each displayed at the correct decimal precision for that asset."}}, {"@type": "Question", "name": "Does it check whether a payment actually arrived?", "acceptedAnswer": {"@type": "Answer", "text": "No — Invoice Studio is fully offline and doesn't connect to any blockchain, exchange, or bank. You mark an invoice Paid yourself once you've confirmed the transaction."}}, {"@type": "Question", "name": "Can I put more than one wallet on the same invoice?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Add as many wallet lines as you accept, each with its own coin label, network and address."}}, {"@type": "Question", "name": "Why does the network matter so much for USDT?", "acceptedAnswer": {"@type": "Answer", "text": "USDT exists on several blockchains (Tron/TRC20, Ethereum/ERC20, and others). Sending to the correct address using the wrong network can permanently lose the funds, so every invoice should label the network explicitly, not just the coin."}}]}]}</script>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="https://questmart.online/">QuestMart</a>
+    <nav class="nav">
+      <a href="https://questmart.online/">Home</a>
+      <a href="https://questmart.online/blog/">Blog</a>
+      <a href="https://questmart.online/contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="crumb"><a href="https://questmart.online/">Home</a> / <a href="https://questmart.online/blog/">Blog</a></p>
+  <h1>Crypto invoice generator: USDT and Bitcoin invoices done right</h1>
+  <p class="lede">Most invoicing tools treat crypto as an afterthought — two decimal places, no network field, one wallet slot. A payment mistake on-chain usually can't be reversed, so a proper crypto invoice generator needs to get a few specific details right.</p>
+  <p class="byline">By the QuestMart team. Updated September 19, 2026. 7 minute read.</p>
+
+  <div class="cta-row">
+    <a class="btn btn-primary" href="https://questmart.online/products/invoice-studio-pro.html">Get Invoice Studio — $70</a>
+    <a class="btn btn-ghost" href="#faq">Jump to FAQ</a>
+  </div>
+
+  <nav class="toc">
+    <h2>In this guide</h2>
+    <ol><li><a href="#why-generic-invoicing-tools-handle-crypto-badly">Why generic invoicing tools handle crypto badly</a></li>
+<li><a href="#rule-one-name-the-network-not-just-the-coin">Rule one: name the network, not just the coin</a></li>
+<li><a href="#pricing-in-a-stablecoin-vs-quoting-a-floating-rate">Pricing in a stablecoin vs quoting a floating rate</a></li>
+<li><a href="#letting-your-client-copy-the-address-correctly">Letting your client copy the address correctly</a></li>
+<li><a href="#add-every-wallet-you-accept">Add every wallet you accept</a></li></ol>
+  </nav>
+
+  <h2 id="why-generic-invoicing-tools-handle-crypto-badly">Why generic invoicing tools handle crypto badly</h2>
+
+<p>Standard invoice software is built around fiat currency: two decimal places, one symbol, one payment method. Crypto doesn't fit that shape. Bitcoin and Ethereum amounts commonly need up to eight decimal places. USDT alone exists on multiple blockchain networks. And most tools give you a single generic "payment details" text box rather than a proper wallet field — which is how mislabeled or mistyped addresses happen.</p>
+<p><a href="https://questmart.online/products/invoice-studio-pro.html">Invoice Studio</a> was built with crypto as a first-class payment type, not a workaround: BTC, ETH, USDT, USDC, SOL and XMR each get correct decimal precision, and wallet lines are a dedicated field, not free text.</p>
+
+<h2 id="rule-one-name-the-network-not-just-the-coin">Rule one: name the network, not just the coin</h2>
+
+<p>This is the single most common source of lost crypto payments. USDT exists on Ethereum (ERC20), Tron (TRC20), and other chains. Sending USDT to a TRC20 address using the ERC20 network — or the reverse — can permanently lose the funds. Every wallet line on an invoice should say the network explicitly:</p>
+<ul>
+<li>Correct: <strong>USDT (TRC20)</strong> — <code>TR7N...8x2Q</code></li>
+<li>Risky: <strong>USDT</strong> — <code>TR7N...8x2Q</code></li>
+</ul>
+<p>Invoice Studio labels every wallet line with its network by default, so this isn't something you have to remember to type correctly each time.</p>
+
+<h2 id="pricing-in-a-stablecoin-vs-quoting-a-floating-rate">Pricing in a stablecoin vs quoting a floating rate</h2>
+
+<p>You have two honest options for pricing crypto invoices:</p>
+<ul>
+<li><strong>Bill in a stablecoin</strong> (USDT or USDC). The number on the invoice is the number your client sends — no exchange-rate ambiguity for either side.</li>
+<li><strong>Bill in your normal currency, state the crypto amount separately.</strong> Useful if your contract is denominated in USD or EUR but you're being paid in BTC or ETH. Note the rate and the date it was calculated, since crypto prices move.</li>
+</ul>
+<p>Invoice Studio doesn't fetch live exchange rates — it stays fully offline by design — so you set the amount yourself and stay in control of which rate you quote.</p>
+
+<h2 id="letting-your-client-copy-the-address-correctly">Letting your client copy the address correctly</h2>
+
+<p>A wallet address is 26 to 42-plus characters of case-sensitive text. Asking a client to retype it from a PDF invites a single mistyped character to send funds somewhere unrecoverable. In Invoice Studio, wallet addresses print as selectable text directly in the PDF, so a client copies the exact string instead of transcribing it by hand.</p>
+
+<h2 id="add-every-wallet-you-accept">Add every wallet you accept</h2>
+
+<p>Rather than forcing a client onto one specific coin, add a line per wallet — BTC, ETH, USDT (TRC20), USDT (ERC20) — and let them choose. It costs nothing to list more options, and it removes a round of "actually, can I pay in something else?" emails.</p>
+<div class="callout">
+<h3>Want to try this?</h3>
+<p><a href="https://questmart.online/products/invoice-studio-pro.html">Invoice Studio</a> handles all six crypto assets at proper decimal precision, with wallet lines built for exactly this. See it in full on the <a href="https://questmart.online/products/invoice-studio-pro.html">product page</a>, or buy it directly for $70.</p>
+</div>
+
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <div class="faq-item"><h3>Which crypto assets does Invoice Studio support?</h3><p>BTC, ETH, USDT, USDC, SOL and XMR, each displayed at the correct decimal precision for that asset.</p></div>
+<div class="faq-item"><h3>Does it check whether a payment actually arrived?</h3><p>No — Invoice Studio is fully offline and doesn't connect to any blockchain, exchange, or bank. You mark an invoice Paid yourself once you've confirmed the transaction.</p></div>
+<div class="faq-item"><h3>Can I put more than one wallet on the same invoice?</h3><p>Yes. Add as many wallet lines as you accept, each with its own coin label, network and address.</p></div>
+<div class="faq-item"><h3>Why does the network matter so much for USDT?</h3><p>USDT exists on several blockchains (Tron/TRC20, Ethereum/ERC20, and others). Sending to the correct address using the wrong network can permanently lose the funds, so every invoice should label the network explicitly, not just the coin.</p></div>
+
+  <div class="related">
+    <h2>Related guides</h2>
+    <ul><li><a href="https://questmart.online/blog/private-invoice-software-no-cloud.html">Private invoice software: keep client data off someone else's server</a></li>
+<li><a href="https://questmart.online/blog/offline-invoice-generator.html">Offline invoice generator with no subscription and crypto details</a></li>
+<li><a href="https://questmart.online/blog/multi-currency-invoice-generator.html">Multi-currency invoice generator for freelancers</a></li></ul>
+  </div>
+
+  <div class="final-cta">
+    <h2>One file. One payment. Every invoice you will ever send.</h2>
+    <p>Invoice Studio: 150+ currencies including crypto, 7 languages, 4 templates, offline and private. Pay once, $70.</p>
+    <a class="btn btn-primary" href="https://questmart.online/checkout-saas-landing-template.html?product=invoice-studio-pro">Buy Invoice Studio — $70</a>
+  </div>
+</main>
+
+<footer class="site">
+  © 2026 QuestMart. <a href="https://questmart.online/">Home</a> · <a href="https://questmart.online/blog/">Blog</a>
+</footer>
+</body>
+</html>
