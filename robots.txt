@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 Allow: /games/
-Disallow: /questmart-studio-pro/
+
 Disallow: /questmart-studio/
 Disallow: /studio/
 Disallow: /text-to-video/
