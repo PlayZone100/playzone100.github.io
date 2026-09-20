@@ -1,0 +1,45 @@
+name: Build blog index
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/*.html'
+      - '!blog/index.html'
+      - 'scripts/build_blog.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-blog
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Rebuild blog index and sitemap
+        run: python scripts/build_blog.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add blog/index.html sitemap.xml
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-update blog index and sitemap"
+            git pull --rebase origin main
+            git push
+          fi
