@@ -1,127 +1,143 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Blog | QuestMart</title>
 <meta name="description" content="Practical guides on invoicing, freelancing and getting paid, including in crypto.">
 <link rel="canonical" href="https://questmart.online/blog/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Blog | QuestMart">
+<meta property="og:description" content="Practical guides on invoicing, freelancing and getting paid, including in crypto.">
+<meta property="og:url" content="https://questmart.online/blog/">
+<meta property="og:site_name" content="QuestMart">
+<meta property="og:image" content="https://questmart.online/blog/images/invoice-studio-og.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <style>
-  :root{
-    --bg: #FAF8F4; --surface: #FFFFFF; --surface-2: #F1EEE6;
-    --text: #1B1E2B; --text-muted: #62667A; --line: #E7E2D6;
-    --brand: #263866; --brand-2: #1A2747; --accent: #C08A3E; --accent-soft: #F1E2C8;
-    --radius-lg: 20px; --radius-md: 12px; --shadow: 0 20px 40px -24px rgba(27,30,43,0.25);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg: #14161F; --surface: #1B1E2B; --surface-2: #232636;
-      --text: #F2F1EC; --text-muted: #A2A6BC; --line: #2E3143;
-      --accent-soft: #3A331F; --shadow: 0 20px 40px -24px rgba(0,0,0,0.5);
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg: #14161F; --surface: #1B1E2B; --surface-2: #232636;
-    --text: #F2F1EC; --text-muted: #A2A6BC; --line: #2E3143;
-    --accent-soft: #3A331F; --shadow: 0 20px 40px -24px rgba(0,0,0,0.5);
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter', -apple-system, Segoe UI, sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;}
-  img{max-width:100%;display:block;}
-  a{color:inherit;text-decoration:none;}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
-  :focus-visible{outline:2px solid var(--brand);outline-offset:3px;}
-
-  header{position:sticky;top:0;z-index:50;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;}
-  .logo{font-family:'Fraunces', serif;font-weight:600;font-size:1.5rem;letter-spacing:0.3px;display:flex;align-items:center;gap:8px;}
-  .logo span{color:var(--accent);}
-  .nav-links{display:flex;gap:32px;font-size:0.95rem;color:var(--text-muted);}
-  .nav-links a:hover{color:var(--text);}
-  .nav-links a.active{color:var(--text);font-weight:600;}
-  .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:999px;font-size:0.92rem;font-weight:600;border:1px solid transparent;cursor:pointer;transition:transform .15s ease, background .15s ease;}
-  .btn-primary{background:var(--brand);color:#fff;}
-  .btn-primary:hover{background:var(--brand-2);}
-  @media (max-width:860px){ .nav-links{display:none;} }
-
-  .page-head{padding:64px 0 40px;}
-  .eyebrow{display:inline-block;font-size:0.85rem;color:var(--accent);background:var(--accent-soft);padding:6px 14px;border-radius:999px;margin-bottom:20px;}
-  h1{font-size:clamp(2rem, 4vw, 2.8rem);line-height:1.22;margin:0 0 16px;font-weight:800;letter-spacing:-0.02em;}
-  .page-head p.lead{font-size:1.05rem;color:var(--text-muted);max-width:56ch;margin:0;}
-
-  .post-list{padding:8px 0 80px;display:flex;flex-direction:column;gap:20px;}
-  .post-card{
-    display:grid;grid-template-columns:220px 1fr;gap:24px;
-    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
-    overflow:hidden;transition:box-shadow .15s ease, transform .15s ease;
-  }
-  .post-card:hover{box-shadow:var(--shadow);transform:translateY(-3px);}
-  @media (max-width:640px){ .post-card{grid-template-columns:1fr;} }
-  .post-thumb{background:linear-gradient(135deg, var(--brand) 0%, var(--accent) 130%);min-height:160px;display:flex;align-items:center;justify-content:center;font-size:2.4rem;color:#fff;}
-  .post-body{padding:22px 22px 22px 0;}
-  @media (max-width:640px){ .post-body{padding:20px;} }
-  .post-date{font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;display:block;}
-  .post-body h2{font-size:1.25rem;margin:0 0 10px;font-weight:800;letter-spacing:-0.01em;}
-  .post-body p{margin:0 0 14px;color:var(--text-muted);font-size:0.95rem;}
-  .read-more{font-size:0.88rem;font-weight:600;color:var(--brand);}
-  :root[data-theme="dark"] .read-more,
-  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .read-more{color:var(--accent);} }
-
-  footer{border-top:1px solid var(--line);padding:36px 0 28px;margin-top:24px;}
-  .foot-bottom{display:flex;justify-content:space-between;color:var(--text-muted);font-size:0.82rem;flex-wrap:wrap;gap:10px;}
+:root{
+  --ink:#1b1f23; --muted:#5b6470; --line:#e6e8eb; --bg:#ffffff; --panel:#f7f8f9;
+  --accent:#0f6b52; --accent-ink:#ffffff; --radius:10px; --maxw:760px;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;font-size:17px;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;}
+header.site{border-bottom:1px solid var(--line);padding:16px 0;}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;}
+.brand{font-weight:700;font-size:18px;color:var(--ink);}
+.nav a{margin-left:18px;color:var(--muted);font-size:14.5px;}
+.crumb{font-size:13.5px;color:var(--muted);margin:28px 0 6px;}
+.crumb a{color:var(--muted);}
+h1{font-size:clamp(28px,4vw,38px);line-height:1.18;margin:6px 0 14px;}
+.lede{font-size:19px;color:var(--muted);margin-bottom:30px;}
+.post-list{list-style:none;margin:0;padding:0;}
+.post{border-top:1px solid var(--line);padding:24px 0;}
+.post:last-child{border-bottom:1px solid var(--line);}
+.post h2{font-size:22px;line-height:1.3;margin:0 0 8px;}
+.post h2 a{color:var(--ink);}
+.post h2 a:hover{color:var(--accent);text-decoration:none;}
+.post p{margin:0 0 8px;color:var(--muted);font-size:16px;}
+.meta{font-size:13.5px;color:var(--muted);}
+.final-cta{text-align:center;border:1px solid var(--line);border-radius:var(--radius);padding:36px 26px;margin:44px 0 30px;}
+.final-cta h2{margin-top:0;font-size:22px;}
+.btn{display:inline-block;padding:12px 20px;border-radius:8px;font-size:15px;font-weight:600;}
+.btn-primary{background:var(--accent);color:var(--accent-ink)!important;}
+.btn-primary:hover{opacity:.92;text-decoration:none;}
+footer.site{border-top:1px solid var(--line);padding:24px 0;margin-top:40px;font-size:13.5px;color:var(--muted);text-align:center;}
+footer.site a{color:var(--muted);}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px;}
 </style>
 </head>
 <body>
-
-<header>
-  <div class="wrap nav">
-    <div class="logo">Quest<span>Mart</span></div>
-    <nav class="nav-links">
-      <a href="/">Home</a>
-      <a href="/#products">Products</a>
-      <a href="/blog/" class="active">Blog</a>
-      <a href="/contact.html">Contact</a>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="https://questmart.online/">QuestMart</a>
+    <nav class="nav">
+      <a href="https://questmart.online/">Home</a>
+      <a href="https://questmart.online/blog/">Blog</a>
+      <a href="https://questmart.online/contact.html">Contact</a>
     </nav>
-    <a href="/#products" class="btn btn-primary">Browse store</a>
   </div>
 </header>
 
-<main>
-  <section class="page-head">
-    <div class="wrap">
-      <span class="eyebrow">QuestMart Blog</span>
-      <h1>Guides on invoicing, freelancing and getting paid</h1>
-      <p class="lead">Practical guides on invoicing, freelancing and getting paid, including in crypto.</p>
-    </div>
-  </section>
+<main class="wrap">
+  <p class="crumb"><a href="https://questmart.online/">Home</a> / Blog</p>
+  <h1>Guides on invoicing, freelancing and getting paid</h1>
+  <p class="lede">Practical guides on invoicing, freelancing and getting paid, including in crypto.</p>
 
-  <section class="post-list">
-    <div class="wrap">
-      <a class="post-card" href="/blog/offline-invoice-generator.html">
-        <div class="post-thumb">💼</div>
-        <div class="post-body">
-          <span class="post-date">September 19, 2026</span>
-          <h2>An offline invoice generator with no subscription and crypto payment details</h2>
-          <p>What an offline invoice maker does well, what every invoice should include, and how to handle multi-currency, tax and USDT or Bitcoin wallet details.</p>
-          <span class="read-more">Read the guide →</span>
-        </div>
-      </a>
-    </div>
-  </section>
+  <ul class="post-list">
+    <li class="post">
+      <h2><a href="https://questmart.online/blog/private-invoice-software-no-cloud.html" lang="en" dir="auto">Private Invoice Software: Keep Client Data Off Someone Else's Server</a></h2>
+      <p lang="en" dir="auto">Private invoice software that keeps client names, amounts and wallet addresses on your own computer. What local-only invoicing means, and its one trade-off.</p>
+      <span class="meta">September 19, 2026 · 6 minute read</span>
+    </li>
+
+    <li class="post">
+      <h2><a href="https://questmart.online/blog/one-time-payment-invoice-software.html" lang="en" dir="auto">One-Time Payment Invoice Software: How the Math Works</a></h2>
+      <p lang="en" dir="auto">What</p>
+      <span class="meta">September 19, 2026 · 6 minute read</span>
+    </li>
+
+    <li class="post">
+      <h2><a href="https://questmart.online/blog/offline-invoice-software-small-business.html" lang="en" dir="auto">Offline Invoice Software for Small Business</a></h2>
+      <p lang="en" dir="auto">When offline invoice software fits a small business, how to manage recurring clients without a cloud account, and when to graduate to full accounting software.</p>
+      <span class="meta">September 19, 2026 · 6 minute read</span>
+    </li>
+
+    <li class="post">
+      <h2><a href="https://questmart.online/blog/offline-invoice-generator.html" lang="en" dir="auto">Offline Invoice Generator (No Subscription, Crypto-Ready)</a></h2>
+      <p lang="en" dir="auto">Make invoices, quotes and receipts offline with no account or monthly fee. 150+ currencies, VAT, USDT and Bitcoin wallet lines, PDF export. Full guide.</p>
+      <span class="meta">September 19, 2026 · 9 minute read</span>
+    </li>
+
+    <li class="post">
+      <h2><a href="https://questmart.online/blog/multi-currency-invoice-generator.html" lang="en" dir="auto">Multi-Currency Invoice Generator for Freelancers</a></h2>
+      <p lang="en" dir="auto">What a proper multi-currency invoice generator needs to handle: symbol placement, decimal precision, 150+ currencies including crypto, and tax across currencies.</p>
+      <span class="meta">September 19, 2026 · 6 minute read</span>
+    </li>
+
+    <li class="post">
+      <h2><a href="https://questmart.online/blog/invoice-software-without-subscription.html" lang="en" dir="auto">Invoice Software Without a Subscription: What It Actually Costs You Either Way</a></h2>
+      <p lang="en" dir="auto">A plain-numbers look at invoice software without a subscription vs monthly plans: real 1, 3 and 5-year costs, what you give up, and who each option suits.</p>
+      <span class="meta">September 19, 2026 · 7 minute read</span>
+    </li>
+
+    <li class="post">
+      <h2><a href="https://questmart.online/blog/invoice-software-for-freelancers.html" lang="en" dir="auto">Invoice Software for Freelancers: What Actually Matters</a></h2>
+      <p lang="en" dir="auto">What freelancers really need from invoice software, real invoice line-item examples by role, and why most freelance billing doesn</p>
+      <span class="meta">September 19, 2026 · 7 minute read</span>
+    </li>
+
+    <li class="post">
+      <h2><a href="https://questmart.online/blog/invoice-generator-without-signup.html" lang="en" dir="auto">Invoice Generator Without Signup: What to Look For</a></h2>
+      <p lang="en" dir="auto">Need to send an invoice right now, with no account to create? Here</p>
+      <span class="meta">September 19, 2026 · 6 minute read</span>
+    </li>
+
+    <li class="post">
+      <h2><a href="https://questmart.online/blog/how-to-invoice-international-clients.html" lang="en" dir="auto">How to Invoice International Clients</a></h2>
+      <p lang="en" dir="auto">How to invoice international clients correctly: currency choice, tax treatment across borders, payment rails, and language, with a practical checklist.</p>
+      <span class="meta">September 19, 2026 · 7 minute read</span>
+    </li>
+
+    <li class="post">
+      <h2><a href="https://questmart.online/blog/crypto-invoice-generator-usdt-bitcoin.html" lang="en" dir="auto">Crypto Invoice Generator: USDT and Bitcoin Invoices Done Right</a></h2>
+      <p lang="en" dir="auto">How to build a crypto invoice that actually gets paid correctly: network labeling, decimal precision, multiple wallets, and stablecoin vs floating pricing.</p>
+      <span class="meta">September 19, 2026 · 7 minute read</span>
+    </li>
+  </ul>
+
+  <div class="final-cta">
+    <h2>One file. One payment. Every invoice you will ever send.</h2>
+    <p>Invoice Studio: 150+ currencies including crypto, 7 languages, 4 templates, offline and private. Pay once, $70.</p>
+    <a class="btn btn-primary" href="https://questmart.online/products/invoice-studio-pro.html">See Invoice Studio Pro</a>
+  </div>
 </main>
 
-<footer>
-  <div class="wrap">
-    <div class="foot-bottom">
-      <span>© 2026 QuestMart. All rights reserved.</span>
-      <span><a href="/">Home</a> · <a href="/blog/">Blog</a></span>
-    </div>
-  </div>
+<footer class="site">
+  © 2026 QuestMart. <a href="https://questmart.online/">Home</a> · <a href="https://questmart.online/blog/">Blog</a>
 </footer>
-
 </body>
 </html>
