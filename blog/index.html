@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | QuestMart</title>
+<meta name="description" content="Practical guides on invoicing, freelancing and getting paid, including in crypto.">
+<link rel="canonical" href="https://questmart.online/blog/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAF8F4; --surface: #FFFFFF; --surface-2: #F1EEE6;
+    --text: #1B1E2B; --text-muted: #62667A; --line: #E7E2D6;
+    --brand: #263866; --brand-2: #1A2747; --accent: #C08A3E; --accent-soft: #F1E2C8;
+    --radius-lg: 20px; --radius-md: 12px; --shadow: 0 20px 40px -24px rgba(27,30,43,0.25);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #14161F; --surface: #1B1E2B; --surface-2: #232636;
+      --text: #F2F1EC; --text-muted: #A2A6BC; --line: #2E3143;
+      --accent-soft: #3A331F; --shadow: 0 20px 40px -24px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #14161F; --surface: #1B1E2B; --surface-2: #232636;
+    --text: #F2F1EC; --text-muted: #A2A6BC; --line: #2E3143;
+    --accent-soft: #3A331F; --shadow: 0 20px 40px -24px rgba(0,0,0,0.5);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter', -apple-system, Segoe UI, sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:3px;}
+
+  header{position:sticky;top:0;z-index:50;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;}
+  .logo{font-family:'Fraunces', serif;font-weight:600;font-size:1.5rem;letter-spacing:0.3px;display:flex;align-items:center;gap:8px;}
+  .logo span{color:var(--accent);}
+  .nav-links{display:flex;gap:32px;font-size:0.95rem;color:var(--text-muted);}
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a.active{color:var(--text);font-weight:600;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:999px;font-size:0.92rem;font-weight:600;border:1px solid transparent;cursor:pointer;transition:transform .15s ease, background .15s ease;}
+  .btn-primary{background:var(--brand);color:#fff;}
+  .btn-primary:hover{background:var(--brand-2);}
+  @media (max-width:860px){ .nav-links{display:none;} }
+
+  .page-head{padding:64px 0 40px;}
+  .eyebrow{display:inline-block;font-size:0.85rem;color:var(--accent);background:var(--accent-soft);padding:6px 14px;border-radius:999px;margin-bottom:20px;}
+  h1{font-size:clamp(2rem, 4vw, 2.8rem);line-height:1.22;margin:0 0 16px;font-weight:800;letter-spacing:-0.02em;}
+  .page-head p.lead{font-size:1.05rem;color:var(--text-muted);max-width:56ch;margin:0;}
+
+  .post-list{padding:8px 0 80px;display:flex;flex-direction:column;gap:20px;}
+  .post-card{
+    display:grid;grid-template-columns:220px 1fr;gap:24px;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
+    overflow:hidden;transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .post-card:hover{box-shadow:var(--shadow);transform:translateY(-3px);}
+  @media (max-width:640px){ .post-card{grid-template-columns:1fr;} }
+  .post-thumb{background:linear-gradient(135deg, var(--brand) 0%, var(--accent) 130%);min-height:160px;display:flex;align-items:center;justify-content:center;font-size:2.4rem;color:#fff;}
+  .post-body{padding:22px 22px 22px 0;}
+  @media (max-width:640px){ .post-body{padding:20px;} }
+  .post-date{font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;display:block;}
+  .post-body h2{font-size:1.25rem;margin:0 0 10px;font-weight:800;letter-spacing:-0.01em;}
+  .post-body p{margin:0 0 14px;color:var(--text-muted);font-size:0.95rem;}
+  .read-more{font-size:0.88rem;font-weight:600;color:var(--brand);}
+  :root[data-theme="dark"] .read-more,
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .read-more{color:var(--accent);} }
+
+  footer{border-top:1px solid var(--line);padding:36px 0 28px;margin-top:24px;}
+  .foot-bottom{display:flex;justify-content:space-between;color:var(--text-muted);font-size:0.82rem;flex-wrap:wrap;gap:10px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">Quest<span>Mart</span></div>
+    <nav class="nav-links">
+      <a href="/">Home</a>
+      <a href="/#products">Products</a>
+      <a href="/blog/" class="active">Blog</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <a href="/#products" class="btn btn-primary">Browse store</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">QuestMart Blog</span>
+      <h1>Guides on invoicing, freelancing and getting paid</h1>
+      <p class="lead">Practical guides on invoicing, freelancing and getting paid, including in crypto.</p>
+    </div>
+  </section>
+
+  <section class="post-list">
+    <div class="wrap">
+      <a class="post-card" href="/blog/offline-invoice-generator.html">
+        <div class="post-thumb">💼</div>
+        <div class="post-body">
+          <span class="post-date">September 19, 2026</span>
+          <h2>An offline invoice generator with no subscription and crypto payment details</h2>
+          <p>What an offline invoice maker does well, what every invoice should include, and how to handle multi-currency, tax and USDT or Bitcoin wallet details.</p>
+          <span class="read-more">Read the guide →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-bottom">
+      <span>© 2026 QuestMart. All rights reserved.</span>
+      <span><a href="/">Home</a> · <a href="/blog/">Blog</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
