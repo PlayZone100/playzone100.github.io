@@ -1,13 +1,10 @@
 User-agent: *
 Allow: /
 Allow: /games/
-Disallow: /products/
 Disallow: /questmart-studio-pro/
 Disallow: /questmart-studio/
 Disallow: /studio/
 Disallow: /text-to-video/
-Disallow: /contact.html
-Disallow: /privacy.html
 Disallow: /terms.html
 Disallow: /studio.html
 Disallow: /index-en.html
