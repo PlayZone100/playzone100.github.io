@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Creator Command Center — plan, price and publish from one file</title>
+<meta name="description" content="Turn one idea into drafts for 8 platforms, schedule posts, price sponsorships, track income, and build a media kit and link page. One file, works offline, $120 one-time.">
+<meta property="og:type" content="product">
+<meta property="og:title" content="Creator Command Center">
+<meta property="og:description" content="Your whole creator business in one file. Repurpose, calendar, deals, income, studio, media kit and link page. $120 one-time.">
+<link rel="canonical" href="https://questmart.online/products/creator-command-center.html">
+<meta property="og:url" content="https://questmart.online/products/creator-command-center.html">
+<meta property="og:image" content="https://questmart.online/assets/creator-command-center/poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f6f4ef">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Product","name":"Creator Command Center","description":"A single-file, offline-capable toolkit for creators: multi-platform post drafts, content calendar, sponsorship rate estimator and deal pipeline, income tracker with tax set-aside, photo and video studio, media kit and link-in-bio builders.","url":"https://questmart.online/products/creator-command-center.html","offers":{"@type":"Offer","price":"120","priceCurrency":"USD","availability":"https://schema.org/InStock"}}
+</script>
+<style>
+:root{
+  --cream:#f6f4ef; --paper:#fffdf9; --ink:#1d1f24; --mut:#575d66; --line:#e3e0d8;
+  --teal:#0f766e; --teal-d:#0b4a45; --teal-t:#dcefec; --gold:#f1b82d;
+  --head:"Bricolage Grotesque","Poppins",system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 17px/1.6 var(--body);
+  padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+img,video{max-width:100%;display:block}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+h1,h2,h3{font-family:var(--head);margin:0;letter-spacing:-.025em;line-height:1.05;text-wrap:balance}
+h1{font-weight:800;font-size:clamp(2.6rem,5.6vw,4.6rem)}
+h2{font-weight:800;font-size:clamp(2rem,3.8vw,3rem)}
+h3{font-weight:600;font-size:clamp(1.5rem,2.4vw,1.95rem);line-height:1.12}
+p{margin:0}
+.lede{font-size:clamp(1.05rem,1.6vw,1.22rem);color:var(--mut);max-width:34em}
+
+/* buttons */
+.btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 26px;border-radius:12px;border:2px solid var(--teal);
+  background:var(--teal);color:#fff;font:600 1.02rem/1 var(--body);text-decoration:none;cursor:pointer;transition:background .15s,transform .15s}
+.btn:hover{background:var(--teal-d);border-color:var(--teal-d)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--teal)}
+.btn.ghost:hover{background:var(--teal-t)}
+.btn.sm{min-height:42px;padding:0 18px;font-size:.95rem}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0}
+.brand{font:800 1.2rem/1 var(--head);letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+.top nav{display:flex;align-items:center;gap:22px}
+.top nav a:not(.btn){color:var(--mut);text-decoration:none;font-weight:500}
+.top nav a:not(.btn):hover{color:var(--ink)}
+@media (max-width:720px){.top nav a:not(.btn){display:none}}
+@media (max-width:420px){.brand{font-size:1.02rem}.top{gap:12px}}
+
+/* hero */
+.hero{padding:clamp(28px,5vw,64px) 0 clamp(48px,7vw,88px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,4vw,64px);align-items:center}
+.hero .lede{margin-top:22px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.fine{margin-top:16px;font-size:.93rem;color:var(--mut)}
+@media (max-width:920px){.hero-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* window frame */
+.win{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 22px 60px -28px rgba(11,74,69,.45),0 2px 0 rgba(0,0,0,.02)}
+.win-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;border-bottom:1px solid var(--line);background:#f1eee7}
+.win-bar i{width:11px;height:11px;border-radius:50%;background:#d9d5cb}
+.win-bar span{margin-left:10px;flex:1;max-width:340px;background:#fff;border:1px solid var(--line);border-radius:7px;padding:2px 12px;font-size:.8rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win video,.win .shot{width:100%;height:auto;background:var(--cream)}
+.win video{aspect-ratio:16/9}
+.hero-visual{position:relative}
+.sticker{position:absolute;right:-14px;top:-26px;width:118px;height:118px;border-radius:50%;background:var(--gold);color:#3a2a00;display:grid;place-content:center;text-align:center;
+  transform:rotate(-9deg);box-shadow:0 10px 24px -10px rgba(58,42,0,.55);font:600 .8rem/1.15 var(--body)}
+.sticker b{display:block;font:800 2.1rem/1 var(--head);letter-spacing:-.03em}
+@media (max-width:1240px){.sticker{right:8px}}
+@media (max-width:920px){.sticker{right:6px;top:-30px;width:96px;height:96px}.sticker b{font-size:1.7rem}}
+
+/* facts */
+.facts{border-block:1px solid var(--line);background:var(--paper)}
+.facts ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr)}
+.facts li{padding:22px 20px;font-weight:600;border-left:1px solid var(--line)}
+.facts li:first-child{border-left:0;padding-left:0}
+.facts li span{display:block;font-weight:400;color:var(--mut);font-size:.93rem;margin-top:2px}
+@media (max-width:820px){.facts ul{grid-template-columns:1fr 1fr}.facts li{border-left:0;padding:16px 0;border-top:1px solid var(--line)}.facts li:nth-child(-n+2){border-top:0}}
+
+/* sections */
+section{padding:clamp(56px,8vw,104px) 0}
+.sec-head{max-width:40em;margin-bottom:clamp(28px,4vw,48px)}
+.sec-head p{margin-top:16px;color:var(--mut);font-size:1.1rem}
+
+/* tour */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 12px;margin:0 -2px 22px;scrollbar-width:thin}
+.tabs button{flex:none;font:500 1rem/1 var(--body);padding:12px 18px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .15s,color .15s}
+.tabs button:hover{background:var(--teal-t)}
+.tabs button[aria-selected="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+.panel{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(24px,4vw,56px);align-items:start}
+.js .panel[hidden]{display:none}
+.panel p{margin-top:14px;color:var(--mut)}
+.panel ul{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:12px}
+.panel li{position:relative;padding-left:26px}
+.panel li::before{content:"";position:absolute;left:0;top:.5em;width:11px;height:11px;border-radius:3px;background:var(--teal)}
+.stage{position:relative;padding-bottom:6px}
+.inset{position:absolute;right:-10px;bottom:-26px;width:31%;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 18px 40px -16px rgba(0,0,0,.4)}
+.inset.phone{width:19%;border-radius:18px;border:5px solid var(--ink);right:-6px;bottom:-30px}
+.inset img{width:100%;height:auto}
+@media (max-width:920px){.panel{grid-template-columns:minmax(0,1fr)}.stage{order:-1;margin-bottom:28px}.inset{right:6px}}
+
+/* before you buy */
+.know{background:var(--paper);border-block:1px solid var(--line)}
+.know dl{margin:0;display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(28px,5vw,72px)}
+.know .item{padding:22px 0;border-top:1px solid var(--line)}
+.know dt{font:600 1.2rem/1.25 var(--head);letter-spacing:-.01em}
+.know dd{margin:8px 0 0;color:var(--mut)}
+@media (max-width:820px){.know dl{grid-template-columns:1fr}}
+
+/* download contents */
+.files{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,72px);align-items:start}
+.files ul{list-style:none;margin:0;padding:0}
+.files li{display:grid;grid-template-columns:minmax(0,15em) 1fr;gap:16px;padding:16px 0;border-top:1px solid var(--line)}
+.files li:last-child{border-bottom:1px solid var(--line)}
+.files code{font:600 .93rem/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--teal-d);word-break:break-word}
+.files li span{color:var(--mut)}
+@media (max-width:820px){.files{grid-template-columns:1fr}.files li{grid-template-columns:1fr;gap:2px}}
+
+/* pricing */
+.buy{background:var(--teal-d);color:var(--cream)}
+.buy-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);gap:clamp(28px,6vw,88px);align-items:center}
+.buy h2{color:#fff}
+.buy .lede{color:#c4dedb;margin-top:18px}
+.card{background:var(--paper);color:var(--ink);border-radius:20px;padding:clamp(26px,4vw,40px);box-shadow:0 30px 70px -30px rgba(0,0,0,.6)}
+.price{display:flex;align-items:baseline;gap:12px}
+.price b{font:800 clamp(3.6rem,7vw,5rem)/1 var(--head);letter-spacing:-.04em}
+.price span{color:var(--mut)}
+.card ul{list-style:none;margin:22px 0 26px;padding:0;display:grid;gap:11px}
+.card li{position:relative;padding-left:26px}
+.card li::before{content:"";position:absolute;left:0;top:.5em;width:11px;height:11px;border-radius:3px;background:var(--teal)}
+.card .btn{width:100%;white-space:normal;text-align:center;line-height:1.2;padding-block:12px}
+.card .fine{text-align:center;margin-top:14px}
+@media (max-width:920px){.buy-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* faq */
+.faq{max-width:820px}
+details{border-top:1px solid var(--line)}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;padding:20px 40px 20px 0;font:600 1.15rem/1.35 var(--head);letter-spacing:-.01em;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);font:500 1.6rem/1 var(--body);color:var(--teal);transition:transform .2s}
+details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+details p{padding:0 0 22px;color:var(--mut);max-width:44em}
+
+footer{padding:40px 0 56px;color:var(--mut);font-size:.93rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px}
+
+
+.coins{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.coin{border:1px solid var(--line);border-radius:6px;padding:2px 9px;font:600 .78rem/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--mut);background:#fff}
+.card .coins{justify-content:center;margin-top:16px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="#top">Creator Command Center</a>
+  <nav aria-label="Page">
+    <a href="/">QuestMart</a>
+    <a href="#tour">Tour</a>
+    <a href="#know">Before you buy</a>
+    <a href="#faq">FAQ</a>
+    <a class="btn sm js-buy" href="/checkout-saas-landing-template.html?product=creator-command-center" data-product="creator-command-center">Buy for $120</a>
+  </nav>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Your whole creator business, in one file</h1>
+      <p class="lede">Turn one idea into drafts for eight platforms, schedule them, price your sponsorships, track your income, and publish a media kit and link page. It opens in your browser, works offline, and keeps your data on your device.</p>
+      <div class="cta-row">
+        <a class="btn js-buy" href="/checkout-saas-landing-template.html?product=creator-command-center" data-product="creator-command-center">Get it for $120</a>
+        <a class="btn ghost" href="#tour">See what's inside</a>
+      </div>
+      <p class="fine">One-time payment in crypto. Single-user commercial license.</p>
+      <div class="coins" aria-label="Accepted payments"><span class="coin">BTC</span><span class="coin">ETH</span><span class="coin">USDT ERC-20</span><span class="coin">USDT TRC-20</span></div>
+    </div>
+    <div class="hero-visual">
+      <div class="sticker" aria-hidden="true"><div><b>$120</b>pay once</div></div>
+      <div class="win">
+        <div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>creator-command-center.html</span></div>
+        <video id="teaser" src="/assets/creator-command-center/teaser.mp4" poster="/assets/creator-command-center/poster.jpg" autoplay muted loop playsinline controls preload="metadata" aria-label="A short video tour of Creator Command Center"></video>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FACTS -->
+<div class="facts">
+  <div class="wrap">
+    <ul>
+      <li>8 platforms from one idea<span>X, Instagram, TikTok, YouTube, Telegram, LinkedIn, Threads, Pinterest</span></li>
+      <li>Works offline<span>Open the file, no server needed</span></li>
+      <li>No account, no subscription<span>Pay once, use it on your own devices</span></li>
+      <li>Your data stays put<span>Saved in your browser, never uploaded</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- TOUR -->
+<section id="tour">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Everything a solo creator juggles, in one workflow</h2>
+      <p>Write an idea once and carry it from draft to calendar to sponsorship to income. These are screenshots of the real tool, filled with sample data.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Tools">
+      <button role="tab" id="t-repurpose" aria-controls="p-repurpose" aria-selected="true">Repurpose</button>
+      <button role="tab" id="t-calendar" aria-controls="p-calendar" aria-selected="false" tabindex="-1">Ideas &amp; Calendar</button>
+      <button role="tab" id="t-deals" aria-controls="p-deals" aria-selected="false" tabindex="-1">Deals</button>
+      <button role="tab" id="t-income" aria-controls="p-income" aria-selected="false" tabindex="-1">Income</button>
+      <button role="tab" id="t-studio" aria-controls="p-studio" aria-selected="false" tabindex="-1">Studio</button>
+      <button role="tab" id="t-mediakit" aria-controls="p-mediakit" aria-selected="false" tabindex="-1">Media Kit</button>
+      <button role="tab" id="t-linkpage" aria-controls="p-linkpage" aria-selected="false" tabindex="-1">Link Page</button>
+    </div>
+
+    <div class="panel" id="p-repurpose" role="tabpanel" aria-labelledby="t-repurpose">
+      <div>
+        <h3>One idea in, eight drafts out</h3>
+        <p>Enter a topic, the key point, a call to action and your hashtags. You get a draft for each platform, built on a post structure that suits it. Edit each one before you publish.</p>
+        <ul>
+          <li>Live character counts, like 96 / 280 on X</li>
+          <li>Add all 8 drafts to your calendar in one click, marked Drafted</li>
+          <li>Optional Write with AI, using your own Claude API key</li>
+        </ul>
+      </div>
+      <div class="stage"><div class="win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>creator-command-center.html</span></div>
+        <img class="shot" src="/assets/creator-command-center/tour-repurpose.jpg" width="1600" height="1240" loading="lazy" alt="The Repurpose tab with a topic filled in and the first generated draft for X"></div></div>
+    </div>
+
+    <div class="panel" id="p-calendar" role="tabpanel" aria-labelledby="t-calendar">
+      <div>
+        <h3>Ideas, a calendar and a posting streak</h3>
+        <p>Park ideas in the idea bank until you're ready, then send any of them to Repurpose. Give every post a date, a platform and a status: Idea, Drafted, Scheduled or Posted.</p>
+        <ul>
+          <li>Posting streak counts consecutive days with a post marked Posted</li>
+          <li>Send an idea straight into Repurpose</li>
+          <li>Back up everything with one Export button</li>
+        </ul>
+      </div>
+      <div class="stage"><div class="win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>creator-command-center.html</span></div>
+        <img class="shot" src="/assets/creator-command-center/tour-calendar.jpg" width="1600" height="1240" loading="lazy" alt="The Calendar tab showing a 6-day posting streak and a list of posts marked Posted"></div></div>
+    </div>
+
+    <div class="panel" id="p-deals" role="tabpanel" aria-labelledby="t-deals">
+      <div>
+        <h3>Price a sponsorship, pitch it, track it</h3>
+        <p>Enter your average views, engagement and deliverables to get a starting price range. Then write the pitch email and log the deal.</p>
+        <ul>
+          <li>Adjustable CPM and a usage-rights add-on</li>
+          <li>Pitch email drafted from the brand, product, offer and rate</li>
+          <li>Pipeline statuses: Contacted, Negotiating, Confirmed, Declined, Paid</li>
+        </ul>
+      </div>
+      <div class="stage"><div class="win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>creator-command-center.html</span></div>
+        <img class="shot" src="/assets/creator-command-center/tour-deals.jpg" width="1600" height="1240" loading="lazy" alt="The Deals tab with a rate estimate of $2,304 to $3,744 and a deal pipeline with three brands"></div></div>
+    </div>
+
+    <div class="panel" id="p-income" role="tabpanel" aria-labelledby="t-income">
+      <div>
+        <h3>Know what you earned and what to set aside</h3>
+        <p>Log each payment by source and platform. The tool totals it for you and shows a tax set-aside based on the percentage you choose.</p>
+        <ul>
+          <li>Totals overall and per platform</li>
+          <li>Adjustable tax percentage, a planning number rather than tax advice</li>
+          <li>Export to CSV for your accountant</li>
+        </ul>
+      </div>
+      <div class="stage"><div class="win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>creator-command-center.html</span></div>
+        <img class="shot" src="/assets/creator-command-center/tour-income.jpg" width="1600" height="1240" loading="lazy" alt="The Income tab showing a total of 7,517.25, totals per platform and a 25% tax set-aside"></div></div>
+    </div>
+
+    <div class="panel" id="p-studio" role="tabpanel" aria-labelledby="t-studio">
+      <div>
+        <h3>Photo and video, sized for every platform</h3>
+        <p>Open a photo or video, pick a preset, drag the picture or text into place and export. Files are processed on your device and are not uploaded.</p>
+        <ul>
+          <li>Presets for Instagram, Story/Reel/TikTok/Short, YouTube thumbnail, X and square, or download all five sizes at once</li>
+          <li>Brightness, contrast, saturation, blur, text, and a logo watermark it remembers</li>
+          <li>Video trim, background music, burned-in captions, plus in-browser background removal and auto-captions</li>
+        </ul>
+      </div>
+      <div class="stage"><div class="win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>creator-command-center.html</span></div>
+        <img class="shot" src="/assets/creator-command-center/tour-studio.jpg" width="1600" height="1240" loading="lazy" alt="The Studio tab with a photo set to the YouTube thumbnail size, headline text and a logo watermark"></div></div>
+    </div>
+
+    <div class="panel" id="p-mediakit" role="tabpanel" aria-labelledby="t-mediakit">
+      <div>
+        <h3>A media kit you can send today</h3>
+        <p>Fill in your stats, bio and past brands once. Download a one-page kit as a standalone file, or open the print view and save it as a PDF.</p>
+        <ul>
+          <li>Followers per platform, average views, engagement and typical rate</li>
+          <li>Past brands and highlights</li>
+          <li>Attach it to an email or host it anywhere</li>
+        </ul>
+      </div>
+      <div class="stage"><div class="win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>creator-command-center.html</span></div>
+        <img class="shot" src="/assets/creator-command-center/tour-mediakit.jpg" width="1600" height="1240" loading="lazy" alt="The Media Kit form with name, bio and follower counts filled in"></div>
+        <div class="inset"><img src="/assets/creator-command-center/inset-mediakit.jpg" width="760" height="633" loading="lazy" alt="The finished one-page media kit with follower counts and past work"></div></div>
+    </div>
+
+    <div class="panel" id="p-linkpage" role="tabpanel" aria-labelledby="t-linkpage">
+      <div>
+        <h3>Your own link-in-bio page</h3>
+        <p>Add a name, bio, avatar, accent color and as many links as you need. Download a complete page and upload it to any host, including a folder on your own site.</p>
+        <ul>
+          <li>No build step: the download is one self-contained page</li>
+          <li>As many links as you like</li>
+          <li>A real URL on your own hosting</li>
+        </ul>
+      </div>
+      <div class="stage"><div class="win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>creator-command-center.html</span></div>
+        <img class="shot" src="/assets/creator-command-center/tour-linkpage.jpg" width="1600" height="1240" loading="lazy" alt="The Link Page builder with a display name, bio and four links"></div>
+        <div class="inset phone"><img src="/assets/creator-command-center/inset-linkpage.jpg" width="420" height="820" loading="lazy" alt="The finished link-in-bio page on a phone-sized screen"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE YOU BUY -->
+<section class="know" id="know">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Good to know before you buy</h2>
+      <p>A few honest details, so the tool fits how you work.</p>
+    </div>
+    <dl>
+      <div class="item"><dt>It's one HTML file, not a hosted app</dt><dd>You get a single file to open in your browser or upload to your own site. There's no login and no server on our side.</dd></div>
+      <div class="item"><dt>Your data lives in your browser</dt><dd>Your calendar, income, deals, ideas and logo are saved in this browser only. Use Export all data at the top of the page regularly, and before you clear history or switch devices. Import backup restores it.</dd></div>
+      <div class="item"><dt>Video export depends on your browser</dt><dd>Export uses your browser's built-in recorder. It works in current Chrome, Edge and Firefox. Safari and iPhone may not support it. Export runs in real time, so a 30-second clip takes about 30 seconds.</dd></div>
+      <div class="item"><dt>Two AI tools download a model once</dt><dd>Background removal and auto-captions fetch a model of about 40 MB the first time you use them, so you need internet for that moment. After that they work offline. Some school and office networks block the download.</dd></div>
+      <div class="item"><dt>AI writing is optional and uses your key</dt><dd>The Write with AI button sends your text to Anthropic with your own API key, billed to your own Anthropic account. The built-in draft generator works without it.</dd></div>
+      <div class="item"><dt>Estimates are starting points</dt><dd>The rate estimator is not a market benchmark, and the tax set-aside is a planning number, not tax advice.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- WHAT'S IN THE DOWNLOAD -->
+<section>
+  <div class="wrap files">
+    <div>
+      <h2>What's in the download</h2>
+      <p class="lede" style="margin-top:16px">A small zip. Unzip it, open the HTML file in your browser, and you're working.</p>
+    </div>
+    <ul>
+      <li><code>creator-command-center.html</code><span>The complete tool in one file</span></li>
+      <li><code>README.txt</code><span>Quick start, backups and browser notes</span></li>
+      <li><code>LICENSE.txt</code><span>Single-user commercial license</span></li>
+      <li><code>CHANGELOG.txt</code><span>What changed in each version</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="buy" id="pricing">
+  <div class="wrap buy-grid">
+    <div>
+      <h2>Pay once. Run your creator business from it.</h2>
+      <p class="lede">No subscription and no per-seat pricing. Use it for your own creator business, on your own devices.</p>
+    </div>
+    <div class="card">
+      <div class="price"><b>$120</b><span>one-time payment</span></div>
+      <ul>
+        <li>All eight workspaces, plus backup and restore</li>
+        <li>README, license and changelog</li>
+        <li>Single-user commercial license</li>
+      </ul>
+      <a class="btn js-buy" href="/checkout-saas-landing-template.html?product=creator-command-center" data-product="creator-command-center">Buy Creator Command Center</a>
+      <div class="coins" aria-label="Accepted payments"><span class="coin">BTC</span><span class="coin">ETH</span><span class="coin">USDT ERC-20</span><span class="coin">USDT TRC-20</span></div>
+      <p class="fine">Your download starts automatically as soon as the payment confirms. Please don't resell or redistribute the file. Anything you create with it, like your media kit and link page, is yours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head"><h2>Questions</h2></div>
+    <div class="faq">
+      <details><summary>How do I pay, and how do I get the file?</summary><p>Choose Buy, pick Bitcoin, Ethereum, or USDT (ERC-20 or TRC-20), and the checkout shows the amount, a wallet address and a QR code. When the payment confirms, your download starts automatically. There is no account to create.</p></details>
+      <details><summary>Do I need to install anything?</summary><p>No. Unzip the download and open creator-command-center.html in your browser, or upload it to your own site and open it from there.</p></details>
+      <details><summary>Does it need an internet connection?</summary><p>No, it works offline. There are two exceptions: the optional Write with AI button, and the first use of background removal or auto-captions, which download a model of about 40 MB that your browser then keeps.</p></details>
+      <details><summary>Where is my data stored, and can I move it?</summary><p>In your browser's local storage on your device. Nothing you type or upload is sent to a server. Use Export all data (.json) to make a backup and Import backup to restore it on this device or a new one.</p></details>
+      <details><summary>Do I need an AI account to use it?</summary><p>No. The draft generator works on its own. If you want AI-written drafts, paste your own Claude API key into the AI mode field. Usage is billed to your Anthropic account, and the key is stored only in your browser.</p></details>
+      <details><summary>Which browsers work?</summary><p>It's built for current Chrome, Edge and Firefox. Video export relies on the browser's recorder, which Safari and iPhone may not support.</p></details>
+      <details><summary>Can I use it on more than one computer?</summary><p>Yes, on your own devices. The license covers one person running their own creator business. Please don't resell, redistribute or re-publish the file itself.</p></details>
+      <details><summary>How accurate is the rate estimator?</summary><p>It's a starting point, not a market benchmark. It uses your views, engagement, deliverables and a CPM you can adjust to your niche and audience.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 QuestMart. <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy</a></span>
+    <span>Rate estimates and tax figures are planning aids, not financial or tax advice.</span>
+  </div>
+</footer>
+
+<script>
+/* Tour tabs */
+(function () {
+  document.documentElement.classList.add("js");
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute("aria-controls")); });
+  function show(i, focus) {
+    tabs.forEach(function (t, k) {
+      var on = k === i;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      panels[k].hidden = !on;
+    });
+    if (focus) tabs[i].focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { show(i); });
+    t.addEventListener("keydown", function (e) {
+      var n = tabs.length, k = null;
+      if (e.key === "ArrowRight") k = (i + 1) % n;
+      else if (e.key === "ArrowLeft") k = (i - 1 + n) % n;
+      else if (e.key === "Home") k = 0;
+      else if (e.key === "End") k = n - 1;
+      if (k !== null) { e.preventDefault(); show(k, true); }
+    });
+  });
+  show(0);
+})();
+
+/* Respect reduced-motion: don't autoplay the teaser */
+(function () {
+  var v = document.getElementById("teaser");
+  if (v && window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    v.removeAttribute("autoplay"); v.pause();
+  }
+})();
+</script>
+</body>
+</html>
