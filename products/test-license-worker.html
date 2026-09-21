@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>تست Worker لایسنس</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 16px;line-height:1.6}
+button{font:600 16px inherit;padding:12px 20px;border:0;border-radius:10px;background:#2b44ff;color:#fff;cursor:pointer}
+pre{background:#14121f;color:#eef1f6;padding:16px;border-radius:10px;overflow:auto;white-space:pre-wrap;word-break:break-all}
+.ok{color:#0a8f4a;font-weight:700}
+.err{color:#d6204a;font-weight:700}
+</style>
+</head>
+<body>
+<h1>تست Worker لایسنس</h1>
+<p>این صفحه مستقیماً به <code>orange-brook-a798.alice56885236.workers.dev/subscribe</code> درخواست می‌زنه و جواب خام رو نشون می‌ده. هیچ پرداخت واقعی انجام نمی‌شه.</p>
+<button id="go">تست کن</button>
+<p id="status"></p>
+<pre id="out">هنوز چیزی تست نشده.</pre>
+
+<script>
+const API = "https://orange-brook-a798.alice56885236.workers.dev";
+document.getElementById('go').onclick = async () => {
+  const status = document.getElementById('status');
+  const out = document.getElementById('out');
+  status.textContent = 'در حال ارسال...';
+  status.className = '';
+  out.textContent = '';
+  try {
+    const r = await fetch(API + '/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan: 'monthly', currency: 'USDT_TRC20' })
+    });
+    const text = await r.text();
+    let pretty = text;
+    try { pretty = JSON.stringify(JSON.parse(text), null, 2); } catch (e) {}
+    status.innerHTML = 'کد وضعیت HTTP: <b>' + r.status + '</b>';
+    status.className = r.ok ? 'ok' : 'err';
+    out.textContent = pretty;
+  } catch (e) {
+    status.textContent = 'درخواست اصلاً به مقصد نرسید (مشکل شبکه یا CORS).';
+    status.className = 'err';
+    out.textContent = String(e);
+  }
+};
+</script>
+</body>
+</html>
