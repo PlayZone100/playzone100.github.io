@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vaultwork — hire freelancers, pay in crypto escrow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#141A2E;
+    --navy-deep:#0D111F;
+    --amber:#E3A23A;
+    --sage:#7C9885;
+    --rust:#C0432E;
+    --paper:#F4F1EA;
+    --paper-dim:#E7E2D6;
+    --ink:#1C2233;
+    --line:rgba(20,26,46,0.12);
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  img,svg{max-width:100%;}
+
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(244,241,234,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    padding:16px 6vw;
+    padding-top:calc(16px + env(safe-area-inset-top,0px));
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:20px;}
+  .brand .mark{width:30px; height:30px; border-radius:8px; background:var(--navy); position:relative; flex:none;}
+  .brand .mark::after{content:""; position:absolute; inset:9px; background:var(--amber); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);}
+  .nav-cta{
+    background:var(--navy); color:var(--paper); border:none; border-radius:8px;
+    padding:10px 22px; font-family:inherit; font-size:15px; font-weight:600; cursor:pointer;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .nav-cta:hover{background:var(--navy-deep); transform:translateY(-1px);}
+
+  .hero{
+    padding:8vw 6vw 5vw;
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:5vw; align-items:center;
+    max-width:1280px; margin:0 auto;
+  }
+  .hero h1{
+    font-family:'Fraunces', serif; font-weight:600; font-size:clamp(32px,4.2vw,54px);
+    line-height:1.16; color:var(--navy-deep);
+  }
+  .hero p.lede{margin-top:20px; font-size:17.5px; line-height:1.8; color:#3B4258; max-width:48ch;}
+  .hero .cta-row{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--amber); color:var(--navy-deep); border:none; border-radius:9px;
+    padding:15px 28px; font-family:inherit; font-size:16px; font-weight:700; cursor:pointer;
+    box-shadow:0 8px 20px -8px rgba(227,162,58,0.6);
+    transition:transform .15s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-primary:disabled{opacity:0.45; cursor:not-allowed; box-shadow:none; transform:none;}
+  .btn-ghost{
+    background:transparent; color:var(--navy); border:1.5px solid var(--navy); border-radius:9px;
+    padding:15px 26px; font-family:inherit; font-size:16px; font-weight:600; cursor:pointer;
+  }
+  .btn-line{
+    background:var(--white); color:var(--navy); border:1.3px solid var(--line); border-radius:8px;
+    padding:8px 15px; font-family:inherit; font-size:12.5px; font-weight:700; cursor:pointer;
+  }
+  .btn-line:hover{border-color:var(--navy);}
+
+  .flow-card{
+    background:var(--navy-deep); border-radius:20px; padding:26px; color:var(--paper);
+  }
+  .flow-step{display:flex; gap:14px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.08);}
+  .flow-step:last-child{border-bottom:none;}
+  .flow-num{
+    width:26px; height:26px; border-radius:50%; background:rgba(227,162,58,0.18); color:var(--amber);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex:none; margin-top:2px;
+  }
+  .flow-step h4{font-size:14.5px; font-weight:700;}
+  .flow-step p{font-size:12.8px; color:#A9AFC4; margin-top:4px; line-height:1.6;}
+
+  .section{padding:5vw 6vw; max-width:1280px; margin:0 auto;}
+  .section-head{max-width:64ch; margin-bottom:40px;}
+  .section-head h2{
+    font-family:'Fraunces', serif; font-weight:600; font-size:clamp(24px,2.8vw,34px); color:var(--navy-deep); line-height:1.3;
+  }
+  .section-head p{margin-top:14px; font-size:16px; color:#565D73; line-height:1.8;}
+
+  .pillars{display:grid; grid-template-columns:repeat(3,1fr); gap:0;}
+  .pillar{padding:26px 24px 26px 0; border-top:1px solid var(--line);}
+  .pillar:not(:last-child){border-right:1px solid var(--line); padding-right:24px;}
+  .pillar .pct{font-family:'Fraunces',serif; font-size:30px; color:var(--amber); margin-bottom:10px;}
+  .pillar h3{font-size:17.5px; font-weight:700; color:var(--navy-deep); margin-bottom:8px;}
+  .pillar p{font-size:14.5px; color:#565D73; line-height:1.75;}
+
+  /* ---------- DEMO ---------- */
+  .demo-wrap{
+    background:var(--navy-deep); border-radius:26px; padding:4vw 4vw 5vw;
+    max-width:1280px; margin:2vw auto 6vw;
+  }
+  .demo-label{color:#8991AA; font-size:13px; margin-bottom:6px;}
+  .demo-wrap > h2{
+    font-family:'Fraunces', serif; color:var(--paper); font-size:clamp(22px,2.6vw,30px); font-weight:600; margin-bottom:22px;
+  }
+
+  .role-switch{
+    display:inline-flex; background:#1B2138; border-radius:12px; padding:4px; gap:4px; margin-bottom:24px;
+  }
+  .role-btn{
+    border:none; background:none; color:#8991AA; font-family:inherit; font-size:13.5px; font-weight:700;
+    padding:10px 20px; border-radius:9px; cursor:pointer; transition:background .15s, color .15s;
+  }
+  .role-btn.active{background:var(--amber); color:var(--navy-deep);}
+
+  .dash-panel{display:none;}
+  .dash-panel.active{display:block;}
+
+  .wallet-strip{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:24px;
+  }
+  .wallet-stat{
+    background:#1B2138; border-radius:14px; padding:18px 20px; border:1px solid rgba(255,255,255,0.06);
+  }
+  .wallet-stat .label{font-size:12px; color:#8991AA; margin-bottom:6px;}
+  .wallet-stat .value{font-family:'Fraunces',serif; font-size:26px; color:var(--paper);}
+  .wallet-stat .value span{font-size:14px; color:#8991AA; font-family:'Inter',sans-serif;}
+
+  .dash-grid{display:grid; grid-template-columns:1fr 1.35fr; gap:22px; align-items:start;}
+
+  .panel-card{
+    background:var(--paper); border-radius:16px; padding:22px;
+  }
+  .panel-card h3{font-size:15.5px; font-weight:700; color:var(--navy-deep); margin-bottom:4px;}
+  .panel-card .hint{font-size:12.5px; color:#7A8096; margin-bottom:16px;}
+
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:12px; font-weight:700; color:var(--navy-deep); margin-bottom:6px;}
+  .field input, .field textarea{
+    width:100%; border:1px solid var(--line); border-radius:9px; padding:10px 12px; font-family:inherit; font-size:13.5px;
+    background:var(--white);
+  }
+  .field textarea{resize:vertical; min-height:64px;}
+  .field .budget-wrap{position:relative;}
+  .field .budget-wrap input{padding-right:56px;}
+  .field .budget-wrap .cur{
+    position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:12px; color:#9AA0B2; font-weight:700;
+  }
+
+  .proj-list{display:flex; flex-direction:column; gap:12px;}
+  .proj-card{
+    background:var(--white); border-radius:14px; padding:16px 18px; border:1px solid var(--line);
+  }
+  .proj-top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
+  .proj-title{font-size:14.5px; font-weight:700; color:var(--navy-deep); line-height:1.4;}
+  .proj-meta{font-size:12px; color:#9AA0B2; margin-top:4px;}
+  .status-pill{
+    flex:none; font-size:11px; font-weight:700; padding:5px 11px; border-radius:20px; white-space:nowrap;
+  }
+  .status-open{background:rgba(227,162,58,0.16); color:#9A6B1E;}
+  .status-accepted{background:rgba(20,26,46,0.08); color:var(--navy);}
+  .status-delivered{background:rgba(192,67,46,0.1); color:#A8402C;}
+  .status-approved{background:rgba(124,152,133,0.18); color:#4C6553;}
+
+  .proj-row{display:flex; align-items:center; justify-content:space-between; margin-top:14px; gap:10px; flex-wrap:wrap;}
+  .proj-budget{font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:600; color:var(--navy-deep);}
+  .proj-budget span{font-size:11px; color:#9AA0B2; font-family:'Inter',sans-serif; font-weight:600;}
+  .proj-person{display:flex; align-items:center; gap:8px; font-size:12.5px; color:#565D73;}
+  .proj-person img{width:24px; height:24px; border-radius:50%;}
+
+  .release-breakdown{
+    margin-top:14px; padding:13px 14px; background:var(--paper-dim); border-radius:10px;
+    font-size:12.5px; color:#3B4258; line-height:2;
+  }
+  .release-breakdown .rline{display:flex; justify-content:space-between;}
+  .release-breakdown .rline.total{font-weight:700; color:var(--navy-deep); border-top:1px dashed var(--line); margin-top:4px; padding-top:6px;}
+  .release-breakdown .rline .neg{color:#A8402C;}
+  .release-breakdown .rline .pos{color:#4C6553;}
+
+  .ledger{margin-top:22px;}
+  .ledger h3{font-size:14.5px; font-weight:700; color:var(--paper); margin-bottom:12px;}
+  .ledger-row{
+    display:flex; align-items:center; justify-content:space-between; padding:11px 4px;
+    border-bottom:1px solid rgba(255,255,255,0.07); font-size:12.8px;
+  }
+  .ledger-row:last-child{border-bottom:none;}
+  .ledger-left{display:flex; align-items:center; gap:10px;}
+  .ledger-dot{width:8px; height:8px; border-radius:50%; flex:none;}
+  .ledger-desc{color:#D8DBE6;}
+  .ledger-desc .sub{display:block; font-size:11px; color:#8991AA; margin-top:2px;}
+  .ledger-amt{font-family:'JetBrains Mono',monospace; font-weight:600;}
+  .ledger-amt.out{color:#E58B7C;}
+  .ledger-amt.in{color:#9BC6A5;}
+
+  .empty-note{font-size:12.5px; color:#7A8096; padding:20px 6px; text-align:center;}
+
+  .pricing-section{background:var(--navy-deep); border-radius:26px; padding:5vw 6vw; max-width:1280px; margin:0 auto 6vw;}
+  .pricing-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;}
+  .pricing-grid h2{font-family:'Fraunces',serif; color:var(--paper); font-size:clamp(24px,2.8vw,34px); font-weight:600; line-height:1.3;}
+  .pricing-grid p{color:#A9AFC4; margin-top:16px; line-height:1.85; font-size:15px;}
+  .price-card{background:#1B2138; border-radius:18px; padding:28px; border:1px solid rgba(255,255,255,0.07);}
+  .price-card .amt{font-family:'Fraunces',serif; font-size:44px; color:var(--paper); font-weight:600;}
+  .price-card .amt span{font-size:15px; color:#8991AA; font-weight:400;}
+  .price-card ul{list-style:none; margin-top:20px; display:flex; flex-direction:column; gap:11px;}
+  .price-card li{color:#C7CBDA; font-size:13px; display:flex; gap:10px; align-items:flex-start;}
+  .price-card li::before{content:"—"; color:var(--amber); flex:none;}
+
+  footer{padding:30px 6vw 40px; text-align:center; color:#9AA0B2; font-size:13px; border-top:1px solid var(--line);}
+
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr; gap:32px; padding-top:14vw;}
+    .pillars{grid-template-columns:1fr;}
+    .pillar{border-right:none !important; padding-right:0 !important;}
+    .dash-grid{grid-template-columns:1fr;}
+    .wallet-strip{grid-template-columns:1fr;}
+    .pricing-grid{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none !important;}}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="brand"><span class="mark"></span> Vaultwork</div>
+  <button class="nav-cta" onclick="document.getElementById('demo').scrollIntoView()">Try the demo</button>
+</header>
+
+<section class="hero">
+  <div>
+    <h1>Post the job. Freelancers get paid only when you approve it.</h1>
+    <p class="lede">Vaultwork holds every project's budget in crypto escrow the moment it's funded. When the client approves the delivered work, the platform takes a 20% fee and instantly pays out the rest — no invoices, no chasing payments, no disputes over who pays first.</p>
+    <div class="cta-row">
+      <button class="btn-primary" onclick="document.getElementById('demo').scrollIntoView()">Try the demo</button>
+      <button class="btn-ghost" onclick="document.getElementById('how').scrollIntoView()">How payment works</button>
+    </div>
+  </div>
+  <div class="flow-card">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div><h4>Client posts & funds escrow</h4><p>Budget moves into escrow in crypto the moment the project goes live.</p></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div><h4>Freelancer accepts & delivers</h4><p>Work happens inside the project thread. Funds stay locked until approval.</p></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div><h4>Client approves</h4><p>One click confirms the work is done and releases the escrow.</p></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div><h4>Instant 80/20 split</h4><p>80% pays out to the freelancer's wallet, 20% goes to Vaultwork — automatically.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="section-head">
+    <h2>Escrow-first, crypto-only, no manual invoicing</h2>
+    <p>Every payment on Vaultwork moves through the same rails: funding, escrow, and payout are all digital currency. Nobody has to trust the other side — the contract holds the money.</p>
+  </div>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pct">100%</div>
+      <h3>Escrow before work starts</h3>
+      <p>A project can't go live until the client's budget is locked in escrow — freelancers never work on a promise.</p>
+    </div>
+    <div class="pillar">
+      <div class="pct">20%</div>
+      <h3>Platform fee, taken automatically</h3>
+      <p>Vaultwork keeps 20% of the released budget when a client approves the work; the split happens in the same transaction.</p>
+    </div>
+    <div class="pillar">
+      <div class="pct">0</div>
+      <h3>Manual payouts</h3>
+      <p>All funding, escrow, and payouts move through digital currency wallets — no bank transfers, no waiting on invoices.</p>
+    </div>
+  </div>
+</section>
+
+<section class="demo-wrap" id="demo">
+  <div class="demo-label">Interactive demo</div>
+  <h2>Try both sides of the marketplace</h2>
+
+  <div class="role-switch">
+    <button class="role-btn active" data-role="employer">I'm hiring</button>
+    <button class="role-btn" data-role="freelancer">I'm freelancing</button>
+  </div>
+
+  <!-- EMPLOYER PANEL -->
+  <div class="dash-panel active" id="panel-employer">
+    <div class="wallet-strip">
+      <div class="wallet-stat"><div class="label">In escrow</div><div class="value" id="empEscrow">—</div></div>
+      <div class="wallet-stat"><div class="label">Paid out to freelancers</div><div class="value" id="empPaid">—</div></div>
+      <div class="wallet-stat"><div class="label">Active projects</div><div class="value" id="empActive">—</div></div>
+    </div>
+    <div class="dash-grid">
+      <div class="panel-card">
+        <h3>Post a new project</h3>
+        <div class="hint">Budget is funded in crypto and locked in escrow immediately.</div>
+        <div class="field">
+          <label>Project title</label>
+          <input type="text" id="newTitle" placeholder="e.g. Redesign my product landing page">
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea id="newDesc" placeholder="What needs to get done?"></textarea>
+        </div>
+        <div class="field">
+          <label>Budget</label>
+          <div class="budget-wrap">
+            <input type="number" id="newBudget" placeholder="300" min="1">
+            <span class="cur">USDT</span>
+          </div>
+        </div>
+        <button class="btn-primary" style="width:100%;" onclick="postProject()">Post & fund escrow</button>
+      </div>
+      <div>
+        <div class="proj-list" id="employerProjects"></div>
+      </div>
+    </div>
+    <div class="ledger">
+      <h3>Escrow & payout activity</h3>
+      <div id="employerLedger"></div>
+    </div>
+  </div>
+
+  <!-- FREELANCER PANEL -->
+  <div class="dash-panel" id="panel-freelancer">
+    <div class="wallet-strip">
+      <div class="wallet-stat"><div class="label">Wallet balance</div><div class="value" id="freBalance">—</div></div>
+      <div class="wallet-stat"><div class="label">In progress</div><div class="value" id="freActive">—</div></div>
+      <div class="wallet-stat"><div class="label">Open projects nearby</div><div class="value" id="freOpen">—</div></div>
+    </div>
+    <div class="dash-grid">
+      <div class="panel-card">
+        <h3>My active work</h3>
+        <div class="hint">Projects you've accepted. Submit delivery when the work is ready for review.</div>
+        <div class="proj-list" id="myWorkProjects"></div>
+      </div>
+      <div>
+        <div class="panel-card" style="padding-bottom:8px;">
+          <h3>Open projects</h3>
+          <div class="hint">Funded and waiting for a freelancer to accept.</div>
+        </div>
+        <div class="proj-list" id="openProjects"></div>
+      </div>
+    </div>
+    <div class="ledger">
+      <h3>Wallet activity</h3>
+      <div id="freelancerLedger"></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-section">
+  <div class="pricing-grid">
+    <div>
+      <h2>One platform fee. No other costs.</h2>
+      <p>Clients pay only the project budget, funded in crypto. Vaultwork's 20% fee is deducted automatically from the escrow when a project is approved — freelancers never get invoiced, clients never get surprise charges.</p>
+    </div>
+    <div class="price-card">
+      <div class="amt">20%<span> platform fee</span></div>
+      <ul>
+        <li>Crypto escrow funding on every project</li>
+        <li>Automatic 80/20 split on approval</li>
+        <li>In-app project chat and delivery tracking</li>
+        <li>Wallet & transaction history for both sides</li>
+        <li>Full web and mobile app access</li>
+      </ul>
+      <button class="btn-primary" style="width:100%; margin-top:22px;" onclick="alert('Wallet connection is disabled in this demo.')">Connect wallet to get started</button>
+    </div>
+  </div>
+</section>
+
+<footer>Demo version — built to showcase Vaultwork's escrow payment flow before purchase</footer>
+
+<script>
+  // ---------- DATA ----------
+  let projects = [
+    {id:1, title:"Landing page design for my bakery", desc:"Single-page site with online ordering link.", employer:"You", employerIsUser:true,
+     freelancer:"Priya Shah", freelancerAvatar:"https://i.pravatar.cc/48?img=47", budget:400, status:"delivered"},
+    {id:2, title:"Social media content pack — 12 posts", desc:"Instagram carousel templates + captions.", employer:"You", employerIsUser:true,
+     freelancer:"Marco Reyes", freelancerAvatar:"https://i.pravatar.cc/48?img=15", budget:180, status:"accepted"},
+    {id:3, title:"Logo redesign", desc:"Refresh of an existing wordmark.", employer:"You", employerIsUser:true,
+     freelancer:"Alex Turner", freelancerAvatar:"https://i.pravatar.cc/48?img=22", budget:150, status:"approved"},
+    {id:4, title:"Write 5 travel blog posts", desc:"800 words each, SEO-friendly, destinations in Europe.", employer:"Nora Kim", employerIsUser:false,
+     freelancer:null, budget:250, status:"open"},
+    {id:5, title:"Edit a 10-minute YouTube video", desc:"Cuts, captions, and simple motion titles.", employer:"Kian Walsh", employerIsUser:false,
+     freelancer:null, budget:120, status:"open"},
+    {id:6, title:"Translate a document, English to Spanish", desc:"12-page legal summary, formal tone.", employer:"Sarah Bennett", employerIsUser:false,
+     freelancer:null, budget:90, status:"open"},
+    {id:7, title:"Fix bugs on my WordPress site", desc:"Checkout page is broken on mobile Safari.", employer:"Emma Wallace", employerIsUser:false,
+     freelancer:"You", freelancerIsUser:true, budget:300, status:"accepted"},
+  ];
+  let nextId = 8;
+  let ledger = [
+    {who:"employer", type:"escrow", desc:"Escrow funded — Landing page design for my bakery", sub:"Locked until you approve", amount:400, dir:"out"},
+    {who:"employer", type:"escrow", desc:"Escrow funded — Social media content pack", sub:"Locked until you approve", amount:180, dir:"out"},
+    {who:"employer", type:"fee", desc:"Project approved — Logo redesign", sub:"20% platform fee · 80% paid to Alex Turner", amount:150, dir:"out"},
+    {who:"freelancer", type:"payout", desc:"Payout received — Logo redesign", sub:"After 20% platform fee", amount:120, dir:"in"},
+  ];
+
+  const statusLabel = {open:"Open", accepted:"In progress", delivered:"Awaiting your review", approved:"Paid"};
+  const statusClass = {open:"status-open", accepted:"status-accepted", delivered:"status-delivered", approved:"status-approved"};
+
+  function fmt(n){ return "$"+Number(n).toLocaleString(); }
+
+  // ---------- EMPLOYER RENDER ----------
+  function renderEmployer(){
+    const mine = projects.filter(p=>p.employerIsUser);
+    const escrow = mine.filter(p=>p.status!=="approved").reduce((s,p)=>s+p.budget,0);
+    const paid = mine.filter(p=>p.status==="approved").reduce((s,p)=>s+p.budget*0.8,0);
+    document.getElementById('empEscrow').innerHTML = fmt(escrow)+' <span>USDT</span>';
+    document.getElementById('empPaid').innerHTML = fmt(paid)+' <span>USDT</span>';
+    document.getElementById('empActive').textContent = mine.filter(p=>p.status!=="approved").length;
+
+    document.getElementById('employerProjects').innerHTML = mine.map(p=>{
+      let actionHtml = "";
+      if(p.status==="delivered"){
+        actionHtml = `<button class="btn-line" onclick="approveProject(${p.id})">Approve & release payment</button>`;
+      } else if(p.status==="approved"){
+        const fee=(p.budget*0.2).toFixed(0), pay=(p.budget*0.8).toFixed(0);
+        actionHtml = `<div class="release-breakdown">
+          <div class="rline"><span>Escrow released</span><span>${fmt(p.budget)}</span></div>
+          <div class="rline"><span>Platform fee (20%)</span><span class="neg">−${fmt(fee)}</span></div>
+          <div class="rline total"><span>Paid to ${p.freelancer}</span><span class="pos">${fmt(pay)}</span></div>
+        </div>`;
+      }
+      return `
+      <div class="proj-card">
+        <div class="proj-top">
+          <div>
+            <div class="proj-title">${p.title}</div>
+            <div class="proj-meta">${p.freelancer ? 'Freelancer: '+p.freelancer : 'Waiting for a freelancer to accept'}</div>
+          </div>
+          <span class="status-pill ${statusClass[p.status]}">${statusLabel[p.status]}</span>
+        </div>
+        <div class="proj-row">
+          <div class="proj-budget">${fmt(p.budget)} <span>USDT escrow</span></div>
+          ${p.freelancer ? `<div class="proj-person"><img src="${p.freelancerAvatar||'https://i.pravatar.cc/48?img=5'}">${p.freelancer}</div>` : ''}
+        </div>
+        ${actionHtml}
+      </div>`;
+    }).join('') || '<div class="empty-note">No projects posted yet.</div>';
+
+    document.getElementById('employerLedger').innerHTML = renderLedger('employer');
+  }
+
+  function approveProject(id){
+    const p = projects.find(x=>x.id===id);
+    p.status = "approved";
+    const fee = p.budget*0.2, pay = p.budget*0.8;
+    ledger.unshift({who:"employer", type:"fee", desc:`Project approved — ${p.title}`, sub:`20% platform fee · 80% paid to ${p.freelancer}`, amount:p.budget, dir:"out"});
+    ledger.unshift({who:"freelancer", type:"payout", desc:`Payout received — ${p.title}`, sub:"After 20% platform fee", amount:pay, dir:"in"});
+    renderEmployer();
+    renderFreelancer();
+  }
+
+  function postProject(){
+    const title = document.getElementById('newTitle').value.trim();
+    const desc = document.getElementById('newDesc').value.trim();
+    const budget = parseFloat(document.getElementById('newBudget').value);
+    if(!title || !budget || budget<=0){ alert("Add a title and a budget to post the project."); return; }
+    projects.unshift({id:nextId++, title, desc, employer:"You", employerIsUser:true, freelancer:null, budget, status:"open"});
+    ledger.unshift({who:"employer", type:"escrow", desc:`Escrow funded — ${title}`, sub:"Locked until you approve", amount:budget, dir:"out"});
+    document.getElementById('newTitle').value="";
+    document.getElementById('newDesc').value="";
+    document.getElementById('newBudget').value="";
+    renderEmployer();
+    renderFreelancer();
+  }
+
+  // ---------- FREELANCER RENDER ----------
+  function renderFreelancer(){
+    const myWork = projects.filter(p=>p.freelancerIsUser);
+    const open = projects.filter(p=>p.status==="open" && !p.employerIsUser);
+    const balance = ledger.filter(l=>l.who==="freelancer" && l.dir==="in").reduce((s,l)=>s+l.amount,0);
+    document.getElementById('freBalance').innerHTML = fmt(balance)+' <span>USDT</span>';
+    document.getElementById('freActive').textContent = myWork.filter(p=>p.status!=="approved").length;
+    document.getElementById('freOpen').textContent = open.length;
+
+    document.getElementById('myWorkProjects').innerHTML = myWork.map(p=>{
+      let actionHtml = "";
+      if(p.status==="accepted"){
+        actionHtml = `<button class="btn-line" onclick="submitDelivery(${p.id})">Submit delivery</button>`;
+      } else if(p.status==="delivered"){
+        actionHtml = `<div class="hint" style="margin:0; padding-top:10px;">Waiting for client approval.</div>`;
+      } else if(p.status==="approved"){
+        const pay=(p.budget*0.8).toFixed(0);
+        actionHtml = `<div class="release-breakdown">
+          <div class="rline total"><span>You received</span><span class="pos">${fmt(pay)} USDT</span></div>
+        </div>`;
+      }
+      return `
+      <div class="proj-card">
+        <div class="proj-top">
+          <div>
+            <div class="proj-title">${p.title}</div>
+            <div class="proj-meta">Client: ${p.employer}</div>
+          </div>
+          <span class="status-pill ${statusClass[p.status]}">${statusLabel[p.status]}</span>
+        </div>
+        <div class="proj-row">
+          <div class="proj-budget">${fmt(p.budget)} <span>USDT budget</span></div>
+        </div>
+        ${actionHtml}
+      </div>`;
+    }).join('') || '<div class="empty-note">You haven\\'t accepted any projects yet.</div>';
+
+    document.getElementById('openProjects').innerHTML = open.map(p=>`
+      <div class="proj-card">
+        <div class="proj-top">
+          <div>
+            <div class="proj-title">${p.title}</div>
+            <div class="proj-meta">Client: ${p.employer}</div>
+          </div>
+          <span class="status-pill ${statusClass[p.status]}">${statusLabel[p.status]}</span>
+        </div>
+        <div class="proj-row">
+          <div class="proj-budget">${fmt(p.budget)} <span>USDT escrow</span></div>
+          <button class="btn-line" onclick="acceptProject(${p.id})">Accept project</button>
+        </div>
+      </div>`).join('') || '<div class="empty-note">No open projects right now.</div>';
+
+    document.getElementById('freelancerLedger').innerHTML = renderLedger('freelancer');
+  }
+
+  function acceptProject(id){
+    const p = projects.find(x=>x.id===id);
+    p.freelancer = "You"; p.freelancerIsUser = true; p.status = "accepted";
+    renderFreelancer();
+  }
+  function submitDelivery(id){
+    const p = projects.find(x=>x.id===id);
+    p.status = "delivered";
+    renderFreelancer();
+    renderEmployer();
+  }
+
+  // ---------- LEDGER ----------
+  function renderLedger(who){
+    const rows = ledger.filter(l=>l.who===who).slice(0,6);
+    if(rows.length===0) return '<div class="empty-note" style="color:#7A8096;">No activity yet.</div>';
+    return rows.map(l=>`
+      <div class="ledger-row">
+        <div class="ledger-left">
+          <span class="ledger-dot" style="background:${l.dir==='in'?'#7C9885':'#E3A23A'}"></span>
+          <div class="ledger-desc">${l.desc}<span class="sub">${l.sub}</span></div>
+        </div>
+        <div class="ledger-amt ${l.dir}">${l.dir==='in'?'+':'−'}${fmt(l.amount)}</div>
+      </div>
+    `).join('');
+  }
+
+  // ---------- ROLE SWITCH ----------
+  document.querySelectorAll('.role-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.dash-panel').forEach(p=>p.classList.remove('active'));
+      document.getElementById('panel-'+btn.dataset.role).classList.add('active');
+    });
+  });
+
+  renderEmployer();
+  renderFreelancer();
+</script>
+
+</body>
+</html>
