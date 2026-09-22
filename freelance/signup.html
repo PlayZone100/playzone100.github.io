@@ -332,12 +332,9 @@
 
 <script>
   // ---------------------------------------------------------------
-  // Where signups get sent. Point this at your own endpoint (e.g. a
-  // Cloudflare Worker route, the same way WORKER_URL is used in the
-  // checkout page) to actually receive submissions by email/database.
-  // Left empty, the form just shows the success screen for preview.
+  // Your real backend API (Cloudflare Worker + D1).
   // ---------------------------------------------------------------
-  const SIGNUP_ENDPOINT = "";
+  const API_URL = "https://questmart-freelance-api.alice56885236.workers.dev";
 
   const roleBtns = document.querySelectorAll('.role-btn');
   const forms = { client: document.getElementById('form-client'), freelancer: document.getElementById('form-freelancer') };
@@ -386,29 +383,50 @@
     if(!validateForm(form)) return;
 
     const data = Object.fromEntries(new FormData(form).entries());
-    data.role = role;
 
     const submitBtn = form.querySelector('.btn-submit');
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting…";
 
     try{
-      if(SIGNUP_ENDPOINT){
-        await fetch(SIGNUP_ENDPOINT, {
-          method: "POST",
-          headers: {"Content-Type":"application/json"},
-          body: JSON.stringify(data)
-        });
+      // 1) create the account
+      const signupRes = await fetch(`${API_URL}/api/signup`, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+          name: data.fullName,
+          role: role === 'client' ? 'employer' : 'freelancer',
+          wallet_address: data.walletAddress || null
+        })
+      });
+      const signupResult = await signupRes.json();
+      if(signupResult.error){
+        throw new Error(signupResult.error);
       }
+
+      // 2) log them in right away so they land with a session token
+      const loginRes = await fetch(`${API_URL}/api/login`, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ email: data.email, password: data.password })
+      });
+      const loginResult = await loginRes.json();
+      if(loginResult.token){
+        localStorage.setItem('qm_token', loginResult.token);
+        localStorage.setItem('qm_user', JSON.stringify(loginResult.user));
+      }
+
       form.style.display = 'none';
       successMsg.textContent = role === 'client'
-        ? "Thanks for signing up as a client. We'll review your details and follow up by email shortly."
-        : "Thanks for signing up. We'll review your profile and payout details, then follow up by email.";
+        ? "حساب کارفرمایی‌ات ساخته شد. حالا می‌تونی وارد بشی و پروژه پست کنی."
+        : "حساب فریلنسری‌ات ساخته شد. حالا می‌تونی وارد بشی و پروژه‌های باز رو ببینی.";
       successBox.classList.add('show');
     } catch(err){
       submitBtn.disabled = false;
       submitBtn.textContent = role === 'client' ? "Create client account" : "Create freelancer account";
-      alert("Something went wrong submitting the form. Please try again.");
+      alert("مشکلی پیش اومد: " + err.message);
     }
   }
 
