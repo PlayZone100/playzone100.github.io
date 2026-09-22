@@ -14,7 +14,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,500;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#14121f;--paper:#eef1f6;--blue:#2b44ff;--blue-d:#1d2fc4;--flash:#ffe14a;--pink:#ff4d8d;--line:#d5dae6;--rail:#14121f;--panel:#fff;--work:#e6e9f1;
+:root{--ink:#0e0e14;--paper:#f3f4f8;--blue:#5b57ff;--blue-d:#4642e0;--flash:#e8b74e;--pink:#ef4f6d;--line:#dcdfe8;--rail:#0b0b11;--panel:#fff;--work:#e8e9f0;
+--glass:rgba(255,255,255,.055);--glass-line:rgba(255,255,255,.09);--glass-hi:rgba(255,255,255,.14);
 --display:'Bricolage Grotesque',system-ui,sans-serif;--body:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -39,10 +40,10 @@ em{font-style:normal}
 .tool{flex:none;border:2px solid var(--ink);background:transparent;border-radius:10px;padding:6px 11px;font:600 13px var(--display);white-space:nowrap}
 .tool:hover{background:rgba(127,127,140,.16)}.tool[disabled]{opacity:.35;pointer-events:none}.tool.danger:hover{background:var(--pink);border-color:var(--pink);color:#fff}
 /* studio shell */
-.studio{background:var(--panel);border-radius:16px;overflow:hidden;box-shadow:0 1px 0 rgba(20,18,31,.06),0 24px 60px -30px rgba(20,18,31,.45);display:flex;flex-direction:column;height:min(880px,calc(100vh - 70px));min-height:640px}
-.tb{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px;background:linear-gradient(90deg,#14121f,#22206b);color:#fff}
+.studio{background:var(--panel);border-radius:18px;overflow:hidden;box-shadow:0 1px 0 rgba(14,14,20,.06),0 30px 70px -32px rgba(14,14,20,.55);display:flex;flex-direction:column;height:min(880px,calc(100vh - 70px));min-height:640px;border:1px solid rgba(14,14,20,.06)}
+.tb{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 16px;background:linear-gradient(180deg,#151520,#0e0e14);color:#fff;border-bottom:1px solid var(--glass-line)}
 .tb-l,.tb-r{display:flex;align-items:center;gap:8px}
-.logo{font:800 20px var(--display);letter-spacing:-.03em;margin-right:8px}.logo b{color:var(--flash);font-weight:800}
+.logo{font:800 19px var(--display);letter-spacing:-.03em;margin-right:8px;text-transform:uppercase}.logo b{color:var(--flash);font-weight:800}
 .ib{width:36px;height:36px;border:0;border-radius:9px;background:rgba(255,255,255,.1);color:#fff;font-size:18px}.ib:hover{background:rgba(255,255,255,.2)}.ib[disabled]{opacity:.3;pointer-events:none}
 .body{flex:1;display:flex;min-height:0}
 .rail{width:78px;flex:none;background:var(--rail);display:flex;flex-direction:column;gap:2px;padding:8px 6px;overflow-y:auto}
@@ -54,10 +55,10 @@ em{font-style:normal}
 .sh{font-size:15px;margin:10px 2px 6px}
 .note{font-size:13px;margin:4px 0 10px;opacity:.75}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.tile{position:relative;border:0;background:#f1f3f9;padding:8px 4px 6px;text-align:center;border-radius:12px}
-.tile:hover{background:#e6e9f7}
-.tile img{display:block;width:100%;height:64px;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,0,30,.25));transition:transform .15s}
-.tile:hover img{transform:rotate(-4deg) translateY(-2px) scale(1.05)}.tile:active img{transform:scale(.96)}
+.tile{position:relative;border:1px solid transparent;background:#f1f2f7;padding:8px 4px 6px;text-align:center;border-radius:12px;transition:background .12s,border-color .12s}
+.tile:hover{background:#eceefa;border-color:var(--line)}
+.tile img{display:block;width:100%;height:64px;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,0,20,.2));transition:transform .15s}
+.tile:hover img{transform:translateY(-2px) scale(1.04)}.tile:active img{transform:scale(.97)}
 .tile span{display:block;margin-top:6px;font:600 11.5px/1.2 var(--display)}
 .lock{position:absolute;top:4px;right:4px;background:var(--flash);color:#14121f;font:700 10px var(--display);width:20px;height:20px;border-radius:99px;display:grid;place-items:center;font-style:normal;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .del{position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:99px;background:rgba(20,18,31,.7);color:#fff;text-decoration:none;font:700 14px/20px sans-serif;opacity:0;transition:opacity .15s}.tile:hover .del{opacity:1}
@@ -67,6 +68,7 @@ em{font-style:normal}
 .look .pv{display:flex;justify-content:center;align-items:center;height:56px;gap:0}.look .pv img{height:100%;max-width:38%;object-fit:contain;margin:0 -3px;filter:drop-shadow(0 2px 2px rgba(0,0,30,.25))}
 .look span{display:block;margin-top:6px;font:700 12.5px/1.2 var(--display)}
 .look em{position:absolute;top:6px;left:6px;background:var(--ink);color:#fff;font:700 9px var(--display);padding:1px 6px;border-radius:99px}
+.look em.trend{left:auto;right:6px;background:var(--blue)}
 .field{display:grid;gap:5px;margin-bottom:12px;font:600 13px var(--display)}
 .field input[type=text],.field select,.mini select{width:100%;border:2px solid var(--line);border-radius:9px;padding:8px 10px;font:600 15px var(--body);background:#fff;color:#14121f}
 .inline{display:flex;gap:8px;align-items:center;font:600 13px var(--display);margin:6px 0 12px}
@@ -243,7 +245,7 @@ dialog::backdrop{background:rgba(10,10,25,.6);backdrop-filter:blur(3px)}
         <ul><li><em data-count="free"></em> props and free Looks</li><li>Auto face fitting and hand adjust</li><li>Meme captions, B&amp;W and Vintage filters</li><li>Downloads up to 1080 px with a small badge</li></ul>
         <button class="btn ghost" data-scroll-top>Open the studio</button></div>
       <div class="plan pop"><h3>Pro monthly</h3><div class="amt">$5<small> / month</small></div>
-        <ul><li>All <em data-count="all"></em> props and every Look</li><li>Face warp, Hide faces, Face swap</li><li>Animated GIFs and Batch mode</li><li>Comic, Sketch, Pixel and Pop filters</li><li>Size presets, HD, no badge</li><li>Your own sticker library</li></ul>
+        <ul><li>All <em data-count="all"></em> props and every Look</li><li>Face warp, Hide faces, Face swap</li><li>Animated GIFs and video reels</li><li>Cinematic, film grain, portrait blur and more</li><li>True HD/4K exports, no badge</li><li>Your own sticker library</li></ul>
         <button class="btn" data-plan="monthly">Get Pro</button></div>
       <div class="plan pop"><span class="save">Save 33%</span><h3>Pro yearly</h3><div class="amt">$40<small> / year</small></div>
         <ul><li>Everything in monthly</li><li>Works out to $3.33 a month</li><li>New props and Looks included all year</li></ul>
@@ -256,6 +258,7 @@ dialog::backdrop{background:rgba(10,10,25,.6);backdrop-filter:blur(3px)}
 <input type="file" id="file" accept="image/*" hidden>
 <input type="file" id="stickerFile" accept="image/*" hidden>
 <input type="file" id="batchFile" accept="image/*" multiple hidden>
+<input type="file" id="vidMusic" accept="audio/*" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <dialog id="proDlg" aria-labelledby="proTitle">
@@ -264,7 +267,7 @@ dialog::backdrop{background:rgba(10,10,25,.6);backdrop-filter:blur(3px)}
     <h2 id="proTitle">👑 Meme Studio Pro</h2>
     <p id="proMsg" hidden></p>
     <div id="licInfo" class="box" hidden></div>
-    <ul class="perks"><li>Every prop and Look, including the beard, disguise kit and viking</li><li>Face warp, Hide faces and Face swap</li><li>Animated GIFs and Batch mode (a whole folder to ZIP)</li><li>Size presets, HD downloads without the badge</li><li>Your own sticker library, saved on your device</li></ul>
+    <ul class="perks"><li>Every prop and Look, including the beard, disguise kit and viking</li><li>Face warp, Hide faces and Face swap</li><li>Animated GIFs, video reels and Batch mode (a whole folder to ZIP)</li><li>Cinematic, film grain and portrait-blur filters</li><li>Size presets, true HD/4K downloads without the badge</li><li>Your own sticker library, saved on your device</li></ul>
     <div class="plan-pick" role="radiogroup" aria-label="Plan">
       <button class="opt" role="radio" data-p="monthly" aria-checked="false"><b>$5 / month</b><span>Renew when you like</span></button>
       <button class="opt" role="radio" data-p="yearly" aria-checked="true"><b>$40 / year</b><span>Save 33%, about $3.33 a month</span></button>
@@ -298,9 +301,14 @@ const CONFIG = {
   // 3) Limits and text (safe to leave as is)
   PRICES: { monthly: 5, yearly: 40 },
   FREE_EXPORT_MAX: 1080,         // longest side of a free download, in pixels
-  WORK_MAX: 3200,                // longest side of the working photo / Pro download
+  WORK_MAX: 4096,                // longest side of the working photo / Pro download (true HD/4K ceiling)
   WATERMARK: "made with questmart.online",
-  STICKER_PACK: "meme-stickers/pack.json"   // optional: real PNG props you add later
+  STICKER_PACK: "meme-stickers/pack.json",  // optional: real PNG props you add later
+  LOOKS_PACK: "meme-looks/pack.json"        // optional: trending Looks you can add/change without touching this file.
+  // Format: a JSON array on GitHub, e.g.
+  // [{"id":"summer26","name":"Summer '26","items":["aviator","flowers","tears"],"anim":"bounce"}]
+  // "items" must be ids of props that already exist in this file (see the ART list below).
+  // Leave LOOKS_PACK as "" to turn this off.
 };
 
 </script>
@@ -810,6 +818,25 @@ function filterCanvas(src,id,amt){
       const v=1-.55*Math.pow(Math.hypot(x-cx,y-cy)/md,2.2),gr=(Math.random()-.5)*22;
       d[i]=clamp(R*v+gr,0,255);d[i+1]=clamp(G*v+gr,0,255);d[i+2]=clamp(B*v+gr,0,255);}
   }
+  else if(id==='cinematic'){
+    const cx=w/2,cy=h/2,md=Math.hypot(cx,cy);
+    for(let y=0,i=0;y<h;y++)for(let x=0;x<w;x++,i+=4){
+      let r=d[i],g=d[i+1],b=d[i+2];const l=(r+g+b)/765;
+      r=r+(1-l)*-10+l*16;g=g+(1-l)*1+l*5;b=b+(1-l)*15+l*-8;
+      r=clamp((r-128)*1.14+128,0,255);g=clamp((g-128)*1.1+128,0,255);b=clamp((b-128)*1.06+128,0,255);
+      const v=1-.38*Math.pow(Math.hypot(x-cx,y-cy)/md,2.5);
+      d[i]=clamp(r*v,0,255);d[i+1]=clamp(g*v,0,255);d[i+2]=clamp(b*v,0,255);
+    }
+  }
+  else if(id==='grain'){
+    for(let i=0;i<d.length;i+=4){
+      const n=(Math.random()-.5)*30,n2=(Math.random()-.5)*8;
+      d[i]=clamp(d[i]+n,0,255);d[i+1]=clamp(d[i+1]+n+n2,0,255);d[i+2]=clamp(d[i+2]+n+n2,0,255);
+    }
+  }
+  else if(id==='portrait'){
+    /* handled after this pass in processBase, where face positions are known; here we just soften slightly so the mix looks right at low amt */
+  }
   else if(id==='pop'){
     const pal=[[24,20,92],[230,0,126],[255,212,0],[255,246,214]];
     for(let i=0;i<d.length;i+=4){const g=(.3*d[i]+.59*d[i+1]+.11*d[i+2])/255,k=g<.25?0:g<.5?1:g<.78?2:3;d[i]=pal[k][0];d[i+1]=pal[k][1];d[i+2]=pal[k][2];}
@@ -935,10 +962,11 @@ const lerp=(a,b,t)=>({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t});
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const VISION='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
 const MODEL='https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task';
-const FILTERS=[['none','None',0],['bw','B&W',0],['vintage','Vintage',0],['comic','Comic',1],['sketch','Sketch',1],['pixel','Pixel',1],['pop','Pop art',1]];
+const FILTERS=[['none','None',0],['bw','B&W',0],['vintage','Vintage',0],['cinematic','Cinematic',1],['grain','Film grain',1],['portrait','Portrait blur',1],['comic','Comic',1],['sketch','Sketch',1],['pixel','Pixel',1],['pop','Pop art',1]];
 const FILTERS_PRO=new Set(FILTERS.filter(f=>f[2]).map(f=>f[0]));
 const FORMATS=[['orig','Original','As shot'],['1:1','Square','1080×1080'],['4:5','Portrait','1080×1350'],['9:16','Story','1080×1920'],['16:9','Wide','1280×720'],['circle','Avatar','512 round']];
 const OUT={'1:1':[1080,1080],'4:5':[1080,1350],'9:16':[1080,1920],'16:9':[1280,720],circle:[512,512]};
+const OUT_PRO={'1:1':[2160,2160],'4:5':[2160,2700],'9:16':[2160,3840],'16:9':[3840,2160],circle:[1024,1024]};
 const RATIO={'1:1':1,'4:5':.8,'9:16':9/16,'16:9':16/9,circle:1};
 const RAIL=[['looks','✨','Looks'],['hats','🎩','Hats'],['eyes','🕶️','Eyes'],['face','👄','Face'],['fx','💥','Extras'],['tools','🛠️','Tools'],['mine','⬆️','Yours'],['text','🔤','Text']];
 const LOOKS=[
@@ -966,7 +994,7 @@ const LOOKS=[
 const state={base:null,W:0,H:0,vs:1,view:null,dirty:true,faces:[],active:0,all:false,items:[],sel:null,nid:1,realism:60,lum:.5,
   top:'',bottom:'',capSize:100,pro:false,lic:null,undo:[],redo:[],tab:'looks',plan:'yearly',stickerBg:true,stickerTol:40,manual:false,
   warp:[],filter:{id:'none',amt:100},hide:{mode:'none',keep:false,emoji:'cvr_smile'},aspect:'orig',zoom:100,panX:50,panY:50,
-  anim:{speed:5,playing:false,start:0},gifSize:480,batchMode:'all',search:'',open:new Set(['filters'])};
+  anim:{speed:5,playing:false,start:0},gifSize:480,batchMode:'all',search:'',open:new Set(['filters']),videoMusic:null,videoLoops:3};
 const DEFS=new Map();
 ART.forEach(a=>{a.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(a.svg);a.aspect=a.vh/a.vw;DEFS.set(a.id,a);});
 const cv=$('#cv'),ctxV=cv.getContext('2d');
@@ -1161,9 +1189,26 @@ function processBase(sc,s){
     if(p.mouth)LIB.bulge(c,f.mouth.x*s,f.mouth.y*s,f.faceW*.32*s,p.mouth/100*.7);
     if(p.head)LIB.bulge(c,f.center.x*s,f.center.y*s,f.faceH*1.45*s,p.head/100*.65);});
   let out=c;
-  if(sc.filter&&sc.filter.id!=='none')out=LIB.filterCanvas(c,sc.filter.id,sc.filter.amt);
+  if(sc.filter&&sc.filter.id!=='none'&&sc.filter.id!=='portrait')out=LIB.filterCanvas(c,sc.filter.id,sc.filter.amt);
+  if(sc.filter&&sc.filter.id==='portrait')portraitBlur(out,effFaces(sc),s,sc.filter.amt);
   hideFaces(out,sc,s);
   return out;
+}
+function portraitBlur(canvas,faces,s,amt){
+  const w=canvas.width,h=canvas.height;
+  const sharp=mkCanvas(w,h);sharp.getContext('2d').drawImage(canvas,0,0);
+  const bctx=canvas.getContext('2d',{willReadFrequently:true});
+  const id=bctx.getImageData(0,0,w,h);LIB.boxBlur(id,Math.max(3,Math.round(Math.min(w,h)*.022*(amt/100))),3);bctx.putImageData(id,0,0);
+  const mask=mkCanvas(w,h),mx=mask.getContext('2d');
+  faces.forEach(f=>{
+    const fx=f.center.x*s,fy=f.center.y*s,rx=f.faceW*.78*s,ry=f.faceH*.88*s,R=Math.max(rx,ry);
+    const g=mx.createRadialGradient(fx,fy,R*.32,fx,fy,R*1.12);
+    g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(1,'rgba(255,255,255,0)');
+    mx.fillStyle=g;mx.beginPath();mx.ellipse(fx,fy,rx*1.15,ry*1.15,f.roll,0,7);mx.fill();
+  });
+  const sharpM=mkCanvas(w,h),sm=sharpM.getContext('2d');
+  sm.drawImage(sharp,0,0);sm.globalCompositeOperation='destination-in';sm.drawImage(mask,0,0);
+  bctx.drawImage(sharpM,0,0);
 }
 function hideFaces(c,sc,s){
   const hd=sc.hide;if(!hd||hd.mode==='none')return;
@@ -1404,7 +1449,7 @@ function tile(def){
 }
 function lookCard(l){
   const b=document.createElement('button'),pro=l.items.some(i=>DEFS.get(i)&&DEFS.get(i).pro)&&!state.pro;b.className='look';
-  b.innerHTML='<div class="pv">'+l.items.slice(0,3).map(i=>DEFS.get(i)?'<img alt="" src="'+DEFS.get(i).src+'">':'').join('')+'</div><span></span>'+(pro?crown():'')+(l.anim?'<em>GIF</em>':'');
+  b.innerHTML='<div class="pv">'+l.items.slice(0,3).map(i=>DEFS.get(i)?'<img alt="" src="'+DEFS.get(i).src+'">':'').join('')+'</div><span></span>'+(pro?crown():'')+(l.anim?'<em>GIF</em>':'')+(l.trending&&!l.anim?'<em class="trend">🔥 Trending</em>':'');
   b.querySelector('span').textContent=l.name;b.onclick=()=>applyLook(l);return b;
 }
 function renderRail(){
@@ -1463,6 +1508,7 @@ function renderTools(p){
    det('stick','🧑‍🎤 Face stickers & swap','<p class="note">Turn a face into a sticker to drop anywhere, or swap two faces in one photo.</p><div class="row2"><button class="tool" id="fCut">Cut out selected face</button><button class="tool" id="fSwap" '+(many?'':'disabled')+'>Swap faces</button></div>'+(many?'':'<p class="note">Swap needs two faces in the photo.</p>'),1)+
    det('crop','📐 Crop & size',chips(FORMATS.map(f=>[f[0],f[1]+' · '+f[2],f[0]!=='orig']),state.aspect,'data-aspect')+sl('cZoom','Zoom',100,300,state.zoom)+sl('cX','Left / right',0,100,state.panX)+sl('cY','Up / down',0,100,state.panY),1)+
    det('motion','🎬 Motion & GIF','<p class="note">Pick a prop, choose its motion, then save an animated GIF.</p><label class="field">Motion for selected prop<select id="mSel" '+(cur?'':'disabled')+'>'+[['none','None'],['drop','Drop in'],['bounce','Bounce'],['wobble','Wobble'],['pulse','Pulse'],['spin','Spin']].map(([v,n])=>'<option value="'+v+'" '+((cur&&cur.anim||'none')===v?'selected':'')+'>'+n+'</option>').join('')+'</select></label>'+sl('mSpd','Speed',1,10,state.anim.speed)+'<label class="field">GIF size<select id="gSize">'+[320,480,640].map(v=>'<option '+(state.gifSize===v?'selected':'')+' value="'+v+'">'+v+' px</option>').join('')+'</select></label><div class="row2"><button class="tool" id="mPlay">'+(state.anim.playing?'■ Stop preview':'▶ Preview')+'</button><button class="btn" id="mGif">Save GIF</button></div>',1)+
+   det('video','🎥 Video reel',(state.base?'':'<p class="note">Upload a photo first.</p>')+'<p class="note">Records the current motion as a real MP4/WebM video you can post as a Reel or Story. We can\'t bundle licensed music, so add your own track if you have one — the video works fine silent too.</p><div class="row2"><button class="tool" id="vidPick">🎵 '+(state.videoMusic?'Music: '+esc(state.videoMusic.name):'Add music (optional)')+'</button>'+(state.videoMusic?'<button class="tool" id="vidClear">✕ Remove</button>':'')+'</div><label class="field">Length<select id="vidLoops">'+[[1,'~1 loop, quick'],[3,'~3 loops, standard'],[6,'~6 loops, longer']].map(([v,n])=>'<option value="'+v+'" '+(state.videoLoops===v?'selected':'')+'>'+n+'</option>').join('')+'</select></label><div class="row2"><button class="btn" id="vidGo">Record & save video</button></div><p class="note">Works best in Chrome or Edge on desktop or Android. Needs at least one prop with motion set above.</p>',1)+
    det('batch','🗂️ Batch dress-up','<p class="note">Put your current props, filter, crop and captions on a whole folder of photos. You get one ZIP.</p>'+chips([['all','Every face'],['big','Largest face only']],state.batchMode,'data-bmode')+'<div class="row2"><button class="btn" id="bGo">Choose photos…</button></div>',1);
   p.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{d.open?state.open.add(d.dataset.k):state.open.delete(d.dataset.k);}));
   const on=(id,ev,fn)=>{const el=p.querySelector('#'+id);if(el)el['on'+ev]=fn;};
@@ -1481,6 +1527,8 @@ function renderTools(p){
   on('mSel','change',e=>{const it=selItem();if(it){it.anim=e.target.value;}});
   on('mSpd','input',e=>{state.anim.speed=+e.target.value;});on('gSize','change',e=>{state.gifSize=+e.target.value;});
   on('mPlay','click',()=>{state.anim.playing?stopPlay():startPlay();renderPanel();});on('mGif','click',makeGif);
+  on('vidPick','click',()=>$('#vidMusic').click());on('vidClear','click',()=>{state.videoMusic=null;renderPanel();});
+  on('vidLoops','change',e=>{state.videoLoops=+e.target.value;});on('vidGo','click',makeVideo);
   p.querySelectorAll('[data-bmode]').forEach(b=>b.onclick=()=>{state.batchMode=b.dataset.bmode;renderPanel();});
   on('bGo','click',()=>{if(!state.pro){needPro('Batch dress-up is a Pro feature.');return;}if(!state.base){toast('Build your look on one photo first, then run the batch.');return;}$('#batchFile').click();});
 }
@@ -1554,6 +1602,7 @@ async function makeSticker(file){
 }
 const propCount=cat=>[...DEFS.values()].filter(d=>d.cat===cat).length;
 $('#stickerFile').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)makeSticker(f);};
+$('#vidMusic').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f){state.videoMusic=f;toast('Music added: '+f.name);renderPanel();}};
 /* IndexedDB library */
 const idb=()=>new Promise((res,rej)=>{if(!window.indexedDB)return rej();const r=indexedDB.open('qm_meme',1);r.onupgradeneeded=()=>r.result.createObjectStore('stickers',{keyPath:'id'});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});
 async function saveSticker(def){try{const db=await idb(),blob=await new Promise(r=>def.canvas.toBlob(r,'image/png'));db.transaction('stickers','readwrite').objectStore('stickers').put({id:def.id,name:def.name,blob});}catch(e){}}
@@ -1587,6 +1636,20 @@ async function swapFaces(){
   syncUI();renderPanel();render();toast('Swapped. Tweak them by hand if you like.');
 }
 
+/* ---------------- optional trending Looks pack ---------------- */
+async function loadLooksPack(){
+  try{
+    if(!CONFIG.LOOKS_PACK)return;
+    const r=await fetch(CONFIG.LOOKS_PACK,{cache:'no-cache'});if(!r.ok)return;
+    const pack=await r.json();if(!Array.isArray(pack))return;let added=0;
+    pack.forEach(l=>{
+      if(!l||!l.id||!Array.isArray(l.items)||LOOKS.some(x=>x.id===l.id))return;
+      const items=l.items.filter(i=>DEFS.has(i));if(!items.length)return;
+      LOOKS.push({id:l.id,name:l.name||l.id,items,anim:l.anim,caption:l.caption,trending:true});added++;
+    });
+    if(added)renderPanel();
+  }catch(e){}
+}
 /* ---------------- optional real-photo sticker pack ---------------- */
 async function loadPack(){
   try{
@@ -1600,7 +1663,7 @@ async function loadPack(){
 
 /* ---------------- export ---------------- */
 function buildOutput(sc,o={}){
-  const cr=getCrop(sc),T=OUT[sc.aspect];let ow,oh;
+  const cr=getCrop(sc),T=(sc.pro?OUT_PRO:OUT)[sc.aspect];let ow,oh;
   if(T){ow=T[0];oh=T[1];}else{const cap=sc.pro?CONFIG.WORK_MAX:CONFIG.FREE_EXPORT_MAX,k=Math.min(1,cap/Math.max(cr.w,cr.h));ow=Math.round(cr.w*k);oh=Math.round(cr.h*k);}
   if(o.maxSide){const k=o.maxSide/Math.max(ow,oh);if(k<1){ow=Math.round(ow*k);oh=Math.round(oh*k);}}
   const s2=ow/cr.w,ps=Math.min(1,s2);
@@ -1665,6 +1728,53 @@ async function makeGif(){
   }catch(e){console.warn(e);toast('Could not make the GIF. Try a smaller size.');}
   b.hidden=true;
 }
+async function makeVideo(){
+  if(!state.pro)return needPro('Video reels are a Pro feature.');
+  if(!state.base)return toast('Upload a photo first');
+  if(!state.items.some(i=>i.anim&&i.anim!=='none'))return toast('Pick a motion for a prop first (Motion & GIF above), or the video will just be a still.');
+  if(typeof MediaRecorder==='undefined'||!HTMLCanvasElement.prototype.captureStream){toast('This browser cannot record video here. Try a recent Chrome or Edge.');return;}
+  stopPlay();const b=$('#busy');b.hidden=false;b.textContent='Preparing video…';
+  let audioEl=null,actx=null;
+  try{
+    const sc=scene();
+    await Promise.all(sc.items.map(i=>ensureRaster(DEFS.get(i.def))));
+    if(sc.hide.mode==='emoji')await ensureRaster(DEFS.get(sc.hide.emoji));
+    const cr=getCrop(sc),ratio=cr.h/cr.w,vw=Math.min(1080,Math.max(480,state.gifSize*1.5)),vh=Math.round(vw*ratio);
+    const out=mkCanvas(vw,vh),octx=out.getContext('2d',{willReadFrequently:true});
+    const cache={},fps=30,loops=clamp(state.videoLoops||3,1,10),durMs=period()*loops;
+    const vStream=out.captureStream(fps);
+    let mixed=vStream;
+    if(state.videoMusic){
+      audioEl=new Audio(URL.createObjectURL(state.videoMusic));audioEl.loop=true;audioEl.volume=1;
+      actx=new (window.AudioContext||window.webkitAudioContext)();
+      const src=actx.createMediaElementSource(audioEl),dest=actx.createMediaStreamDestination();
+      src.connect(dest);src.connect(actx.destination);
+      try{await audioEl.play();}catch(e){}
+      mixed=new MediaStream([...vStream.getVideoTracks(),...dest.stream.getAudioTracks()]);
+    }
+    const mime=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'].find(m=>MediaRecorder.isTypeSupported(m))||'video/webm';
+    const rec=new MediaRecorder(mixed,{mimeType:mime,videoBitsPerSecond:6000000});
+    const chunks=[];rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data);};
+    const stopped=new Promise(res=>rec.onstop=res);
+    rec.start();
+    b.textContent='Recording…';
+    const t0=performance.now();
+    await new Promise(resolve=>{
+      function frame(){
+        const el=performance.now()-t0,t=(el%period())/period();
+        const fc=buildOutput(sc,{maxSide:vw,t,cache,frame:true});
+        octx.clearRect(0,0,vw,vh);octx.drawImage(fc,0,0,vw,vh);
+        if(el<durMs)requestAnimationFrame(frame);else resolve();
+      }
+      requestAnimationFrame(frame);
+    });
+    rec.stop();await stopped;
+    const blob=new Blob(chunks,{type:'video/webm'});
+    saveBlob(blob,'meme-studio-'+Date.now()+'.webm');
+    toast('Video saved (WebM). Most phones and editors play this fine; convert to MP4 if a platform insists on it.');
+  }catch(e){console.warn(e);toast('Could not record the video. Try a recent Chrome or Edge, or a smaller GIF size.');}
+  finally{if(audioEl){audioEl.pause();}if(actx){actx.close().catch(()=>{});}b.hidden=true;}
+}
 /* ---------------- batch ---------------- */
 $('#batchFile').onchange=async e=>{
   const files=[...e.target.files].filter(f=>/^image\//.test(f.type));e.target.value='';if(!files.length)return;
@@ -1699,7 +1809,7 @@ $('#batchFile').onchange=async e=>{
 document.querySelectorAll('[data-demo]').forEach(im=>{im.src=DEFS.get(im.dataset.demo).src;});
 const cnt={free:propDefs().filter(d=>!d.pro).length,all:propDefs().length,looks:LOOKS.length};
 $$('[data-count]').forEach(el=>{el.textContent=cnt[el.dataset.count];});
-renderRail();renderPanel();syncUI();restoreLicense();loadPack();loadSaved();
+renderRail();renderPanel();syncUI();restoreLicense();loadPack();loadSaved();loadLooksPack();
 window.addEventListener('resize',render);
 })();
 
