@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <!--
-  Meme Studio subscription checkout — SAME PATTERN as checkout-saas-landing-template.html.
-  Talks DIRECTLY to the payment worker (morning-shape-c098) to create the order
-  and poll payment status, exactly like every other product. The license worker
-  (orange-brook-a798) is called only ONCE, at the very end, after payment is
-  already confirmed — just to fetch the signed licence token. No more chained
-  server-to-server order creation, so no more timeout/404 failures there.
+  Crypto checkout for Meme Studio Pro (monthly / yearly).
+  Flow:
+    1. Read ?plan=monthly or ?plan=yearly from the URL (defaults to monthly).
+    2. Create an order with the SAME payment worker every other product uses
+       (morning-shape-c098) — productId is "meme-studio-monthly" or
+       "meme-studio-yearly", so it must exist in products.json with the
+       right priceUSD ($5 / $40). See the note at the bottom of this file.
+    3. Poll the order status, same as every other checkout page.
+    4. Once paid, call the SEPARATE license worker (orange-brook-a798) with
+       the order id + plan. That worker checks the same order status for
+       itself and, if paid, returns a signed license token. This checkout
+       page never talks to Cloudflare KV or does any signing itself.
+    5. Show the license key to the customer with Copy + Download buttons,
+       plus a direct link back into Meme Studio.
 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout — Meme Studio</title>
+<title>Checkout — Meme Studio Pro</title>
 <style>
   body{font-family:Inter,-apple-system,sans-serif;background:#FAF8F4;color:#1B1E2B;max-width:480px;margin:60px auto;padding:0 20px;}
   .card{background:#fff;border:1px solid #E7E2D6;border-radius:16px;padding:28px;}
@@ -28,32 +36,35 @@
   .status{text-align:center;font-size:0.9rem;color:#62667A;margin-top:14px;}
   .status.paid{color:#1F5C46;font-weight:700;}
   .status.error{color:#B3341F;font-weight:600;}
-  .license-box{margin-top:14px;padding:14px;background:#F1EEE6;border-radius:8px;display:none;}
-  .license-box textarea{width:100%;height:70px;font-family:monospace;font-size:0.75rem;border:1px solid #E7E2D6;border-radius:6px;padding:8px;resize:none;}
-  .license-box button{margin-top:8px;background:#1F5C46;}
+  .lic-box{margin-top:20px;padding:18px;border:2px solid #1F5C46;border-radius:12px;display:none;background:#F3FAF6;}
+  .lic-box h2{font-size:1.05rem;margin:0 0 6px;color:#1F5C46;}
+  .lic-box p{font-size:0.85rem;color:#3a4550;margin:0 0 12px;}
+  .lic-key{width:100%;box-sizing:border-box;font-family:monospace;font-size:0.78rem;padding:10px;border-radius:8px;border:1px solid #C9DFD2;background:#fff;resize:none;height:90px;margin-bottom:10px;}
+  .row{display:flex;gap:8px;}
+  .row button{flex:1;padding:10px;}
+  .btn-secondary{background:#fff;color:#1F5C46;border:2px solid #1F5C46;}
+  .exp{font-size:0.8rem;color:#62667A;margin-top:10px;text-align:center;}
+  .plan-badge{display:inline-block;background:#EFE7D6;color:#7A5A1E;font-weight:700;font-size:0.75rem;padding:3px 10px;border-radius:999px;margin-bottom:10px;}
 </style>
 </head>
 <body>
-  <div class="card" id="crypto-checkout">
-    <h1>Meme Studio — Pro</h1>
-    <p class="sub" id="product-sub">Choose a plan and currency</p>
+  <div class="card" id="checkout">
+    <span class="plan-badge" id="plan-badge">Loading…</span>
+    <h1 id="product-title">Meme Studio Pro</h1>
+    <p class="sub" id="product-sub">Please wait</p>
 
-    <select id="plan">
-      <option value="monthly">Monthly — 31 days</option>
-      <option value="yearly">Yearly — 366 days</option>
-    </select>
     <select id="currency">
       <option value="USDT_TRC20">USDT (TRC20 / Tron)</option>
       <option value="USDT_ERC20">USDT (ERC20 / Ethereum)</option>
       <option value="BTC">Bitcoin (BTC)</option>
       <option value="ETH">Ethereum (ETH)</option>
-      <option value="SOL">Solana (SOL)</option>
+      <option value="USDT_SOL">USDT (Solana)</option>
       <option value="DOGE">Dogecoin (DOGE)</option>
       <option value="LTC">Litecoin (LTC)</option>
       <option value="XRP">Ripple (XRP)</option>
       <option value="ADA">Cardano (ADA)</option>
-      <option value="AVAX">Avalanche (AVAX)</option>
-      <option value="BNB">BNB (BSC)</option>
+      <option value="USDT_AVAX">USDT (Avalanche)</option>
+      <option value="USDT_BEP20">USDT (BNB Chain)</option>
     </select>
     <button id="create-order">Generate payment address</button>
 
@@ -62,55 +73,75 @@
       <div class="addr" id="pay-address"></div>
       <img id="qr" width="180" height="180" alt="Payment QR code">
       <div class="status" id="pay-status">Waiting for payment…</div>
-      <div class="license-box" id="license-box">
-        <div>Your licence key — keep it, it restores Pro access on another device:</div>
-        <textarea id="license-token" readonly></textarea>
-        <button id="copy-license">Copy licence key</button>
+    </div>
+
+    <div class="lic-box" id="lic-box">
+      <h2>✅ Payment confirmed</h2>
+      <p>Here is your Meme Studio Pro license key. Paste it into the <b>“Already have a license key?”</b> box on the Meme Studio page to activate Pro.</p>
+      <textarea class="lic-key" id="lic-key" readonly></textarea>
+      <div class="row">
+        <button class="btn-secondary" id="lic-copy">Copy key</button>
+        <button class="btn-secondary" id="lic-download">Download .txt</button>
       </div>
+      <div class="exp" id="lic-exp"></div>
+      <button id="lic-open" style="margin-top:14px">Open Meme Studio</button>
     </div>
   </div>
 
   <script>
-    // Same payment worker every other product uses.
-    const WORKER_URL = "https://morning-shape-c098.alice56885236.workers.dev";
-    // License worker: only called once, after payment is confirmed.
+    // ---- Fixed configuration for this product ----
+    const PAYMENT_WORKER_URL = "https://morning-shape-c098.alice56885236.workers.dev";
     const LICENSE_WORKER_URL = "https://orange-brook-a798.alice56885236.workers.dev";
+    const MEME_STUDIO_URL = "/products/meme-fantasy-face-accessories-en.html";
 
-    const planSel = document.getElementById("plan");
-    const currencySel = document.getElementById("currency");
+    // productId must exist in products.json with the matching priceUSD —
+    // see the note at the bottom of this file.
+    const PLAN_INFO = {
+      monthly: { productId: "meme-studio-monthly", price: 5,  label: "Pro monthly" },
+      yearly:  { productId: "meme-studio-yearly",  price: 40, label: "Pro yearly"  },
+    };
+
+    const plan = (new URLSearchParams(window.location.search).get("plan") === "yearly") ? "yearly" : "monthly";
+    const planInfo = PLAN_INFO[plan];
+
+    const badgeEl = document.getElementById("plan-badge");
+    const subEl = document.getElementById("product-sub");
     const createBtn = document.getElementById("create-order");
     const payBox = document.getElementById("pay-box");
     const payAmount = document.getElementById("pay-amount");
     const payAddress = document.getElementById("pay-address");
     const payStatus = document.getElementById("pay-status");
     const qr = document.getElementById("qr");
-    const licenseBox = document.getElementById("license-box");
-    const licenseTokenEl = document.getElementById("license-token");
+    const licBox = document.getElementById("lic-box");
+    const licKey = document.getElementById("lic-key");
+    const licExp = document.getElementById("lic-exp");
+
+    badgeEl.textContent = planInfo.label;
+    subEl.textContent = `$${planInfo.price} — pay with the crypto of your choice`;
 
     let pollTimer = null;
 
     createBtn.addEventListener("click", async () => {
       createBtn.disabled = true;
       createBtn.textContent = "Creating order…";
-      const plan = planSel.value;
-      const currency = currencySel.value;
-      const productId = plan === "yearly" ? "meme-studio-yearly" : "meme-studio-monthly";
+      const currency = document.getElementById("currency").value;
 
       let order;
       try {
-        const res = await fetch(`${WORKER_URL}/order`, {
+        const res = await fetch(`${PAYMENT_WORKER_URL}/order`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ productId, currency }),
+          body: JSON.stringify({ productId: planInfo.productId, currency }),
         });
         order = await res.json();
       } catch (e) {
-        payStatus.textContent = "Error: could not reach the payment server. Try again.";
+        payStatus.textContent = "Error: could not reach the payment server.";
         payStatus.classList.add("error");
         createBtn.disabled = false;
         createBtn.textContent = "Generate payment address";
         return;
       }
+
       if (order.error) {
         payStatus.textContent = "Error: " + order.error;
         payStatus.classList.add("error");
@@ -125,54 +156,100 @@
       payBox.style.display = "block";
       createBtn.style.display = "none";
 
-      pollTimer = setInterval(() => pollStatus(order.id, plan), 8000);
+      pollTimer = setInterval(() => pollStatus(order.id), 8000);
     });
 
-    async function pollStatus(orderId, plan) {
+    async function pollStatus(orderId) {
       let data;
       try {
-        const res = await fetch(`${WORKER_URL}/order/${orderId}/status`);
+        const res = await fetch(`${PAYMENT_WORKER_URL}/order/${orderId}/status`);
         data = await res.json();
       } catch (e) {
-        return; // transient network hiccup — the next poll (8s later) will retry
+        return; // transient network hiccup — just try again on the next tick
       }
+
       if (data.status === "paid") {
         clearInterval(pollTimer);
-        payStatus.textContent = "Payment confirmed! Issuing your licence…";
+        payStatus.textContent = "Payment confirmed! Issuing your license…";
         payStatus.classList.add("paid");
-        await fetchLicense(orderId, plan);
+        await fetchLicense(orderId);
       } else if (data.status === "expired") {
         clearInterval(pollTimer);
         payStatus.textContent = "This payment window expired. Please refresh and try again.";
-      }
-    }
-
-    // Called ONCE, after payment is already confirmed paid.
-    async function fetchLicense(orderId, plan) {
-      const prevToken = localStorage.getItem("memeStudioLicense") || "";
-      const qs = new URLSearchParams({ plan, ...(prevToken ? { prevToken } : {}) });
-      try {
-        const res = await fetch(`${LICENSE_WORKER_URL}/license/${orderId}?${qs.toString()}`);
-        const data = await res.json();
-        if (data.status === "paid" && data.token) {
-          localStorage.setItem("memeStudioLicense", data.token);
-          licenseTokenEl.value = data.token;
-          licenseBox.style.display = "block";
-          payStatus.textContent = "Licence issued — you're all set!";
-        } else {
-          payStatus.textContent = "Payment confirmed, but licence issuing failed: " + (data.error || data.status);
-          payStatus.classList.add("error");
-        }
-      } catch (e) {
-        payStatus.textContent = "Payment confirmed, but could not reach the licence server. Refresh this page in a minute to retry.";
         payStatus.classList.add("error");
       }
     }
 
-    document.getElementById("copy-license").addEventListener("click", () => {
-      licenseTokenEl.select();
-      document.execCommand("copy");
+    async function fetchLicense(orderId) {
+      // The license worker checks the order status itself, so this should
+      // succeed right after the payment worker shows "paid". Retry a few
+      // times in case of a brief network hiccup.
+      for (let attempt = 0; attempt < 5; attempt++) {
+        try {
+          const res = await fetch(`${LICENSE_WORKER_URL}/license/${orderId}?plan=${plan}`);
+          const data = await res.json();
+          if (data.error) {
+            payStatus.textContent = "Error issuing license: " + data.error;
+            payStatus.classList.add("error");
+            return;
+          }
+          if (data.status === "paid" && data.token) {
+            showLicense(data.token, data.exp);
+            return;
+          }
+          // status still "pending" from the license worker's point of view — wait and retry
+        } catch (e) {
+          // network hiccup — retry
+        }
+        await new Promise((r) => setTimeout(r, 2500));
+      }
+      payStatus.textContent = "Payment confirmed, but the license is taking longer than usual. Refresh this page in a minute — your order id is: " + orderId;
+      payStatus.classList.add("error");
+    }
+
+    function showLicense(token, exp) {
+      payBox.style.display = "none";
+      licBox.style.display = "block";
+      licKey.value = token;
+      const expDate = new Date(exp * 1000);
+      licExp.textContent = "Valid until " + expDate.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+    }
+
+    document.getElementById("lic-copy").addEventListener("click", () => {
+      navigator.clipboard.writeText(licKey.value).then(() => {
+        const btn = document.getElementById("lic-copy");
+        const old = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = old), 1500);
+      });
+    });
+
+    document.getElementById("lic-download").addEventListener("click", () => {
+      const blob = new Blob([licKey.value], { type: "text/plain" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "meme-studio-license.txt";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    });
+
+    document.getElementById("lic-open").addEventListener("click", () => {
+      window.location.href = MEME_STUDIO_URL;
     });
   </script>
+
+  <!--
+    IMPORTANT — before this page will work, add these two entries to
+    products.json in the questmart-products repo (same repo the other
+    products' prices come from):
+
+      "meme-studio-monthly": { "name": "Meme Studio Pro (monthly)", "priceUSD": 5 },
+      "meme-studio-yearly":  { "name": "Meme Studio Pro (yearly)",  "priceUSD": 40 }
+
+    These products have no "file" field because nothing is delivered by
+    the payment worker itself — the license worker (orange-brook-a798)
+    issues the actual Pro key once it sees the order is paid.
+  -->
 </body>
 </html>
