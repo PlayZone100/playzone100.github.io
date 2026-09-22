@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Join Vaultwork — sign up as a client or freelancer</title>
+<title>Browse Projects — QuestMart Freelance</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#141A2E; --navy-deep:#0D111F; --amber:#E3A23A; --sage:#7C9885;
@@ -17,421 +17,442 @@
   body{
     font-family:'Inter', sans-serif; background:var(--paper); color:var(--ink);
     padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
-    min-height:100%;
   }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit;}
+
   header.site{
-    padding:18px 6vw; padding-top:calc(18px + env(safe-area-inset-top,0px));
-    display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:60;
+    background:rgba(244,241,234,0.94); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    padding:14px 6vw; padding-top:calc(14px + env(safe-area-inset-top,0px));
+    display:flex; align-items:center; justify-content:space-between; gap:20px;
   }
-  .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px;}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px; flex:none; text-decoration:none;}
   .brand .mark{width:28px; height:28px; border-radius:8px; background:var(--navy); position:relative; flex:none;}
   .brand .mark::after{content:""; position:absolute; inset:8px; background:var(--amber); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);}
-  .brand a{color:inherit; text-decoration:none; display:flex; align-items:center; gap:10px;}
-
-  main{max-width:900px; margin:0 auto; padding:5vw 6vw 8vw;}
-  .intro{text-align:center; max-width:56ch; margin:0 auto 30px;}
-  .intro h1{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(26px,3.4vw,38px); color:var(--navy-deep); line-height:1.25;}
-  .intro p{margin-top:12px; color:#565D73; font-size:15.5px; line-height:1.7;}
-
-  .role-switch{
-    display:flex; justify-content:center; gap:0; margin:0 auto 34px; max-width:420px;
-    background:var(--white); border:1px solid var(--line); border-radius:12px; padding:4px;
+  nav.main-nav{display:flex; align-items:center; gap:6px; flex:1;}
+  nav.main-nav a{ text-decoration:none; font-size:13.5px; font-weight:600; color:#565D73; padding:8px 14px; border-radius:8px; }
+  nav.main-nav a.active{color:var(--navy-deep); background:var(--paper-dim);}
+  .head-actions{display:flex; align-items:center; gap:10px; flex:none;}
+  .btn-text{ background:none; border:none; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--navy); cursor:pointer; padding:8px 6px; }
+  .btn-primary{
+    background:var(--amber); color:var(--navy-deep); border:none; border-radius:8px;
+    padding:10px 18px; font-family:inherit; font-size:13.5px; font-weight:700; cursor:pointer;
+    transition:transform .15s ease;
   }
-  .role-btn{
-    flex:1; border:none; background:none; font-family:inherit; font-size:14px; font-weight:700;
-    padding:11px 10px; border-radius:9px; cursor:pointer; color:#7A8096; transition:background .15s,color .15s;
-  }
-  .role-btn.active{background:var(--navy); color:var(--paper);}
+  .btn-primary:hover{transform:translateY(-1px);}
+  .user-name{font-size:13px; color:#565D73; font-weight:600;}
 
-  form{display:none; background:var(--white); border:1px solid var(--line); border-radius:18px; padding:clamp(22px,4vw,40px);}
-  form.active{display:block;}
+  .page-head{max-width:1280px; margin:0 auto; padding:4vw 6vw 1.5vw;}
+  .page-head h1{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(26px,3.2vw,36px); color:var(--navy-deep);}
+  .page-head p{margin-top:8px; color:#565D73; font-size:15px;}
 
-  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
-  .field{margin-bottom:18px;}
-  .field label{display:block; font-size:13px; font-weight:700; color:var(--navy-deep); margin-bottom:7px;}
-  .field .opt{font-weight:400; color:#9AA0B2; font-size:12px;}
-  .field input, .field select, .field textarea{
-    width:100%; border:1px solid var(--line); border-radius:9px; padding:11px 13px; font-family:inherit;
-    font-size:14px; background:var(--paper); color:var(--ink);
-  }
-  .field input:focus, .field select:focus, .field textarea:focus{
-    outline:none; border-color:var(--navy); background:var(--white);
-  }
-  .field textarea{resize:vertical; min-height:80px;}
-  .field-error{font-size:12px; color:var(--rust); margin-top:6px; display:none;}
-  .field.invalid input, .field.invalid select, .field.invalid textarea{border-color:var(--rust);}
-  .field.invalid .field-error{display:block;}
+  .search-bar{ max-width:1280px; margin:0 auto; padding:0 6vw 1.5vw; display:flex; gap:10px; flex-wrap:wrap; }
+  .search-bar input[type="text"]{ flex:1; min-width:220px; border:1px solid var(--line); border-radius:10px; padding:13px 16px; font-family:inherit; font-size:14px; background:var(--white); }
+  .search-bar select{ border:1px solid var(--line); border-radius:10px; padding:13px 14px; font-family:inherit; font-size:13.5px; background:var(--white); color:var(--ink); }
 
-  fieldset{border:none; margin:0 0 22px;}
-  legend{font-size:15px; font-weight:700; color:var(--navy-deep); margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--line); width:100%;}
+  .layout{max-width:1280px; margin:0 auto; padding:0 6vw 8vw; display:grid; grid-template-columns:250px 1fr; gap:32px; align-items:start;}
+  .filters{ background:var(--white); border:1px solid var(--line); border-radius:16px; padding:20px; position:sticky; top:90px; }
+  .filters h3{font-size:13px; font-weight:700; color:var(--navy-deep); margin-bottom:12px;}
+  .filter-group{margin-bottom:22px;}
+  .filter-group:last-child{margin-bottom:0;}
+  .check-opt{display:flex; align-items:center; gap:9px; font-size:13px; color:#3B4258; padding:6px 0; cursor:pointer;}
+  .check-opt input{width:15px; height:15px; accent-color:var(--navy); flex:none;}
+  .radio-opt{display:flex; align-items:center; gap:9px; font-size:13px; color:#3B4258; padding:6px 0; cursor:pointer;}
+  .radio-opt input{width:15px; height:15px; accent-color:var(--navy); flex:none;}
+  .clear-filters{ background:none; border:none; font-family:inherit; font-size:12.5px; font-weight:700; color:var(--rust); cursor:pointer; margin-top:6px; padding:0; }
 
-  .wallet-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
-  .hint-box{
-    background:var(--paper-dim); border-radius:10px; padding:12px 14px; font-size:12.5px; color:#565D73;
-    line-height:1.65; margin-bottom:18px;
-  }
+  .results-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px;}
+  .results-count{font-size:14px; color:#565D73;}
+  .results-count b{color:var(--navy-deep);}
 
-  .check-row{display:flex; align-items:flex-start; gap:10px; margin:20px 0 24px;}
-  .check-row input{width:auto; margin-top:3px;}
-  .check-row label{font-size:13px; color:#3B4258; line-height:1.6;}
+  .proj-grid{display:flex; flex-direction:column; gap:14px;}
+  .proj-card{ background:var(--white); border:1px solid var(--line); border-radius:16px; padding:22px; cursor:pointer; transition:border-color .15s, box-shadow .15s; }
+  .proj-card:hover{border-color:var(--navy); box-shadow:0 10px 26px -18px rgba(20,26,46,0.35);}
+  .proj-top{display:flex; align-items:flex-start; justify-content:space-between; gap:16px;}
+  .proj-cat{ display:inline-block; font-size:11px; font-weight:700; padding:4px 11px; border-radius:20px; background:rgba(227,162,58,0.16); color:#9A6B1E; margin-bottom:10px; }
+  .proj-title{font-size:16.5px; font-weight:700; color:var(--navy-deep); line-height:1.4;}
+  .proj-desc{font-size:13.5px; color:#565D73; line-height:1.7; margin-top:8px; max-width:70ch;}
+  .proj-budget-box{text-align:right; flex:none;}
+  .proj-budget{font-family:'JetBrains Mono',monospace; font-size:19px; font-weight:600; color:var(--navy-deep);}
+  .proj-budget-sub{font-size:11px; color:#9AA0B2; margin-top:2px;}
+  .proj-foot{display:flex; align-items:center; gap:18px; margin-top:16px; padding-top:14px; border-top:1px solid var(--line); flex-wrap:wrap;}
+  .proj-meta-item{display:flex; align-items:center; gap:6px; font-size:12.5px; color:#7A8096;}
+  .escrow-tag{ display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:700; color:#4C6553; background:rgba(124,152,133,0.16); padding:4px 10px; border-radius:20px; margin-left:auto; }
 
-  .btn-submit{
-    width:100%; background:var(--amber); color:var(--navy-deep); border:none; border-radius:10px;
-    padding:15px; font-family:inherit; font-size:15.5px; font-weight:700; cursor:pointer;
-    box-shadow:0 8px 20px -8px rgba(227,162,58,0.55); transition:transform .15s ease;
-  }
-  .btn-submit:hover{transform:translateY(-2px);}
+  .empty-state{ text-align:center; padding:60px 20px; color:#7A8096; font-size:14px; background:var(--white); border:1px dashed var(--line); border-radius:16px; }
 
-  .success-box{
-    display:none; text-align:center; padding:40px 20px;
-  }
-  .success-box.show{display:block;}
-  .success-box .tick{
-    width:52px; height:52px; border-radius:50%; background:rgba(124,152,133,0.18); color:var(--sage);
-    display:flex; align-items:center; justify-content:center; margin:0 auto 18px; font-size:24px;
-  }
-  .success-box h3{font-family:'Fraunces',serif; font-size:22px; color:var(--navy-deep); margin-bottom:10px;}
-  .success-box p{color:#565D73; font-size:14.5px; line-height:1.7; max-width:42ch; margin:0 auto;}
+  .modal-overlay{ display:none; position:fixed; inset:0; background:rgba(13,17,31,0.6); z-index:100; align-items:flex-start; justify-content:center; padding:5vh 20px; overflow-y:auto; }
+  .modal-overlay.show{display:flex;}
+  .modal-box{ background:var(--white); border-radius:20px; max-width:600px; width:100%; padding:clamp(24px,4vw,38px); position:relative; margin:auto 0; }
+  .modal-close{ position:absolute; top:18px; right:18px; background:var(--paper-dim); border:none; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:16px; color:var(--navy); display:flex; align-items:center; justify-content:center; }
+  .modal-box .proj-cat{margin-bottom:14px;}
+  .modal-box h2{font-family:'Fraunces',serif; font-size:24px; color:var(--navy-deep); line-height:1.3; margin-bottom:6px; padding-right:30px;}
+  .modal-client{font-size:13px; color:#7A8096; margin-bottom:20px;}
+  .modal-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:22px;}
+  .modal-stat{background:var(--paper); border-radius:10px; padding:12px 14px;}
+  .modal-stat .l{font-size:11px; color:#9AA0B2;}
+  .modal-stat .v{font-family:'Fraunces',serif; font-size:18px; color:var(--navy-deep); margin-top:3px;}
+  .modal-desc{font-size:14px; color:#3B4258; line-height:1.85; margin-bottom:22px;}
+  .modal-escrow{ background:rgba(124,152,133,0.12); border:1px solid rgba(124,152,133,0.3); border-radius:12px; padding:14px 16px; font-size:13px; color:#3F5B47; line-height:1.7; margin-bottom:24px; }
+  .btn-apply{ width:100%; background:var(--amber); color:var(--navy-deep); border:none; border-radius:10px; padding:15px; font-family:inherit; font-size:15px; font-weight:700; cursor:pointer; }
+  .btn-apply.applied{background:var(--sage); color:var(--white); cursor:default;}
+  .btn-apply:disabled{opacity:.6; cursor:default;}
 
-  @media (max-width:640px){
-    .grid2, .wallet-row{grid-template-columns:1fr;}
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:12.5px; font-weight:700; color:var(--navy-deep); margin-bottom:6px;}
+  .field input, .field select, .field textarea{ width:100%; border:1px solid var(--line); border-radius:9px; padding:11px 13px; font-family:inherit; font-size:13.5px; background:var(--paper); }
+  .field textarea{resize:vertical; min-height:90px;}
+  .field .budget-wrap{position:relative;}
+  .field .budget-wrap input{padding-right:56px;}
+  .field .budget-wrap .cur{position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:12px; color:#9AA0B2; font-weight:700;}
+
+  .toast{ position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px); z-index:200; background:var(--navy-deep); color:var(--paper); padding:14px 22px; border-radius:12px; font-size:13.5px; font-weight:600; opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; display:flex; align-items:center; gap:10px; }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .toast .dot{width:8px; height:8px; border-radius:50%; background:var(--sage);}
+
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr;}
+    .filters{position:static;}
+    nav.main-nav{display:none;}
+    .proj-top{flex-direction:column;}
+    .proj-budget-box{text-align:left;}
+    .modal-stats{grid-template-columns:1fr 1fr;}
   }
 </style>
 </head>
 <body>
 
 <header class="site">
-  <div class="brand"><span class="mark"></span> Vaultwork</div>
+  <a class="brand" href="index.html"><span class="mark"></span> QuestMart Freelance</a>
+  <nav class="main-nav">
+    <a href="projects.html" class="active">Browse Projects</a>
+    <a href="#" id="navPost">Post a Project</a>
+    <a href="index.html#how">How it works</a>
+  </nav>
+  <div class="head-actions" id="headActions"></div>
 </header>
 
-<main>
-  <div class="intro">
-    <h1>Create your account</h1>
-    <p>Whether you're hiring or looking for work, tell us a bit about yourself so we can match you with the right people.</p>
-  </div>
+<div class="page-head">
+  <h1>Find your next project</h1>
+  <p>Post a project, or browse open ones below. Payouts are sent manually by our team once you approve delivered work.</p>
+</div>
 
-  <div class="role-switch">
-    <button class="role-btn active" data-role="client">I'm a client</button>
-    <button class="role-btn" data-role="freelancer">I'm a freelancer</button>
-  </div>
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search projects — e.g. WordPress, logo, translation...">
+  <select id="sortSelect">
+    <option value="newest">Sort: Newest</option>
+    <option value="budgetHigh">Sort: Budget (high to low)</option>
+    <option value="budgetLow">Sort: Budget (low to high)</option>
+  </select>
+  <button class="btn-primary" id="postBtnTop">+ Post a Project</button>
+</div>
 
-  <!-- ===================== CLIENT FORM ===================== -->
-  <form id="form-client" class="active" novalidate>
-    <fieldset>
-      <legend>Account</legend>
-      <div class="grid2">
-        <div class="field" data-req>
-          <label>Full name</label>
-          <input type="text" name="fullName" placeholder="Jordan Lee">
-          <div class="field-error">Please enter your name.</div>
-        </div>
-        <div class="field" data-req>
-          <label>Email address</label>
-          <input type="email" name="email" placeholder="you@company.com">
-          <div class="field-error">Please enter a valid email.</div>
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field" data-req>
-          <label>Password</label>
-          <input type="password" name="password" placeholder="At least 8 characters">
-          <div class="field-error">Password must be at least 8 characters.</div>
-        </div>
-        <div class="field" data-req>
-          <label>Confirm password</label>
-          <input type="password" name="password2" placeholder="Repeat password">
-          <div class="field-error">Passwords don't match.</div>
-        </div>
-      </div>
-    </fieldset>
-
-    <fieldset>
-      <legend>About you</legend>
-      <div class="grid2">
-        <div class="field" data-req>
-          <label>Country</label>
-          <input type="text" name="country" placeholder="e.g. Iran, Germany, USA">
-          <div class="field-error">Please enter your country.</div>
-        </div>
-        <div class="field">
-          <label>Phone number <span class="opt">(optional)</span></label>
-          <input type="tel" name="phone" placeholder="+1 555 000 0000">
-        </div>
-      </div>
-      <div class="field">
-        <label>Company or brand name <span class="opt">(optional)</span></label>
-        <input type="text" name="company" placeholder="Leave blank if you're hiring as an individual">
-      </div>
-      <div class="grid2">
-        <div class="field" data-req>
-          <label>What kind of work do you need help with?</label>
-          <select name="category">
-            <option value="">Select a category</option>
-            <option>Web & app development</option>
-            <option>Design (logo, UI, graphics)</option>
-            <option>Writing & translation</option>
-            <option>Video & animation</option>
-            <option>Marketing & social media</option>
-            <option>Other</option>
-          </select>
-          <div class="field-error">Please choose a category.</div>
-        </div>
-        <div class="field">
-          <label>Typical project budget</label>
-          <select name="budget">
-            <option value="">Select a range</option>
-            <option>Under $100</option>
-            <option>$100 – $500</option>
-            <option>$500 – $2,000</option>
-            <option>$2,000+</option>
-          </select>
-        </div>
-      </div>
-    </fieldset>
-
-    <div class="check-row">
-      <input type="checkbox" id="terms-client" name="terms">
-      <label for="terms-client">I agree to Vaultwork's Terms of Service and understand that project funds are held by Vaultwork until I approve the delivered work.</label>
-      <input type="hidden" data-req-checkbox>
+<div class="layout">
+  <aside class="filters">
+    <h3>Category</h3>
+    <div class="filter-group" id="catFilters"></div>
+    <h3>Budget</h3>
+    <div class="filter-group" id="budgetFilters">
+      <label class="radio-opt"><input type="radio" name="budget" value="all" checked> Any budget</label>
+      <label class="radio-opt"><input type="radio" name="budget" value="0-150"> Under $150</label>
+      <label class="radio-opt"><input type="radio" name="budget" value="150-400"> $150 – $400</label>
+      <label class="radio-opt"><input type="radio" name="budget" value="400-999999"> $400+</label>
     </div>
+    <button class="clear-filters" id="clearFilters">Clear all filters</button>
+  </aside>
 
-    <button type="submit" class="btn-submit">Create client account</button>
-  </form>
-
-  <!-- ===================== FREELANCER FORM ===================== -->
-  <form id="form-freelancer" novalidate>
-    <fieldset>
-      <legend>Account</legend>
-      <div class="grid2">
-        <div class="field" data-req>
-          <label>Full name</label>
-          <input type="text" name="fullName" placeholder="Priya Shah">
-          <div class="field-error">Please enter your name.</div>
-        </div>
-        <div class="field" data-req>
-          <label>Email address</label>
-          <input type="email" name="email" placeholder="you@example.com">
-          <div class="field-error">Please enter a valid email.</div>
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field" data-req>
-          <label>Password</label>
-          <input type="password" name="password" placeholder="At least 8 characters">
-          <div class="field-error">Password must be at least 8 characters.</div>
-        </div>
-        <div class="field" data-req>
-          <label>Confirm password</label>
-          <input type="password" name="password2" placeholder="Repeat password">
-          <div class="field-error">Passwords don't match.</div>
-        </div>
-      </div>
-    </fieldset>
-
-    <fieldset>
-      <legend>Professional profile</legend>
-      <div class="grid2">
-        <div class="field" data-req>
-          <label>Country</label>
-          <input type="text" name="country" placeholder="e.g. Iran, India, Brazil">
-          <div class="field-error">Please enter your country.</div>
-        </div>
-        <div class="field">
-          <label>Phone number <span class="opt">(optional)</span></label>
-          <input type="tel" name="phone" placeholder="+1 555 000 0000">
-        </div>
-      </div>
-      <div class="field" data-req>
-        <label>Professional title</label>
-        <input type="text" name="title" placeholder="e.g. UI/UX designer, WordPress developer">
-        <div class="field-error">Please enter a professional title.</div>
-      </div>
-      <div class="field" data-req>
-        <label>Main skills <span class="opt">(comma-separated)</span></label>
-        <input type="text" name="skills" placeholder="e.g. Figma, HTML/CSS, WordPress, SEO">
-        <div class="field-error">Please list at least one skill.</div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Years of experience</label>
-          <select name="experience">
-            <option value="">Select</option>
-            <option>Less than 1 year</option>
-            <option>1–3 years</option>
-            <option>3–5 years</option>
-            <option>5+ years</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Typical rate</label>
-          <select name="rate">
-            <option value="">Select a range</option>
-            <option>Under $10 / hour</option>
-            <option>$10 – $25 / hour</option>
-            <option>$25 – $50 / hour</option>
-            <option>Project-based only</option>
-          </select>
-        </div>
-      </div>
-      <div class="field">
-        <label>Portfolio or website <span class="opt">(optional)</span></label>
-        <input type="url" name="portfolio" placeholder="https://">
-      </div>
-      <div class="field" data-req>
-        <label>Short bio</label>
-        <textarea name="bio" placeholder="A couple of sentences about your experience and what you're best at."></textarea>
-        <div class="field-error">Please add a short bio.</div>
-      </div>
-    </fieldset>
-
-    <fieldset>
-      <legend>Payout details</legend>
-      <div class="hint-box">Payments on Vaultwork are made in crypto, sent manually by our team once a client approves your delivered work. Make sure the wallet address below matches the network you select — sending to the wrong network can lose funds permanently.</div>
-      <div class="wallet-row">
-        <div class="field" data-req>
-          <label>Payout network</label>
-          <select name="walletNetwork">
-            <option value="">Select network</option>
-            <option>USDT (TRC20 / Tron)</option>
-            <option>USDT (ERC20 / Ethereum)</option>
-            <option>USDT (BEP20 / BNB Chain)</option>
-            <option>USDT (Solana)</option>
-            <option>USDT (Avalanche)</option>
-            <option>Bitcoin (BTC)</option>
-            <option>Ethereum (ETH)</option>
-            <option>Litecoin (LTC)</option>
-            <option>Dogecoin (DOGE)</option>
-            <option>Ripple (XRP)</option>
-            <option>Cardano (ADA)</option>
-          </select>
-          <div class="field-error">Please select a payout network.</div>
-        </div>
-        <div class="field" data-req>
-          <label>Wallet address</label>
-          <input type="text" name="walletAddress" placeholder="Paste your wallet address">
-          <div class="field-error">Please enter your wallet address.</div>
-        </div>
-      </div>
-    </fieldset>
-
-    <div class="check-row">
-      <input type="checkbox" id="terms-freelancer" name="terms">
-      <label for="terms-freelancer">I agree to Vaultwork's Terms of Service and confirm the wallet address above is correct. Vaultwork keeps a 20% fee from each approved project; the remaining 80% is sent to this address.</label>
-      <input type="hidden" data-req-checkbox>
+  <div>
+    <div class="results-head">
+      <div class="results-count"><b id="resultCount">0</b> projects found</div>
     </div>
-
-    <button type="submit" class="btn-submit">Create freelancer account</button>
-  </form>
-
-  <div class="success-box" id="successBox">
-    <div class="tick">✓</div>
-    <h3>You're in</h3>
-    <p id="successMsg">Thanks for signing up. We'll review your details and follow up by email shortly.</p>
+    <div class="proj-grid" id="projGrid"><div class="empty-state">Loading projects…</div></div>
   </div>
-</main>
+</div>
+
+<div class="modal-overlay" id="detailModal"><div class="modal-box" id="detailContent"></div></div>
+
+<div class="modal-overlay" id="postModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('postModal')">✕</button>
+    <h2 style="font-family:'Fraunces',serif; font-size:22px; color:var(--navy-deep); margin-bottom:4px;">Post a project</h2>
+    <p style="font-size:13px; color:#7A8096; margin-bottom:22px;">Freelancers will see this as soon as you post it.</p>
+    <div class="field"><label>Project title</label><input type="text" id="pTitle" placeholder="e.g. Redesign our landing page"></div>
+    <div class="field">
+      <label>Category</label>
+      <select id="pCategory">
+        <option>Web Development</option><option>Design</option><option>Writing & Translation</option>
+        <option>Video & Animation</option><option>Marketing</option><option>Other</option>
+      </select>
+    </div>
+    <div class="field"><label>Description</label><textarea id="pDesc" placeholder="What needs to get done? Be specific about scope and deliverables."></textarea></div>
+    <div class="field"><label>Budget</label><div class="budget-wrap"><input type="number" id="pBudget" placeholder="300" min="1"><span class="cur">USDT</span></div></div>
+    <button class="btn-apply" id="postSubmitBtn" onclick="postNewProject()">Post project</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="loginModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <h2 style="font-family:'Fraunces',serif; font-size:22px; color:var(--navy-deep); margin-bottom:4px;">Log in</h2>
+    <p style="font-size:13px; color:#7A8096; margin-bottom:22px;">New here? <a href="signup.html" style="color:var(--navy); font-weight:700;">Create an account</a> instead.</p>
+    <div class="field"><label>Email</label><input type="email" id="lEmail"></div>
+    <div class="field"><label>Password</label><input type="password" id="lPassword"></div>
+    <button class="btn-apply" id="loginSubmitBtn" onclick="submitLogin()">Log in</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastText"></span></div>
 
 <script>
-  // ---------------------------------------------------------------
-  // Your real backend API (Cloudflare Worker + D1).
-  // ---------------------------------------------------------------
   const API_URL = "https://questmart-freelance-api.alice56885236.workers.dev";
+  const categories = ["Web Development","Design","Writing & Translation","Video & Animation","Marketing","Other"];
 
-  const roleBtns = document.querySelectorAll('.role-btn');
-  const forms = { client: document.getElementById('form-client'), freelancer: document.getElementById('form-freelancer') };
-  const successBox = document.getElementById('successBox');
-  const successMsg = document.getElementById('successMsg');
+  let projects = [];
+  let token = localStorage.getItem('qm_token');
+  let currentUser = null;
+  try { currentUser = JSON.parse(localStorage.getItem('qm_user') || 'null'); } catch(e){ currentUser = null; }
 
-  roleBtns.forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      roleBtns.forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      Object.values(forms).forEach(f=>f.classList.remove('active'));
-      forms[btn.dataset.role].classList.add('active');
-      successBox.classList.remove('show');
-      Object.values(forms).forEach(f=>f.style.display='');
-      forms[btn.dataset.role].classList.add('active');
+  let state = { search:"", categories:new Set(), budget:"all", sort:"newest" };
+
+  const catFiltersEl = document.getElementById('catFilters');
+  catFiltersEl.innerHTML = categories.map(c => `<label class="check-opt"><input type="checkbox" value="${c}" class="catCheck"> ${c}</label>`).join('');
+  document.querySelectorAll('.catCheck').forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      if(cb.checked) state.categories.add(cb.value); else state.categories.delete(cb.value);
+      render();
     });
   });
+  document.querySelectorAll('input[name="budget"]').forEach(r=> r.addEventListener('change', ()=>{ state.budget = r.value; render(); }));
+  document.getElementById('searchInput').addEventListener('input', e=>{ state.search = e.target.value.toLowerCase(); render(); });
+  document.getElementById('sortSelect').addEventListener('change', e=>{ state.sort = e.target.value; render(); });
+  document.getElementById('clearFilters').addEventListener('click', ()=>{
+    state = { search:"", categories:new Set(), budget:"all", sort:"newest" };
+    document.getElementById('searchInput').value = "";
+    document.getElementById('sortSelect').value = "newest";
+    document.querySelectorAll('.catCheck').forEach(cb=>cb.checked=false);
+    document.querySelector('input[name="budget"][value="all"]').checked = true;
+    render();
+  });
 
-  function validateForm(form){
-    let valid = true;
-    form.querySelectorAll('.field[data-req]').forEach(field=>{
-      const input = field.querySelector('input, select, textarea');
-      let ok = input.value.trim().length > 0;
-      if(input.type === 'email' && ok){
-        ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
-      }
-      if(input.name === 'password' && ok){
-        ok = input.value.length >= 8;
-      }
-      if(input.name === 'password2' && ok){
-        const pw = form.querySelector('[name="password"]');
-        ok = pw && input.value === pw.value;
-      }
-      field.classList.toggle('invalid', !ok);
-      if(!ok) valid = false;
-    });
-    const terms = form.querySelector('[name="terms"]');
-    if(!terms.checked){ valid = false; terms.closest('.check-row').style.outline = '1.5px solid var(--rust)'; terms.closest('.check-row').style.borderRadius = '8px'; }
-    else { terms.closest('.check-row').style.outline = 'none'; }
-    return valid;
+  function timeAgo(sqlDate){
+    if(!sqlDate) return "";
+    const iso = sqlDate.includes('T') ? sqlDate : sqlDate.replace(' ', 'T') + 'Z';
+    const diffMs = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diffMs / 60000);
+    if(mins < 1) return "Just now";
+    if(mins < 60) return mins + " min ago";
+    const hrs = Math.floor(mins / 60);
+    if(hrs < 24) return hrs + (hrs===1 ? " hour ago" : " hours ago");
+    const days = Math.floor(hrs / 24);
+    if(days < 7) return days + (days===1 ? " day ago" : " days ago");
+    return new Date(iso).toLocaleDateString();
   }
 
-  async function handleSubmit(e, role){
-    e.preventDefault();
-    const form = e.target;
-    if(!validateForm(form)) return;
-
-    const data = Object.fromEntries(new FormData(form).entries());
-
-    const submitBtn = form.querySelector('.btn-submit');
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Submitting…";
-
+  async function loadProjects(){
+    document.getElementById('projGrid').innerHTML = `<div class="empty-state">Loading projects…</div>`;
     try{
-      // 1) create the account
-      const signupRes = await fetch(`${API_URL}/api/signup`, {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-          name: data.fullName,
-          role: role === 'client' ? 'employer' : 'freelancer',
-          wallet_address: data.walletAddress || null
-        })
-      });
-      const signupResult = await signupRes.json();
-      if(signupResult.error){
-        throw new Error(signupResult.error);
-      }
+      const res = await fetch(`${API_URL}/api/projects/open`);
+      const data = await res.json();
+      projects = (Array.isArray(data) ? data : []).map(p => ({
+        id: p.id, title: p.title, category: p.category || "Other",
+        client: p.employer_name, budget: Number(p.budget_usd), currency: p.currency,
+        postedAgo: timeAgo(p.created_at), desc: p.description
+      }));
+    } catch(e){
+      projects = [];
+    }
+    render();
+  }
 
-      // 2) log them in right away so they land with a session token
-      const loginRes = await fetch(`${API_URL}/api/login`, {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({ email: data.email, password: data.password })
-      });
-      const loginResult = await loginRes.json();
-      if(loginResult.token){
-        localStorage.setItem('qm_token', loginResult.token);
-        localStorage.setItem('qm_user', JSON.stringify(loginResult.user));
+  function render(){
+    let list = projects.filter(p=>{
+      if(state.search && !(p.title.toLowerCase().includes(state.search) || p.desc.toLowerCase().includes(state.search))) return false;
+      if(state.categories.size > 0 && !state.categories.has(p.category)) return false;
+      if(state.budget !== "all"){
+        const [min,max] = state.budget.split("-").map(Number);
+        if(p.budget < min || p.budget > max) return false;
       }
+      return true;
+    });
+    if(state.sort === "budgetHigh") list = list.slice().sort((a,b)=>b.budget-a.budget);
+    else if(state.sort === "budgetLow") list = list.slice().sort((a,b)=>a.budget-b.budget);
+    else list = list.slice().sort((a,b)=>b.id-a.id);
 
-      form.style.display = 'none';
-      successMsg.textContent = role === 'client'
-        ? "حساب کارفرمایی‌ات ساخته شد. حالا می‌تونی وارد بشی و پروژه پست کنی."
-        : "حساب فریلنسری‌ات ساخته شد. حالا می‌تونی وارد بشی و پروژه‌های باز رو ببینی.";
-      successBox.classList.add('show');
-    } catch(err){
-      submitBtn.disabled = false;
-      submitBtn.textContent = role === 'client' ? "Create client account" : "Create freelancer account";
-      alert("مشکلی پیش اومد: " + err.message);
+    document.getElementById('resultCount').textContent = list.length;
+    const grid = document.getElementById('projGrid');
+    if(list.length === 0){
+      grid.innerHTML = `<div class="empty-state">No open projects match these filters yet.</div>`;
+      return;
+    }
+    grid.innerHTML = list.map(p => `
+      <div class="proj-card" onclick="openDetail(${p.id})">
+        <div class="proj-top">
+          <div>
+            <span class="proj-cat">${p.category}</span>
+            <div class="proj-title">${escapeHtml(p.title)}</div>
+            <p class="proj-desc">${escapeHtml(p.desc || "").slice(0,140)}${(p.desc||"").length>140?'…':''}</p>
+          </div>
+          <div class="proj-budget-box">
+            <div class="proj-budget">$${p.budget}</div>
+            <div class="proj-budget-sub">${p.currency || 'USDT'}</div>
+          </div>
+        </div>
+        <div class="proj-foot">
+          <span class="proj-meta-item">👤 ${escapeHtml(p.client || '')}</span>
+          <span class="proj-meta-item">🕒 ${p.postedAgo}</span>
+          <span class="escrow-tag">🔒 Open</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+  function openDetail(id){
+    const p = projects.find(x=>x.id===id);
+    document.getElementById('detailContent').innerHTML = `
+      <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+      <span class="proj-cat">${p.category}</span>
+      <h2>${escapeHtml(p.title)}</h2>
+      <div class="modal-client">Posted by ${escapeHtml(p.client || '')} · ${p.postedAgo}</div>
+      <div class="modal-stats">
+        <div class="modal-stat"><div class="l">Budget</div><div class="v">$${p.budget}</div></div>
+        <div class="modal-stat"><div class="l">Currency</div><div class="v" style="font-size:14px;">${p.currency || 'USDT'}</div></div>
+        <div class="modal-stat"><div class="l">Category</div><div class="v" style="font-size:14px;">${p.category}</div></div>
+      </div>
+      <div class="modal-desc">${escapeHtml(p.desc || '')}</div>
+      <div class="modal-escrow">🔒 Once you accept this project, deliver your work through your dashboard. Payment (80%, minus a 20% platform fee) is sent manually by our team once the client approves.</div>
+      <button class="btn-apply" id="acceptBtn" onclick="applyToProject(${p.id})">Accept this project</button>
+    `;
+    document.getElementById('detailModal').classList.add('show');
+  }
+
+  async function applyToProject(id){
+    if(!currentUser || !token){
+      closeModal('detailModal');
+      openLogin();
+      alert("برای قبول کردن پروژه اول باید وارد حسابت بشی.");
+      return;
+    }
+    const btn = document.getElementById('acceptBtn');
+    btn.disabled = true; btn.textContent = "Accepting…";
+    try{
+      const res = await fetch(`${API_URL}/api/projects/${id}/accept`, {
+        method:"POST", headers:{ "Authorization": "Bearer " + token }
+      });
+      const result = await res.json();
+      if(result.error){ alert(result.error); btn.disabled=false; btn.textContent="Accept this project"; return; }
+      btn.textContent = "Accepted ✓"; btn.classList.add('applied');
+      showToast("Project accepted — it's now assigned to you.");
+      loadProjects();
+    } catch(e){
+      alert("مشکلی پیش اومد، دوباره امتحان کن.");
+      btn.disabled=false; btn.textContent="Accept this project";
     }
   }
 
-  forms.client.addEventListener('submit', e => handleSubmit(e, 'client'));
-  forms.freelancer.addEventListener('submit', e => handleSubmit(e, 'freelancer'));
+  function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+  document.querySelectorAll('.modal-overlay').forEach(m=> m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('show'); }));
+
+  function openPost(){
+    if(!currentUser || !token){
+      openLogin();
+      alert("برای پست کردن پروژه اول باید وارد حسابت بشی.");
+      return;
+    }
+    document.getElementById('postModal').classList.add('show');
+  }
+  document.getElementById('postBtnTop').addEventListener('click', openPost);
+  document.getElementById('navPost').addEventListener('click', e=>{ e.preventDefault(); openPost(); });
+
+  async function postNewProject(){
+    const title = document.getElementById('pTitle').value.trim();
+    const category = document.getElementById('pCategory').value;
+    const desc = document.getElementById('pDesc').value.trim();
+    const budget = parseFloat(document.getElementById('pBudget').value);
+    if(!title || !desc || !budget || budget<=0){ alert("Please fill in the title, description, and budget."); return; }
+    const btn = document.getElementById('postSubmitBtn');
+    btn.disabled = true; btn.textContent = "Posting…";
+    try{
+      const res = await fetch(`${API_URL}/api/projects`, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json", "Authorization":"Bearer " + token },
+        body: JSON.stringify({ title, description: desc, budget_usd: budget, currency: "USDT", category })
+      });
+      const result = await res.json();
+      if(result.error){ alert(result.error); btn.disabled=false; btn.textContent="Post project"; return; }
+      document.getElementById('pTitle').value = "";
+      document.getElementById('pDesc').value = "";
+      document.getElementById('pBudget').value = "";
+      closeModal('postModal');
+      showToast("Project posted — now visible to freelancers.");
+      loadProjects();
+    } catch(e){
+      alert("مشکلی پیش اومد، دوباره امتحان کن.");
+    }
+    btn.disabled = false; btn.textContent = "Post project";
+  }
+
+  function openLogin(){ document.getElementById('loginModal').classList.add('show'); }
+
+  async function submitLogin(){
+    const email = document.getElementById('lEmail').value.trim();
+    const password = document.getElementById('lPassword').value;
+    if(!email || !password){ alert("Enter your email and password."); return; }
+    const btn = document.getElementById('loginSubmitBtn');
+    btn.disabled = true; btn.textContent = "Logging in…";
+    try{
+      const res = await fetch(`${API_URL}/api/login`, {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ email, password })
+      });
+      const result = await res.json();
+      if(result.error){ alert(result.error); btn.disabled=false; btn.textContent="Log in"; return; }
+      token = result.token; currentUser = result.user;
+      localStorage.setItem('qm_token', token);
+      localStorage.setItem('qm_user', JSON.stringify(currentUser));
+      closeModal('loginModal');
+      updateAuthUI();
+      showToast("Logged in as " + currentUser.name);
+    } catch(e){
+      alert("مشکلی پیش اومد، دوباره امتحان کن.");
+    }
+    btn.disabled = false; btn.textContent = "Log in";
+  }
+
+  function logout(){
+    localStorage.removeItem('qm_token');
+    localStorage.removeItem('qm_user');
+    token = null; currentUser = null;
+    updateAuthUI();
+    showToast("Logged out");
+  }
+
+  function updateAuthUI(){
+    const el = document.getElementById('headActions');
+    if(currentUser){
+      el.innerHTML = `<span class="user-name">${escapeHtml(currentUser.name)}</span><button class="btn-text" id="logoutBtn">Log out</button>`;
+      document.getElementById('logoutBtn').addEventListener('click', logout);
+    } else {
+      el.innerHTML = `<button class="btn-text" id="loginBtn">Log in</button><button class="btn-primary" id="signupBtn">Sign up</button>`;
+      document.getElementById('loginBtn').addEventListener('click', openLogin);
+      document.getElementById('signupBtn').addEventListener('click', ()=> location.href = 'signup.html');
+    }
+  }
+
+  let toastTimer;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    document.getElementById('toastText').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
+  }
+
+  updateAuthUI();
+  loadProjects();
 </script>
 
 </body>
