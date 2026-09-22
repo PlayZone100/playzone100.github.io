@@ -145,6 +145,63 @@
   .foot-grid a{color:var(--text-muted);font-size:0.88rem;}
   .foot-grid a:hover{color:var(--text);}
   .foot-bottom{display:flex;justify-content:space-between;color:var(--text-muted);font-size:0.82rem;border-top:1px solid var(--line);padding-top:22px;flex-wrap:wrap;gap:10px;}
+
+  /* ====== MEME STUDIO SHOWCASE — own gradient family (blue/pink/yellow), same radii & shadow as the rest of the site ====== */
+  .ms-showcase{padding:0 0 64px;}
+  .ms-card{
+    position:relative;overflow:hidden;border-radius:28px;
+    background:
+      radial-gradient(circle at 14% 20%, rgba(255,77,141,0.35), transparent 42%),
+      radial-gradient(circle at 88% 78%, rgba(43,68,255,0.45), transparent 46%),
+      linear-gradient(135deg, #171732 0%, #12111f 100%);
+    box-shadow: var(--shadow);
+    padding:56px 48px;
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:40px;align-items:center;
+  }
+  @media (max-width:900px){ .ms-card{grid-template-columns:1fr;padding:40px 26px;} }
+  .ms-eyebrow{
+    display:inline-flex;align-items:center;gap:7px;font-size:0.8rem;font-weight:800;
+    color:#14121f;background:#ffe14a;padding:6px 14px;border-radius:999px;margin-bottom:20px;letter-spacing:0.02em;
+  }
+  .ms-copy h2{
+    color:#fff;font-size:clamp(1.6rem, 3vw, 2.35rem);line-height:1.2;margin:0 0 16px;font-weight:800;letter-spacing:-0.01em;
+  }
+  .ms-copy h2 em{font-style:normal;color:#ff9dc0;}
+  .ms-copy p{color:#C9CAE0;font-size:1rem;max-width:48ch;margin:0 0 28px;}
+  .ms-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+  .ms-tags span{
+    font-size:0.78rem;color:#E4E5F5;background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.14);padding:6px 12px;border-radius:999px;
+  }
+  .ms-cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .ms-btn{
+    background:#ffe14a;color:#14121f;padding:14px 28px;font-size:0.98rem;font-weight:800;
+    border-radius:14px;box-shadow:0 14px 30px -14px rgba(255,225,74,0.55);
+  }
+  .ms-btn:hover{background:#ffd60a;}
+  .ms-free{color:#9FA2C4;font-size:0.85rem;}
+
+  .ms-visual{position:relative;height:300px;}
+  .ms-face{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:150px;height:150px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ffe98a, #ffc93a 70%, #f2a900);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.55);
+  }
+  .ms-face::before, .ms-face::after{content:"";position:absolute;top:58px;width:16px;height:16px;border-radius:50%;background:#3b2a06;}
+  .ms-face::before{left:36px;} .ms-face::after{right:36px;}
+  .ms-prop{
+    position:absolute;width:64px;height:64px;border-radius:18px;
+    background:var(--surface);display:flex;align-items:center;justify-content:center;
+    font-size:1.7rem;box-shadow:0 16px 28px -12px rgba(0,0,0,0.5);
+  }
+  .ms-p1{top:6%;left:8%;transform:rotate(-8deg);}
+  .ms-p2{top:14%;right:6%;transform:rotate(10deg);}
+  .ms-p3{bottom:10%;left:4%;transform:rotate(6deg);}
+  .ms-p4{bottom:2%;right:14%;transform:rotate(-6deg);}
+  .ms-p5{top:52%;left:-2%;transform:rotate(-4deg) translateY(-50%);}
+  @media (max-width:900px){ .ms-visual{height:220px;margin-top:8px;} .ms-face{width:110px;height:110px;} .ms-prop{width:52px;height:52px;font-size:1.4rem;} }
+  @media (max-width:520px){ .ms-p5{display:none;} }
 </style>
 </head>
 <body>
@@ -186,6 +243,36 @@
         <div class="float-card fc-1"><div class="icon">💼</div><b>Business tools</b><small>Invoicing & more</small></div>
         <div class="float-card fc-2"><div class="icon">🧩</div><b>More coming</b><small>New products soon</small></div>
         <div class="float-card fc-3"><div class="icon">🪙</div><b>Crypto ready</b><small>USDT & Bitcoin</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ms-showcase" aria-labelledby="ms-heading">
+    <div class="wrap">
+      <div class="ms-card">
+        <div class="ms-copy">
+          <span class="ms-eyebrow">✨ NEW · Free to start</span>
+          <h2 id="ms-heading">Meme Studio — turn any photo into <em>pure chaos</em></h2>
+          <p>Drop in a photo and it finds every face automatically. Drag on hats, glasses, crowns and 60+ other props, warp faces, hide faces, or animate the whole thing into a GIF — right in your browser, nothing uploaded.</p>
+          <div class="ms-tags">
+            <span>🎩 60+ props</span>
+            <span>✨ One-tap Looks</span>
+            <span>🎬 Animated GIFs</span>
+            <span>🔒 Private, on-device</span>
+          </div>
+          <div class="ms-cta">
+            <a href="/products/meme-fantasy-face-accessories-en.html" class="btn ms-btn">Open Meme Studio →</a>
+            <span class="ms-free">Free to start · Pro from $5/mo</span>
+          </div>
+        </div>
+        <div class="ms-visual" aria-hidden="true">
+          <div class="ms-face"></div>
+          <div class="ms-prop ms-p1">🎩</div>
+          <div class="ms-prop ms-p2">🕶️</div>
+          <div class="ms-prop ms-p3">👑</div>
+          <div class="ms-prop ms-p4">😂</div>
+          <div class="ms-prop ms-p5">🎬</div>
+        </div>
       </div>
     </div>
   </section>
