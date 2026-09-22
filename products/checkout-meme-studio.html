@@ -1,59 +1,47 @@
 <!DOCTYPE html>
+<!--
+  Meme Studio subscription checkout — SAME PATTERN as checkout-saas-landing-template.html.
+  Talks DIRECTLY to the payment worker (morning-shape-c098) to create the order
+  and poll payment status, exactly like every other product. The license worker
+  (orange-brook-a798) is called only ONCE, at the very end, after payment is
+  already confirmed — just to fetch the signed licence token. No more chained
+  server-to-server order creation, so no more timeout/404 failures there.
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex,nofollow">
-<title>Checkout — Meme Studio Pro | QuestMart</title>
+<title>Checkout — Meme Studio</title>
 <style>
-:root{--bg:#FAF8F4;--surface:#fff;--surface-2:#F1EEE6;--text:#1B1E2B;--muted:#62667A;--line:#E7E2D6;--brand:#263866;--accent:#C08A3E}
-@media (prefers-color-scheme:dark){:root{--bg:#14161F;--surface:#1B1E2B;--surface-2:#232636;--text:#F2F1EC;--muted:#A2A6BC;--line:#2E3143}}
-*{box-sizing:border-box}
-body{font-family:Inter,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--text);max-width:520px;margin:48px auto;padding:0 20px;line-height:1.55}
-a{color:var(--brand)}
-.back{font-size:.9rem;color:var(--muted);text-decoration:none}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px;margin-top:14px}
-h1{font-size:1.35rem;margin:0 0 6px}
-.sub{color:var(--muted);font-size:.92rem;margin:0 0 20px}
-.plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.plan{border:2px solid var(--line);border-radius:12px;padding:12px;background:transparent;text-align:left;cursor:pointer;color:inherit;font:inherit;position:relative}
-.plan b{display:block;font-size:1.25rem}
-.plan span{font-size:.82rem;color:var(--muted)}
-.plan[aria-checked=true]{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 22%,transparent)}
-.plan i{position:absolute;top:-10px;right:10px;background:var(--accent);color:#1B1E2B;font:700 .7rem Inter,sans-serif;font-style:normal;padding:2px 9px;border-radius:99px}
-label{font-size:.85rem;font-weight:600;display:block;margin-bottom:6px}
-select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);margin-bottom:6px;font:inherit;background:var(--surface);color:var(--text)}
-.hint{font-size:.8rem;color:var(--muted);margin:0 0 16px}
-button.go{width:100%;padding:12px;border-radius:999px;border:none;background:var(--brand);color:#fff;font:600 1rem inherit;cursor:pointer}
-button.go:disabled{opacity:.6;cursor:default}
-.pay-box{margin-top:20px;padding:18px;border:1px dashed var(--accent);border-radius:12px;display:none}
-.pay-box img{display:block;margin:0 auto 14px;border-radius:8px;background:#fff}
-.addr{word-break:break-all;background:var(--surface-2);padding:10px;border-radius:8px;font-size:.82rem;font-family:monospace;margin-bottom:10px}
-.amount{font-size:1.4rem;font-weight:800;text-align:center;margin-bottom:12px}
-.row{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
-.mini{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:8px;padding:6px 12px;font:600 .8rem Inter,sans-serif;cursor:pointer}
-.status{text-align:center;font-size:.92rem;color:var(--muted);margin-top:14px}
-.status.paid{color:#1F7A55;font-weight:700}
-.status.error{color:#B3341F;font-weight:600}
-.oid{font-size:.78rem;color:var(--muted);text-align:center;margin-top:10px;word-break:break-all}
-.done{display:none;text-align:center;padding:8px 0}
-.done h2{margin:0 0 6px}
-.done a.btn{display:inline-block;margin-top:14px;padding:12px 26px;border-radius:999px;background:var(--brand);color:#fff;text-decoration:none;font-weight:600}
-.fine{font-size:.78rem;color:var(--muted);margin-top:18px}
+  body{font-family:Inter,-apple-system,sans-serif;background:#FAF8F4;color:#1B1E2B;max-width:480px;margin:60px auto;padding:0 20px;}
+  .card{background:#fff;border:1px solid #E7E2D6;border-radius:16px;padding:28px;}
+  h1{font-size:1.3rem;margin:0 0 6px;}
+  .sub{color:#62667A;font-size:0.9rem;margin:0 0 22px;}
+  select,button{font:inherit;}
+  select{width:100%;padding:10px;border-radius:8px;border:1px solid #E7E2D6;margin-bottom:16px;}
+  button{width:100%;padding:12px;border-radius:999px;border:none;background:#263866;color:#fff;font-weight:600;cursor:pointer;}
+  button:disabled{opacity:0.6;cursor:default;}
+  .pay-box{margin-top:20px;padding:18px;border:1px dashed #C08A3E;border-radius:12px;display:none;}
+  .pay-box img{display:block;margin:0 auto 14px;}
+  .addr{word-break:break-all;background:#F1EEE6;padding:10px;border-radius:8px;font-size:0.82rem;font-family:monospace;margin-bottom:10px;}
+  .amount{font-size:1.4rem;font-weight:800;text-align:center;margin-bottom:14px;}
+  .status{text-align:center;font-size:0.9rem;color:#62667A;margin-top:14px;}
+  .status.paid{color:#1F5C46;font-weight:700;}
+  .status.error{color:#B3341F;font-weight:600;}
+  .license-box{margin-top:14px;padding:14px;background:#F1EEE6;border-radius:8px;display:none;}
+  .license-box textarea{width:100%;height:70px;font-family:monospace;font-size:0.75rem;border:1px solid #E7E2D6;border-radius:6px;padding:8px;resize:none;}
+  .license-box button{margin-top:8px;background:#1F5C46;}
 </style>
 </head>
 <body>
-<a class="back" href="/products/meme-fantasy-face-accessories-en.html">← Back to Meme Studio</a>
-<div class="card" id="card">
-  <h1>Meme Studio Pro</h1>
-  <p class="sub" id="sub">Pay with crypto. Pro unlocks on this site automatically when the payment confirms.</p>
+  <div class="card" id="crypto-checkout">
+    <h1>Meme Studio — Pro</h1>
+    <p class="sub" id="product-sub">Choose a plan and currency</p>
 
-  <div id="form">
-    <div class="plans" role="radiogroup" aria-label="Plan">
-      <button class="plan" role="radio" data-p="monthly" aria-checked="false"><b>$5</b><span>1 month</span></button>
-      <button class="plan" role="radio" data-p="yearly" aria-checked="true"><i>Save 33%</i><b>$40</b><span>12 months</span></button>
-    </div>
-    <label for="currency">Pay with</label>
+    <select id="plan">
+      <option value="monthly">Monthly — 31 days</option>
+      <option value="yearly">Yearly — 366 days</option>
+    </select>
     <select id="currency">
       <option value="USDT_TRC20">USDT (TRC20 / Tron)</option>
       <option value="USDT_ERC20">USDT (ERC20 / Ethereum)</option>
@@ -65,77 +53,126 @@ button.go:disabled{opacity:.6;cursor:default}
       <option value="XRP">Ripple (XRP)</option>
       <option value="ADA">Cardano (ADA)</option>
       <option value="AVAX">Avalanche (AVAX)</option>
-      <option value="BNB">BNB (BNB Smart Chain)</option>
+      <option value="BNB">BNB (BSC)</option>
     </select>
-    <p class="hint">For a small payment like this, USDT on Tron (TRC20), Solana or Dogecoin have the lowest network fees.</p>
-    <button class="go" id="create">Generate payment address</button>
+    <button id="create-order">Generate payment address</button>
+
+    <div class="pay-box" id="pay-box">
+      <div class="amount" id="pay-amount"></div>
+      <div class="addr" id="pay-address"></div>
+      <img id="qr" width="180" height="180" alt="Payment QR code">
+      <div class="status" id="pay-status">Waiting for payment…</div>
+      <div class="license-box" id="license-box">
+        <div>Your licence key — keep it, it restores Pro access on another device:</div>
+        <textarea id="license-token" readonly></textarea>
+        <button id="copy-license">Copy licence key</button>
+      </div>
+    </div>
   </div>
 
-  <div class="pay-box" id="pay-box">
-    <div class="amount" id="pay-amount"></div>
-    <div class="addr" id="pay-address"></div>
-    <div class="row" style="margin-bottom:12px"><button class="mini" id="copy">Copy address</button></div>
-    <img id="qr" width="180" height="180" alt="Payment QR code">
-    <div class="status" id="pay-status">Waiting for payment…</div>
-    <div class="oid">Order ID: <b id="oid"></b><br>Keep it. It restores your Pro access on another device.</div>
-  </div>
+  <script>
+    // Same payment worker every other product uses.
+    const WORKER_URL = "https://morning-shape-c098.alice56885236.workers.dev";
+    // License worker: only called once, after payment is confirmed.
+    const LICENSE_WORKER_URL = "https://orange-brook-a798.alice56885236.workers.dev";
 
-  <div class="done" id="done">
-    <h2>Pro unlocked ✓</h2>
-    <p id="done-msg"></p>
-    <a class="btn" id="open" href="/products/meme-fantasy-face-accessories-en.html">Open Meme Studio</a>
-  </div>
-  <p class="fine">Send the exact amount shown, on the network you chose. This is a time-limited pass, not an auto-renewing subscription: renew whenever you like.</p>
-</div>
+    const planSel = document.getElementById("plan");
+    const currencySel = document.getElementById("currency");
+    const createBtn = document.getElementById("create-order");
+    const payBox = document.getElementById("pay-box");
+    const payAmount = document.getElementById("pay-amount");
+    const payAddress = document.getElementById("pay-address");
+    const payStatus = document.getElementById("pay-status");
+    const qr = document.getElementById("qr");
+    const licenseBox = document.getElementById("license-box");
+    const licenseTokenEl = document.getElementById("license-token");
 
-<script>
-/* ---- the only two lines to edit ---- */
-const LICENSE_API = "https://orange-brook-a798.alice56885236.workers.dev";
-const TOOL_URL    = "/products/meme-fantasy-face-accessories-en.html";
-/* ------------------------------------ */
-const LS_KEY='qm_meme_license_v1', LS_PEND='qm_meme_pending_v1';
-const $=s=>document.querySelector(s);
-const get=k=>{try{return localStorage.getItem(k)}catch(e){return null}}, set=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}, del=k=>{try{localStorage.removeItem(k)}catch(e){}};
-let plan=(new URLSearchParams(location.search).get('plan')==='monthly')?'monthly':'yearly', timer=null;
-$('#open').href=TOOL_URL;
-function pickPlan(p){plan=p;document.querySelectorAll('.plan').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.p===p)));}
-document.querySelectorAll('.plan').forEach(b=>b.onclick=()=>pickPlan(b.dataset.p));pickPlan(plan);
+    let pollTimer = null;
 
-function showOrder(o){
-  $('#pay-amount').textContent=o.amount+' '+String(o.currency||'').replace('_',' ');
-  $('#pay-address').textContent=o.address;$('#oid').textContent=o.id;
-  $('#qr').src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encodeURIComponent(o.address);
-  $('#pay-box').style.display='block';$('#form').style.display='none';
-  $('#sub').textContent='Meme Studio Pro · '+(o.plan==='yearly'?'12 months':'1 month');
-  $('#pay-status').className='status';$('#pay-status').textContent='Waiting for payment…';
-  clearInterval(timer);timer=setInterval(()=>poll(o),8000);poll(o);
-}
-async function poll(o){
-  let j;try{const r=await fetch(LICENSE_API+'/license/'+encodeURIComponent(o.id));j=await r.json();}catch(e){return;}
-  if(j.token){
-    clearInterval(timer);set(LS_KEY,j.token);del(LS_PEND);
-    $('#pay-box').style.display='none';$('#form').style.display='none';$('#done').style.display='block';
-    $('#done-msg').textContent='Your Pro pass is active until '+new Date(j.exp*1000).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})+'. It is already switched on for this browser.';
-    $('#sub').textContent='Thank you!';
-  }else if(j.status==='expired'){
-    clearInterval(timer);del(LS_PEND);$('#pay-status').className='status error';$('#pay-status').textContent='This payment window expired. Refresh the page and try again.';
-  }else if(j.status==='unknown'){clearInterval(timer);del(LS_PEND);}
-}
-$('#create').onclick=async()=>{
-  const b=$('#create');b.disabled=true;b.textContent='Creating order…';
-  const body={plan,currency:$('#currency').value},prev=get(LS_KEY);if(prev)body.prevToken=prev;
-  try{
-    const r=await fetch(LICENSE_API+'/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    const o=await r.json();
-    if(o.error||!o.id)throw new Error(o.error||'Could not create the order.');
-    set(LS_PEND,JSON.stringify({...o,t:Date.now()}));showOrder(o);
-  }catch(e){
-    $('#pay-box').style.display='block';$('#pay-status').className='status error';$('#pay-status').textContent='Error: '+e.message;b.disabled=false;b.textContent='Generate payment address';
-  }
-};
-$('#copy').onclick=()=>{const t=$('#pay-address').textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{$('#copy').textContent='Copied ✓';setTimeout(()=>$('#copy').textContent='Copy address',1500);},()=>{});};
-/* resume an unfinished order after a refresh */
-try{const p=JSON.parse(get(LS_PEND)||'null');if(p&&p.id&&Date.now()-p.t<6*3600e3){plan=p.plan||plan;showOrder(p);}else del(LS_PEND);}catch(e){}
-</script>
+    createBtn.addEventListener("click", async () => {
+      createBtn.disabled = true;
+      createBtn.textContent = "Creating order…";
+      const plan = planSel.value;
+      const currency = currencySel.value;
+      const productId = plan === "yearly" ? "meme-studio-yearly" : "meme-studio-monthly";
+
+      let order;
+      try {
+        const res = await fetch(`${WORKER_URL}/order`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId, currency }),
+        });
+        order = await res.json();
+      } catch (e) {
+        payStatus.textContent = "Error: could not reach the payment server. Try again.";
+        payStatus.classList.add("error");
+        createBtn.disabled = false;
+        createBtn.textContent = "Generate payment address";
+        return;
+      }
+      if (order.error) {
+        payStatus.textContent = "Error: " + order.error;
+        payStatus.classList.add("error");
+        createBtn.disabled = false;
+        createBtn.textContent = "Generate payment address";
+        return;
+      }
+
+      payAmount.textContent = `${order.amount} ${order.currency.replace("_", " ")}`;
+      payAddress.textContent = order.address;
+      qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(order.address)}`;
+      payBox.style.display = "block";
+      createBtn.style.display = "none";
+
+      pollTimer = setInterval(() => pollStatus(order.id, plan), 8000);
+    });
+
+    async function pollStatus(orderId, plan) {
+      let data;
+      try {
+        const res = await fetch(`${WORKER_URL}/order/${orderId}/status`);
+        data = await res.json();
+      } catch (e) {
+        return; // transient network hiccup — the next poll (8s later) will retry
+      }
+      if (data.status === "paid") {
+        clearInterval(pollTimer);
+        payStatus.textContent = "Payment confirmed! Issuing your licence…";
+        payStatus.classList.add("paid");
+        await fetchLicense(orderId, plan);
+      } else if (data.status === "expired") {
+        clearInterval(pollTimer);
+        payStatus.textContent = "This payment window expired. Please refresh and try again.";
+      }
+    }
+
+    // Called ONCE, after payment is already confirmed paid.
+    async function fetchLicense(orderId, plan) {
+      const prevToken = localStorage.getItem("memeStudioLicense") || "";
+      const qs = new URLSearchParams({ plan, ...(prevToken ? { prevToken } : {}) });
+      try {
+        const res = await fetch(`${LICENSE_WORKER_URL}/license/${orderId}?${qs.toString()}`);
+        const data = await res.json();
+        if (data.status === "paid" && data.token) {
+          localStorage.setItem("memeStudioLicense", data.token);
+          licenseTokenEl.value = data.token;
+          licenseBox.style.display = "block";
+          payStatus.textContent = "Licence issued — you're all set!";
+        } else {
+          payStatus.textContent = "Payment confirmed, but licence issuing failed: " + (data.error || data.status);
+          payStatus.classList.add("error");
+        }
+      } catch (e) {
+        payStatus.textContent = "Payment confirmed, but could not reach the licence server. Refresh this page in a minute to retry.";
+        payStatus.classList.add("error");
+      }
+    }
+
+    document.getElementById("copy-license").addEventListener("click", () => {
+      licenseTokenEl.select();
+      document.execCommand("copy");
+    });
+  </script>
 </body>
 </html>
