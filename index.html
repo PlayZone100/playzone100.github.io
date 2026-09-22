@@ -111,9 +111,10 @@
 
   .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
   @media (max-width:900px){ .prod-grid{grid-template-columns:1fr;} }
-  .prod-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;transition:box-shadow .15s ease, transform .15s ease;}
+  .prod-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;transition:box-shadow .15s ease, transform .15s ease;}
   .prod-card:hover{box-shadow:var(--shadow);transform:translateY(-4px);}
   .prod-thumb{height:140px;background:linear-gradient(135deg, var(--brand) 0%, var(--accent) 130%);display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;}
+  .prod-thumb.fun{background:linear-gradient(135deg, #2b44ff 0%, #ff4d8d 130%);}
   .prod-body{padding:16px 18px 20px;}
   .prod-body .cat{font-size:0.75rem;color:var(--accent);margin-bottom:6px;display:block;}
   .prod-body h3{font-size:1.05rem;margin:0 0 8px;font-weight:700;}
@@ -121,6 +122,7 @@
   .prod-foot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;}
   .price{font-weight:800;}
   .price small{font-weight:500;color:var(--text-muted);}
+  .badge-new{position:absolute;top:14px;right:14px;background:#ff4d8d;color:#fff;font-size:0.72rem;font-weight:800;padding:4px 11px;border-radius:999px;letter-spacing:0.02em;z-index:1;box-shadow:0 4px 10px -4px rgba(255,77,141,0.6);}
 
   .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
   @media (max-width:800px){ .trust-grid{grid-template-columns:1fr;} }
@@ -241,6 +243,16 @@
             <div class="prod-foot"><span class="price">$120 <small>one-time</small></span></div>
           </div>
         </a>
+        <a class="prod-card" href="/products/meme-fantasy-face-accessories-en.html">
+          <span class="badge-new">NEW</span>
+          <div class="prod-thumb fun">🥸</div>
+          <div class="prod-body">
+            <span class="cat">Fun tool</span>
+            <h3>Meme Studio</h3>
+            <p>A Canva-style photo studio for funny faces — auto face detection, 60+ props, one-tap Looks, face warp, hide faces, GIFs and batch mode. Runs right in your browser.</p>
+            <div class="prod-foot"><span class="price">Free <small>Pro from $5/mo</small></span></div>
+          </div>
+        </a>
       </div>
     </div>
   </section>
@@ -299,6 +311,7 @@
           <li><a href="/products/invoice-studio-pro.html">Invoice Studio Pro</a></li>
           <li><a href="/products/contract-proposal-generator-pro.html">Contract & Proposal Generator Pro</a></li>
           <li><a href="/products/creator-command-center.html">Creator Command Center</a></li>
+          <li><a href="/products/meme-fantasy-face-accessories-en.html">Meme Studio</a></li>
         </ul>
       </div>
       <div>
