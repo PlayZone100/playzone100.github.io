@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Browse Projects — Vaultwork</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#141A2E; --navy-deep:#0D111F; --amber:#E3A23A; --sage:#7C9885;
+    --rust:#C0432E; --paper:#F4F1EA; --paper-dim:#E7E2D6; --ink:#1C2233;
+    --line:rgba(20,26,46,0.14); --white:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter', sans-serif; background:var(--paper); color:var(--ink);
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit;}
+
+  /* ---------- HEADER ---------- */
+  header.site{
+    position:sticky; top:0; z-index:60;
+    background:rgba(244,241,234,0.94); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    padding:14px 6vw; padding-top:calc(14px + env(safe-area-inset-top,0px));
+    display:flex; align-items:center; justify-content:space-between; gap:20px;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px; flex:none; text-decoration:none;}
+  .brand .mark{width:28px; height:28px; border-radius:8px; background:var(--navy); position:relative; flex:none;}
+  .brand .mark::after{content:""; position:absolute; inset:8px; background:var(--amber); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);}
+  nav.main-nav{display:flex; align-items:center; gap:6px; flex:1;}
+  nav.main-nav a{
+    text-decoration:none; font-size:13.5px; font-weight:600; color:#565D73; padding:8px 14px; border-radius:8px;
+  }
+  nav.main-nav a.active{color:var(--navy-deep); background:var(--paper-dim);}
+  .head-actions{display:flex; align-items:center; gap:10px; flex:none;}
+  .btn-text{
+    background:none; border:none; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--navy);
+    cursor:pointer; padding:8px 6px;
+  }
+  .btn-primary{
+    background:var(--amber); color:var(--navy-deep); border:none; border-radius:8px;
+    padding:10px 18px; font-family:inherit; font-size:13.5px; font-weight:700; cursor:pointer;
+    transition:transform .15s ease;
+  }
+  .btn-primary:hover{transform:translateY(-1px);}
+
+  /* ---------- PAGE HEAD ---------- */
+  .page-head{max-width:1280px; margin:0 auto; padding:4vw 6vw 1.5vw;}
+  .page-head h1{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(26px,3.2vw,36px); color:var(--navy-deep);}
+  .page-head p{margin-top:8px; color:#565D73; font-size:15px;}
+
+  .search-bar{
+    max-width:1280px; margin:0 auto; padding:0 6vw 1.5vw;
+    display:flex; gap:10px; flex-wrap:wrap;
+  }
+  .search-bar input[type="text"]{
+    flex:1; min-width:220px; border:1px solid var(--line); border-radius:10px; padding:13px 16px;
+    font-family:inherit; font-size:14px; background:var(--white);
+  }
+  .search-bar select{
+    border:1px solid var(--line); border-radius:10px; padding:13px 14px; font-family:inherit; font-size:13.5px;
+    background:var(--white); color:var(--ink);
+  }
+
+  /* ---------- LAYOUT ---------- */
+  .layout{max-width:1280px; margin:0 auto; padding:0 6vw 8vw; display:grid; grid-template-columns:250px 1fr; gap:32px; align-items:start;}
+
+  .filters{
+    background:var(--white); border:1px solid var(--line); border-radius:16px; padding:20px; position:sticky; top:90px;
+  }
+  .filters h3{font-size:13px; font-weight:700; color:var(--navy-deep); margin-bottom:12px; text-transform:none;}
+  .filter-group{margin-bottom:22px;}
+  .filter-group:last-child{margin-bottom:0;}
+  .check-opt{display:flex; align-items:center; gap:9px; font-size:13px; color:#3B4258; padding:6px 0; cursor:pointer;}
+  .check-opt input{width:15px; height:15px; accent-color:var(--navy); flex:none;}
+  .radio-opt{display:flex; align-items:center; gap:9px; font-size:13px; color:#3B4258; padding:6px 0; cursor:pointer;}
+  .radio-opt input{width:15px; height:15px; accent-color:var(--navy); flex:none;}
+  .clear-filters{
+    background:none; border:none; font-family:inherit; font-size:12.5px; font-weight:700; color:var(--rust);
+    cursor:pointer; margin-top:6px; padding:0;
+  }
+
+  .results-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px;}
+  .results-count{font-size:14px; color:#565D73;}
+  .results-count b{color:var(--navy-deep);}
+
+  .proj-grid{display:flex; flex-direction:column; gap:14px;}
+  .proj-card{
+    background:var(--white); border:1px solid var(--line); border-radius:16px; padding:22px; cursor:pointer;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .proj-card:hover{border-color:var(--navy); box-shadow:0 10px 26px -18px rgba(20,26,46,0.35);}
+  .proj-top{display:flex; align-items:flex-start; justify-content:space-between; gap:16px;}
+  .proj-cat{
+    display:inline-block; font-size:11px; font-weight:700; padding:4px 11px; border-radius:20px;
+    background:rgba(227,162,58,0.16); color:#9A6B1E; margin-bottom:10px;
+  }
+  .proj-title{font-size:16.5px; font-weight:700; color:var(--navy-deep); line-height:1.4;}
+  .proj-desc{font-size:13.5px; color:#565D73; line-height:1.7; margin-top:8px; max-width:70ch;}
+  .proj-budget-box{text-align:right; flex:none;}
+  .proj-budget{font-family:'JetBrains Mono',monospace; font-size:19px; font-weight:600; color:var(--navy-deep);}
+  .proj-budget-sub{font-size:11px; color:#9AA0B2; margin-top:2px;}
+  .proj-foot{display:flex; align-items:center; gap:18px; margin-top:16px; padding-top:14px; border-top:1px solid var(--line); flex-wrap:wrap;}
+  .proj-meta-item{display:flex; align-items:center; gap:6px; font-size:12.5px; color:#7A8096;}
+  .escrow-tag{
+    display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:700; color:#4C6553;
+    background:rgba(124,152,133,0.16); padding:4px 10px; border-radius:20px; margin-left:auto;
+  }
+
+  .empty-state{
+    text-align:center; padding:60px 20px; color:#7A8096; font-size:14px; background:var(--white);
+    border:1px dashed var(--line); border-radius:16px;
+  }
+
+  /* ---------- MODAL: PROJECT DETAIL ---------- */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; background:rgba(13,17,31,0.6); z-index:100;
+    align-items:flex-start; justify-content:center; padding:5vh 20px; overflow-y:auto;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal-box{
+    background:var(--white); border-radius:20px; max-width:600px; width:100%; padding:clamp(24px,4vw,38px);
+    position:relative; margin:auto 0;
+  }
+  .modal-close{
+    position:absolute; top:18px; right:18px; background:var(--paper-dim); border:none; width:32px; height:32px;
+    border-radius:50%; cursor:pointer; font-size:16px; color:var(--navy); display:flex; align-items:center; justify-content:center;
+  }
+  .modal-box .proj-cat{margin-bottom:14px;}
+  .modal-box h2{font-family:'Fraunces',serif; font-size:24px; color:var(--navy-deep); line-height:1.3; margin-bottom:6px; padding-right:30px;}
+  .modal-client{font-size:13px; color:#7A8096; margin-bottom:20px;}
+  .modal-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:22px;}
+  .modal-stat{background:var(--paper); border-radius:10px; padding:12px 14px;}
+  .modal-stat .l{font-size:11px; color:#9AA0B2;}
+  .modal-stat .v{font-family:'Fraunces',serif; font-size:18px; color:var(--navy-deep); margin-top:3px;}
+  .modal-desc{font-size:14px; color:#3B4258; line-height:1.85; margin-bottom:22px;}
+  .modal-escrow{
+    background:rgba(124,152,133,0.12); border:1px solid rgba(124,152,133,0.3); border-radius:12px;
+    padding:14px 16px; font-size:13px; color:#3F5B47; line-height:1.7; margin-bottom:24px;
+  }
+  .btn-apply{
+    width:100%; background:var(--amber); color:var(--navy-deep); border:none; border-radius:10px;
+    padding:15px; font-family:inherit; font-size:15px; font-weight:700; cursor:pointer;
+  }
+  .btn-apply.applied{background:var(--sage); color:var(--white); cursor:default;}
+
+  /* ---------- MODAL: POST PROJECT ---------- */
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:12.5px; font-weight:700; color:var(--navy-deep); margin-bottom:6px;}
+  .field input, .field select, .field textarea{
+    width:100%; border:1px solid var(--line); border-radius:9px; padding:11px 13px; font-family:inherit;
+    font-size:13.5px; background:var(--paper);
+  }
+  .field textarea{resize:vertical; min-height:90px;}
+  .field .budget-wrap{position:relative;}
+  .field .budget-wrap input{padding-right:56px;}
+  .field .budget-wrap .cur{position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:12px; color:#9AA0B2; font-weight:700;}
+
+  .toast{
+    position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px); z-index:200;
+    background:var(--navy-deep); color:var(--paper); padding:14px 22px; border-radius:12px; font-size:13.5px;
+    font-weight:600; opacity:0; pointer-events:none; transition:opacity .25s, transform .25s;
+    display:flex; align-items:center; gap:10px;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .toast .dot{width:8px; height:8px; border-radius:50%; background:var(--sage);}
+
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr;}
+    .filters{position:static;}
+    nav.main-nav{display:none;}
+    .proj-top{flex-direction:column;}
+    .proj-budget-box{text-align:left;}
+    .modal-stats{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <a class="brand" href="#"><span class="mark"></span> Vaultwork</a>
+  <nav class="main-nav">
+    <a href="#" class="active">Browse Projects</a>
+    <a href="#" id="navPost">Post a Project</a>
+    <a href="#">How it works</a>
+  </nav>
+  <div class="head-actions">
+    <button class="btn-text">Log in</button>
+    <button class="btn-primary" id="signupBtn">Sign up</button>
+  </div>
+</header>
+
+<div class="page-head">
+  <h1>Find your next project</h1>
+  <p>Every project below is already funded — the budget sits in crypto escrow, ready to release the moment your work is approved.</p>
+</div>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search projects — e.g. WordPress, logo, translation...">
+  <select id="sortSelect">
+    <option value="newest">Sort: Newest</option>
+    <option value="budgetHigh">Sort: Budget (high to low)</option>
+    <option value="budgetLow">Sort: Budget (low to high)</option>
+  </select>
+  <button class="btn-primary" id="postBtnTop">+ Post a Project</button>
+</div>
+
+<div class="layout">
+  <aside class="filters">
+    <h3>Category</h3>
+    <div class="filter-group" id="catFilters"></div>
+
+    <h3>Budget</h3>
+    <div class="filter-group" id="budgetFilters">
+      <label class="radio-opt"><input type="radio" name="budget" value="all" checked> Any budget</label>
+      <label class="radio-opt"><input type="radio" name="budget" value="0-150"> Under $150</label>
+      <label class="radio-opt"><input type="radio" name="budget" value="150-400"> $150 – $400</label>
+      <label class="radio-opt"><input type="radio" name="budget" value="400-99999"> $400+</label>
+    </div>
+
+    <button class="clear-filters" id="clearFilters">Clear all filters</button>
+  </aside>
+
+  <div>
+    <div class="results-head">
+      <div class="results-count"><b id="resultCount">0</b> projects found</div>
+    </div>
+    <div class="proj-grid" id="projGrid"></div>
+  </div>
+</div>
+
+<!-- PROJECT DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-box" id="detailContent"></div>
+</div>
+
+<!-- POST PROJECT MODAL -->
+<div class="modal-overlay" id="postModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('postModal')">✕</button>
+    <h2 style="font-family:'Fraunces',serif; font-size:22px; color:var(--navy-deep); margin-bottom:4px;">Post a project</h2>
+    <p style="font-size:13px; color:#7A8096; margin-bottom:22px;">Freelancers will see this as soon as it's funded. Full account creation and payment collection connect later — for now this shows how a listing will look.</p>
+
+    <div class="field">
+      <label>Project title</label>
+      <input type="text" id="pTitle" placeholder="e.g. Redesign our landing page">
+    </div>
+    <div class="field">
+      <label>Category</label>
+      <select id="pCategory">
+        <option>Web Development</option>
+        <option>Design</option>
+        <option>Writing & Translation</option>
+        <option>Video & Animation</option>
+        <option>Marketing</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea id="pDesc" placeholder="What needs to get done? Be specific about scope and deliverables."></textarea>
+    </div>
+    <div class="field">
+      <label>Budget</label>
+      <div class="budget-wrap">
+        <input type="number" id="pBudget" placeholder="300" min="1">
+        <span class="cur">USDT</span>
+      </div>
+    </div>
+    <button class="btn-apply" onclick="postNewProject()">Post project</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastText"></span></div>
+
+<script>
+  // ---------- DATA ----------
+  const categories = ["Web Development","Design","Writing & Translation","Video & Animation","Marketing"];
+
+  let projects = [
+    {id:1, title:"Fix checkout bugs on a WordPress store", category:"Web Development", client:"Emma Wallace",
+     budget:300, postedAgo:"2 hours ago", proposals:4,
+     desc:"Our checkout page breaks on mobile Safari — the payment button becomes unclickable after adding an item to the cart. Need someone to diagnose and fix it, ideally within a few days."},
+    {id:2, title:"Landing page design for a bakery", category:"Design", client:"You",
+     budget:400, postedAgo:"5 hours ago", proposals:7,
+     desc:"Looking for a clean, warm single-page design with an online ordering link, photo gallery, and location map embed. Figma file preferred as the final deliverable."},
+    {id:3, title:"Write 5 travel blog posts", category:"Writing & Translation", client:"Nora Kim",
+     budget:250, postedAgo:"Yesterday", proposals:11,
+     desc:"Need 5 articles, ~800 words each, covering budget travel destinations in Europe. SEO-friendly, casual tone, no AI-detectable filler."},
+    {id:4, title:"Edit a 10-minute YouTube video", category:"Video & Animation", client:"Kian Walsh",
+     budget:120, postedAgo:"Yesterday", proposals:6,
+     desc:"Raw footage is ready. Need cuts, simple motion titles, background music, and captions burned in. Style reference will be shared after acceptance."},
+    {id:5, title:"Translate a legal summary, English to Spanish", category:"Writing & Translation", client:"Sarah Bennett",
+     budget:90, postedAgo:"2 days ago", proposals:9,
+     desc:"12-page document, formal register. Native-level Spanish required. Confidentiality expected — no sharing outside the platform."},
+    {id:6, title:"Social media content pack — 12 posts", category:"Marketing", client:"You",
+     budget:180, postedAgo:"2 days ago", proposals:5,
+     desc:"12 Instagram carousel templates with captions for a skincare brand launch. Brand colors and logo will be provided."},
+    {id:7, title:"Logo redesign for an existing brand", category:"Design", client:"You",
+     budget:150, postedAgo:"3 days ago", proposals:14,
+     desc:"Refresh of an existing wordmark — keep the general shape recognizable but make it feel more premium. 3 concepts requested."},
+    {id:8, title:"Build a booking form with email notifications", category:"Web Development", client:"Marco Reyes",
+     budget:220, postedAgo:"4 days ago", proposals:3,
+     desc:"Simple booking form on a static site that emails both the customer and us on submission. No database needed, just reliable email delivery."},
+    {id:9, title:"Voiceover script + recording for a product demo", category:"Video & Animation", client:"Alex Turner",
+     budget:140, postedAgo:"5 days ago", proposals:8,
+     desc:"90-second product demo video needs a tight script and a clean voiceover recording, professional but conversational tone."},
+  ];
+  let nextId = 10;
+  const appliedIds = new Set();
+
+  let state = { search:"", categories:new Set(), budget:"all", sort:"newest" };
+
+  // ---------- FILTER SIDEBAR ----------
+  const catFiltersEl = document.getElementById('catFilters');
+  catFiltersEl.innerHTML = categories.map(c => `
+    <label class="check-opt"><input type="checkbox" value="${c}" class="catCheck"> ${c}</label>
+  `).join('');
+  document.querySelectorAll('.catCheck').forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      if(cb.checked) state.categories.add(cb.value); else state.categories.delete(cb.value);
+      render();
+    });
+  });
+  document.querySelectorAll('input[name="budget"]').forEach(r=>{
+    r.addEventListener('change', ()=>{ state.budget = r.value; render(); });
+  });
+  document.getElementById('searchInput').addEventListener('input', e=>{ state.search = e.target.value.toLowerCase(); render(); });
+  document.getElementById('sortSelect').addEventListener('change', e=>{ state.sort = e.target.value; render(); });
+  document.getElementById('clearFilters').addEventListener('click', ()=>{
+    state = { search:"", categories:new Set(), budget:"all", sort:"newest" };
+    document.getElementById('searchInput').value = "";
+    document.getElementById('sortSelect').value = "newest";
+    document.querySelectorAll('.catCheck').forEach(cb=>cb.checked=false);
+    document.querySelector('input[name="budget"][value="all"]').checked = true;
+    render();
+  });
+
+  // ---------- RENDER ----------
+  function render(){
+    let list = projects.filter(p=>{
+      if(state.search && !(p.title.toLowerCase().includes(state.search) || p.desc.toLowerCase().includes(state.search))) return false;
+      if(state.categories.size > 0 && !state.categories.has(p.category)) return false;
+      if(state.budget !== "all"){
+        const [min,max] = state.budget.split("-").map(Number);
+        if(p.budget < min || p.budget > max) return false;
+      }
+      return true;
+    });
+
+    if(state.sort === "budgetHigh") list = list.slice().sort((a,b)=>b.budget-a.budget);
+    else if(state.sort === "budgetLow") list = list.slice().sort((a,b)=>a.budget-b.budget);
+    else list = list.slice().sort((a,b)=>b.id-a.id);
+
+    document.getElementById('resultCount').textContent = list.length;
+
+    const grid = document.getElementById('projGrid');
+    if(list.length === 0){
+      grid.innerHTML = `<div class="empty-state">No projects match these filters. Try clearing a few.</div>`;
+      return;
+    }
+    grid.innerHTML = list.map(p => `
+      <div class="proj-card" onclick="openDetail(${p.id})">
+        <div class="proj-top">
+          <div>
+            <span class="proj-cat">${p.category}</span>
+            <div class="proj-title">${p.title}</div>
+            <p class="proj-desc">${p.desc.slice(0,140)}${p.desc.length>140?'…':''}</p>
+          </div>
+          <div class="proj-budget-box">
+            <div class="proj-budget">$${p.budget}</div>
+            <div class="proj-budget-sub">USDT escrow</div>
+          </div>
+        </div>
+        <div class="proj-foot">
+          <span class="proj-meta-item">👤 ${p.client}</span>
+          <span class="proj-meta-item">🕒 ${p.postedAgo}</span>
+          <span class="proj-meta-item">📨 ${p.proposals} proposals</span>
+          <span class="escrow-tag">🔒 Funded</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ---------- DETAIL MODAL ----------
+  function openDetail(id){
+    const p = projects.find(x=>x.id===id);
+    const applied = appliedIds.has(id);
+    document.getElementById('detailContent').innerHTML = `
+      <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+      <span class="proj-cat">${p.category}</span>
+      <h2>${p.title}</h2>
+      <div class="modal-client">Posted by ${p.client} · ${p.postedAgo}</div>
+      <div class="modal-stats">
+        <div class="modal-stat"><div class="l">Budget</div><div class="v">$${p.budget}</div></div>
+        <div class="modal-stat"><div class="l">Proposals</div><div class="v">${p.proposals}</div></div>
+        <div class="modal-stat"><div class="l">Category</div><div class="v" style="font-size:14px;">${p.category}</div></div>
+      </div>
+      <div class="modal-desc">${p.desc}</div>
+      <div class="modal-escrow">🔒 This project's budget is already funded and held in Vaultwork escrow. It's released automatically — 80% to you, 20% platform fee — the moment the client approves your delivered work.</div>
+      <button class="btn-apply ${applied?'applied':''}" onclick="applyToProject(${p.id})">${applied ? 'Applied ✓' : 'Apply to this project'}</button>
+    `;
+    document.getElementById('detailModal').classList.add('show');
+  }
+  function applyToProject(id){
+    appliedIds.add(id);
+    openDetail(id);
+    showToast("Application sent — the client will be notified.");
+  }
+  function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+  document.querySelectorAll('.modal-overlay').forEach(m=>{
+    m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('show'); });
+  });
+
+  // ---------- POST PROJECT ----------
+  function openPost(){ document.getElementById('postModal').classList.add('show'); }
+  document.getElementById('postBtnTop').addEventListener('click', openPost);
+  document.getElementById('navPost').addEventListener('click', e=>{ e.preventDefault(); openPost(); });
+  document.getElementById('signupBtn').addEventListener('click', ()=> alert("This would link to your sign-up page."));
+
+  function postNewProject(){
+    const title = document.getElementById('pTitle').value.trim();
+    const category = document.getElementById('pCategory').value;
+    const desc = document.getElementById('pDesc').value.trim();
+    const budget = parseFloat(document.getElementById('pBudget').value);
+    if(!title || !desc || !budget || budget<=0){ alert("Please fill in the title, description, and budget."); return; }
+    projects.push({id:nextId++, title, category, client:"You", budget, postedAgo:"Just now", proposals:0, desc});
+    document.getElementById('pTitle').value = "";
+    document.getElementById('pDesc').value = "";
+    document.getElementById('pBudget').value = "";
+    closeModal('postModal');
+    showToast("Project posted — now visible to freelancers.");
+    render();
+  }
+
+  // ---------- TOAST ----------
+  let toastTimer;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    document.getElementById('toastText').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
+  }
+
+  render();
+</script>
+
+</body>
+</html>
