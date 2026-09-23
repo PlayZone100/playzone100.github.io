@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QuestMart | Digital Products Marketplace</title>
-<meta name="description" content="QuestMart — offline invoicing software and digital tools for freelancers, with instant delivery and no subscriptions.">
+<meta name="description" content="QuestMart — offline invoicing software, freelance projects marketplace, and digital tools for freelancers, with instant delivery and no subscriptions.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="QuestMart | Digital Products Marketplace">
-<meta property="og:description" content="Offline invoicing software and digital tools for freelancers. No subscriptions.">
+<meta property="og:description" content="Offline invoicing software, a freelance projects marketplace, and digital tools for freelancers. No subscriptions.">
 <meta property="og:locale" content="en_US">
 <link rel="canonical" href="https://questmart.online/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -202,6 +202,63 @@
   .ms-p5{top:52%;left:-2%;transform:rotate(-4deg) translateY(-50%);}
   @media (max-width:900px){ .ms-visual{height:220px;margin-top:8px;} .ms-face{width:110px;height:110px;} .ms-prop{width:52px;height:52px;font-size:1.4rem;} }
   @media (max-width:520px){ .ms-p5{display:none;} }
+
+  /* ====== FREELANCE HUB SHOWCASE — brand navy/gold gradient family, same shape language as the site ====== */
+  .fr-showcase{padding:0 0 64px;}
+  .fr-card{
+    position:relative;overflow:hidden;border-radius:28px;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(192,138,62,0.30), transparent 42%),
+      radial-gradient(circle at 90% 82%, rgba(38,56,102,0.55), transparent 48%),
+      linear-gradient(135deg, var(--brand-2) 0%, #101830 100%);
+    box-shadow: var(--shadow);
+    padding:56px 48px;
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:40px;align-items:center;
+  }
+  @media (max-width:900px){ .fr-card{grid-template-columns:1fr;padding:40px 26px;} }
+  .fr-eyebrow{
+    display:inline-flex;align-items:center;gap:7px;font-size:0.8rem;font-weight:800;
+    color:#241a04;background:var(--accent-soft);padding:6px 14px;border-radius:999px;margin-bottom:20px;letter-spacing:0.02em;
+  }
+  .fr-copy h2{
+    color:#fff;font-size:clamp(1.6rem, 3vw, 2.35rem);line-height:1.2;margin:0 0 16px;font-weight:800;letter-spacing:-0.01em;
+  }
+  .fr-copy h2 em{font-style:normal;color:var(--accent);}
+  .fr-copy p{color:#C9D0E6;font-size:1rem;max-width:48ch;margin:0 0 28px;}
+  .fr-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+  .fr-tags span{
+    font-size:0.78rem;color:#E4E9FA;background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.14);padding:6px 12px;border-radius:999px;
+  }
+  .fr-cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .fr-btn{
+    background:var(--accent);color:#1B1E2B;padding:14px 28px;font-size:0.98rem;font-weight:800;
+    border-radius:14px;box-shadow:0 14px 30px -14px rgba(192,138,62,0.55);
+  }
+  .fr-btn:hover{background:#D4A05A;}
+  .fr-note{color:#9FAAC7;font-size:0.85rem;}
+
+  .fr-visual{position:relative;height:300px;}
+  .fr-hub{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:120px;height:120px;border-radius:26px;
+    background:linear-gradient(135deg, var(--accent) 0%, #E7BE80 100%);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.55);
+    display:flex;align-items:center;justify-content:center;font-size:2.6rem;
+  }
+  .fr-prop{
+    position:absolute;background:var(--surface);border-radius:16px;
+    padding:12px 14px;box-shadow:0 16px 28px -12px rgba(0,0,0,0.5);
+    display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:700;color:var(--text);
+    width:150px;
+  }
+  .fr-prop small{display:block;font-weight:500;color:var(--text-muted);font-size:0.72rem;}
+  .fr-p1{top:2%;left:2%;transform:rotate(-4deg);}
+  .fr-p2{top:10%;right:0%;transform:rotate(5deg);}
+  .fr-p3{bottom:6%;left:-2%;transform:rotate(4deg);}
+  .fr-p4{bottom:0%;right:10%;transform:rotate(-5deg);}
+  @media (max-width:900px){ .fr-visual{height:230px;margin-top:8px;} .fr-hub{width:92px;height:92px;font-size:2rem;} .fr-prop{width:130px;padding:10px 12px;} }
+  @media (max-width:520px){ .fr-p4{display:none;} }
 </style>
 </head>
 <body>
@@ -212,6 +269,7 @@
     <nav class="nav-links">
       <a href="/">Home</a>
       <a href="/#products">Products</a>
+      <a href="/freelance/projects.html">Freelance</a>
       <a href="/blog/">Blog</a>
       <a href="/contact.html">Contact</a>
     </nav>
@@ -227,7 +285,7 @@
       <div>
         <span class="eyebrow">Instant delivery, no subscriptions</span>
         <h1>Digital products and tools built for freelancers</h1>
-        <p class="lead">QuestMart is a growing marketplace of practical digital tools — starting with offline invoicing software, with more products on the way.</p>
+        <p class="lead">QuestMart is a growing marketplace of practical digital tools — starting with offline invoicing software, a freelance projects hub, and more products on the way.</p>
         <div class="hero-cta">
           <a href="#products" class="btn btn-primary">Browse products</a>
           <a href="/blog/" class="btn btn-ghost">Read the blog</a>
@@ -243,6 +301,35 @@
         <div class="float-card fc-1"><div class="icon">💼</div><b>Business tools</b><small>Invoicing & more</small></div>
         <div class="float-card fc-2"><div class="icon">🧩</div><b>More coming</b><small>New products soon</small></div>
         <div class="float-card fc-3"><div class="icon">🪙</div><b>Crypto ready</b><small>USDT & Bitcoin</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fr-showcase" aria-labelledby="fr-heading">
+    <div class="wrap">
+      <div class="fr-card">
+        <div class="fr-copy">
+          <span class="fr-eyebrow">🚀 NEW · Freelance Hub</span>
+          <h2 id="fr-heading">Find freelance projects, or find your next <em>freelancer</em></h2>
+          <p>Browse open freelance projects across design, development, writing and more — or list your own project and get proposals fast. Built by QuestMart, for the same freelancers who use our tools every day.</p>
+          <div class="fr-tags">
+            <span>📋 Real projects</span>
+            <span>⚡ Fast hiring</span>
+            <span>🔒 Secure & transparent</span>
+            <span>🌍 Open to everyone</span>
+          </div>
+          <div class="fr-cta">
+            <a href="/freelance/projects.html" class="btn fr-btn">Browse freelance projects →</a>
+            <span class="fr-note">Free to browse · Post a project in minutes</span>
+          </div>
+        </div>
+        <div class="fr-visual" aria-hidden="true">
+          <div class="fr-hub">💼</div>
+          <div class="fr-prop fr-p1">📌 New project<small>Logo design</small></div>
+          <div class="fr-prop fr-p2">✅ Hired<small>Web developer</small></div>
+          <div class="fr-prop fr-p3">✍️ Open<small>Content writing</small></div>
+          <div class="fr-prop fr-p4">💬 Proposal sent<small>2 min ago</small></div>
+        </div>
       </div>
     </div>
   </section>
@@ -287,7 +374,7 @@
       </div>
       <div class="cat-grid">
         <div class="cat-card"><span class="icon">💼</span><b>Business tools</b><span>Invoicing, receipts, quotes</span></div>
-        <div class="cat-card"><span class="icon">⚙️</span><b>Software & scripts</b><span>Coming soon</span></div>
+        <div class="cat-card"><span class="icon">🤝</span><b>Freelance projects</b><span>Hire & get hired</span></div>
         <div class="cat-card"><span class="icon">🎨</span><b>Templates & design</b><span>Coming soon</span></div>
         <div class="cat-card"><span class="icon">📚</span><b>Guides & resources</b><span>Coming soon</span></div>
       </div>
@@ -395,6 +482,7 @@
         <h4>Marketplace</h4>
         <ul>
           <li><a href="/#products">Products</a></li>
+          <li><a href="/freelance/projects.html">Freelance projects</a></li>
           <li><a href="/products/invoice-studio-pro.html">Invoice Studio Pro</a></li>
           <li><a href="/products/contract-proposal-generator-pro.html">Contract & Proposal Generator Pro</a></li>
           <li><a href="/products/creator-command-center.html">Creator Command Center</a></li>
