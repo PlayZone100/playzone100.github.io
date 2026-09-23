@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plant Doctor Pro – AI plant diagnosis and care chat</title>
+<meta name="description" content="Upload a photo of a sick plant for an AI diagnosis, or ask the plant doctor anything about watering, light, pests and soil.">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f6f1;--panel:#fff;--ink:#16281d;--muted:#5b6b60;--moss:#2c6b3c;--moss-d:#1e4d2b;--line:#d7e2d6;--warn:#c98a12;--err:#b3382c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Source Sans 3",system-ui,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:32px 18px 64px}
+h1,h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.1;margin:0}
+h1{font-size:clamp(2rem,6vw,3rem);font-weight:800;letter-spacing:-.02em}
+.lead{color:var(--muted);margin:10px 0 24px;max-width:56ch}
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line)}
+.tab{background:none;border:0;padding:12px 18px;font:600 16px "Source Sans 3",system-ui,sans-serif;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab[aria-selected=true]{color:var(--moss-d);border-color:var(--moss)}
+.panel{background:var(--panel);border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;padding:22px}
+.drop{display:block;border:2px dashed var(--moss);border-radius:12px;padding:26px;text-align:center;cursor:pointer;color:var(--moss-d);font-weight:600}
+.drop:hover{background:#eaf3e8}
+.drop input{display:none}
+#preview{display:none;max-width:100%;max-height:320px;border-radius:10px;margin:14px auto 0}
+textarea,input[type=text]{width:100%;font:inherit;padding:11px 13px;border:1px solid var(--line);border-radius:8px;background:#fbfdfb;color:var(--ink)}
+textarea{margin-top:14px;resize:vertical}
+.btn{background:var(--moss);color:#fff;border:0;border-radius:8px;padding:12px 22px;font:600 16px "Source Sans 3",system-ui,sans-serif;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{background:var(--moss-d)}
+.btn:disabled{opacity:.55;cursor:wait}
+:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+.row{display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap}
+.meta{font-size:14px;color:var(--muted)}
+.result{margin-top:18px;padding:16px 18px;border-left:4px solid var(--moss);background:#f4f9f3;border-radius:0 8px 8px 0;white-space:pre-wrap}
+.result.error{border-color:var(--err);background:#fbefed}
+#log{height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 2px}
+.msg{max-width:88%;padding:10px 14px;border-radius:14px;white-space:pre-wrap}
+.msg.bot{background:#eef4ec;align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--moss);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font:inherit;font-size:14px;cursor:pointer;color:var(--moss-d)}
+.chip:hover{border-color:var(--moss)}
+.pro{margin-top:28px;background:var(--moss-d);color:#fff;border-radius:12px;padding:24px}
+.pro h2{font-size:1.6rem}
+.pro ul{margin:12px 0 18px;padding-left:20px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.plan{background:#fff;color:var(--ink);border-radius:10px;padding:16px}
+.plan.best{outline:3px solid var(--warn)}
+.plan b{font:800 1.9rem "Bricolage Grotesque",system-ui,sans-serif}
+.plan small{color:var(--muted)}
+.plan .btn{margin-top:10px;width:100%;text-align:center}
+.have{margin-top:20px;padding-top:16px;border-top:1px solid #ffffff44}
+.have .row input{flex:1;min-width:200px}
+.have .btn{background:#fff;color:var(--moss-d)}
+#actMsg{font-size:14px;margin-top:8px;min-height:1.4em}
+.note{font-size:14px;color:var(--muted);margin-top:22px}
+@media (prefers-reduced-motion:no-preference){.dot{animation:b 1s infinite}}
+@keyframes b{50%{opacity:.3}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Plant Doctor Pro</h1>
+  <p class="lead">Snap a photo of a struggling plant for a diagnosis, or ask the plant doctor anything about watering, light, pests and soil. Try it free.</p>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="t-diag" aria-selected="true" aria-controls="p-diag">Diagnose a photo</button>
+    <button class="tab" role="tab" id="t-chat" aria-selected="false" aria-controls="p-chat">Ask the plant doctor</button>
+  </div>
+
+  <section class="panel" id="p-diag" role="tabpanel" aria-labelledby="t-diag">
+    <label class="drop">
+      <input type="file" id="file" accept="image/*">
+      <span id="dropText">Choose or take a photo of the plant</span>
+    </label>
+    <img id="preview" alt="Selected plant photo">
+    <textarea id="note" rows="2" maxlength="500" placeholder="Optional: what have you noticed? (e.g. yellow lower leaves, watered twice a week)"></textarea>
+    <div class="row">
+      <button class="btn" id="go" disabled>Diagnose plant</button>
+      <span class="meta" id="diagLeft"></span>
+    </div>
+    <div id="diagOut" aria-live="polite"></div>
+  </section>
+
+  <section class="panel" id="p-chat" role="tabpanel" aria-labelledby="t-chat" hidden>
+    <div id="log" aria-live="polite">
+      <div class="msg bot">Hi, I'm the plant doctor. Tell me what plant you have and what's going wrong.</div>
+    </div>
+    <div class="chips" id="chips">
+      <button class="chip">Why are my leaves turning yellow?</button>
+      <button class="chip">How often should I water a monstera?</button>
+      <button class="chip">How do I get rid of fungus gnats?</button>
+    </div>
+    <div class="row">
+      <input type="text" id="q" maxlength="1000" placeholder="Ask about any plant" aria-label="Your question" style="flex:1;min-width:200px">
+      <button class="btn" id="send">Send</button>
+    </div>
+    <div class="meta" id="chatLeft" style="margin-top:8px"></div>
+  </section>
+
+  <section class="pro" id="pricing">
+    <h2>Plant Doctor Pro</h2>
+    <ul>
+      <li>Unlimited photo diagnoses</li>
+      <li>Unlimited plant-care chat</li>
+      <li>Cancel any time</li>
+    </ul>
+    <div class="plans">
+      <div class="plan"><b>$5.99</b> <small>/ month</small><br><a class="btn" id="buyM" href="#">Choose monthly</a></div>
+      <div class="plan best"><b>$39</b> <small>/ year (save 45%)</small><br><a class="btn" id="buyY" href="#">Choose yearly</a></div>
+    </div>
+    <div class="have">
+      <label for="code">Already have an activation code?</label>
+      <div class="row">
+        <input type="text" id="code" placeholder="PD-XXXX-XXXX-XXXX" autocomplete="off">
+        <button class="btn" id="activate">Activate</button>
+      </div>
+      <div id="actMsg" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <p class="note">AI suggestions are a starting point, not a guarantee. For valuable plants or serious problems, check with a local nursery or horticulturist.</p>
+</main>
+
+<script>
+/* ===== CONFIG: edit these ===== */
+const WORKER_URL = "https://plant-doctor-api.YOUR-SUBDOMAIN.workers.dev"; // your deployed Worker
+const LINK_MONTHLY = ""; // payment link for the $5.99/month plan
+const LINK_YEARLY = "";  // payment link for the $39/year plan
+/* ================================ */
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+const fmt = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+const getLic = () => { try { return localStorage.getItem("pd_license") || ""; } catch { return ""; } };
+
+let state = { pro: false, left: { diag: 1, chat: 3 } };
+function paint() {
+  const t = (n, w) => (state.pro ? "Pro: unlimited" : n > 0 ? n + " free " + w + " left" : "Free trial used. Upgrade to continue.");
+  $("diagLeft").textContent = t(state.left.diag, state.left.diag === 1 ? "diagnosis" : "diagnoses");
+  $("chatLeft").textContent = t(state.left.chat, state.left.chat === 1 ? "message" : "messages");
+}
+async function api(path, payload = {}) {
+  const r = await fetch(WORKER_URL + path, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ license: getLic(), ...payload }),
+  });
+  const d = await r.json().catch(() => ({}));
+  if (d.left) state.left = d.left;
+  if (typeof d.pro === "boolean") state.pro = d.pro;
+  paint();
+  if (!r.ok) { const e = new Error(d.error || "Something went wrong. Please try again."); e.paywall = !!d.paywall; throw e; }
+  return d;
+}
+function showPaywall() { $("pricing").scrollIntoView({ behavior: "smooth" }); }
+
+/* Tabs */
+const pairs = [["t-diag", "p-diag"], ["t-chat", "p-chat"]];
+for (const [t] of pairs) $(t).onclick = () => pairs.forEach(([a, b]) => { $(a).setAttribute("aria-selected", a === t); $(b).hidden = a !== t; });
+
+/* Photo diagnosis */
+let imageData = "";
+$("file").onchange = (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const img = new Image();
+  img.onload = () => {
+    const k = Math.min(1, 900 / Math.max(img.width, img.height));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    imageData = c.toDataURL("image/jpeg", 0.8);
+    $("preview").src = imageData; $("preview").style.display = "block";
+    $("dropText").textContent = "Choose a different photo"; $("go").disabled = false;
+    URL.revokeObjectURL(img.src);
+  };
+  img.src = URL.createObjectURL(f);
+};
+$("go").onclick = async () => {
+  $("go").disabled = true;
+  $("diagOut").innerHTML = '<div class="result"><span class="dot">Analyzing your plant…</span></div>';
+  try {
+    const d = await api("/diagnose", { image: imageData, note: $("note").value });
+    $("diagOut").innerHTML = '<div class="result">' + fmt(d.reply) + "</div>";
+  } catch (e) {
+    $("diagOut").innerHTML = '<div class="result error">' + esc(e.message) + "</div>";
+    if (e.paywall) showPaywall();
+  }
+  $("go").disabled = false;
+};
+
+/* Chat */
+const history = [];
+function add(cls, text) {
+  const d = document.createElement("div"); d.className = "msg " + cls; d.innerHTML = fmt(text);
+  $("log").appendChild(d); $("log").scrollTop = $("log").scrollHeight; return d;
+}
+async function send(text) {
+  text = text.trim(); if (!text) return;
+  $("chips").style.display = "none"; $("q").value = ""; $("send").disabled = true;
+  add("me", text); history.push({ role: "user", content: text });
+  const wait = add("bot", "Thinking…");
+  try {
+    const d = await api("/chat", { messages: history });
+    history.push({ role: "assistant", content: d.reply });
+    wait.innerHTML = fmt(d.reply);
+  } catch (e) {
+    history.pop(); wait.textContent = e.message;
+    if (e.paywall) showPaywall();
+  }
+  $("send").disabled = false; $("log").scrollTop = $("log").scrollHeight;
+}
+$("send").onclick = () => send($("q").value);
+$("q").onkeydown = (e) => { if (e.key === "Enter") send($("q").value); };
+document.querySelectorAll(".chip").forEach((c) => (c.onclick = () => send(c.textContent)));
+
+/* Pricing and activation */
+$("buyM").href = LINK_MONTHLY || "#"; $("buyY").href = LINK_YEARLY || "#";
+for (const id of ["buyM", "buyY"]) $(id).onclick = (e) => {
+  if ($(id).getAttribute("href") === "#") { e.preventDefault(); $("actMsg").textContent = "Payments are not connected yet."; }
+};
+$("activate").onclick = async () => {
+  const code = $("code").value.trim(); if (!code) return;
+  $("actMsg").textContent = "Checking…";
+  try {
+    const d = await api("/verify", { license: code });
+    if (d.valid) {
+      try { localStorage.setItem("pd_license", code); } catch {}
+      await api("/status");
+      $("actMsg").textContent = "Pro is active. Enjoy unlimited use!";
+    } else { $("actMsg").textContent = "That code is not valid or has expired."; }
+  } catch (e) { $("actMsg").textContent = e.message; }
+};
+
+api("/status").catch(() => {});
+paint();
+</script>
+</body>
+</html>
