@@ -124,12 +124,20 @@
   .price small{font-weight:500;color:var(--text-muted);}
   .badge-new{position:absolute;top:14px;right:14px;background:#ff4d8d;color:#fff;font-size:0.72rem;font-weight:800;padding:4px 11px;border-radius:999px;letter-spacing:0.02em;z-index:1;box-shadow:0 4px 10px -4px rgba(255,77,141,0.6);}
 
-  .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-  @media (max-width:800px){ .trust-grid{grid-template-columns:1fr;} }
+  .trust-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:24px;}
   .trust-card{padding:8px;}
   .trust-card .icon{width:48px;height:48px;border-radius:14px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:16px;}
   .trust-card h3{margin:0 0 8px;font-size:1.05rem;}
   .trust-card p{margin:0;color:var(--text-muted);font-size:0.92rem;}
+
+  .fee-note{
+    margin-top:36px;background:var(--surface-2);border:1px solid var(--line);
+    border-radius:var(--radius-lg);padding:26px 28px;display:flex;gap:18px;align-items:flex-start;
+  }
+  .fee-note .icon{width:42px;height:42px;border-radius:12px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex:none;box-shadow:var(--shadow);}
+  .fee-note h4{margin:0 0 6px;font-size:0.98rem;}
+  .fee-note p{margin:0;color:var(--text-muted);font-size:0.9rem;max-width:70ch;}
+  .fee-note a{text-decoration:underline;color:var(--text);}
 
   .cta-band{background:var(--brand);color:#fff;border-radius:24px;padding:52px 44px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;}
   .cta-band h2{margin:0 0 10px;font-size:1.5rem;}
@@ -435,7 +443,8 @@
     <div class="wrap">
       <div class="section-head">
         <div>
-          <h2>Why buyers trust QuestMart</h2>
+          <h2>Why people trust QuestMart</h2>
+          <p>We keep pricing and fees visible everywhere — no hidden costs, on products or on freelance projects.</p>
         </div>
       </div>
       <div class="trust-grid">
@@ -450,9 +459,26 @@
           <p>No monthly fees on any product. Buy once and use it for as long as you need.</p>
         </div>
         <div class="trust-card">
+          <div class="icon">💯</div>
+          <h3>Transparent fees</h3>
+          <p>Freelance Hub charges a flat 20% platform fee, shown upfront on every project before anyone accepts it. No surprise deductions.</p>
+        </div>
+        <div class="trust-card">
+          <div class="icon">🔒</div>
+          <h3>Protected payments</h3>
+          <p>On Freelance Hub, a freelancer's payout is released as soon as the client approves the delivered work — never before, never without approval.</p>
+        </div>
+        <div class="trust-card">
           <div class="icon">🤝</div>
           <h3>Support, start to finish</h3>
-          <p>Our team is here to help before and after every purchase.</p>
+          <p>Our team is here to help before and after every purchase or project.</p>
+        </div>
+      </div>
+      <div class="fee-note">
+        <div class="icon">ℹ️</div>
+        <div>
+          <h4>How the Freelance Hub fee works</h4>
+          <p>When a project is completed and approved, the freelancer receives 80% of the agreed budget and QuestMart keeps a 20% platform fee to run and support the marketplace. This fee is always displayed on the project page before you accept or post anything — there are no other charges. Questions about a payment? <a href="/contact.html">Contact us</a> any time.</p>
         </div>
       </div>
     </div>
