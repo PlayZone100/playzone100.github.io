@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<!--
+  Crypto checkout for Plant Doctor Pro (monthly / yearly).
+  Same flow as checkout-meme-studio.html:
+    1. Read ?plan=monthly or ?plan=yearly from the URL (defaults to monthly).
+    2. Create an order with the shared payment worker (morning-shape-c098) —
+       productId is "plant-doctor-monthly" or "plant-doctor-yearly", so it
+       must exist in products.json with the right priceUSD. See the note at
+       the bottom of this file — PRICES BELOW ARE PLACEHOLDERS, change them.
+    3. Poll the order status.
+    4. Once paid, call the plant-doctor-license worker with the order id +
+       plan to get a signed license token.
+    5. Show the license key with Copy + Download, plus a link back to
+       Plant Doctor Pro.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Plant Doctor Pro</title>
+<style>
+  body{font-family:Inter,-apple-system,sans-serif;background:#F5FAF6;color:#1B2B1E;max-width:480px;margin:60px auto;padding:0 20px;}
+  .card{background:#fff;border:1px solid #DCE8DE;border-radius:16px;padding:28px;}
+  h1{font-size:1.3rem;margin:0 0 6px;}
+  .sub{color:#5A6B5D;font-size:0.9rem;margin:0 0 22px;}
+  select,button{font:inherit;}
+  select{width:100%;padding:10px;border-radius:8px;border:1px solid #DCE8DE;margin-bottom:16px;}
+  button{width:100%;padding:12px;border-radius:999px;border:none;background:#2E6B3E;color:#fff;font-weight:600;cursor:pointer;}
+  button:disabled{opacity:0.6;cursor:default;}
+  .pay-box{margin-top:20px;padding:18px;border:1px dashed #3E8A54;border-radius:12px;display:none;}
+  .pay-box img{display:block;margin:0 auto 14px;}
+  .addr{word-break:break-all;background:#EFF6F0;padding:10px;border-radius:8px;font-size:0.82rem;font-family:monospace;margin-bottom:10px;}
+  .amount{font-size:1.4rem;font-weight:800;text-align:center;margin-bottom:14px;}
+  .status{text-align:center;font-size:0.9rem;color:#5A6B5D;margin-top:14px;}
+  .status.paid{color:#1F5C36;font-weight:700;}
+  .status.error{color:#B3341F;font-weight:600;}
+  .lic-box{margin-top:20px;padding:18px;border:2px solid #1F5C36;border-radius:12px;display:none;background:#F0FAF3;}
+  .lic-box h2{font-size:1.05rem;margin:0 0 6px;color:#1F5C36;}
+  .lic-box p{font-size:0.85rem;color:#3a4a3d;margin:0 0 12px;}
+  .lic-key{width:100%;box-sizing:border-box;font-family:monospace;font-size:0.78rem;padding:10px;border-radius:8px;border:1px solid #C9DFCE;background:#fff;resize:none;height:90px;margin-bottom:10px;}
+  .row{display:flex;gap:8px;}
+  .row button{flex:1;padding:10px;}
+  .btn-secondary{background:#fff;color:#1F5C36;border:2px solid #1F5C36;}
+  .exp{font-size:0.8rem;color:#5A6B5D;margin-top:10px;text-align:center;}
+  .plan-badge{display:inline-block;background:#E4F1E7;color:#2E6B3E;font-weight:700;font-size:0.75rem;padding:3px 10px;border-radius:999px;margin-bottom:10px;}
+</style>
+</head>
+<body>
+  <div class="card" id="checkout">
+    <span class="plan-badge" id="plan-badge">Loading…</span>
+    <h1 id="product-title">Plant Doctor Pro</h1>
+    <p class="sub" id="product-sub">Please wait</p>
+
+    <select id="currency">
+      <option value="USDT_TRC20">USDT (TRC20 / Tron)</option>
+      <option value="USDT_ERC20">USDT (ERC20 / Ethereum)</option>
+      <option value="BTC">Bitcoin (BTC)</option>
+      <option value="ETH">Ethereum (ETH)</option>
+      <option value="USDT_SOL">USDT (Solana)</option>
+      <option value="DOGE">Dogecoin (DOGE)</option>
+      <option value="LTC">Litecoin (LTC)</option>
+      <option value="XRP">Ripple (XRP)</option>
+      <option value="ADA">Cardano (ADA)</option>
+      <option value="USDT_AVAX">USDT (Avalanche)</option>
+      <option value="USDT_BEP20">USDT (BNB Chain)</option>
+    </select>
+    <button id="create-order">Generate payment address</button>
+
+    <div class="pay-box" id="pay-box">
+      <div class="amount" id="pay-amount"></div>
+      <div class="addr" id="pay-address"></div>
+      <img id="qr" width="180" height="180" alt="Payment QR code">
+      <div class="status" id="pay-status">Waiting for payment…</div>
+    </div>
+
+    <div class="lic-box" id="lic-box">
+      <h2>✅ Payment confirmed</h2>
+      <p>Here is your Plant Doctor Pro license key. Paste it into the <b>“Already have an activation code?”</b> box on the Plant Doctor Pro page to unlock unlimited use.</p>
+      <textarea class="lic-key" id="lic-key" readonly></textarea>
+      <div class="row">
+        <button class="btn-secondary" id="lic-copy">Copy key</button>
+        <button class="btn-secondary" id="lic-download">Download .txt</button>
+      </div>
+      <div class="exp" id="lic-exp"></div>
+      <button id="lic-open" style="margin-top:14px">Open Plant Doctor Pro</button>
+    </div>
+  </div>
+
+  <script>
+    // ---- Fixed configuration for this product ----
+    const PAYMENT_WORKER_URL = "https://morning-shape-c098.alice56885236.workers.dev";
+    const LICENSE_WORKER_URL = "https://REPLACE-WITH-YOUR-plant-doctor-license.alice56885236.workers.dev"; // set after deploying plant-doctor-license.js
+    const PLANT_DOCTOR_URL = "/plant-doctor-pro.html";
+
+    // productId must exist in products.json with the matching priceUSD —
+    // PLACEHOLDER PRICES, change to whatever you decide to charge.
+    const PLAN_INFO = {
+      monthly: { productId: "plant-doctor-monthly", price: 6,  label: "Pro monthly" },
+      yearly:  { productId: "plant-doctor-yearly",  price: 45, label: "Pro yearly"  },
+    };
+
+    const plan = (new URLSearchParams(window.location.search).get("plan") === "yearly") ? "yearly" : "monthly";
+    const planInfo = PLAN_INFO[plan];
+
+    const badgeEl = document.getElementById("plan-badge");
+    const subEl = document.getElementById("product-sub");
+    const createBtn = document.getElementById("create-order");
+    const payBox = document.getElementById("pay-box");
+    const payAmount = document.getElementById("pay-amount");
+    const payAddress = document.getElementById("pay-address");
+    const payStatus = document.getElementById("pay-status");
+    const qr = document.getElementById("qr");
+    const licBox = document.getElementById("lic-box");
+    const licKey = document.getElementById("lic-key");
+    const licExp = document.getElementById("lic-exp");
+
+    badgeEl.textContent = planInfo.label;
+    subEl.textContent = `$${planInfo.price} — pay with the crypto of your choice`;
+
+    let pollTimer = null;
+
+    createBtn.addEventListener("click", async () => {
+      createBtn.disabled = true;
+      createBtn.textContent = "Creating order…";
+      const currency = document.getElementById("currency").value;
+
+      let order;
+      try {
+        const res = await fetch(`${PAYMENT_WORKER_URL}/order`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId: planInfo.productId, currency }),
+        });
+        order = await res.json();
+      } catch (e) {
+        payStatus.textContent = "Error: could not reach the payment server.";
+        payStatus.classList.add("error");
+        createBtn.disabled = false;
+        createBtn.textContent = "Generate payment address";
+        return;
+      }
+
+      if (order.error) {
+        payStatus.textContent = "Error: " + order.error;
+        payStatus.classList.add("error");
+        createBtn.disabled = false;
+        createBtn.textContent = "Generate payment address";
+        return;
+      }
+
+      payAmount.textContent = `${order.amount} ${order.currency.replace("_", " ")}`;
+      payAddress.textContent = order.address;
+      qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(order.address)}`;
+      payBox.style.display = "block";
+      createBtn.style.display = "none";
+
+      pollTimer = setInterval(() => pollStatus(order.id), 8000);
+    });
+
+    async function pollStatus(orderId) {
+      let data;
+      try {
+        const res = await fetch(`${PAYMENT_WORKER_URL}/order/${orderId}/status`);
+        data = await res.json();
+      } catch (e) {
+        return;
+      }
+
+      if (data.status === "paid") {
+        clearInterval(pollTimer);
+        payStatus.textContent = "Payment confirmed! Issuing your license…";
+        payStatus.classList.add("paid");
+        await fetchLicense(orderId);
+      } else if (data.status === "expired") {
+        clearInterval(pollTimer);
+        payStatus.textContent = "This payment window expired. Please refresh and try again.";
+        payStatus.classList.add("error");
+      }
+    }
+
+    async function fetchLicense(orderId) {
+      for (let attempt = 0; attempt < 5; attempt++) {
+        try {
+          const res = await fetch(`${LICENSE_WORKER_URL}/license/${orderId}?plan=${plan}`);
+          const data = await res.json();
+          if (data.error) {
+            payStatus.textContent = "Error issuing license: " + data.error;
+            payStatus.classList.add("error");
+            return;
+          }
+          if (data.status === "paid" && data.token) {
+            showLicense(data.token, data.exp);
+            return;
+          }
+        } catch (e) {
+          // network hiccup — retry
+        }
+        await new Promise((r) => setTimeout(r, 2500));
+      }
+      payStatus.textContent = "Payment confirmed, but the license is taking longer than usual. Refresh this page in a minute — your order id is: " + orderId;
+      payStatus.classList.add("error");
+    }
+
+    function showLicense(token, exp) {
+      payBox.style.display = "none";
+      licBox.style.display = "block";
+      licKey.value = token;
+      const expDate = new Date(exp * 1000);
+      licExp.textContent = "Valid until " + expDate.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+    }
+
+    document.getElementById("lic-copy").addEventListener("click", () => {
+      navigator.clipboard.writeText(licKey.value).then(() => {
+        const btn = document.getElementById("lic-copy");
+        const old = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = old), 1500);
+      });
+    });
+
+    document.getElementById("lic-download").addEventListener("click", () => {
+      const blob = new Blob([licKey.value], { type: "text/plain" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "plant-doctor-license.txt";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    });
+
+    document.getElementById("lic-open").addEventListener("click", () => {
+      window.location.href = PLANT_DOCTOR_URL;
+    });
+  </script>
+
+  <!--
+    IMPORTANT — before this page will work:
+    1) Deploy plant-doctor-license.js as a new Cloudflare Worker, set its
+       LICENSE_PRIVATE_JWK secret and LICENSES KV binding, then paste its
+       workers.dev URL into LICENSE_WORKER_URL above.
+    2) Add these two entries to products.json (same repo the other
+       products' prices come from) — adjust priceUSD to what you decide:
+
+         "plant-doctor-monthly": { "name": "Plant Doctor Pro (monthly)", "priceUSD": 6 },
+         "plant-doctor-yearly":  { "name": "Plant Doctor Pro (yearly)",  "priceUSD": 45 }
+
+       These have no "file" field — nothing is delivered by the payment
+       worker itself; the license worker issues the Pro key once it sees
+       the order is paid.
+  -->
+</body>
+</html>
