@@ -16,16 +16,18 @@
   .wrap{max-width:900px;margin:0 auto;padding:0 20px 60px}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
   @media(max-width:760px){.grid{grid-template-columns:1fr}}
-  .card{background:var(--card);border-radius:14px;padding:22px;border:1px solid #262b36}
+  .card{background:var(--card);border-radius:14px;padding:22px;border:1px solid #262b36;position:relative}
   textarea{width:100%;min-height:220px;background:#0f1115;color:var(--text);border:1px solid #2b3140;border-radius:10px;padding:12px;font-size:.95rem;resize:vertical}
   input[type=text]{width:100%;padding:10px;border-radius:8px;border:1px solid #2b3140;background:#0f1115;color:var(--text);margin-top:6px}
   label{font-size:.85rem;color:var(--muted)}
   .row{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
   button{background:var(--accent);color:#fff;border:none;padding:12px 20px;border-radius:9px;font-size:1rem;cursor:pointer}
   button.secondary{background:transparent;border:1px solid #2b3140;color:var(--text)}
+  button:disabled{opacity:.6;cursor:default}
   .plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
   .plan{border:1px solid #2b3140;border-radius:10px;padding:10px;cursor:pointer;text-align:center}
   .plan.active{border-color:var(--accent);background:#1a2030}
+  .plan.locked{opacity:.55}
   .plan b{display:block;font-size:1.1rem}
   .cert{margin-top:24px;border:1px solid #2b3140;border-radius:14px;padding:24px;background:#0f1115;display:none}
   .cert.show{display:block}
@@ -36,6 +38,7 @@
   #qr{margin-top:12px}
   .note{font-size:.78rem;color:var(--muted);margin-top:10px;line-height:1.5}
   .disclaimer{background:#1a1712;border:1px solid #3a3120;color:#e0c07a;font-size:.78rem;padding:10px 14px;border-radius:8px;margin-top:14px}
+  .unlockNote{font-size:.8rem;color:var(--good);margin-top:10px}
 </style>
 </head>
 <body>
@@ -62,7 +65,8 @@
         </div>
       </div>
 
-      <button onclick="generateCertificate()">Generate Certificate</button>
+      <button id="mainBtn" onclick="handleMainButton()">Generate Certificate</button>
+      <div id="unlockNote" class="unlockNote" style="display:none"></div>
       <div class="note">One-time purchase, unlimited certificates. Everything below runs 100% in your browser — no text is ever uploaded to a server.</div>
     </div>
 
@@ -94,10 +98,86 @@
 </div>
 
 <script>
+/* ---------------------------------------------------------------------
+   PURCHASE GATE
+   unlockedPlan: null (not bought) | 'solo' | 'pro'
+   Stored in localStorage so it persists on this browser after purchase.
+   Set via a redirect back from checkout-certify-studio.html, which appends
+   ?unlocked=1&product=certify-studio-solo|certify-studio-pro&order=...
+--------------------------------------------------------------------- */
+const CHECKOUT_PAGE = 'checkout-certify-studio.html'; // adjust if your file is named differently
+
+function readUnlockFromUrl(){
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('unlocked') === '1' && params.get('product')){
+    const product = params.get('product');
+    const newPlan = product.endsWith('-pro') ? 'pro' : 'solo';
+    // Never downgrade an existing Pro unlock if somehow re-triggered with solo.
+    const existing = localStorage.getItem('certifyStudioPlan');
+    if(existing !== 'pro' || newPlan === 'pro'){
+      localStorage.setItem('certifyStudioPlan', newPlan);
+    }
+    params.delete('unlocked'); params.delete('product'); params.delete('order');
+    const qs = params.toString();
+    window.history.replaceState({}, '', window.location.pathname + (qs ? '?' + qs : ''));
+  }
+}
+readUnlockFromUrl();
+let unlockedPlan = localStorage.getItem('certifyStudioPlan'); // null | 'solo' | 'pro'
+
+// Restore any draft the user was writing before being sent to checkout.
+(function restoreDraft(){
+  const draftText = sessionStorage.getItem('certifyDraftText');
+  const draftAuthor = sessionStorage.getItem('certifyDraftAuthor');
+  const draftPlan = sessionStorage.getItem('certifyDraftPlan');
+  if(draftText !== null){ document.getElementById('text').value = draftText; sessionStorage.removeItem('certifyDraftText'); }
+  if(draftAuthor !== null){ document.getElementById('author').value = draftAuthor; sessionStorage.removeItem('certifyDraftAuthor'); }
+  if(draftPlan){ plan = draftPlan; sessionStorage.removeItem('certifyDraftPlan'); }
+})();
+
 let plan = 'solo';
 function selectPlan(p){
   plan = p;
   document.querySelectorAll('.plan').forEach(el=>el.classList.toggle('active', el.dataset.plan===p));
+  updateButtonState();
+}
+
+function updateButtonState(){
+  const btn = document.getElementById('mainBtn');
+  const note = document.getElementById('unlockNote');
+  const price = plan === 'pro' ? '$69' : '$39';
+
+  const alreadyHasThisPlan = unlockedPlan === 'pro' || (unlockedPlan === 'solo' && plan === 'solo');
+
+  if(alreadyHasThisPlan){
+    btn.textContent = 'Generate Certificate';
+    note.style.display = 'block';
+    note.textContent = unlockedPlan === 'pro' ? '✅ Pro unlocked on this browser.' : '✅ Solo unlocked on this browser.';
+  } else {
+    btn.textContent = `Buy & Generate — ${price}`;
+    note.style.display = unlockedPlan ? 'block' : 'none';
+    if(unlockedPlan === 'solo' && plan === 'pro'){
+      note.textContent = 'You already own Solo — upgrade to Pro for blockchain anchoring + your branding.';
+    } else {
+      note.textContent = '';
+    }
+  }
+}
+updateButtonState();
+
+function handleMainButton(){
+  const alreadyHasThisPlan = unlockedPlan === 'pro' || (unlockedPlan === 'solo' && plan === 'solo');
+  if(alreadyHasThisPlan){
+    generateCertificate();
+    return;
+  }
+  // Not paid for this plan yet — save the draft and send to checkout.
+  sessionStorage.setItem('certifyDraftText', document.getElementById('text').value);
+  sessionStorage.setItem('certifyDraftAuthor', document.getElementById('author').value);
+  sessionStorage.setItem('certifyDraftPlan', plan);
+  const productId = plan === 'pro' ? 'certify-studio-pro' : 'certify-studio-solo';
+  const returnUrl = window.location.origin + window.location.pathname;
+  window.location.href = `${CHECKOUT_PAGE}?product=${encodeURIComponent(productId)}&return=${encodeURIComponent(returnUrl)}`;
 }
 
 function analyzeText(text){
@@ -143,6 +223,9 @@ async function generateCertificate(){
   const author = document.getElementById('author').value.trim() || 'Unnamed author';
   if(text.length < 50){ alert('Paste at least a short paragraph.'); return; }
 
+  // Effective plan for output is capped by what was actually purchased.
+  const effectivePlan = (unlockedPlan === 'pro') ? plan : 'solo';
+
   const score = analyzeText(text);
   const hash = await sha256(text + '|' + author + '|' + Date.now());
   const now = new Date().toISOString().replace('T',' ').slice(0,19) + ' UTC';
@@ -151,7 +234,7 @@ async function generateCertificate(){
   document.getElementById('certDate').textContent = now;
   document.getElementById('hash').textContent = hash;
   document.getElementById('score').textContent = (score===null ? 'text too short to score' : score+'% human-pattern-like');
-  document.getElementById('planBadge').textContent = plan==='pro' ? 'PRO — your branding' : 'SOLO — QuestMart branding';
+  document.getElementById('planBadge').textContent = effectivePlan==='pro' ? 'PRO — your branding' : 'SOLO — QuestMart branding';
 
   const bcNote = document.getElementById('blockchainNote');
   const otsLink = document.getElementById('otsDownload');
@@ -163,7 +246,7 @@ async function generateCertificate(){
 
   document.getElementById('cert').classList.add('show');
 
-  if(plan==='pro'){
+  if(effectivePlan==='pro'){
     bcNote.textContent = '⏳ Submitting fingerprint to the free OpenTimestamps calendar servers for Bitcoin anchoring...';
     try{
       const blob = await stampOnBitcoin(hash);
