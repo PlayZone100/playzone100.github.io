@@ -83,6 +83,10 @@
 
   .empty-state{ text-align:center; padding:60px 20px; color:#7A8096; font-size:14px; background:var(--white); border:1px dashed var(--line); border-radius:16px; }
 
+  .trust-strip{ max-width:1280px; margin:0 auto; padding:0 6vw 1.8vw; display:flex; gap:22px; flex-wrap:wrap; }
+  .trust-strip .item{ display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600; color:#4C5568; }
+  .trust-strip .item .ic{ width:26px; height:26px; border-radius:8px; background:rgba(124,152,133,0.16); display:flex; align-items:center; justify-content:center; font-size:13px; flex:none; }
+
   .modal-overlay{ display:none; position:fixed; inset:0; background:rgba(13,17,31,0.6); z-index:100; align-items:flex-start; justify-content:center; padding:5vh 20px; overflow-y:auto; }
   .modal-overlay.show{display:flex;}
   .modal-box{ background:var(--white); border-radius:20px; max-width:600px; width:100%; padding:clamp(24px,4vw,38px); position:relative; margin:auto 0; }
@@ -136,7 +140,7 @@
 
 <div class="page-head">
   <h1>Find your next project</h1>
-  <p>Post a project, or browse open ones below. Payouts are sent manually by our team once you approve delivered work.</p>
+  <p>Post a project, or browse open ones below. QuestMart charges a flat 20% platform fee on every project — shown upfront, before you ever accept one. Payment to the freelancer is released as soon as the client approves the delivered work.</p>
 </div>
 
 <div class="search-bar">
@@ -147,6 +151,12 @@
     <option value="budgetLow">Sort: Budget (low to high)</option>
   </select>
   <button class="btn-primary" id="postBtnTop">+ Post a Project</button>
+</div>
+
+<div class="trust-strip">
+  <div class="item"><span class="ic">💯</span> Flat 20% platform fee — shown upfront on every project</div>
+  <div class="item"><span class="ic">🔒</span> Freelancers are paid as soon as the client approves delivered work</div>
+  <div class="item"><span class="ic">📩</span> Questions? <a href="../contact.html" style="text-decoration:underline;">Contact our team</a></div>
 </div>
 
 <div class="layout">
@@ -323,7 +333,7 @@
         <div class="modal-stat"><div class="l">Category</div><div class="v" style="font-size:14px;">${p.category}</div></div>
       </div>
       <div class="modal-desc">${escapeHtml(p.desc || '')}</div>
-      <div class="modal-escrow">🔒 Once you accept this project, deliver your work through your dashboard. Payment (80%, minus a 20% platform fee) is sent manually by our team once the client approves.</div>
+      <div class="modal-escrow">🔒 <b>How payment works:</b> once you accept this project, deliver your work through your dashboard. The client reviews it and approves the delivery — as soon as they do, your payout (80% of the budget, after our flat 20% platform fee) is released to you. The fee is always shown upfront on every project, with no hidden costs.</div>
       <button class="btn-apply" id="acceptBtn" onclick="applyToProject(${p.id})">Accept this project</button>
     `;
     document.getElementById('detailModal').classList.add('show');
