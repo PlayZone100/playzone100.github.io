@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — QuestMart</title>
+<meta name="description" content="Get in touch with the QuestMart team — support@questmart.online. A real five-person team, real replies.">
+<link rel="canonical" href="https://questmart.online/contact.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ====== QUESTMART SHARED DESIGN TOKENS — reuse this block on every page ====== */
+  :root{
+    --bg: #FAF8F4; --surface: #FFFFFF; --surface-2: #F1EEE6;
+    --text: #1B1E2B; --text-muted: #62667A; --line: #E7E2D6;
+    --brand: #263866; --brand-2: #1A2747; --accent: #C08A3E; --accent-soft: #F1E2C8;
+    --radius-lg: 20px; --radius-md: 12px;
+    --shadow: 0 20px 40px -24px rgba(27,30,43,0.25);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #14161F; --surface: #1B1E2B; --surface-2: #232636;
+      --text: #F2F1EC; --text-muted: #A2A6BC; --line: #2E3143;
+      --accent-soft: #3A331F; --shadow: 0 20px 40px -24px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #14161F; --surface: #1B1E2B; --surface-2: #232636;
+    --text: #F2F1EC; --text-muted: #A2A6BC; --line: #2E3143;
+    --accent-soft: #3A331F; --shadow: 0 20px 40px -24px rgba(0,0,0,0.5);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:'Inter', -apple-system, Segoe UI, sans-serif; line-height:1.7; -webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 24px;}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:3px;}
+
+  header{position:sticky;top:0;z-index:50;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .nav{max-width:1180px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+  .logo{font-family:'Fraunces', serif;font-weight:600;font-size:1.5rem;letter-spacing:0.3px;}
+  .logo span{color:var(--accent);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:999px;font-size:0.92rem;font-weight:600;border:1px solid transparent;cursor:pointer;}
+  .btn-primary{background:var(--brand);color:#fff;}
+  .btn-primary:hover{background:var(--brand-2);}
+
+  main{padding:64px 0 90px;}
+  .eyebrow{display:inline-block;font-size:0.85rem;color:var(--accent);background:var(--accent-soft);padding:6px 14px;border-radius:999px;margin-bottom:20px;}
+  h1{font-size:clamp(2rem, 4vw, 2.6rem);line-height:1.22;margin:0 0 16px;font-weight:800;letter-spacing:-0.02em;}
+  .lead{font-size:1.05rem;color:var(--text-muted);max-width:56ch;margin:0 0 40px;}
+
+  .contact-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:32px;align-items:start;}
+  @media (max-width:760px){ .contact-grid{grid-template-columns:1fr;} }
+
+  .contact-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow);}
+  .contact-card h2{font-size:1.2rem;margin:0 0 8px;}
+  .contact-card p{color:var(--text-muted);font-size:0.94rem;margin:0 0 22px;}
+  .email-box{display:flex;align-items:center;gap:14px;background:var(--surface-2);border-radius:var(--radius-md);padding:18px 20px;margin-bottom:20px;}
+  .email-box .ic{width:42px;height:42px;border-radius:12px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex:none;box-shadow:var(--shadow);}
+  .email-box b{display:block;font-size:1.02rem;}
+  .email-box span{font-size:0.8rem;color:var(--text-muted);}
+
+  .about-mini{padding:2px;}
+  .about-mini h3{font-size:0.98rem;margin:0 0 10px;}
+  .about-mini p{color:var(--text-muted);font-size:0.92rem;margin:0 0 12px;}
+  .stat-strip{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;}
+  .stat-strip div b{display:block;font-family:'Fraunces',serif;font-size:1.4rem;color:var(--brand);}
+  .stat-strip div span{font-size:0.78rem;color:var(--text-muted);}
+
+  .faq{margin-top:16px;}
+  .faq-item{border-top:1px solid var(--line);padding:16px 0;}
+  .faq-item h4{font-size:0.92rem;margin:0 0 6px;}
+  .faq-item p{font-size:0.88rem;color:var(--text-muted);margin:0;}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;text-align:center;color:var(--text-muted);font-size:0.85rem;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="/">Quest<span>Mart</span></a>
+    <a href="mailto:support@questmart.online" class="btn btn-primary">Email support</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <span class="eyebrow">We read every message ourselves</span>
+    <h1>Get in touch</h1>
+    <p class="lead">Questions about an order, a freelance project, a refund, or anything else — a real person on our small team reads and answers every message.</p>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h2>Email us</h2>
+        <p>This is the fastest and most reliable way to reach us. We typically reply within 1–2 business days.</p>
+        <div class="email-box">
+          <div class="ic">✉️</div>
+          <div>
+            <b>support@questmart.online</b>
+            <span>General support, orders, freelance projects, refunds</span>
+          </div>
+        </div>
+        <a href="mailto:support@questmart.online" class="btn btn-primary" style="width:100%;">Open email to support@questmart.online</a>
+
+        <div class="faq">
+          <div class="faq-item">
+            <h4>Ordered a product but something's wrong?</h4>
+            <p>Include your order email and the product name — we'll help right away. See our <a href="/terms.html" style="text-decoration:underline;">refund policy</a>.</p>
+          </div>
+          <div class="faq-item">
+            <h4>Dispute on a freelance project?</h4>
+            <p>Tell us the project ID and what happened. Our team reviews disputes manually and gets back to both sides.</p>
+          </div>
+          <div class="faq-item">
+            <h4>Found a bug or have feedback?</h4>
+            <p>We love hearing this — send it over, it goes straight to the person who built the feature.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-card about-mini">
+        <h3>Who you're emailing</h3>
+        <p>QuestMart is built and run by a five-person team — no ticket queue, no outsourced support. Our lead developer has 10+ years building software and genuinely enjoys this stuff, so questions actually get answered by someone who knows the product.</p>
+        <div class="stat-strip">
+          <div><b>5</b><span>people on the team</span></div>
+          <div><b>1–2</b><span>days typical reply time</span></div>
+          <div><b>100%</b><span>human replies</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 QuestMart · support@questmart.online</div>
+</footer>
+
+</body>
+</html>
