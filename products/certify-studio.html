@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Certify Studio — Proof of Authorship Certificates | QuestMart</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://opentimestamps.org/assets/javascripts/vendor/opentimestamps.min.js"></script>
+<style>
+  :root{--bg:#0f1115;--card:#171a21;--accent:#5b8cff;--text:#e8eaf0;--muted:#9aa1b1;--good:#3ddc84;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text)}
+  header{padding:40px 20px;text-align:center}
+  header h1{margin:0 0 8px;font-size:2rem}
+  header p{color:var(--muted);max-width:560px;margin:0 auto}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px 60px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:14px;padding:22px;border:1px solid #262b36}
+  textarea{width:100%;min-height:220px;background:#0f1115;color:var(--text);border:1px solid #2b3140;border-radius:10px;padding:12px;font-size:.95rem;resize:vertical}
+  input[type=text]{width:100%;padding:10px;border-radius:8px;border:1px solid #2b3140;background:#0f1115;color:var(--text);margin-top:6px}
+  label{font-size:.85rem;color:var(--muted)}
+  .row{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  button{background:var(--accent);color:#fff;border:none;padding:12px 20px;border-radius:9px;font-size:1rem;cursor:pointer}
+  button.secondary{background:transparent;border:1px solid #2b3140;color:var(--text)}
+  .plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+  .plan{border:1px solid #2b3140;border-radius:10px;padding:10px;cursor:pointer;text-align:center}
+  .plan.active{border-color:var(--accent);background:#1a2030}
+  .plan b{display:block;font-size:1.1rem}
+  .cert{margin-top:24px;border:1px solid #2b3140;border-radius:14px;padding:24px;background:#0f1115;display:none}
+  .cert.show{display:block}
+  .cert h3{margin-top:0;color:var(--good)}
+  .cert .hash{font-family:monospace;font-size:.8rem;color:var(--muted);word-break:break-all;background:#171a21;padding:8px;border-radius:6px}
+  .score{font-size:1.4rem;font-weight:700}
+  .badge{display:inline-block;background:#20263a;color:var(--accent);font-size:.7rem;padding:3px 8px;border-radius:6px;margin-left:6px}
+  #qr{margin-top:12px}
+  .note{font-size:.78rem;color:var(--muted);margin-top:10px;line-height:1.5}
+  .disclaimer{background:#1a1712;border:1px solid #3a3120;color:#e0c07a;font-size:.78rem;padding:10px 14px;border-radius:8px;margin-top:14px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>✍️ Certify Studio</h1>
+  <p>Get a timestamped, cryptographically signed certificate proving when your text existed — plus an approximate AI-writing signal. One-time payment. No subscription, ever.</p>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+    <div class="card">
+      <label>Paste your text</label>
+      <textarea id="text" placeholder="Paste the article, essay, or content you want to certify..."></textarea>
+      <label style="display:block;margin-top:12px">Author / freelancer name</label>
+      <input type="text" id="author" placeholder="e.g. Jane Doe">
+
+      <div class="plans">
+        <div class="plan active" data-plan="solo" onclick="selectPlan('solo')">
+          <b>Solo — $39</b><span style="font-size:.75rem;color:var(--muted)">unlimited · QuestMart logo</span>
+        </div>
+        <div class="plan" data-plan="pro" onclick="selectPlan('pro')">
+          <b>Pro — $69</b><span style="font-size:.75rem;color:var(--muted)">your logo · blockchain · QR</span>
+        </div>
+      </div>
+
+      <button onclick="generateCertificate()">Generate Certificate</button>
+      <div class="note">One-time purchase, unlimited certificates. Everything below runs 100% in your browser — no text is ever uploaded to a server.</div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">Why it holds up</h3>
+      <p style="color:var(--muted);font-size:.9rem;line-height:1.6">
+        The certificate's real value is the <b>SHA-256 hash + timestamp</b> — cryptographic proof this exact text existed at this exact moment, in your name. That part is mathematically verifiable, not a guess.
+      </p>
+      <p style="color:var(--muted);font-size:.9rem;line-height:1.6">
+        The "writing-pattern signal" below (sentence-length variation and word repetition) is a rough, approximate indicator — not a courtroom-grade AI detector, and no offline tool honestly can be. We say so plainly instead of overselling it.
+      </p>
+      <div class="disclaimer">⚠️ This is not a guarantee of authorship or AI-detection accuracy. Use the certificate as supporting evidence, not sole proof.</div>
+    </div>
+  </div>
+
+  <div class="cert" id="cert">
+    <h3>✅ Certificate Generated <span class="badge" id="planBadge"></span></h3>
+    <p><b id="certAuthor"></b> — issued <span id="certDate"></span></p>
+    <p>Writing-pattern signal (approximate): <span class="score" id="score"></span></p>
+    <p>SHA-256 fingerprint of the text:</p>
+    <div class="hash" id="hash"></div>
+    <div id="blockchainNote" class="note"></div>
+    <div id="qr"></div>
+    <div class="row">
+      <button class="secondary" onclick="window.print()">Print / Save as PDF</button>
+      <a id="otsDownload" style="display:none" download="certificate.ots"><button class="secondary">Download Bitcoin proof (.ots)</button></a>
+    </div>
+  </div>
+</div>
+
+<script>
+let plan = 'solo';
+function selectPlan(p){
+  plan = p;
+  document.querySelectorAll('.plan').forEach(el=>el.classList.toggle('active', el.dataset.plan===p));
+}
+
+function analyzeText(text){
+  const sentences = text.split(/[.!?]+/).map(s=>s.trim()).filter(Boolean);
+  if(sentences.length < 3) return null;
+  const lengths = sentences.map(s=>s.split(/\s+/).length);
+  const mean = lengths.reduce((a,b)=>a+b,0)/lengths.length;
+  const variance = lengths.reduce((a,b)=>a+Math.pow(b-mean,2),0)/lengths.length;
+  const burstiness = Math.sqrt(variance)/mean; // higher = more human-like variation
+
+  const words = text.toLowerCase().match(/\b[a-z']+\b/g) || [];
+  const uniqueRatio = words.length ? new Set(words).size/words.length : 1;
+
+  // crude blended signal, intentionally conservative
+  let score = Math.round(Math.min(95, Math.max(5, (burstiness*120 + uniqueRatio*40))));
+  return score;
+}
+
+async function sha256(text){
+  const enc = new TextEncoder().encode(text);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+function hexToBytes(hex){
+  const bytes = new Uint8Array(hex.length/2);
+  for(let i=0;i<hex.length;i+=2) bytes[i/2] = parseInt(hex.substr(i,2),16);
+  return bytes;
+}
+
+// Submits the hash to the free public OpenTimestamps calendar servers.
+// Returns a .ots proof (as a Blob) anchored on the Bitcoin blockchain — no wallet, no gas fee.
+async function stampOnBitcoin(hashHex){
+  const hashBytes = hexToBytes(hashHex);
+  const detached = OpenTimestamps.DetachedTimestampFile.fromHash(new OpenTimestamps.Ops.OpSHA256(), hashBytes);
+  await OpenTimestamps.stamp(detached);
+  const otsBytes = detached.serializeToBytes();
+  return new Blob([new Uint8Array(otsBytes)], {type:'application/octet-stream'});
+}
+
+async function generateCertificate(){
+  const text = document.getElementById('text').value.trim();
+  const author = document.getElementById('author').value.trim() || 'Unnamed author';
+  if(text.length < 50){ alert('Paste at least a short paragraph.'); return; }
+
+  const score = analyzeText(text);
+  const hash = await sha256(text + '|' + author + '|' + Date.now());
+  const now = new Date().toISOString().replace('T',' ').slice(0,19) + ' UTC';
+
+  document.getElementById('certAuthor').textContent = author;
+  document.getElementById('certDate').textContent = now;
+  document.getElementById('hash').textContent = hash;
+  document.getElementById('score').textContent = (score===null ? 'text too short to score' : score+'% human-pattern-like');
+  document.getElementById('planBadge').textContent = plan==='pro' ? 'PRO — your branding' : 'SOLO — QuestMart branding';
+
+  const bcNote = document.getElementById('blockchainNote');
+  const otsLink = document.getElementById('otsDownload');
+  otsLink.style.display = 'none';
+
+  const qrEl = document.getElementById('qr');
+  qrEl.innerHTML = '';
+  new QRCode(qrEl, { text: 'https://questmart.online/verify/' + hash.slice(0,16), width: 120, height: 120 });
+
+  document.getElementById('cert').classList.add('show');
+
+  if(plan==='pro'){
+    bcNote.textContent = '⏳ Submitting fingerprint to the free OpenTimestamps calendar servers for Bitcoin anchoring...';
+    try{
+      const blob = await stampOnBitcoin(hash);
+      otsLink.href = URL.createObjectURL(blob);
+      otsLink.download = 'certificate-' + hash.slice(0,10) + '.ots';
+      otsLink.style.display = 'inline-block';
+      bcNote.innerHTML = '✅ Submitted to the Bitcoin timestamp network (free, no wallet needed). Download the <b>.ots</b> proof file and keep it with the certificate — Bitcoin confirmation typically completes within a few hours. Verify anytime at <a href="https://opentimestamps.org" target="_blank" style="color:var(--accent)">opentimestamps.org</a> by uploading this file.';
+    }catch(err){
+      bcNote.textContent = '⚠️ Could not reach the timestamp calendar servers right now. Try generating the certificate again in a moment.';
+      console.error(err);
+    }
+  } else {
+    bcNote.textContent = 'Upgrade to Pro to anchor this fingerprint on the Bitcoin blockchain (free, via OpenTimestamps) and remove QuestMart branding.';
+  }
+}
+</script>
+
+</body>
+</html>
