@@ -156,7 +156,7 @@
 <div class="trust-strip">
   <div class="item"><span class="ic">💯</span> Flat 20% platform fee — shown upfront on every project</div>
   <div class="item"><span class="ic">🔒</span> Freelancers are paid as soon as the client approves delivered work</div>
-  <div class="item"><span class="ic">📩</span> Questions? <a href="../contact.html" style="text-decoration:underline;">Contact our team</a></div>
+  <div class="item"><span class="ic">📩</span> Questions? <a href="mailto:support@questmart.online" style="text-decoration:underline;">support@questmart.online</a></div>
 </div>
 
 <div class="layout">
@@ -333,7 +333,7 @@
         <div class="modal-stat"><div class="l">Category</div><div class="v" style="font-size:14px;">${p.category}</div></div>
       </div>
       <div class="modal-desc">${escapeHtml(p.desc || '')}</div>
-      <div class="modal-escrow">🔒 <b>How payment works:</b> once you accept this project, deliver your work through your dashboard. The client reviews it and approves the delivery — as soon as they do, your payout (80% of the budget, after our flat 20% platform fee) is released to you. The fee is always shown upfront on every project, with no hidden costs.</div>
+      <div class="modal-escrow">🔒 <b>How payment works:</b> once you accept this project, deliver your work through your dashboard. The client reviews it and approves the delivery — as soon as they do, your payout (80% of the budget, after our flat 20% platform fee) is released to you. The fee is always shown upfront on every project, with no hidden costs. Questions? <a href="mailto:support@questmart.online" style="text-decoration:underline;color:var(--navy);">support@questmart.online</a></div>
       <button class="btn-apply" id="acceptBtn" onclick="applyToProject(${p.id})">Accept this project</button>
     `;
     document.getElementById('detailModal').classList.add('show');
@@ -463,6 +463,67 @@
 
   updateAuthUI();
   loadProjects();
+</script>
+
+<div id="qm-chat"></div>
+<script>
+(function(){
+  const faqs = [
+    { q:"Is QuestMart Freelance legit?", a:"Yes — we're a small, real team (5 people). Every project shows its 20% platform fee upfront before you accept or post it, and payouts are released as soon as the client approves the work. Still unsure? Email support@questmart.online and a real person will reply." },
+    { q:"How does the 20% fee work?", a:"When a project is completed and approved, the freelancer gets 80% of the agreed budget and QuestMart keeps a flat 20% platform fee. It's always shown on the project page — no hidden deductions." },
+    { q:"When do I get paid?", a:"As soon as the client reviews and approves your delivered work. There's no extra manual delay on our side beyond that approval." },
+    { q:"How do I post a project?", a:"Click \"+ Post a Project\" at the top of this page. You'll need to log in or create an account first, then fill in the title, category, description and budget." },
+    { q:"I have another question", a:"Happy to help — email us directly at support@questmart.online and we'll get back to you personally." }
+  ];
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `
+    <style>
+      #qm-chat-bubble{position:fixed;bottom:22px;right:22px;width:56px;height:56px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;cursor:pointer;box-shadow:0 14px 30px -12px rgba(0,0,0,0.4);z-index:999;border:none;}
+      #qm-chat-panel{position:fixed;bottom:88px;right:22px;width:min(340px,88vw);max-height:70vh;background:#fff;border-radius:18px;box-shadow:0 24px 50px -20px rgba(0,0,0,0.45);z-index:999;display:none;flex-direction:column;overflow:hidden;font-family:'Inter',sans-serif;}
+      #qm-chat-panel.open{display:flex;}
+      #qm-chat-head{background:var(--navy);color:#fff;padding:16px 18px;font-weight:700;font-size:0.95rem;display:flex;justify-content:space-between;align-items:center;}
+      #qm-chat-close{background:none;border:none;color:#fff;font-size:1.1rem;cursor:pointer;}
+      #qm-chat-body{padding:14px;overflow-y:auto;flex:1;background:var(--paper);}
+      .qm-msg{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 13px;font-size:0.85rem;margin-bottom:10px;line-height:1.6;color:var(--ink);}
+      .qm-q-btn{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-size:0.83rem;margin-bottom:8px;cursor:pointer;font-family:inherit;color:var(--ink);}
+      .qm-q-btn:hover{border-color:var(--navy);}
+      #qm-chat-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;text-align:center;}
+      #qm-chat-foot a{color:var(--navy);font-weight:700;font-size:0.8rem;text-decoration:underline;}
+    </style>
+    <button id="qm-chat-bubble" aria-label="Open support chat">💬</button>
+    <div id="qm-chat-panel">
+      <div id="qm-chat-head">
+        Support
+        <button id="qm-chat-close">✕</button>
+      </div>
+      <div id="qm-chat-body">
+        <div class="qm-msg">Hi! Pick a question below, or email us any time.</div>
+        <div id="qm-chat-questions"></div>
+      </div>
+      <div id="qm-chat-foot">Prefer email? <a href="mailto:support@questmart.online">support@questmart.online</a></div>
+    </div>
+  `;
+  document.body.appendChild(wrap);
+  const qEl = wrap.querySelector('#qm-chat-questions');
+  const bodyEl = wrap.querySelector('#qm-chat-body');
+  faqs.forEach(f=>{
+    const b = document.createElement('button');
+    b.className = 'qm-q-btn';
+    b.textContent = f.q;
+    b.onclick = ()=>{
+      const ans = document.createElement('div');
+      ans.className = 'qm-msg';
+      ans.textContent = f.a;
+      bodyEl.appendChild(ans);
+      bodyEl.scrollTop = bodyEl.scrollHeight;
+      b.disabled = true; b.style.opacity = 0.5;
+    };
+    qEl.appendChild(b);
+  });
+  const panel = wrap.querySelector('#qm-chat-panel');
+  wrap.querySelector('#qm-chat-bubble').onclick = ()=> panel.classList.add('open');
+  wrap.querySelector('#qm-chat-close').onclick = ()=> panel.classList.remove('open');
+})();
 </script>
 
 </body>
