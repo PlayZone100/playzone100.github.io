@@ -89,8 +89,8 @@
   <script>
     // ---- Fixed configuration for this product ----
     const PAYMENT_WORKER_URL = "https://morning-shape-c098.alice56885236.workers.dev";
-    const LICENSE_WORKER_URL = "https://REPLACE-WITH-YOUR-plant-doctor-license.alice56885236.workers.dev"; // set after deploying plant-doctor-license.js
-    const PLANT_DOCTOR_URL = "/plant-doctor-pro.html";
+    const LICENSE_WORKER_URL = "https://plant-doctor-license.alice56885236.workers.dev"; // FIXED: real license worker URL
+    const PLANT_DOCTOR_URL = "/plant-doctor/index.html";
 
     // productId must exist in products.json with the matching priceUSD —
     // PLACEHOLDER PRICES, change to whatever you decide to charge.
@@ -235,9 +235,9 @@
 
   <!--
     IMPORTANT — before this page will work:
-    1) Deploy plant-doctor-license.js as a new Cloudflare Worker, set its
-       LICENSE_PRIVATE_JWK secret and LICENSES KV binding, then paste its
-       workers.dev URL into LICENSE_WORKER_URL above.
+    1) LICENSE_WORKER_URL above is now set to the real deployed license
+       worker. If you ever redeploy it under a different name, update
+       this line.
     2) Add these two entries to products.json (same repo the other
        products' prices come from) — adjust priceUSD to what you decide:
 
