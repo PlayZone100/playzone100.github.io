@@ -333,7 +333,7 @@
     if(!currentUser || !token){
       closeModal('detailModal');
       openLogin();
-      alert("برای قبول کردن پروژه اول باید وارد حسابت بشی.");
+      alert("Please log in first to accept this project.");
       return;
     }
     const btn = document.getElementById('acceptBtn');
@@ -348,7 +348,7 @@
       showToast("Project accepted — it's now assigned to you.");
       loadProjects();
     } catch(e){
-      alert("مشکلی پیش اومد، دوباره امتحان کن.");
+      alert("Something went wrong, please try again.");
       btn.disabled=false; btn.textContent="Accept this project";
     }
   }
@@ -359,7 +359,7 @@
   function openPost(){
     if(!currentUser || !token){
       openLogin();
-      alert("برای پست کردن پروژه اول باید وارد حسابت بشی.");
+      alert("Please log in first to post a project.");
       return;
     }
     document.getElementById('postModal').classList.add('show');
@@ -390,7 +390,7 @@
       showToast("Project posted — now visible to freelancers.");
       loadProjects();
     } catch(e){
-      alert("مشکلی پیش اومد، دوباره امتحان کن.");
+      alert("Something went wrong, please try again.");
     }
     btn.disabled = false; btn.textContent = "Post project";
   }
@@ -417,7 +417,7 @@
       updateAuthUI();
       showToast("Logged in as " + currentUser.name);
     } catch(e){
-      alert("مشکلی پیش اومد، دوباره امتحان کن.");
+      alert("Something went wrong, please try again.");
     }
     btn.disabled = false; btn.textContent = "Log in";
   }
