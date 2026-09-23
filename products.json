@@ -8,5 +8,35 @@
     "name": "Meme Studio Pro (Yearly)",
     "priceUSD": 40,
     "file": "products/meme-fantasy-face-accessories-en.html"
+  },
+  "saas-landing-template": {
+    "name": "Meridian — SaaS Product Launch Landing Page",
+    "priceUSD": 40,
+    "file": "products/saas-landing-template.zip"
+  },
+  "invoice-studio-pro": {
+    "name": "Invoice Studio",
+    "priceUSD": 70,
+    "file": "products/invoice-studio-pro.zip"
+  },
+  "contract-proposal-generator-pro": {
+    "name": "Contract & Proposal Generator Pro",
+    "priceUSD": 50,
+    "file": "products/contract-proposal-generator-pro.zip"
+  },
+  "creator-command-center": {
+    "name": "Creator Command Center",
+    "priceUSD": 120,
+    "file": "products/creator-command-center.zip"
+  },
+  "certify-studio-solo": {
+    "name": "Certify Studio — Solo",
+    "priceUSD": 39,
+    "file": "products/certify-studio-solo.zip"
+  },
+  "certify-studio-pro": {
+    "name": "Certify Studio — Pro",
+    "priceUSD": 69,
+    "file": "products/certify-studio-pro.zip"
   }
 }
