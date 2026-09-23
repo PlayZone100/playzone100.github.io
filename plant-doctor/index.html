@@ -3,30 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Plant Doctor Pro – AI plant diagnosis and care chat</title>
-<meta name="description" content="Upload a photo of a sick plant for an AI diagnosis, or ask the plant doctor anything about watering, light, pests and soil.">
+<title>Plant Doctor Pro – AI Plant Diagnosis & Care Chat | Identify Plant Problems Instantly</title>
+<meta name="description" content="Upload a photo of a sick plant and get an instant AI diagnosis — pests, disease, watering, light and soil issues. Or ask the plant doctor anything about houseplant and garden care. Free to try.">
+<meta name="keywords" content="plant doctor, plant disease identifier, AI plant diagnosis, houseplant care, plant care chat, identify plant problems, yellow leaves plant, plant pest identification">
+<link rel="canonical" href="https://questmart.online/plant-doctor/">
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Plant Doctor Pro – AI Plant Diagnosis & Care Chat">
+<meta property="og:description" content="Snap a photo of a struggling plant for an instant AI diagnosis, or ask the plant doctor anything about watering, light, pests and soil.">
+<meta property="og:url" content="https://questmart.online/plant-doctor/">
+<meta property="og:site_name" content="QuestMart">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Plant Doctor Pro – AI Plant Diagnosis & Care Chat">
+<meta name="twitter:description" content="Upload a photo of a sick plant for an instant AI diagnosis, or ask about watering, light, pests and soil.">
+
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- Structured data so Google understands what this page/product is -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Plant Doctor Pro",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Web",
+  "description": "AI-powered plant diagnosis and care chat. Upload a photo of a sick plant for an instant diagnosis, or ask questions about watering, light, pests and soil.",
+  "offers": [
+    { "@type": "Offer", "price": "5.99", "priceCurrency": "USD", "name": "Pro monthly" },
+    { "@type": "Offer", "price": "39", "priceCurrency": "USD", "name": "Pro yearly" }
+  ]
+}
+</script>
+
 <style>
-:root{--bg:#f2f6f1;--panel:#fff;--ink:#16281d;--muted:#5b6b60;--moss:#2c6b3c;--moss-d:#1e4d2b;--line:#d7e2d6;--warn:#c98a12;--err:#b3382c}
+:root{--bg:#f2f6f1;--panel:#fff;--ink:#16281d;--muted:#5b6b60;--moss:#2c6b3c;--moss-d:#1e4d2b;--moss-l:#4f9a63;--line:#d7e2d6;--warn:#c98a12;--err:#b3382c;--sun:#f4a637}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Source Sans 3",system-ui,sans-serif}
-.wrap{max-width:760px;margin:0 auto;padding:32px 18px 64px}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(44,107,60,0.08), transparent 40%),
+    radial-gradient(circle at 92% 18%, rgba(244,166,55,0.10), transparent 35%),
+    radial-gradient(circle at 15% 90%, rgba(44,107,60,0.07), transparent 40%);
+}
+.wrap{max-width:780px;margin:0 auto;padding:32px 18px 64px}
 h1,h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.1;margin:0}
+.hero{display:flex;align-items:center;gap:14px;margin-bottom:4px}
+.hero-emoji{font-size:2.4rem;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.08))}
 h1{font-size:clamp(2rem,6vw,3rem);font-weight:800;letter-spacing:-.02em}
-.lead{color:var(--muted);margin:10px 0 24px;max-width:56ch}
+.lead{color:var(--muted);margin:10px 0 20px;max-width:56ch}
+.trust{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 26px;font-size:14px;color:var(--moss-d);font-weight:600}
+.trust span{display:inline-flex;align-items:center;gap:6px;background:#e9f3ea;padding:6px 12px;border-radius:999px}
 .tabs{display:flex;gap:6px;border-bottom:2px solid var(--line)}
 .tab{background:none;border:0;padding:12px 18px;font:600 16px "Source Sans 3",system-ui,sans-serif;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
 .tab[aria-selected=true]{color:var(--moss-d);border-color:var(--moss)}
-.panel{background:var(--panel);border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;padding:22px}
-.drop{display:block;border:2px dashed var(--moss);border-radius:12px;padding:26px;text-align:center;cursor:pointer;color:var(--moss-d);font-weight:600}
+.panel{background:var(--panel);border:1px solid var(--line);border-top:0;border-radius:0 0 14px 14px;padding:24px;box-shadow:0 4px 24px rgba(30,77,43,0.05)}
+.drop{display:block;border:2px dashed var(--moss);border-radius:12px;padding:28px;text-align:center;cursor:pointer;color:var(--moss-d);font-weight:600;background:linear-gradient(180deg,#f7fbf6,#fff)}
 .drop:hover{background:#eaf3e8}
 .drop input{display:none}
-#preview{display:none;max-width:100%;max-height:320px;border-radius:10px;margin:14px auto 0}
+.drop .hint{display:block;font-size:13px;color:var(--muted);font-weight:400;margin-top:6px}
+#preview{display:none;max-width:100%;max-height:320px;border-radius:10px;margin:14px auto 0;box-shadow:0 6px 20px rgba(0,0,0,.12)}
 textarea,input[type=text]{width:100%;font:inherit;padding:11px 13px;border:1px solid var(--line);border-radius:8px;background:#fbfdfb;color:var(--ink)}
 textarea{margin-top:14px;resize:vertical}
-.btn{background:var(--moss);color:#fff;border:0;border-radius:8px;padding:12px 22px;font:600 16px "Source Sans 3",system-ui,sans-serif;cursor:pointer;text-decoration:none;display:inline-block}
-.btn:hover{background:var(--moss-d)}
-.btn:disabled{opacity:.55;cursor:wait}
+.btn{background:var(--moss);color:#fff;border:0;border-radius:8px;padding:12px 22px;font:600 16px "Source Sans 3",system-ui,sans-serif;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .12s ease, background .15s ease}
+.btn:hover{background:var(--moss-d);transform:translateY(-1px)}
+.btn:disabled{opacity:.55;cursor:wait;transform:none}
 :focus-visible{outline:3px solid var(--warn);outline-offset:2px}
 .row{display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap}
 .meta{font-size:14px;color:var(--muted)}
@@ -39,12 +81,19 @@ textarea{margin-top:14px;resize:vertical}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font:inherit;font-size:14px;cursor:pointer;color:var(--moss-d)}
 .chip:hover{border-color:var(--moss)}
-.pro{margin-top:28px;background:var(--moss-d);color:#fff;border-radius:12px;padding:24px}
+.faq{margin-top:40px}
+.faq h2{font-size:1.4rem;margin-bottom:14px}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:8px}
+.faq summary{font-weight:600;cursor:pointer;color:var(--moss-d)}
+.faq p{margin:10px 0 2px;color:var(--muted);font-size:15px}
+.pro{margin-top:32px;background:linear-gradient(160deg,var(--moss-d),#173a20);color:#fff;border-radius:14px;padding:26px;position:relative;overflow:hidden}
+.pro::after{content:"🌿";position:absolute;right:-10px;top:-20px;font-size:8rem;opacity:.08;transform:rotate(15deg)}
 .pro h2{font-size:1.6rem}
 .pro ul{margin:12px 0 18px;padding-left:20px}
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
 .plan{background:#fff;color:var(--ink);border-radius:10px;padding:16px}
-.plan.best{outline:3px solid var(--warn)}
+.plan.best{outline:3px solid var(--sun)}
+.plan .save{display:inline-block;background:#fff3e0;color:#a15c00;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;margin-bottom:6px}
 .plan b{font:800 1.9rem "Bricolage Grotesque",system-ui,sans-serif}
 .plan small{color:var(--muted)}
 .plan .btn{margin-top:10px;width:100%;text-align:center}
@@ -53,14 +102,20 @@ textarea{margin-top:14px;resize:vertical}
 .have .btn{background:#fff;color:var(--moss-d)}
 #actMsg{font-size:14px;margin-top:8px;min-height:1.4em}
 .note{font-size:14px;color:var(--muted);margin-top:22px}
+footer{margin-top:36px;font-size:13px;color:var(--muted);text-align:center}
 @media (prefers-reduced-motion:no-preference){.dot{animation:b 1s infinite}}
 @keyframes b{50%{opacity:.3}}
 </style>
 </head>
 <body>
 <main class="wrap">
-  <h1>Plant Doctor Pro</h1>
-  <p class="lead">Snap a photo of a struggling plant for a diagnosis, or ask the plant doctor anything about watering, light, pests and soil. Try it free.</p>
+  <div class="hero"><span class="hero-emoji" aria-hidden="true">🌿</span><h1>Plant Doctor Pro</h1></div>
+  <p class="lead">Snap a photo of a struggling plant for an instant AI diagnosis, or ask the plant doctor anything about watering, light, pests and soil. Try it free.</p>
+  <div class="trust">
+    <span>🌱 Instant AI diagnosis</span>
+    <span>💬 Unlimited plant-care chat with Pro</span>
+    <span>🔒 No account needed</span>
+  </div>
 
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" id="t-diag" aria-selected="true" aria-controls="p-diag">Diagnose a photo</button>
@@ -70,7 +125,8 @@ textarea{margin-top:14px;resize:vertical}
   <section class="panel" id="p-diag" role="tabpanel" aria-labelledby="t-diag">
     <label class="drop">
       <input type="file" id="file" accept="image/*">
-      <span id="dropText">Choose or take a photo of the plant</span>
+      <span id="dropText">📸 Choose or take a photo of the plant</span>
+      <span class="hint">Clear, well-lit photos of the affected leaves work best</span>
     </label>
     <img id="preview" alt="Selected plant photo">
     <textarea id="note" rows="2" maxlength="500" placeholder="Optional: what have you noticed? (e.g. yellow lower leaves, watered twice a week)"></textarea>
@@ -106,7 +162,7 @@ textarea{margin-top:14px;resize:vertical}
     </ul>
     <div class="plans">
       <div class="plan"><b>$5.99</b> <small>/ month</small><br><a class="btn" id="buyM" href="#">Choose monthly</a></div>
-      <div class="plan best"><b>$39</b> <small>/ year (save 45%)</small><br><a class="btn" id="buyY" href="#">Choose yearly</a></div>
+      <div class="plan best"><span class="save">Save 45%</span><br><b>$39</b> <small>/ year</small><br><a class="btn" id="buyY" href="#">Choose yearly</a></div>
     </div>
     <div class="have">
       <label for="code">Already have an activation code?</label>
@@ -118,15 +174,36 @@ textarea{margin-top:14px;resize:vertical}
     </div>
   </section>
 
+  <section class="faq">
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>How does the AI plant diagnosis work?</summary>
+      <p>Upload a clear photo of the affected leaves or plant, add any notes about watering or light, and the AI analyzes visual symptoms — spots, discoloration, wilting, pests — to suggest likely causes and next steps.</p>
+    </details>
+    <details>
+      <summary>Is Plant Doctor Pro free to try?</summary>
+      <p>Yes — every visitor gets one free photo diagnosis and a few free chat messages before upgrading is required.</p>
+    </details>
+    <details>
+      <summary>What plants does it work with?</summary>
+      <p>Houseplants, garden vegetables, flowers, succulents and trees — ask or upload a photo of any plant you're growing.</p>
+    </details>
+    <details>
+      <summary>Can it replace a professional horticulturist?</summary>
+      <p>It's a fast first opinion, not a replacement. For valuable or rare plants, or a problem that isn't improving, check with a local nursery or horticulturist.</p>
+    </details>
+  </section>
+
   <p class="note">AI suggestions are a starting point, not a guarantee. For valuable plants or serious problems, check with a local nursery or horticulturist.</p>
+  <footer>Plant Doctor Pro · a QuestMart product</footer>
 </main>
 
 <script>
-/* ===== CONFIG: edit these ===== */
-const WORKER_URL = "https://plant-doctor-api.YOUR-SUBDOMAIN.workers.dev"; // your deployed Worker
-const LINK_MONTHLY = ""; // payment link for the $5.99/month plan
-const LINK_YEARLY = "";  // payment link for the $39/year plan
-/* ================================ */
+/* ===== CONFIG ===== */
+const WORKER_URL = "https://plant-doctor-api.alice56885236.workers.dev";
+const LINK_MONTHLY = "/plant-doctor/checkout-plant-doctor.html?plan=monthly";
+const LINK_YEARLY = "/plant-doctor/checkout-plant-doctor.html?plan=yearly";
+/* =================== */
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
@@ -169,7 +246,7 @@ $("file").onchange = (e) => {
     c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
     imageData = c.toDataURL("image/jpeg", 0.8);
     $("preview").src = imageData; $("preview").style.display = "block";
-    $("dropText").textContent = "Choose a different photo"; $("go").disabled = false;
+    $("dropText").textContent = "📸 Choose a different photo"; $("go").disabled = false;
     URL.revokeObjectURL(img.src);
   };
   img.src = URL.createObjectURL(f);
