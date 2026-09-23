@@ -115,6 +115,7 @@
   .prod-card:hover{box-shadow:var(--shadow);transform:translateY(-4px);}
   .prod-thumb{height:140px;background:linear-gradient(135deg, var(--brand) 0%, var(--accent) 130%);display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;}
   .prod-thumb.fun{background:linear-gradient(135deg, #2b44ff 0%, #ff4d8d 130%);}
+  .prod-thumb.plant{background:linear-gradient(135deg, #1e4d2b 0%, #4f9a63 130%);}
   .prod-body{padding:16px 18px 20px;}
   .prod-body .cat{font-size:0.75rem;color:var(--accent);margin-bottom:6px;display:block;}
   .prod-body h3{font-size:1.05rem;margin:0 0 8px;font-weight:700;}
@@ -276,6 +277,68 @@
   .fr-p4{bottom:0%;right:10%;transform:rotate(-5deg);}
   @media (max-width:900px){ .fr-visual{height:230px;margin-top:8px;} .fr-hub{width:92px;height:92px;font-size:2rem;} .fr-prop{width:130px;padding:10px 12px;} }
   @media (max-width:520px){ .fr-p4{display:none;} }
+
+  /* ====== PLANT DOCTOR SHOWCASE — green/moss gradient family, own AI, same shape language as the site ====== */
+  .pd-showcase{padding:0 0 64px;}
+  .pd-card{
+    position:relative;overflow:hidden;border-radius:28px;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(79,154,99,0.35), transparent 42%),
+      radial-gradient(circle at 90% 82%, rgba(244,166,55,0.22), transparent 46%),
+      linear-gradient(135deg, #143a1e 0%, #0d2013 100%);
+    box-shadow: var(--shadow);
+    padding:56px 48px;
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:40px;align-items:center;
+  }
+  @media (max-width:900px){ .pd-card{grid-template-columns:1fr;padding:40px 26px;} }
+  .pd-eyebrow{
+    display:inline-flex;align-items:center;gap:7px;font-size:0.8rem;font-weight:800;
+    color:#0d2013;background:#bfe6c8;padding:6px 14px;border-radius:999px;margin-bottom:20px;letter-spacing:0.02em;
+  }
+  .pd-copy h2{
+    color:#fff;font-size:clamp(1.6rem, 3vw, 2.35rem);line-height:1.2;margin:0 0 16px;font-weight:800;letter-spacing:-0.01em;
+  }
+  .pd-copy h2 em{font-style:normal;color:#8be09e;}
+  .pd-copy p{color:#C9E0CC;font-size:1rem;max-width:48ch;margin:0 0 28px;}
+  .pd-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+  .pd-tags span{
+    font-size:0.78rem;color:#E4F5E8;background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.14);padding:6px 12px;border-radius:999px;
+  }
+  .pd-cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .pd-btn{
+    background:#4f9a63;color:#fff;padding:14px 28px;font-size:0.98rem;font-weight:800;
+    border-radius:14px;box-shadow:0 14px 30px -14px rgba(79,154,99,0.55);
+  }
+  .pd-btn:hover{background:#3d7a4e;}
+  .pd-note{color:#9FC4A7;font-size:0.85rem;}
+
+  .pd-visual{position:relative;height:300px;}
+  .pd-pot{
+    position:absolute;left:50%;bottom:6%;transform:translateX(-50%);
+    width:120px;height:86px;border-radius:8px 8px 34px 34px;
+    background:linear-gradient(135deg, #C08A3E 0%, #8a5f26 100%);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.55);
+  }
+  .pd-leaf{
+    position:absolute;width:58px;height:96px;border-radius:60% 6% 60% 60%;
+    background:linear-gradient(135deg, #6fbf7f 0%, #2c6b3c 100%);
+    box-shadow:0 16px 28px -12px rgba(0,0,0,0.4);
+  }
+  .pd-l1{bottom:32%;left:44%;transform:rotate(-14deg);}
+  .pd-l2{bottom:36%;left:52%;transform:rotate(16deg);height:112px;}
+  .pd-l3{bottom:30%;left:36%;transform:rotate(-34deg);height:72px;}
+  .pd-scan{
+    position:absolute;background:var(--surface);border-radius:16px;
+    padding:12px 14px;box-shadow:0 16px 28px -12px rgba(0,0,0,0.5);
+    display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:700;color:var(--text);width:160px;
+  }
+  .pd-scan small{display:block;font-weight:500;color:var(--text-muted);font-size:0.72rem;}
+  .pd-s1{top:2%;right:2%;transform:rotate(-3deg);}
+  .pd-s2{top:36%;right:-4%;transform:rotate(4deg);}
+  .pd-s3{top:6%;left:0%;transform:rotate(5deg);}
+  @media (max-width:900px){ .pd-visual{height:230px;margin-top:8px;} .pd-pot{width:96px;height:70px;} .pd-scan{width:130px;padding:10px 12px;} }
+  @media (max-width:520px){ .pd-s3{display:none;} }
 </style>
 </head>
 <body>
@@ -319,6 +382,37 @@
         <div class="float-card fc-1"><div class="icon">💼</div><b>Business tools</b><small>Invoicing & more</small></div>
         <div class="float-card fc-2"><div class="icon">🧩</div><b>More coming</b><small>New products soon</small></div>
         <div class="float-card fc-3"><div class="icon">🪙</div><b>Crypto ready</b><small>USDT & Bitcoin</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pd-showcase" aria-labelledby="pd-heading">
+    <div class="wrap">
+      <div class="pd-card">
+        <div class="pd-copy">
+          <span class="pd-eyebrow">🌿 NEW · Powered by our own AI</span>
+          <h2 id="pd-heading">Plant Doctor — an AI trained to <em>save your plants</em></h2>
+          <p>Snap a photo of a sick or struggling plant and get an instant diagnosis — pests, disease, watering, light or nutrient problems — plus clear next steps. Or just ask the plant doctor anything about houseplant and garden care. Built end-to-end by our own team, not a rebranded third-party app.</p>
+          <div class="pd-tags">
+            <span>📸 Instant photo diagnosis</span>
+            <span>💬 Unlimited care chat with Pro</span>
+            <span>🌱 Built by our own AI</span>
+            <span>🔒 No account needed</span>
+          </div>
+          <div class="pd-cta">
+            <a href="/plant-doctor/" class="btn pd-btn">Try Plant Doctor →</a>
+            <span class="pd-note">Free to try · Pro from $5.99/mo</span>
+          </div>
+        </div>
+        <div class="pd-visual" aria-hidden="true">
+          <div class="pd-pot"></div>
+          <div class="pd-leaf pd-l1"></div>
+          <div class="pd-leaf pd-l2"></div>
+          <div class="pd-leaf pd-l3"></div>
+          <div class="pd-scan pd-s1">🔍 Diagnosing…<small>Yellow leaf spots</small></div>
+          <div class="pd-scan pd-s2">✅ Healthy<small>Monstera deliciosa</small></div>
+          <div class="pd-scan pd-s3">💧 Watering tip<small>Every 7–10 days</small></div>
+        </div>
       </div>
     </div>
   </section>
@@ -393,7 +487,7 @@
       <div class="cat-grid">
         <div class="cat-card"><span class="icon">💼</span><b>Business tools</b><span>Invoicing, receipts, quotes</span></div>
         <div class="cat-card"><span class="icon">🤝</span><b>Freelance projects</b><span>Hire & get hired</span></div>
-        <div class="cat-card"><span class="icon">🎨</span><b>Templates & design</b><span>Coming soon</span></div>
+        <div class="cat-card"><span class="icon">🌿</span><b>AI plant care</b><span>Diagnosis & chat</span></div>
         <div class="cat-card"><span class="icon">📚</span><b>Guides & resources</b><span>Coming soon</span></div>
       </div>
     </div>
@@ -455,6 +549,16 @@
             <div class="prod-foot"><span class="price">From $39 <small>one-time</small></span></div>
           </div>
         </a>
+        <a class="prod-card" href="/plant-doctor/">
+          <span class="badge-new">NEW</span>
+          <div class="prod-thumb plant">🌿</div>
+          <div class="prod-body">
+            <span class="cat">AI tool</span>
+            <h3>Plant Doctor Pro</h3>
+            <p>Upload a photo of a sick plant for an instant AI diagnosis, or ask the plant doctor anything about watering, light, pests and soil. Built by our own team's AI.</p>
+            <div class="prod-foot"><span class="price">Free <small>Pro from $5.99/mo</small></span></div>
+          </div>
+        </a>
       </div>
     </div>
   </section>
@@ -509,7 +613,7 @@
       <div class="about-copy">
         <span class="eyebrow">Who's behind QuestMart</span>
         <h2>A small, real team — not a faceless marketplace</h2>
-        <p>QuestMart is built and run by a five-person team of developers, designers and writers. We build every product ourselves, we answer support emails ourselves, and we personally review every freelance project that gets posted.</p>
+        <p>QuestMart is built and run by a five-person team of developers, designers and writers. We build every product ourselves, we answer support emails ourselves, and we personally review every freelance project that gets posted. That includes Plant Doctor's diagnosis AI — trained and maintained in-house, not a rebranded outside service.</p>
         <p>QuestMart started from our own lead developer's 10+ years writing software and a genuine love for building useful tools — first for freelancers managing their own invoices, and now as a small marketplace for freelance work too. If something ever looks off or you just have a question, a real person on our team reads every message that comes in.</p>
         <a href="mailto:support@questmart.online" class="btn btn-primary">Email us — support@questmart.online</a>
       </div>
@@ -553,6 +657,7 @@
           <li><a href="/products/creator-command-center.html">Creator Command Center</a></li>
           <li><a href="/products/meme-fantasy-face-accessories-en.html">Meme Studio</a></li>
           <li><a href="/products/certify-studio.html">Certify Studio</a></li>
+          <li><a href="/plant-doctor/">Plant Doctor Pro</a></li>
         </ul>
       </div>
       <div>
