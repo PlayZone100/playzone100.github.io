@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--
+  Crypto checkout for QuestMart Freelance — project funding.
+  Same pattern as checkout-meme-studio.html, but instead of a fixed catalog
+  product this pays a project's own budget_usd (variable, set by the
+  employer when they created the project). The amount is NEVER trusted
+  from the URL/client — /project-order on the Worker looks budget_usd up
+  itself from the shared D1 database using only projectId, so nobody can
+  tamper with the amount.
+
+  Reads from the URL:
+    ?project=123        (required) — the project id
+    ?budget=250          (optional, display only — just avoids an extra
+                          fetch to show the number before the order exists;
+                          the real amount always comes from the Worker)
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fund your project — QuestMart Freelance</title>
+<style>
+  body{font-family:Inter,-apple-system,sans-serif;background:#FAF8F4;color:#1B1E2B;max-width:480px;margin:60px auto;padding:0 20px;}
+  .card{background:#fff;border:1px solid #E7E2D6;border-radius:16px;padding:28px;}
+  h1{font-size:1.3rem;margin:0 0 6px;}
+  .sub{color:#62667A;font-size:0.9rem;margin:0 0 22px;}
+  select,button{font:inherit;}
+  select{width:100%;padding:10px;border-radius:8px;border:1px solid #E7E2D6;margin-bottom:16px;}
+  button{width:100%;padding:12px;border-radius:999px;border:none;background:#263866;color:#fff;font-weight:600;cursor:pointer;}
+  button:disabled{opacity:0.6;cursor:default;}
+  .pay-box{margin-top:20px;padding:18px;border:1px dashed #C08A3E;border-radius:12px;display:none;}
+  .pay-box img{display:block;margin:0 auto 14px;}
+  .addr{word-break:break-all;background:#F1EEE6;padding:10px;border-radius:8px;font-size:0.82rem;font-family:monospace;margin-bottom:10px;}
+  .amount{font-size:1.4rem;font-weight:800;text-align:center;margin-bottom:14px;}
+  .status{text-align:center;font-size:0.9rem;color:#62667A;margin-top:14px;}
+  .status.paid{color:#1F5C46;font-weight:700;}
+  .status.error{color:#B3341F;font-weight:600;}
+</style>
+</head>
+<body>
+  <div class="card" id="crypto-checkout">
+    <h1 id="title">Fund your project</h1>
+    <p class="sub" id="sub">Loading…</p>
+
+    <select id="currency">
+      <option value="USDT_TRC20">USDT (TRC20 / Tron)</option>
+      <option value="USDT_ERC20">USDT (ERC20 / Ethereum)</option>
+      <option value="BTC">Bitcoin (BTC)</option>
+      <option value="ETH">Ethereum (ETH)</option>
+      <option value="USDT_SOL">USDT (Solana)</option>
+      <option value="DOGE">Dogecoin (DOGE)</option>
+      <option value="LTC">Litecoin (LTC)</option>
+      <option value="XRP">Ripple (XRP)</option>
+      <option value="ADA">Cardano (ADA)</option>
+      <option value="USDT_AVAX">USDT (Avalanche)</option>
+      <option value="USDT_BEP20">USDT (BNB Chain)</option>
+    </select>
+    <button id="create-order" disabled>Generate payment address</button>
+
+    <div class="pay-box" id="pay-box">
+      <div class="amount" id="pay-amount"></div>
+      <div class="addr" id="pay-address"></div>
+      <img id="qr" width="180" height="180" alt="Payment QR code">
+      <div class="status" id="pay-status">Waiting for payment…</div>
+    </div>
+  </div>
+
+  <script>
+    // Same crypto payment Worker used by every other product.
+    const WORKER_URL = "https://morning-shape-c098.alice56885236.workers.dev";
+
+    // Where to send the employer once the project actually goes live.
+    // No dedicated "my projects" dashboard exists yet, so this sends them
+    // back to the Browse Projects page, where their now-open project will
+    // show up. Change this later if you build a real dashboard page.
+    const AFTER_PAYMENT_URL = "projects.html";
+
+    const PROJECT_ID = new URLSearchParams(window.location.search).get("project");
+    const BUDGET_HINT = new URLSearchParams(window.location.search).get("budget");
+
+    const titleEl = document.getElementById("title");
+    const subEl = document.getElementById("sub");
+    const createBtn = document.getElementById("create-order");
+    const payBox = document.getElementById("pay-box");
+    const payAmount = document.getElementById("pay-amount");
+    const payAddress = document.getElementById("pay-address");
+    const payStatus = document.getElementById("pay-status");
+    const qr = document.getElementById("qr");
+
+    let pollTimer = null;
+
+    if (!PROJECT_ID) {
+      titleEl.textContent = "Missing project";
+      subEl.textContent = "No project id was given in the link (expected ?project=123).";
+    } else {
+      subEl.textContent = BUDGET_HINT
+        ? `Project #${PROJECT_ID} — budget $${BUDGET_HINT} — pay with the crypto of your choice`
+        : `Project #${PROJECT_ID} — pay with the crypto of your choice`;
+      createBtn.disabled = false;
+    }
+
+    createBtn.addEventListener("click", async () => {
+      createBtn.disabled = true;
+      createBtn.textContent = "Creating order…";
+      const currency = document.getElementById("currency").value;
+
+      let order;
+      try {
+        const res = await fetch(`${WORKER_URL}/project-order`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ projectId: PROJECT_ID, currency }),
+        });
+        order = await res.json();
+      } catch (e) {
+        payStatus.textContent = "Network error creating order. Please try again.";
+        payStatus.classList.add("error");
+        createBtn.disabled = false;
+        createBtn.textContent = "Generate payment address";
+        return;
+      }
+
+      if (order.error) {
+        payStatus.textContent = "Error: " + order.error;
+        payStatus.classList.add("error");
+        createBtn.disabled = false;
+        createBtn.textContent = "Generate payment address";
+        return;
+      }
+
+      payAmount.textContent = `${order.amount} ${order.currency.replace("_", " ")}`;
+      payAddress.textContent = order.address;
+      qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(order.address)}`;
+      payBox.style.display = "block";
+      createBtn.style.display = "none";
+
+      pollTimer = setInterval(() => pollStatus(order.id), 8000);
+    });
+
+    async function pollStatus(orderId) {
+      const res = await fetch(`${WORKER_URL}/order/${orderId}/status`);
+      const data = await res.json();
+      if (data.status === "paid") {
+        clearInterval(pollTimer);
+        payStatus.textContent = "Payment confirmed! Your project is now live…";
+        payStatus.classList.add("paid");
+        setTimeout(() => { window.location.href = AFTER_PAYMENT_URL; }, 1500);
+      } else if (data.status === "expired") {
+        clearInterval(pollTimer);
+        payStatus.textContent = "This payment window expired. Please refresh and try again.";
+      }
+    }
+  </script>
+</body>
+</html>
