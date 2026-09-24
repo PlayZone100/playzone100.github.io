@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Around the World in Your Fridge: 5 Global Flavor Bombs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#FFF8F0; --bg-white:#FFFFFF;
+    --ink:#241A12; --ink-soft:#5C4B3C;
+    --spice:#C1272D; --spice-dark:#8F1C21;
+    --saffron:#F2A93C; --saffron-dark:#C9821F;
+    --basil:#3E7A4F; --basil-dark:#2A5738;
+    --indigo:#2E3A6E; --indigo-dark:#1E274A;
+    --cream-card:#FFFDF8; --line:rgba(36,26,18,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Public Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg-cream);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.08;margin:0 0 0.5em;font-weight:800;}
+  .container{max-width:760px;margin:0 auto;padding:0 24px;}
+  a{color:var(--spice-dark);}
+  .wrap-narrow{max-width:680px;}
+
+  .hero{background:linear-gradient(150deg, var(--indigo-dark) 0%, var(--spice) 55%, var(--saffron-dark) 130%);color:#FFF3E2;padding:78px 24px 100px;}
+  .hero .eyebrow{font-size:1.05rem;color:#FFD98C;margin-bottom:14px;font-weight:700;}
+  .hero h1{font-size:clamp(2.1rem,5.2vw,3.2rem);max-width:17ch;color:#FFF8ED;}
+  .hero p{max-width:50ch;font-size:1.15rem;color:#F7DFC8;margin-top:14px;}
+  .hero-emoji-row{font-size:1.9rem;margin-top:28px;letter-spacing:8px;}
+  .wave{display:block;width:100%;height:56px;margin-bottom:-6px;}
+
+  .band{padding:60px 0;}
+  .band-cream{background:var(--bg-cream);}
+  .band-white{background:var(--bg-white);}
+  .band-spice{background:#FBE3DF;}
+  .band-saffron{background:#FCEBC9;}
+  .band-basil{background:#E4EFDF;}
+  .band-indigo{background:#E3E5F2;}
+  .band-dark{background:linear-gradient(135deg, var(--indigo-dark) 0%, var(--spice-dark) 130%);color:#FFF3E2;}
+
+  h2.section-title{font-size:clamp(1.4rem,3.2vw,1.9rem);margin-bottom:16px;}
+  .section-kicker{display:inline-block;font-size:0.95rem;font-weight:700;background:#FFFFFF;padding:4px 14px;border-radius:100px;margin-bottom:14px;border:1px solid var(--line);}
+  .k-spice{color:var(--spice-dark);} .k-saffron{color:var(--saffron-dark);} .k-basil{color:var(--basil-dark);} .k-indigo{color:var(--indigo-dark);}
+
+  .formula-box{border-radius:18px;padding:22px 24px;margin:20px 0;font-size:1.05rem;color:#fff;}
+  .fb-spice{background:var(--spice);} .fb-saffron{background:var(--saffron-dark);} .fb-basil{background:var(--basil);} .fb-indigo{background:var(--indigo);}
+  .formula-box strong{color:#FFE9B8;}
+
+  ul.recipe-list{list-style:none;padding:0;margin:18px 0;}
+  ul.recipe-list li{padding:10px 0 10px 32px;position:relative;border-bottom:1px solid var(--line);}
+  ul.recipe-list li:last-child{border-bottom:none;}
+  ul.recipe-list li::before{content:"✨";position:absolute;left:0;top:9px;font-size:0.88rem;}
+
+  .cta-box{text-align:center;padding:48px 30px;border-radius:22px;}
+  .cta-box h2{color:#FFF8ED;font-size:clamp(1.5rem,3.5vw,2.1rem);}
+  .cta-box p{color:#F7DFC8;max-width:52ch;margin:14px auto 26px;}
+  .btn{display:inline-block;background:var(--saffron);color:#3A2508;font-weight:700;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:1.05rem;}
+  .btn:hover{background:#FFC369;}
+
+  details{background:var(--cream-card);border:1px solid var(--line);border-left:5px solid var(--spice);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
+  summary{font-family:'Bricolage Grotesque';font-weight:700;cursor:pointer;font-size:1.02rem;}
+  details p{margin:10px 0 2px;color:var(--ink-soft);}
+
+  footer{text-align:center;padding:40px 24px 60px;color:var(--ink-soft);font-size:0.92rem;}
+  @media (max-width:560px){.band{padding:44px 0;}.hero{padding:58px 20px 84px;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">🌍 Flavor Passport</div>
+    <h1>Around the world in your fridge: 5 global flavor bombs</h1>
+    <p>Same boring chicken and rice, five completely different personalities — no passport, no specialty grocery run required.</p>
+    <div class="hero-emoji-row">🌶️ 🧄 🥥 🍋</div>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 56" preserveAspectRatio="none"><path fill="#FFF8F0" d="M0,28 C240,56 480,0 720,18 C960,36 1200,56 1440,20 L1440,56 L0,56 Z"/></svg>
+
+<main>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker k-spice">The real secret of "ethnic" cooking</span>
+      <h2 class="section-title">🧄 It's not the protein — it's the sauce</h2>
+      <p>Here's the thing chefs know that home cooks often don't: the exact same base — chicken, rice, a vegetable — becomes an entirely different cuisine depending on what sauce or spice blend hits it. You don't need a specialty grocery trip. A handful of pantry staples, combined differently, take you from Seoul to Mexico City to Rome without leaving your kitchen. 🌍✨</p>
+    </div>
+  </section>
+
+  <section class="band band-spice">
+    <div class="container">
+      <span class="section-kicker k-spice">🇰🇷 Stop #1</span>
+      <h2 class="section-title">Korean-Inspired Gochujang Bowl</h2>
+      <div class="formula-box fb-spice">🌶️ <strong>The base:</strong> gochujang (or sriracha + a little brown sugar) + soy sauce + sesame oil + garlic, tossed with any protein and rice.</div>
+      <ul class="recipe-list">
+        <li>Whisk 1 tbsp gochujang + 1 tbsp soy sauce + 1 tsp sesame oil + minced garlic</li>
+        <li>Toss with any leftover protein and pan-fry 3–4 minutes</li>
+        <li>Serve over rice with a fried egg and quick-pickled cucumber if you have it</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-saffron">
+    <div class="container">
+      <span class="section-kicker k-saffron">🇲🇽 Stop #2</span>
+      <h2 class="section-title">Mexican-Inspired Lime & Chili Bowl</h2>
+      <div class="formula-box fb-saffron">🌶️ <strong>The base:</strong> lime juice + chili powder or taco seasoning + a pinch of cumin, tossed with any protein and beans.</div>
+      <ul class="recipe-list">
+        <li>Toss protein with lime juice, chili powder, and cumin before cooking</li>
+        <li>Warm canned black beans with a pinch of the same seasoning</li>
+        <li>Serve in tortillas or over rice with any fresh veg you have — onion, cilantro, avocado</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-basil">
+    <div class="container">
+      <span class="section-kicker k-basil">🇮🇹 Stop #3</span>
+      <h2 class="section-title">Italian-Inspired Garlic & Herb Bowl</h2>
+      <div class="formula-box fb-basil">🌿 <strong>The base:</strong> olive oil + garlic + dried Italian herbs (or any combo of basil, oregano, thyme) + a squeeze of lemon and parmesan.</div>
+      <ul class="recipe-list">
+        <li>Sauté garlic in olive oil, add herbs, then any protein or vegetable</li>
+        <li>Finish with lemon juice and grated parmesan</li>
+        <li>Serve over pasta, rice, or crusty bread</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-indigo">
+    <div class="container">
+      <span class="section-kicker k-indigo">🇮🇳 Stop #4</span>
+      <h2 class="section-title">Indian-Inspired Curry Bowl</h2>
+      <div class="formula-box fb-indigo">🍛 <strong>The base:</strong> curry powder or paste + coconut milk + garlic + ginger (fresh or powdered), simmered with any protein and vegetable.</div>
+      <ul class="recipe-list">
+        <li>Sauté garlic and ginger, add curry powder or paste, toast 30 seconds</li>
+        <li>Add coconut milk, any protein and vegetables, simmer 10–15 minutes</li>
+        <li>Serve over rice with a squeeze of lime</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container">
+      <span class="section-kicker k-spice">🇹🇭 Stop #5</span>
+      <h2 class="section-title">Thai-Inspired Peanut & Lime Bowl</h2>
+      <div class="formula-box fb-spice">🥜 <strong>The base:</strong> peanut butter + soy sauce + lime juice + a little honey or sugar, thinned with warm water.</div>
+      <ul class="recipe-list">
+        <li>Whisk peanut butter, soy sauce, lime juice, and a touch of sweetness with warm water until smooth</li>
+        <li>Toss with noodles, any protein, and shredded veg (carrots, cabbage, cucumber)</li>
+        <li>Top with crushed peanuts or sesame seeds if you have them</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker k-spice">The permanent shopping list</span>
+      <h2 class="section-title">🧂 6 sauces that unlock all 5 cuisines</h2>
+      <p>Keep these in your pantry and door shelf, and you can build any of the five bowls above whenever you have basic protein, rice, and vegetables on hand:</p>
+      <ul class="recipe-list">
+        <li><strong>Soy sauce</strong> — the backbone of Korean and Thai flavors</li>
+        <li><strong>Gochujang or sriracha</strong> — heat with depth, not just spice</li>
+        <li><strong>Curry powder or paste</strong> — instant Indian flavor base</li>
+        <li><strong>Chili powder or taco seasoning</strong> — instant Mexican flavor base</li>
+        <li><strong>Peanut butter</strong> — the secret weapon behind Thai-style sauces</li>
+        <li><strong>Dried Italian herbs</strong> — oregano, basil, thyme for Mediterranean flavor</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="container cta-box">
+      <h2>🤖 Have the protein, missing the inspiration?</h2>
+      <p>Tell Fridge Chef what's in your fridge and let it suggest what to make — including flavor directions you might not have thought of. Same chicken, brand new dinner. 🌍</p>
+      <a class="btn" href="https://questmart.online/fridge-chef/">Try Fridge Chef free →</a>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker k-spice">Quick answers</span>
+      <h2 class="section-title">❓ Frequently asked questions</h2>
+      <details><summary>Do I need special ingredients to make these taste "authentic"?</summary><p>These are simplified, pantry-friendly versions meant to capture the flavor direction, not a substitute for traditional recipes — but they're a genuinely delicious starting point with what most kitchens already have.</p></details>
+      <details><summary>What's the single most versatile sauce to keep stocked?</summary><p>Soy sauce — it works as a base for Korean, Thai, and general Asian-inspired flavors, and keeps for months in the fridge.</p></details>
+      <details><summary>Can I make these vegetarian?</summary><p>Yes — swap the protein for tofu, chickpeas, or beans in any of the five bowls; the sauce is what carries the flavor, not the protein itself.</p></details>
+      <details><summary>How long do these sauces keep in the fridge?</summary><p>Most of these mixed sauces keep well for about a week in a sealed container, so you can make a batch ahead for faster dinners later in the week.</p></details>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container wrap-narrow">
+      <h2 class="section-title">🎉 Final thoughts</h2>
+      <p>The next time dinner feels boring, remember: you're probably one sauce away from a completely different meal. Same chicken, same rice, five different trips around the world. 🌍🌶️</p>
+      <p>And if you want it decided for you? <a href="https://questmart.online/fridge-chef/">Fridge Chef</a> will figure out what to make with what you've got. 🙌</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fridge Chef · Turn what's in your fridge into what's for dinner 🧊🍽️</footer>
+
+</body>
+</html>
