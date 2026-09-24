@@ -16,10 +16,11 @@ button:disabled{opacity:.6}.alt{background:#fff;color:#0E5A57;border:2px solid #
 .addr{word-break:break-all;background:#eef4f4;padding:10px;border-radius:8px;font:.82rem monospace;margin-bottom:10px}
 .st{text-align:center;font-size:.9rem;color:#547074;margin-top:12px}.st.ok{color:#0E5A57;font-weight:700}.st.err{color:#B3341F;font-weight:600}
 textarea{width:100%;box-sizing:border-box;font:.78rem monospace;padding:10px;border-radius:8px;border:1px solid #C9DADA;height:90px;resize:none;margin-bottom:10px}
-.row{display:flex;gap:8px}.row button{padding:10px}.fine{font-size:.8rem;color:#547074;margin-top:14px}
+.on{background:#0E5A57!important;color:#fff!important}.row{display:flex;gap:8px}.row button{padding:10px}.fine{font-size:.8rem;color:#547074;margin-top:14px}
 </style></head><body><div class="card">
 <span class="badge" id="badge"></span>
 <h1>Fridge Chef Pro</h1><p class="sub" id="sub"></p>
+<div class="row" id="sw" style="margin-bottom:14px"><button class="alt" data-p="monthly"></button><button class="alt" data-p="yearly"></button></div>
 <select id="cur">
 <option value="USDT_TRC20">USDT (TRC20 / Tron)</option><option value="USDT_ERC20">USDT (ERC20 / Ethereum)</option>
 <option value="BTC">Bitcoin (BTC)</option><option value="ETH">Ethereum (ETH)</option><option value="USDT_SOL">USDT (Solana)</option>
@@ -40,9 +41,12 @@ textarea{width:100%;box-sizing:border-box;font:.78rem monospace;padding:10px;bor
 const PAY="https://morning-shape-c098.alice56885236.workers.dev";
 const LIC="https://fridge-chef.alice56885236.workers.dev/api/license";
 const PLANS={monthly:{id:"fridge-chef-monthly",price:5.99,label:"Pro · 30 days"},yearly:{id:"fridge-chef-yearly",price:49,label:"Pro · 1 year"}};
-const plan=new URLSearchParams(location.search).get("plan")==="yearly"?"yearly":"monthly",P=PLANS[plan];
+let plan=new URLSearchParams(location.search).get("plan")==="yearly"?"yearly":"monthly",P=PLANS[plan];
 const $=i=>document.getElementById(i);let timer;
-$("badge").textContent=P.label;$("sub").textContent="$"+P.price+" · pay with the crypto of your choice";
+function draw(){$("badge").textContent=P.label;$("sub").textContent="$"+P.price+" · pay with the crypto of your choice";
+ document.querySelectorAll("#sw button").forEach(b=>{const q=PLANS[b.dataset.p];b.textContent="$"+q.price+(b.dataset.p==="yearly"?" / 1 year (save 32%)":" / 30 days");b.classList.toggle("on",b.dataset.p===plan)})}
+document.querySelectorAll("#sw button").forEach(b=>b.onclick=()=>{plan=b.dataset.p;P=PLANS[plan];history.replaceState(null,"","?plan="+plan);draw()});
+draw();
 const st=(t,c)=>{$("st").textContent=t;$("st").className="st "+(c||"")};
 const reset=()=>{$("go").disabled=false;$("go").textContent="Generate payment address"};
 $("go").onclick=async()=>{
@@ -52,7 +56,7 @@ $("go").onclick=async()=>{
  if(o.error){$("pay").style.display="block";st("Error: "+o.error,"err");return reset()}
  $("amt").textContent=o.amount+" "+o.currency.replace("_"," ");$("addr").textContent=o.address;
  $("qr").src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data="+encodeURIComponent(o.address);
- $("pay").style.display="block";$("go").style.display="none";st("Waiting for payment…");
+ $("pay").style.display="block";$("go").style.display="none";$("sw").style.display="none";st("Waiting for payment…");
  timer=setInterval(()=>poll(o.id),8000)};
 async function poll(id){let d;try{d=await(await fetch(PAY+"/order/"+id+"/status")).json()}catch(e){return}
  if(d.status==="paid"){clearInterval(timer);st("Payment confirmed! Issuing your key…","ok");license(id)}
