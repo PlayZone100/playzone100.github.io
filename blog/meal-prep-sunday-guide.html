@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meal Prep Sunday: Prep Once, Eat Well All Week</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#F1F7F6; --bg-white:#FFFFFF;
+    --ink:#132422; --ink-soft:#41564F;
+    --teal:#1D7A72; --teal-dark:#125A54;
+    --coral:#F16B4C; --coral-dark:#CC4E32;
+    --gold:#E8B23C; --gold-dark:#BD8D1B;
+    --cream-card:#FFFFFF; --line:rgba(19,36,34,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Public Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg-cream);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.08;margin:0 0 0.5em;font-weight:800;}
+  .container{max-width:760px;margin:0 auto;padding:0 24px;}
+  a{color:var(--coral-dark);}
+  .wrap-narrow{max-width:680px;}
+
+  .hero{background:linear-gradient(155deg, var(--teal-dark) 0%, var(--teal) 60%, var(--coral) 135%);color:#EAF7F4;padding:78px 24px 100px;}
+  .hero .eyebrow{font-size:1.05rem;color:var(--gold);margin-bottom:14px;font-weight:700;}
+  .hero h1{font-size:clamp(2.1rem,5.2vw,3.2rem);max-width:16ch;color:#F5FCFA;}
+  .hero p{max-width:50ch;font-size:1.15rem;color:#D6ECE7;margin-top:14px;}
+  .hero-emoji-row{font-size:1.9rem;margin-top:28px;letter-spacing:8px;}
+  .wave{display:block;width:100%;height:56px;margin-bottom:-6px;}
+
+  .band{padding:62px 0;}
+  .band-cream{background:var(--bg-cream);}
+  .band-white{background:var(--bg-white);}
+  .band-gold{background:#FBF0D5;}
+  .band-coral{background:#FCE3DA;}
+  .band-dark{background:linear-gradient(135deg, var(--teal-dark) 0%, var(--coral-dark) 130%);color:#EAF7F4;}
+
+  h2.section-title{font-size:clamp(1.5rem,3.4vw,2.05rem);margin-bottom:20px;}
+  .section-kicker{display:inline-block;font-size:0.95rem;font-weight:700;color:var(--coral-dark);background:#FFFFFF;padding:4px 14px;border-radius:100px;margin-bottom:14px;border:1px solid var(--line);}
+
+  .formula-box{background:var(--teal);color:#EAF7F4;border-radius:18px;padding:24px 26px;margin:24px 0;font-size:1.08rem;}
+  .formula-box strong{color:var(--gold);}
+
+  .steps{counter-reset:step;margin:26px 0;}
+  .step{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);}
+  .step:last-child{border-bottom:none;}
+  .step-num{counter-increment:step;flex:0 0 auto;width:36px;height:36px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque';font-weight:700;}
+  .step-num::before{content:counter(step);}
+  .step-body h3{margin:0 0 4px;font-size:1.02rem;}
+  .step-body p{margin:0;color:var(--ink-soft);font-size:0.95rem;}
+
+  .table-wrap{overflow-x:auto;margin-top:24px;border-radius:14px;border:1px solid var(--line);}
+  table{border-collapse:collapse;width:100%;background:#FFFFFF;min-width:460px;}
+  th,td{text-align:left;padding:13px 16px;font-size:0.98rem;}
+  thead th{background:var(--gold);color:#3A2A00;font-family:'Bricolage Grotesque';font-weight:700;}
+  tbody tr:nth-child(odd){background:#F7FAF9;}
+  tbody tr:not(:last-child) td{border-bottom:1px solid var(--line);}
+
+  .recipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:26px;}
+  .recipe-grid .card{background:var(--cream-card);border-radius:16px;padding:18px 20px;border:1px solid var(--line);border-top:4px solid var(--coral);}
+  .recipe-grid .card h3{font-size:1rem;color:var(--coral-dark);margin-bottom:6px;}
+  .recipe-grid .card p{margin:0;font-size:0.92rem;color:var(--ink-soft);}
+
+  .cta-box{text-align:center;padding:48px 30px;border-radius:22px;}
+  .cta-box h2{color:#F5FCFA;font-size:clamp(1.5rem,3.5vw,2.1rem);}
+  .cta-box p{color:#D6ECE7;max-width:52ch;margin:14px auto 26px;}
+  .btn{display:inline-block;background:var(--gold);color:#3A2A00;font-weight:700;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:1.05rem;}
+  .btn:hover{background:#FFCD5C;}
+
+  details{background:var(--cream-card);border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
+  summary{font-family:'Bricolage Grotesque';font-weight:700;cursor:pointer;font-size:1.02rem;}
+  details p{margin:10px 0 2px;color:var(--ink-soft);}
+
+  footer{text-align:center;padding:40px 24px 60px;color:var(--ink-soft);font-size:0.92rem;}
+  @media (max-width:560px){.band{padding:46px 0;}.hero{padding:58px 20px 84px;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">🥡 Sunday Prep Ritual</div>
+    <h1>Meal prep Sunday: prep once, eat well all week</h1>
+    <p>One focused hour on Sunday buys you five easy weeknight dinners — here's exactly how to spend it.</p>
+    <div class="hero-emoji-row">🥗 📦 🍗 🍚</div>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 56" preserveAspectRatio="none"><path fill="#F1F7F6" d="M0,28 C240,56 480,0 720,18 C960,36 1200,56 1440,20 L1440,56 L0,56 Z"/></svg>
+
+<main>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Why one hour changes everything</span>
+      <h2 class="section-title">📦 Meal prep isn't about cooking 5 separate dinners</h2>
+      <p>The version of meal prep that burns people out is trying to cook five entirely different, fully-finished meals in one afternoon. The version that actually works is simpler: prep a handful of flexible <em>components</em> — a protein, a grain, a couple of vegetables, one sauce — and reassemble them differently each night. Less like batch-cooking a restaurant menu, more like stocking a salad bar in your own fridge. 🥗</p>
+    </div>
+  </section>
+
+  <section class="band band-gold">
+    <div class="container">
+      <span class="section-kicker">The formula</span>
+      <h2 class="section-title">🎯 The "components, not meals" method</h2>
+      <div class="formula-box">📦 <strong>The formula:</strong> 1 protein + 1 grain + 2 vegetables + 1 sauce, prepped separately, reassembled into a different combo each night.</div>
+      <p>This single shift is why meal prep sticks for some people and fails for others — components stay flexible and don't get boring by Wednesday the way five identical containers do.</p>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container">
+      <span class="section-kicker">The actual hour</span>
+      <h2 class="section-title">⏱️ Your 60-minute Sunday prep, step by step</h2>
+      <div class="steps">
+        <div class="step"><div class="step-num"></div><div class="step-body"><h3>Roast a big protein (20 min)</h3><p>Chicken thighs, tofu, or a batch of ground meat — season simply so it works across multiple flavor directions.</p></div></div>
+        <div class="step"><div class="step-num"></div><div class="step-body"><h3>Cook one big batch of grain (20 min, mostly hands-off)</h3><p>Rice, quinoa, or pasta — cook while the protein roasts, no extra active time needed.</p></div></div>
+        <div class="step"><div class="step-num"></div><div class="step-body"><h3>Roast or chop two vegetables (15 min)</h3><p>One roasted (broccoli, sweet potato) and one raw and crunchy (cucumber, cabbage) for texture variety through the week.</p></div></div>
+        <div class="step"><div class="step-num"></div><div class="step-body"><h3>Make one all-purpose sauce (5 min)</h3><p>A vinaigrette, a yogurt sauce, or a soy-based dressing — this is what keeps the same components from tasting repetitive.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-coral">
+    <div class="container">
+      <span class="section-kicker">Reassemble it</span>
+      <h2 class="section-title">🍽️ 5 completely different dinners from the same prep</h2>
+      <div class="recipe-grid">
+        <div class="card"><h3>Monday: Grain Bowl 🥗</h3><p>Grain + protein + veg + sauce, straight up</p></div>
+        <div class="card"><h3>Tuesday: Wrap 🌯</h3><p>Same components rolled in a tortilla with a little cheese</p></div>
+        <div class="card"><h3>Wednesday: Stir-Fry 🍳</h3><p>Reheat protein and veg together in a hot pan with soy sauce</p></div>
+        <div class="card"><h3>Thursday: Soup 🍲</h3><p>Add broth to the grain, protein, and veg for an instant soup</p></div>
+        <div class="card"><h3>Friday: Loaded Salad 🥬</h3><p>Fresh greens + all the prepped components + sauce</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Storage matters</span>
+      <h2 class="section-title">🧊 How long each component actually keeps</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Component</th><th>Fridge life</th><th>Freezer option</th></tr></thead>
+          <tbody>
+            <tr><td>Cooked protein</td><td>3–4 days</td><td>Up to 3 months</td></tr>
+            <tr><td>Cooked grain</td><td>4–5 days</td><td>Up to 2 months</td></tr>
+            <tr><td>Roasted vegetables</td><td>3–4 days</td><td>Up to 2 months</td></tr>
+            <tr><td>Raw chopped vegetables</td><td>2–3 days</td><td>Not recommended</td></tr>
+            <tr><td>Sauces & dressings</td><td>5–7 days</td><td>Most freeze well</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="container cta-box">
+      <h2>🤖 Prepped components, no idea how to combine them tonight?</h2>
+      <p>Tell Fridge Chef what you've got prepped and it'll suggest tonight's combo — so meal prep never turns into "eating the same bowl five days straight."</p>
+      <a class="btn" href="https://questmart.online/fridge-chef/">Try Fridge Chef free →</a>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Quick answers</span>
+      <h2 class="section-title">❓ Frequently asked questions</h2>
+      <details><summary>Is component-based meal prep really faster than making full meals?</summary><p>Yes — cooking a big batch of one protein, one grain, and two vegetables takes less active time than cooking five separate, fully-finished dishes, and gives you far more variety.</p></details>
+      <details><summary>How do I keep prepped meals from tasting repetitive by Thursday?</summary><p>Change the sauce or format (bowl, wrap, stir-fry, soup) rather than the ingredients themselves — that's usually enough to make it feel like a different meal.</p></details>
+      <details><summary>Can I meal prep if I only have an hour a week?</summary><p>Yes — that's exactly the timeframe this method is built around. Roasting protein and vegetables together and cooking grain alongside keeps everything mostly hands-off.</p></details>
+      <details><summary>Should I portion meals into containers or keep components separate?</summary><p>Keeping components separate until you're ready to eat gives more flexibility and prevents things like crunchy vegetables from going soggy sitting in a sauce for days.</p></details>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container wrap-narrow">
+      <h2 class="section-title">🎉 Final thoughts</h2>
+      <p>You don't need seven identical containers lined up in your fridge to call it meal prep. One protein, one grain, two vegetables, and one sauce — reassembled differently each night — is enough to make weeknights genuinely easy. 📦🍽️</p>
+      <p>And when you can't decide how to combine what's prepped? <a href="https://questmart.online/fridge-chef/">Fridge Chef</a> will decide for you. 🙌</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fridge Chef · Turn what's in your fridge into what's for dinner 🧊🍽️</footer>
+
+</body>
+</html>
