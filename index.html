@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QuestMart | Digital Products Marketplace</title>
-<meta name="description" content="QuestMart — offline invoicing software, freelance projects marketplace, and digital tools for freelancers, with instant delivery and no subscriptions.">
+<meta name="description" content="QuestMart — offline invoicing software, an AI fridge-to-recipe tool, plant care diagnosis, and a freelance projects marketplace, with instant delivery and no subscriptions.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="QuestMart | Digital Products Marketplace">
-<meta property="og:description" content="Offline invoicing software, a freelance projects marketplace, and digital tools for freelancers. No subscriptions.">
+<meta property="og:description" content="Offline invoicing software, an AI fridge-to-recipe tool, plant care diagnosis, a freelance projects marketplace, and digital tools for freelancers. No subscriptions.">
 <meta property="og:locale" content="en_US">
 <link rel="canonical" href="https://questmart.online/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,10 +16,27 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "OnlineStore",
-  "name": "QuestMart",
-  "url": "https://questmart.online/",
-  "description": "A marketplace for digital tools for freelancers"
+  "@graph": [
+    {
+      "@type": "OnlineStore",
+      "name": "QuestMart",
+      "url": "https://questmart.online/",
+      "description": "A marketplace for digital tools for freelancers"
+    },
+    {
+      "@type": "ItemList",
+      "name": "QuestMart products",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "url": "https://questmart.online/products/invoice-studio-pro.html", "name": "Invoice Studio Pro" },
+        { "@type": "ListItem", "position": 2, "url": "https://questmart.online/products/contract-proposal-generator-pro.html", "name": "Contract & Proposal Generator Pro" },
+        { "@type": "ListItem", "position": 3, "url": "https://questmart.online/products/creator-command-center.html", "name": "Creator Command Center" },
+        { "@type": "ListItem", "position": 4, "url": "https://questmart.online/products/meme-fantasy-face-accessories-en.html", "name": "Meme Studio" },
+        { "@type": "ListItem", "position": 5, "url": "https://questmart.online/products/certify-studio.html", "name": "Certify Studio" },
+        { "@type": "ListItem", "position": 6, "url": "https://questmart.online/plant-doctor/", "name": "Plant Doctor Pro" },
+        { "@type": "ListItem", "position": 7, "url": "https://questmart.online/fridge-chef/", "name": "Fridge Chef" }
+      ]
+    }
+  ]
 }
 </script>
 <style>
@@ -116,6 +133,7 @@
   .prod-thumb{height:140px;background:linear-gradient(135deg, var(--brand) 0%, var(--accent) 130%);display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;}
   .prod-thumb.fun{background:linear-gradient(135deg, #2b44ff 0%, #ff4d8d 130%);}
   .prod-thumb.plant{background:linear-gradient(135deg, #1e4d2b 0%, #4f9a63 130%);}
+  .prod-thumb.fridge{background:linear-gradient(135deg, #0E5A57 0%, #F5D547 160%);}
   .prod-body{padding:16px 18px 20px;}
   .prod-body .cat{font-size:0.75rem;color:var(--accent);margin-bottom:6px;display:block;}
   .prod-body h3{font-size:1.05rem;margin:0 0 8px;font-weight:700;}
@@ -339,6 +357,63 @@
   .pd-s3{top:6%;left:0%;transform:rotate(5deg);}
   @media (max-width:900px){ .pd-visual{height:230px;margin-top:8px;} .pd-pot{width:96px;height:70px;} .pd-scan{width:130px;padding:10px 12px;} }
   @media (max-width:520px){ .pd-s3{display:none;} }
+
+  /* ====== FRIDGE CHEF SHOWCASE — teal/lemon gradient family (matches the Fridge Chef app itself), same shape language as the site ====== */
+  .fc-showcase{padding:0 0 64px;}
+  .fc-card{
+    position:relative;overflow:hidden;border-radius:28px;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(245,213,71,0.28), transparent 42%),
+      radial-gradient(circle at 90% 82%, rgba(14,90,87,0.55), transparent 48%),
+      linear-gradient(135deg, #0E5A57 0%, #0a3634 100%);
+    box-shadow: var(--shadow);
+    padding:56px 48px;
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:40px;align-items:center;
+  }
+  @media (max-width:900px){ .fc-card{grid-template-columns:1fr;padding:40px 26px;} }
+  .fc-eyebrow{
+    display:inline-flex;align-items:center;gap:7px;font-size:0.8rem;font-weight:800;
+    color:#2b2405;background:#F5D547;padding:6px 14px;border-radius:999px;margin-bottom:20px;letter-spacing:0.02em;
+  }
+  .fc-copy h2{
+    color:#fff;font-size:clamp(1.6rem, 3vw, 2.35rem);line-height:1.2;margin:0 0 16px;font-weight:800;letter-spacing:-0.01em;
+  }
+  .fc-copy h2 em{font-style:normal;color:#F5D547;}
+  .fc-copy p{color:#CBE3E1;font-size:1rem;max-width:48ch;margin:0 0 28px;}
+  .fc-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+  .fc-tags span{
+    font-size:0.78rem;color:#E5F3F2;background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.14);padding:6px 12px;border-radius:999px;
+  }
+  .fc-cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .fc-btn{
+    background:#F5D547;color:#10282B;padding:14px 28px;font-size:0.98rem;font-weight:800;
+    border-radius:14px;box-shadow:0 14px 30px -14px rgba(245,213,71,0.55);
+  }
+  .fc-btn:hover{background:#E6C42F;}
+  .fc-note{color:#9FC4C0;font-size:0.85rem;}
+
+  .fc-visual{position:relative;height:300px;}
+  .fc-fridge{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:130px;height:180px;border-radius:18px;
+    background:linear-gradient(135deg, #fff 0%, #dfeaea 100%);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.55);
+    display:flex;align-items:center;justify-content:center;font-size:2.4rem;
+  }
+  .fc-card2{
+    position:absolute;background:var(--surface);border-radius:16px;
+    padding:12px 14px;box-shadow:0 16px 28px -12px rgba(0,0,0,0.5);
+    display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:700;color:var(--text);
+    width:160px;
+  }
+  .fc-card2 small{display:block;font-weight:500;color:var(--text-muted);font-size:0.72rem;}
+  .fc-c1{top:2%;left:0%;transform:rotate(-4deg);}
+  .fc-c2{top:14%;right:-2%;transform:rotate(6deg);}
+  .fc-c3{bottom:6%;left:-2%;transform:rotate(5deg);}
+  .fc-c4{bottom:0%;right:12%;transform:rotate(-5deg);}
+  @media (max-width:900px){ .fc-visual{height:230px;margin-top:8px;} .fc-fridge{width:100px;height:140px;font-size:1.9rem;} .fc-card2{width:140px;padding:10px 12px;} }
+  @media (max-width:520px){ .fc-c4{display:none;} }
 </style>
 </head>
 <body>
@@ -386,11 +461,40 @@
     </div>
   </section>
 
+  <section class="fc-showcase" aria-labelledby="fc-heading">
+    <div class="wrap">
+      <div class="fc-card">
+        <div class="fc-copy">
+          <span class="fc-eyebrow">🍳 NEW · Free to start</span>
+          <h2 id="fc-heading">Fridge Chef — turn your fridge into <em>tonight's dinner</em></h2>
+          <p>Snap a photo of your fridge (or just type what you have) and get 3 dinner ideas in seconds, each with an AI-generated picture of the finished dish. No account, photos are never stored.</p>
+          <div class="fc-tags">
+            <span>📸 Photo or type ingredients</span>
+            <span>🍽️ 3 recipes with AI dish photos</span>
+            <span>📤 Share-ready recipe cards</span>
+            <span>🔒 No account needed</span>
+          </div>
+          <div class="fc-cta">
+            <a href="/fridge-chef/" class="btn fc-btn">Try Fridge Chef →</a>
+            <span class="fc-note">Free to try · Pro from $5.99/mo</span>
+          </div>
+        </div>
+        <div class="fc-visual" aria-hidden="true">
+          <div class="fc-fridge">🧊</div>
+          <div class="fc-card2 fc-c1">📸 Scanning…<small>3 items found</small></div>
+          <div class="fc-card2 fc-c2">🍳 Recipe ready<small>Spinach frittata</small></div>
+          <div class="fc-card2 fc-c3">⏱️ 20 min<small>Uses 4 items</small></div>
+          <div class="fc-card2 fc-c4">📤 Shared<small>to Instagram</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="pd-showcase" aria-labelledby="pd-heading">
     <div class="wrap">
       <div class="pd-card">
         <div class="pd-copy">
-          <span class="pd-eyebrow">🌿 NEW · Designed & built in-house</span>
+          <span class="pd-eyebrow">🌿 Designed & built in-house</span>
           <h2 id="pd-heading">Plant Doctor — <em>instant AI diagnosis</em> for your plants</h2>
           <p>Snap a photo of a sick or struggling plant and get an instant diagnosis — pests, disease, watering, light or nutrient problems — plus clear next steps. Or just ask the plant doctor anything about houseplant and garden care. Designed, built and run end-to-end by our own team, powered by AI to give you a fast, reliable diagnosis.</p>
           <div class="pd-tags">
@@ -421,7 +525,7 @@
     <div class="wrap">
       <div class="fr-card">
         <div class="fr-copy">
-          <span class="fr-eyebrow">🚀 NEW · Freelance Hub</span>
+          <span class="fr-eyebrow">🚀 Freelance Hub</span>
           <h2 id="fr-heading">Find freelance projects, or find your next <em>freelancer</em></h2>
           <p>Browse open freelance projects across design, development, writing and more — or list your own project and get proposals fast. Built by QuestMart, for the same freelancers who use our tools every day.</p>
           <div class="fr-tags">
@@ -450,7 +554,7 @@
     <div class="wrap">
       <div class="ms-card">
         <div class="ms-copy">
-          <span class="ms-eyebrow">✨ NEW · Free to start</span>
+          <span class="ms-eyebrow">✨ Free to start</span>
           <h2 id="ms-heading">Meme Studio — turn any photo into <em>pure chaos</em></h2>
           <p>Drop in a photo and it finds every face automatically. Drag on hats, glasses, crowns and 60+ other props, warp faces, hide faces, or animate the whole thing into a GIF — right in your browser, nothing uploaded.</p>
           <div class="ms-tags">
@@ -488,6 +592,7 @@
         <div class="cat-card"><span class="icon">💼</span><b>Business tools</b><span>Invoicing, receipts, quotes</span></div>
         <div class="cat-card"><span class="icon">🤝</span><b>Freelance projects</b><span>Hire & get hired</span></div>
         <div class="cat-card"><span class="icon">🌿</span><b>AI plant care</b><span>Diagnosis & chat</span></div>
+        <div class="cat-card"><span class="icon">🍳</span><b>AI recipe ideas</b><span>Fridge photo to dinner</span></div>
         <div class="cat-card"><span class="icon">📚</span><b>Guides & resources</b><span>Coming soon</span></div>
       </div>
     </div>
@@ -530,7 +635,6 @@
           </div>
         </a>
         <a class="prod-card" href="/products/meme-fantasy-face-accessories-en.html">
-          <span class="badge-new">NEW</span>
           <div class="prod-thumb fun">🥸</div>
           <div class="prod-body">
             <span class="cat">Fun tool</span>
@@ -540,7 +644,6 @@
           </div>
         </a>
         <a class="prod-card" href="/products/certify-studio.html">
-          <span class="badge-new">NEW</span>
           <div class="prod-thumb">🔏</div>
           <div class="prod-body">
             <span class="cat">Business tool</span>
@@ -550,12 +653,21 @@
           </div>
         </a>
         <a class="prod-card" href="/plant-doctor/">
-          <span class="badge-new">NEW</span>
           <div class="prod-thumb plant">🌿</div>
           <div class="prod-body">
             <span class="cat">AI tool</span>
             <h3>Plant Doctor Pro</h3>
             <p>Upload a photo of a sick plant for an instant AI diagnosis, or ask the plant doctor anything about watering, light, pests and soil. Designed and built by our own team, powered by AI.</p>
+            <div class="prod-foot"><span class="price">Free <small>Pro from $5.99/mo</small></span></div>
+          </div>
+        </a>
+        <a class="prod-card" href="/fridge-chef/">
+          <span class="badge-new">NEW</span>
+          <div class="prod-thumb fridge">🍳</div>
+          <div class="prod-body">
+            <span class="cat">AI tool</span>
+            <h3>Fridge Chef</h3>
+            <p>Photo of your fridge (or just type what you have) → 3 dinner ideas with AI-generated dish photos, ready to share. No account needed.</p>
             <div class="prod-foot"><span class="price">Free <small>Pro from $5.99/mo</small></span></div>
           </div>
         </a>
@@ -613,7 +725,7 @@
       <div class="about-copy">
         <span class="eyebrow">Who's behind QuestMart</span>
         <h2>A small, real team — not a faceless marketplace</h2>
-        <p>QuestMart is built and run by a five-person team of developers, designers and writers. We build every product ourselves, we answer support emails ourselves, and we personally review every freelance project that gets posted. That includes Plant Doctor — designed, built and maintained in-house by our team, powered by AI technology to deliver fast, reliable plant diagnoses.</p>
+        <p>QuestMart is built and run by a five-person team of developers, designers and writers. We build every product ourselves, we answer support emails ourselves, and we personally review every freelance project that gets posted. That includes Plant Doctor and Fridge Chef — designed, built and maintained in-house by our team, powered by AI technology.</p>
         <p>QuestMart started from our own lead developer's 10+ years writing software and a genuine love for building useful tools — first for freelancers managing their own invoices, and now as a small marketplace for freelance work too. If something ever looks off or you just have a question, a real person on our team reads every message that comes in.</p>
         <a href="mailto:support@questmart.online" class="btn btn-primary">Email us — support@questmart.online</a>
       </div>
@@ -658,6 +770,7 @@
           <li><a href="/products/meme-fantasy-face-accessories-en.html">Meme Studio</a></li>
           <li><a href="/products/certify-studio.html">Certify Studio</a></li>
           <li><a href="/plant-doctor/">Plant Doctor Pro</a></li>
+          <li><a href="/fridge-chef/">Fridge Chef</a></li>
         </ul>
       </div>
       <div>
