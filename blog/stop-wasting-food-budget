@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stop Throwing Away Money: Zero-Waste Fridge Cooking Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#FFF6E9; --bg-white:#FFFFFF;
+    --ink:#2B2118; --ink-soft:#5A4E42;
+    --tomato:#E1503B; --tomato-dark:#B83A2A;
+    --avocado:#4F7A3E; --avocado-dark:#375B29;
+    --mustard:#F2A93C; --mustard-dark:#C9821F;
+    --teal:#2A6E6A; --teal-dark:#1D4E4B;
+    --eggplant:#4B2A46; --eggplant-light:#6E3B5C;
+    --cream-card:#FFFDF8; --line:rgba(43,33,24,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Public Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg-cream);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.1;margin:0 0 0.5em;font-weight:700;}
+  .container{max-width:760px;margin:0 auto;padding:0 24px;}
+  a{color:var(--tomato-dark);}
+  .wrap-narrow{max-width:680px;}
+
+  .hero{background:linear-gradient(160deg, var(--teal-dark) 0%, var(--teal) 55%, var(--mustard-dark) 130%);color:#FFF6E9;padding:76px 24px 96px;position:relative;overflow:hidden;}
+  .hero .eyebrow{font-size:1.05rem;color:#FFE2A8;margin-bottom:14px;}
+  .hero h1{font-size:clamp(2.1rem,5vw,3.2rem);max-width:15ch;color:#FFFDF8;}
+  .hero p{max-width:50ch;font-size:1.15rem;color:#E7F1E4;margin-top:14px;}
+  .hero-emoji-row{font-size:1.8rem;margin-top:28px;letter-spacing:6px;}
+  .wave{display:block;width:100%;height:60px;margin-bottom:-6px;}
+
+  .band{padding:64px 0;}
+  .band-cream{background:var(--bg-cream);}
+  .band-white{background:var(--bg-white);}
+  .band-yellow{background:#FCEBC9;}
+  .band-green{background:#E3EDD8;}
+  .band-teal{background:#DCEAE9;}
+  .band-dark{background:linear-gradient(135deg, var(--eggplant) 0%, var(--teal-dark) 130%);color:#FFF6E9;}
+
+  h2.section-title{font-size:clamp(1.5rem,3.4vw,2.05rem);margin-bottom:20px;}
+  .section-kicker{display:inline-block;font-size:0.95rem;font-weight:600;color:var(--teal-dark);background:#FFFFFF;padding:4px 14px;border-radius:100px;margin-bottom:14px;border:1px solid var(--line);}
+
+  .chip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:30px;}
+  .chip{background:var(--cream-card);border:1px solid var(--line);border-radius:16px;padding:18px;}
+  .chip .chip-emoji{font-size:1.6rem;display:block;margin-bottom:8px;}
+  .chip strong{display:block;margin-bottom:4px;font-size:1.02rem;}
+  .chip span.sub{color:var(--ink-soft);font-size:0.92rem;}
+
+  .tip-box{background:#FFFDF8;border:2px dashed var(--mustard-dark);border-radius:14px;padding:18px 22px;margin:28px 0;}
+  .tip-box .label{font-weight:700;color:var(--mustard-dark);}
+
+  ul.recipe-list{list-style:none;padding:0;margin:22px 0;}
+  ul.recipe-list li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid var(--line);}
+  ul.recipe-list li:last-child{border-bottom:none;}
+  ul.recipe-list li::before{content:"✅";position:absolute;left:0;top:11px;font-size:0.95rem;}
+  ul.recipe-list li strong{color:var(--teal-dark);}
+
+  .formula-box{background:var(--avocado);color:#F2F8EA;border-radius:18px;padding:24px 26px;margin:24px 0;font-size:1.08rem;}
+  .formula-box strong{color:#FFF3D0;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:24px;}
+  .stat-card{background:var(--cream-card);border:1px solid var(--line);border-radius:16px;padding:20px;text-align:center;}
+  .stat-card .num{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.7rem;color:var(--tomato-dark);display:block;}
+  .stat-card .lbl{color:var(--ink-soft);font-size:0.9rem;}
+
+  .table-wrap{overflow-x:auto;margin-top:24px;border-radius:14px;border:1px solid var(--line);}
+  table{border-collapse:collapse;width:100%;background:#FFFDF8;min-width:420px;}
+  th,td{text-align:left;padding:13px 16px;font-size:0.98rem;}
+  thead th{background:var(--mustard);color:#3A2508;font-family:'Bricolage Grotesque';font-weight:700;}
+  tbody tr:nth-child(odd){background:#FFF8EA;}
+  tbody tr:not(:last-child) td{border-bottom:1px solid var(--line);}
+
+  .recipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:28px;}
+  .recipe-grid .card{background:var(--cream-card);border-radius:18px;padding:22px;border:1px solid var(--line);box-shadow:0 2px 0 var(--line);}
+  .recipe-grid .card h3{font-size:1.05rem;color:var(--teal-dark);margin-bottom:8px;}
+  .recipe-grid .card p{margin:0;font-size:0.95rem;color:var(--ink-soft);}
+
+  .cta-box{text-align:center;padding:48px 30px;border-radius:22px;}
+  .cta-box h2{color:#FFFDF8;font-size:clamp(1.5rem,3.5vw,2.1rem);}
+  .cta-box p{color:#E7F1E4;max-width:52ch;margin:14px auto 26px;}
+  .btn{display:inline-block;background:var(--mustard);color:#3A2508;font-weight:700;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:1.05rem;}
+  .btn:hover{background:#FFC369;}
+
+  details{background:var(--cream-card);border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
+  summary{font-family:'Bricolage Grotesque';font-weight:700;cursor:pointer;font-size:1.02rem;}
+  details p{margin:10px 0 2px;color:var(--ink-soft);}
+
+  footer{text-align:center;padding:40px 24px 60px;color:var(--ink-soft);font-size:0.92rem;}
+  @media (max-width:560px){.band{padding:48px 0;}.hero{padding:56px 20px 80px;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">💸 Zero-Waste Kitchen Guide</div>
+    <h1>Stop throwing away money: the zero-waste fridge cooking guide</h1>
+    <p>The average family tosses out hundreds of dollars in food every year. Here's how to actually stop doing that.</p>
+    <div class="hero-emoji-row">🥦 🍅 🧊 💰</div>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none"><path fill="#FFF6E9" d="M0,32 C240,60 480,0 720,20 C960,40 1200,60 1440,24 L1440,60 L0,60 Z"/></svg>
+
+<main>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">The real cost</span>
+      <h2 class="section-title">😬 "I'll cook it later" is costing you more than you think</h2>
+      <p>How many times has a bag of spinach turned into a slimy green science experiment at the back of your fridge? It happens to everyone. But every time it does, you're not just wasting food — you're throwing money in the trash. 💵🗑️</p>
+      <p>The good news: almost all food waste is fixable with a <em>system</em>, not willpower. You don't need to become a meal-prep influencer — just a few repeatable habits.</p>
+    </div>
+  </section>
+
+  <section class="band band-teal">
+    <div class="container">
+      <span class="section-kicker">Understand it first</span>
+      <h2 class="section-title">🧠 The psychology of food waste (and how to outsmart it)</h2>
+      <p>Most food waste isn't about laziness — it's a few very human, very fixable habits:</p>
+      <div class="chip-grid">
+        <div class="chip"><span class="chip-emoji">👻</span><strong>Out of sight, out of mind</strong><span class="sub">Food gets pushed to the back and forgotten.</span></div>
+        <div class="chip"><span class="chip-emoji">😩</span><strong>Decision fatigue</strong><span class="sub">Cooking something new feels harder than ordering in.</span></div>
+        <div class="chip"><span class="chip-emoji">🛒</span><strong>Overbuying "just in case"</strong><span class="sub">Extra produce for recipes that never happen.</span></div>
+        <div class="chip"><span class="chip-emoji">📭</span><strong>No leftovers system</strong><span class="sub">Stored, but never actively planned into the week.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-yellow">
+    <div class="container">
+      <span class="section-kicker">Habit 01</span>
+      <h2 class="section-title">📋 The 2-minute fridge audit</h2>
+      <p>Before every grocery trip — and once or twice mid-week — open your fridge and scan fast. What's about to go bad? What's been in here longer than a week? What did you forget you had?</p>
+      <div class="tip-box"><span class="label">Pro tip 💡</span> — Stick a note on the fridge listing anything that needs to be used in the next 2 days. Low-tech, but visibility is 90% of the battle.</div>
+    </div>
+  </section>
+
+  <section class="band band-green">
+    <div class="container">
+      <span class="section-kicker">Habit 02</span>
+      <h2 class="section-title">🔄 "First in, first eaten"</h2>
+      <p>Just like grocery stores rotate stock, rotate your own fridge. When you unpack groceries, move older items to the front and new items to the back — one small habit, dramatically less stuff getting lost.</p>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Habit 03</span>
+      <h2 class="section-title">🍲 The "use-it-up" meal, once a week</h2>
+      <p>Pick one night a week as your official "clean out the fridge" night. The rule: <strong>no new ingredients allowed.</strong> This guarantees nothing sits more than 6–7 days without being reconsidered — and often produces the most creative meals of the week.</p>
+      <h3>🍽️ Use-it-up templates</h3>
+      <ul class="recipe-list">
+        <li><strong>Stir-fry</strong> — any protein + any vegetables + soy sauce + rice</li>
+        <li><strong>Soup</strong> — any vegetables + broth + any grain or bean</li>
+        <li><strong>Frittata</strong> — eggs + any vegetables + any cheese</li>
+        <li><strong>Grain bowl</strong> — cooked grain + roasted vegetable + protein + sauce</li>
+        <li><strong>Loaded quesadilla</strong> — tortilla + cheese + protein + vegetable</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-teal">
+    <div class="container">
+      <span class="section-kicker">Habit 04</span>
+      <h2 class="section-title">🛒 Shop with a plan (even a loose one)</h2>
+      <p>You don't need a rigid, color-coded meal plan. Even a loose plan dramatically cuts overbuying:</p>
+      <ul class="recipe-list">
+        <li>Glance at what you already have before shopping</li>
+        <li>Loosely plan 3–4 meals around what needs using up</li>
+        <li>Buy fresh produce in amounts you'll realistically use in 5–7 days</li>
+        <li>Buy flexible staples (frozen veg, canned beans, eggs, rice) that never go to waste</li>
+      </ul>
+      <div class="formula-box">🎯 <strong>Golden rule:</strong> if you're buying an ingredient for "just one recipe," ask what else it could go into. If the answer is nothing — skip it or buy less.</div>
+    </div>
+  </section>
+
+  <section class="band band-yellow">
+    <div class="container">
+      <span class="section-kicker">Habit 05</span>
+      <h2 class="section-title">❄️ Freeze before it's too late</h2>
+      <p>Your freezer is a waste-prevention tool most people underuse.</p>
+      <ul class="recipe-list">
+        <li><strong>Bread</strong> → slice and freeze; toast straight from frozen</li>
+        <li><strong>Overripe tomatoes</strong> → freeze whole, use later for sauces</li>
+        <li><strong>Overripe bananas</strong> → freeze for smoothies or banana bread</li>
+        <li><strong>Meat close to its date</strong> → freeze immediately, don't wait</li>
+        <li><strong>Leftover soup, sauce, grains</strong> → portion and freeze for instant future meals</li>
+        <li><strong>Fresh herbs</strong> → chop and freeze in olive oil in an ice cube tray</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container">
+      <span class="section-kicker">Habit 06</span>
+      <h2 class="section-title">🥫 Learn 5 "rescue recipes" by heart</h2>
+      <p>You don't need 200 recipes — you need 5 flexible ones you can make from memory with almost any ingredients:</p>
+      <div class="recipe-grid">
+        <div class="card"><h3>🍚 Fried Rice</h3><p>Rice + any veg + any protein + eggs</p></div>
+        <div class="card"><h3>🍲 One-Pot Soup</h3><p>Any veg + broth + beans or grains</p></div>
+        <div class="card"><h3>🥙 Wrap or Quesadilla</h3><p>Tortillas + any protein + veg + cheese</p></div>
+        <div class="card"><h3>🍝 Pantry Pasta</h3><p>Pasta + garlic + any veg + cheese</p></div>
+        <div class="card"><h3>🥗 Big Salad</h3><p>Greens + protein + leftover roasted veg</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-green">
+    <div class="container">
+      <span class="section-kicker">The math</span>
+      <h2 class="section-title">📊 What food waste is actually costing you</h2>
+      <p>If a household wastes even $25 of groceries a week — common, and often an underestimate — it adds up fast:</p>
+      <div class="stat-grid">
+        <div class="stat-card"><span class="num">~$25</span><span class="lbl">per week</span></div>
+        <div class="stat-card"><span class="num">~$100+</span><span class="lbl">per month</span></div>
+        <div class="stat-card"><span class="num">$1,300+</span><span class="lbl">per year</span></div>
+      </div>
+      <p style="margin-top:22px;">That's not a rounding error — that's a vacation, a new laptop, or a real dent in a savings goal. 💰✈️</p>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="container cta-box">
+      <h2>🤖 The fastest way to actually use what you have</h2>
+      <p>The biggest barrier to fridge cooking isn't motivation — it's not knowing what to make in the moment. Tell Fridge Chef what's in your fridge and get real meal ideas instantly, built around your exact ingredients.</p>
+      <a class="btn" href="https://questmart.online/fridge-chef/">Try Fridge Chef free →</a>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Quick answers</span>
+      <h2 class="section-title">❓ Frequently asked questions</h2>
+      <details><summary>What are the most commonly wasted foods?</summary><p>Fresh produce (especially leafy greens and berries), bread, dairy products, and leftovers are consistently the biggest culprits in most households.</p></details>
+      <details><summary>Is it safe to eat vegetables that are a little wilted?</summary><p>In almost all cases, yes. Wilted doesn't mean spoiled — cooking often restores flavor and texture better than eating it raw.</p></details>
+      <details><summary>How far ahead should I plan meals to reduce waste?</summary><p>A loose 3–4 day outlook works better for most people than a rigid full-week plan, leaving room to adjust based on what needs using up.</p></details>
+      <details><summary>What's the single best habit for reducing food waste?</summary><p>A weekly "use-it-up" meal night, where the only rule is cooking with what you already have before buying anything new.</p></details>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container wrap-narrow">
+      <h2 class="section-title">🎉 Final thoughts</h2>
+      <p>Reducing food waste isn't about being perfect — it's a few small habits that catch ingredients before they go bad, plus a fast way to figure out what to do with them. Start with one habit, stick with it two weeks, and watch what stops ending up in the trash. 💸🥦</p>
+      <p>And when you're staring into the fridge with no idea what to make? <a href="https://questmart.online/fridge-chef/">Fridge Chef</a> has your back. 🍽️</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fridge Chef · Turn what's in your fridge into what's for dinner 🧊🍽️</footer>
+
+</body>
+</html>
