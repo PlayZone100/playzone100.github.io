@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Admin — QuestMart Freelance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#141A2E; --navy-deep:#0D111F; --amber:#E3A23A; --sage:#7C9885;
+    --rust:#C0432E; --paper:#F4F1EA; --paper-dim:#E7E2D6; --ink:#1C2233;
+    --line:rgba(20,26,46,0.14); --white:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter', sans-serif; background:var(--paper); color:var(--ink);
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit;}
+
+  header.site{
+    position:sticky; top:0; z-index:60; background:rgba(244,241,234,0.94); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line); padding:14px 6vw; padding-top:calc(14px + env(safe-area-inset-top,0px));
+    display:flex; align-items:center; justify-content:space-between; gap:20px;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px; text-decoration:none;}
+  .brand .mark{width:28px; height:28px; border-radius:8px; background:var(--navy); position:relative; flex:none;}
+  .brand .mark::after{content:""; position:absolute; inset:8px; background:var(--amber); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);}
+  nav.main-nav{display:flex; align-items:center; gap:6px; flex:1;}
+  nav.main-nav a{ text-decoration:none; font-size:13.5px; font-weight:600; color:#565D73; padding:8px 14px; border-radius:8px; }
+  nav.main-nav a.active{color:var(--navy-deep); background:var(--paper-dim);}
+  .admin-tag{ background:var(--navy); color:var(--amber); font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; }
+  .btn-text{ background:none; border:none; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--navy); cursor:pointer; }
+
+  .page-head{max-width:1100px; margin:0 auto; padding:4vw 6vw 1vw;}
+  .page-head h1{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(24px,3vw,32px); color:var(--navy-deep);}
+
+  .tabs{max-width:1100px; margin:0 auto; padding:0 6vw; display:flex; gap:6px; border-bottom:1px solid var(--line); flex-wrap:wrap;}
+  .tab-btn{ background:none; border:none; font-family:inherit; font-size:13.5px; font-weight:700; color:#7A8096; padding:12px 16px; cursor:pointer; border-bottom:2px solid transparent; }
+  .tab-btn.active{color:var(--navy-deep); border-color:var(--amber);}
+  .tab-count{ background:var(--paper-dim); color:var(--navy-deep); font-size:10.5px; font-weight:800; border-radius:20px; padding:1px 7px; margin-left:6px; }
+
+  .content{max-width:1100px; margin:0 auto; padding:26px 6vw 8vw;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  .row-card{ background:var(--white); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-bottom:12px; }
+  .row-top{display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap;}
+  .row-title{font-size:15px; font-weight:700; color:var(--navy-deep);}
+  .row-sub{font-size:12.5px; color:#7A8096; margin-top:4px; line-height:1.6;}
+  .row-budget{font-family:'JetBrains Mono',monospace; font-size:16px; font-weight:600; color:var(--navy-deep); text-align:right; flex:none;}
+  .row-budget .sub{font-size:11px; color:#9AA0B2; font-weight:500; margin-top:2px;}
+  .row-detail{ margin-top:12px; padding-top:12px; border-top:1px solid var(--line); font-size:13px; color:#3B4258; line-height:1.75; }
+  .row-detail b{color:var(--navy-deep);}
+  .row-actions{display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;}
+  .btn-sm{ border:none; border-radius:8px; padding:9px 14px; font-family:inherit; font-size:12.5px; font-weight:700; cursor:pointer; }
+  .btn-sage{background:var(--sage); color:var(--white);}
+  .btn-rust{background:rgba(192,67,46,0.12); color:var(--rust);}
+  .btn-navy{background:var(--navy); color:var(--white);}
+  .btn-outline{background:none; border:1px solid var(--line); color:var(--navy-deep);}
+  .wallet-box{ background:var(--paper); border-radius:8px; padding:8px 12px; font-family:'JetBrains Mono',monospace; font-size:12px; margin-top:8px; word-break:break-all; }
+
+  .user-row{ display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--line); gap:12px; flex-wrap:wrap; }
+  .user-row:last-child{border-bottom:none;}
+  .user-info{font-size:13.5px;}
+  .user-info b{color:var(--navy-deep);}
+  .user-info span{color:#9AA0B2; font-size:12px; display:block; margin-top:2px;}
+  .verified-chip{font-size:11px; font-weight:700; color:#2C6FBF;}
+
+  .empty-state{ text-align:center; padding:50px 20px; color:#7A8096; font-size:14px; background:var(--white); border:1px dashed var(--line); border-radius:16px; }
+  .gate{ max-width:420px; margin:10vh auto; text-align:center; padding:40px; background:var(--white); border:1px solid var(--line); border-radius:18px; }
+  .gate h2{font-family:'Fraunces',serif; font-size:22px; color:var(--navy-deep); margin-bottom:8px;}
+  .gate p{font-size:13.5px; color:#7A8096; margin-bottom:20px;}
+  .field{margin-bottom:14px; text-align:left;}
+  .field label{display:block; font-size:12px; font-weight:700; color:var(--navy-deep); margin-bottom:5px;}
+  .field input{ width:100%; border:1px solid var(--line); border-radius:9px; padding:11px 13px; font-family:inherit; font-size:13.5px; }
+  .btn-primary{ width:100%; background:var(--amber); color:var(--navy-deep); border:none; border-radius:10px; padding:13px; font-family:inherit; font-size:14px; font-weight:700; cursor:pointer; }
+
+  .toast{ position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px); z-index:200; background:var(--navy-deep); color:var(--paper); padding:14px 22px; border-radius:12px; font-size:13.5px; font-weight:600; opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <a class="brand" href="index.html"><span class="mark"></span> QuestMart Freelance</a>
+  <nav class="main-nav">
+    <a href="projects.html">Browse Projects</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="messages.html">Messages</a>
+    <a href="admin.html" class="active">Admin</a>
+  </nav>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span class="admin-tag" id="adminTag" style="display:none;">ADMIN</span>
+    <button class="btn-text" id="logoutBtn" style="display:none;" onclick="logout()">Log out</button>
+  </div>
+</header>
+
+<div id="gateWrap"></div>
+
+<div id="adminApp" style="display:none;">
+  <div class="page-head"><h1>Admin</h1></div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="payouts" onclick="switchTab('payouts')">Payouts <span class="tab-count" id="countPayouts">0</span></button>
+    <button class="tab-btn" data-tab="disputes" onclick="switchTab('disputes')">Disputes <span class="tab-count" id="countDisputes">0</span></button>
+    <button class="tab-btn" data-tab="paid" onclick="switchTab('paid')">Recently Paid</button>
+    <button class="tab-btn" data-tab="users" onclick="switchTab('users')">Users</button>
+  </div>
+
+  <div class="content">
+    <div class="tab-panel active" id="panel-payouts"></div>
+    <div class="tab-panel" id="panel-disputes"></div>
+    <div class="tab-panel" id="panel-paid"></div>
+    <div class="tab-panel" id="panel-users"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const API_URL = "https://questmart-freelance-api.alice56885236.workers.dev";
+  let token = localStorage.getItem('qm_token');
+  let currentUser = null;
+  try { currentUser = JSON.parse(localStorage.getItem('qm_user') || 'null'); } catch(e){ currentUser = null; }
+  let overview = null;
+
+  function authHeaders(extra){
+    const h = Object.assign({}, extra || {});
+    if(token) h["Authorization"] = "Bearer " + token;
+    return h;
+  }
+  function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  let toastTimer;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>t.classList.remove('show'), 3000);
+  }
+  function logout(){
+    localStorage.removeItem('qm_token'); localStorage.removeItem('qm_user');
+    location.href = 'projects.html';
+  }
+
+  function renderGate(message){
+    document.getElementById('gateWrap').innerHTML = `
+      <div class="gate">
+        <h2>Admin sign-in</h2>
+        <p>${escapeHtml(message || 'Log in with an admin account to continue.')}</p>
+        <div class="field"><label>Email</label><input type="email" id="gEmail"></div>
+        <div class="field"><label>Password</label><input type="password" id="gPassword"></div>
+        <button class="btn-primary" id="gBtn" onclick="gateLogin()">Log in</button>
+      </div>
+    `;
+  }
+
+  async function gateLogin(){
+    const email = document.getElementById('gEmail').value.trim();
+    const password = document.getElementById('gPassword').value;
+    if(!email || !password){ alert("Enter email and password."); return; }
+    const btn = document.getElementById('gBtn');
+    btn.disabled = true; btn.textContent = "Logging in…";
+    try{
+      const res = await fetch(`${API_URL}/api/login`, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ email, password }) });
+      const result = await res.json();
+      if(result.error){ alert(result.error); btn.disabled=false; btn.textContent="Log in"; return; }
+      token = result.token; currentUser = result.user;
+      localStorage.setItem('qm_token', token);
+      localStorage.setItem('qm_user', JSON.stringify(currentUser));
+      init();
+    } catch(e){
+      alert("Something went wrong, try again.");
+      btn.disabled = false; btn.textContent = "Log in";
+    }
+  }
+
+  async function init(){
+    if(!token || !currentUser){ renderGate(); return; }
+    try{
+      const res = await fetch(`${API_URL}/api/admin/overview`, { headers: authHeaders() });
+      const data = await res.json();
+      if(data.error){
+        if(res.status === 403) renderGate("This account isn't an admin.");
+        else renderGate("Please log in again.");
+        return;
+      }
+      overview = data;
+      document.getElementById('gateWrap').innerHTML = '';
+      document.getElementById('adminApp').style.display = 'block';
+      document.getElementById('adminTag').style.display = 'inline-block';
+      document.getElementById('logoutBtn').style.display = 'inline-block';
+      renderAll();
+    } catch(e){
+      renderGate("Couldn't reach the server. Try again.");
+    }
+  }
+
+  function switchTab(name){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('panel-'+name).classList.add('active');
+  }
+
+  function renderAll(){
+    document.getElementById('countPayouts').textContent = overview.payouts.length;
+    document.getElementById('countDisputes').textContent = overview.disputes.length;
+    renderPayouts();
+    renderDisputes();
+    renderPaid();
+    renderUsers();
+  }
+
+  function renderPayouts(){
+    const el = document.getElementById('panel-payouts');
+    if(overview.payouts.length === 0){ el.innerHTML = `<div class="empty-state">No projects waiting on payout.</div>`; return; }
+    el.innerHTML = overview.payouts.map(p => `
+      <div class="row-card">
+        <div class="row-top">
+          <div>
+            <div class="row-title">${escapeHtml(p.title)}</div>
+            <div class="row-sub">Freelancer: <b>${escapeHtml(p.freelancer_name||'')}</b> (${escapeHtml(p.freelancer_email||'')}) · Client: ${escapeHtml(p.employer_name||'')}</div>
+          </div>
+          <div class="row-budget">$${p.budget_usd}<div class="sub">payout $${p.freelancer_payout}</div></div>
+        </div>
+        <div class="row-detail">
+          Approved at ${escapeHtml(p.approved_at||'')}${p.delivery_note ? `<br><b>Delivery note:</b> ${escapeHtml(p.delivery_note)}` : ''}${p.delivery_link ? `<br><b>Delivery link:</b> ${escapeHtml(p.delivery_link)}` : ''}
+          <div class="wallet-box">Payout wallet: ${escapeHtml(p.wallet_address || 'MISSING — contact freelancer')}</div>
+        </div>
+        <div class="row-actions">
+          <button class="btn-sm btn-sage" onclick="markPaid(${p.id})">Mark as paid</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderDisputes(){
+    const el = document.getElementById('panel-disputes');
+    if(overview.disputes.length === 0){ el.innerHTML = `<div class="empty-state">No open disputes.</div>`; return; }
+    el.innerHTML = overview.disputes.map(p => `
+      <div class="row-card">
+        <div class="row-top">
+          <div>
+            <div class="row-title">${escapeHtml(p.title)}</div>
+            <div class="row-sub">Freelancer: ${escapeHtml(p.freelancer_name||'')} · Client: ${escapeHtml(p.employer_name||'')} · Disputed by user #${p.disputed_by}</div>
+          </div>
+          <div class="row-budget">$${p.budget_usd}</div>
+        </div>
+        <div class="row-detail">
+          <b>Reason:</b> ${escapeHtml(p.dispute_reason||'')}
+          ${p.delivery_note ? `<br><b>Delivery note:</b> ${escapeHtml(p.delivery_note)}` : ''}
+          ${p.delivery_link ? `<br><b>Delivery link:</b> ${escapeHtml(p.delivery_link)}` : ''}
+        </div>
+        <div class="row-actions">
+          <button class="btn-sm btn-sage" onclick="resolveDispute(${p.id}, 'pay_freelancer')">Pay freelancer</button>
+          <button class="btn-sm btn-rust" onclick="resolveDispute(${p.id}, 'refund_employer')">Refund client</button>
+          <button class="btn-sm btn-outline" onclick="resolveDispute(${p.id}, 'back_to_work')">Send back to work</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderPaid(){
+    const el = document.getElementById('panel-paid');
+    if(overview.recent_paid.length === 0){ el.innerHTML = `<div class="empty-state">No paid projects yet.</div>`; return; }
+    el.innerHTML = overview.recent_paid.map(p => `
+      <div class="row-card">
+        <div class="row-top">
+          <div>
+            <div class="row-title">${escapeHtml(p.title)}</div>
+            <div class="row-sub">Freelancer: ${escapeHtml(p.freelancer_name||'')} · Paid at ${escapeHtml(p.paid_at||'')}</div>
+          </div>
+          <div class="row-budget">$${p.budget_usd}<div class="sub">paid $${p.freelancer_payout}</div></div>
+        </div>
+        <div class="row-detail"><b>Txn note:</b> ${escapeHtml(p.paid_txn_note||'')}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderUsers(){
+    const el = document.getElementById('panel-users');
+    if(overview.users.length === 0){ el.innerHTML = `<div class="empty-state">No users found.</div>`; return; }
+    el.innerHTML = `<div class="row-card">` + overview.users.map(u => `
+      <div class="user-row">
+        <div class="user-info">
+          <b>${escapeHtml(u.name)}</b> ${u.is_verified ? '<span class="verified-chip">✔ Verified</span>' : ''}
+          <span>${escapeHtml(u.email)} · ${escapeHtml(u.role)}</span>
+        </div>
+        <button class="btn-sm ${u.is_verified ? 'btn-outline' : 'btn-navy'}" onclick="toggleVerify(${u.id}, ${u.is_verified ? 0 : 1})">
+          ${u.is_verified ? 'Unverify' : 'Verify'}
+        </button>
+      </div>
+    `).join('') + `</div>`;
+  }
+
+  async function markPaid(projectId){
+    const note = prompt("Transaction hash or payout note:");
+    if(!note) return;
+    try{
+      const res = await fetch(`${API_URL}/api/admin/projects/${projectId}/mark-paid`, {
+        method:"POST", headers: authHeaders({"Content-Type":"application/json"}), body: JSON.stringify({ paid_txn_note: note })
+      });
+      const result = await res.json();
+      if(result.error){ alert(result.error); return; }
+      showToast("Marked as paid");
+      init();
+    } catch(e){ alert("Something went wrong, try again."); }
+  }
+
+  async function resolveDispute(projectId, resolution){
+    const labels = { pay_freelancer:"pay the freelancer", refund_employer:"refund the client", back_to_work:"send this back to work" };
+    const note = prompt(`Short note explaining the decision to ${labels[resolution]}:`);
+    if(!note) return;
+    try{
+      const res = await fetch(`${API_URL}/api/admin/projects/${projectId}/resolve`, {
+        method:"POST", headers: authHeaders({"Content-Type":"application/json"}), body: JSON.stringify({ resolution, note })
+      });
+      const result = await res.json();
+      if(result.error){ alert(result.error); return; }
+      showToast("Dispute resolved");
+      init();
+    } catch(e){ alert("Something went wrong, try again."); }
+  }
+
+  async function toggleVerify(userId, verified){
+    try{
+      const res = await fetch(`${API_URL}/api/admin/users/${userId}/verify`, {
+        method:"POST", headers: authHeaders({"Content-Type":"application/json"}), body: JSON.stringify({ verified })
+      });
+      const result = await res.json();
+      if(result.error){ alert(result.error); return; }
+      showToast(verified ? "User verified" : "Verification removed");
+      init();
+    } catch(e){ alert("Something went wrong, try again."); }
+  }
+
+  init();
+</script>
+
+</body>
+</html>
