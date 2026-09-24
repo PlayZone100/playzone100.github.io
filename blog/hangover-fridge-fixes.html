@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hangover Fridge Fixes: The Ultimate Guide to Feeling Human Again</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#F1F8F6; --bg-white:#FFFFFF;
+    --ink:#152522; --ink-soft:#43564F;
+    --mint:#1F6E5C; --mint-dark:#144F41;
+    --lemon:#FFD84D; --lemon-dark:#D6A800;
+    --coral:#FF7A5C; --coral-dark:#DD5636;
+    --cream-card:#FFFFFF; --line:rgba(21,37,34,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Public Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg-cream);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.08;margin:0 0 0.5em;font-weight:800;}
+  .container{max-width:760px;margin:0 auto;padding:0 24px;}
+  a{color:var(--coral-dark);}
+  .wrap-narrow{max-width:680px;}
+
+  .hero{background:linear-gradient(155deg, var(--mint-dark) 0%, var(--mint) 55%, var(--coral-dark) 135%);color:#EAF7F1;padding:78px 24px 100px;}
+  .hero .eyebrow{font-size:1.05rem;color:var(--lemon);margin-bottom:14px;font-weight:700;}
+  .hero h1{font-size:clamp(2.1rem,5.2vw,3.2rem);max-width:16ch;color:#F7FDFA;}
+  .hero p{max-width:50ch;font-size:1.15rem;color:#D6EDE3;margin-top:14px;}
+  .hero-emoji-row{font-size:1.9rem;margin-top:28px;letter-spacing:8px;}
+  .wave{display:block;width:100%;height:56px;margin-bottom:-6px;}
+
+  .band{padding:64px 0;}
+  .band-cream{background:var(--bg-cream);}
+  .band-white{background:var(--bg-white);}
+  .band-lemon{background:#FFF3CE;}
+  .band-coral{background:#FDE3DA;}
+  .band-dark{background:linear-gradient(135deg, var(--mint-dark) 0%, var(--coral-dark) 130%);color:#EAF7F1;}
+
+  h2.section-title{font-size:clamp(1.5rem,3.4vw,2.05rem);margin-bottom:20px;}
+  .section-kicker{display:inline-block;font-size:0.95rem;font-weight:700;color:var(--coral-dark);background:#FFFFFF;padding:4px 14px;border-radius:100px;margin-bottom:14px;border:1px solid var(--line);}
+
+  .formula-box{background:var(--mint);color:#EAF7F1;border-radius:18px;padding:24px 26px;margin:24px 0;font-size:1.08rem;}
+  .formula-box strong{color:var(--lemon);}
+
+  .chip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:26px;}
+  .chip{background:var(--cream-card);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;}
+  .chip .chip-emoji{font-size:1.7rem;display:block;margin-bottom:8px;}
+  .chip strong{font-size:0.98rem;}
+
+  .recipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:26px;}
+  .recipe-grid .card{background:var(--cream-card);border-radius:16px;padding:18px 20px;border:1px solid var(--line);border-top:4px solid var(--coral);}
+  .recipe-grid .card h3{font-size:1rem;color:var(--coral-dark);margin-bottom:6px;}
+  .recipe-grid .card p{margin:0;font-size:0.92rem;color:var(--ink-soft);}
+
+  ul.recipe-list{list-style:none;padding:0;margin:22px 0;}
+  ul.recipe-list li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid var(--line);}
+  ul.recipe-list li:last-child{border-bottom:none;}
+  ul.recipe-list li::before{content:"🍋";position:absolute;left:0;top:11px;font-size:0.9rem;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:24px;}
+  .stat-card{background:var(--cream-card);border:1px solid var(--line);border-radius:16px;padding:20px;text-align:center;}
+  .stat-card .num{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.5rem;color:var(--mint-dark);display:block;}
+  .stat-card .lbl{color:var(--ink-soft);font-size:0.85rem;}
+
+  .cta-box{text-align:center;padding:48px 30px;border-radius:22px;}
+  .cta-box h2{color:#F7FDFA;font-size:clamp(1.5rem,3.5vw,2.1rem);}
+  .cta-box p{color:#D6EDE3;max-width:52ch;margin:14px auto 26px;}
+  .btn{display:inline-block;background:var(--lemon);color:#3A2A00;font-weight:700;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:1.05rem;}
+  .btn:hover{background:#FFE685;}
+
+  details{background:var(--cream-card);border:1px solid var(--line);border-left:5px solid var(--mint);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
+  summary{font-family:'Bricolage Grotesque';font-weight:700;cursor:pointer;font-size:1.02rem;}
+  details p{margin:10px 0 2px;color:var(--ink-soft);}
+
+  footer{text-align:center;padding:40px 24px 60px;color:var(--ink-soft);font-size:0.92rem;}
+  @media (max-width:560px){.band{padding:48px 0;}.hero{padding:58px 20px 84px;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">🤕 Recovery Mode Activated</div>
+    <h1>Hangover fridge fixes: the guide to feeling human again</h1>
+    <p>No judgment, no lectures — just what to eat right now so today doesn't stay a total write-off.</p>
+    <div class="hero-emoji-row">🍋 🥑 🍳 🧊</div>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 56" preserveAspectRatio="none"><path fill="#F1F8F6" d="M0,28 C240,56 480,0 720,18 C960,36 1200,56 1440,20 L1440,56 L0,56 Z"/></svg>
+
+<main>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">First things first</span>
+      <h2 class="section-title">💧 Before food, there's water (and yes, this matters)</h2>
+      <p>Last night's choices happened, and now here you are, squinting at sunlight like it personally wronged you. 😵 Before you even think about food, get fluids in — water, an electrolyte drink, or coconut water if you have it. Alcohol is dehydrating, and a lot of "hangover fog" is at least partly your body asking for water it didn't get. Then, once you can stomach it, food actually does help.</p>
+      <div class="stat-grid">
+        <div class="stat-card"><span class="num">💧 First</span><span class="lbl">water or electrolytes</span></div>
+        <div class="stat-card"><span class="num">🍳 Second</span><span class="lbl">something gentle with protein</span></div>
+        <div class="stat-card"><span class="num">🛋️ Third</span><span class="lbl">rest — this part isn't optional</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-lemon">
+    <div class="container">
+      <span class="section-kicker">The formula</span>
+      <h2 class="section-title">🥑 What actually helps (and why)</h2>
+      <p>There's no magic cure, but some fridge staples genuinely help more than others — replacing electrolytes, settling your stomach, and giving your body easy fuel.</p>
+      <div class="formula-box">🎯 <strong>The formula:</strong> something salty (broth, crackers, eggs) + something with potassium (banana, avocado, coconut water) + carbs that are gentle on the stomach (toast, rice, plain crackers) = the closest thing to a real fix.</div>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container">
+      <span class="section-kicker">Gentle on the stomach</span>
+      <h2 class="section-title">🍳 10 fridge fixes that actually help</h2>
+      <div class="recipe-grid">
+        <div class="card"><h3>Scrambled Eggs on Toast 🍳</h3><p>Protein + gentle carbs, ready in 5 minutes, easy on a queasy stomach</p></div>
+        <div class="card"><h3>Avocado Toast 🥑</h3><p>Potassium and healthy fat, minimal chewing effort required</p></div>
+        <div class="card"><h3>Banana + Peanut Butter 🍌</h3><p>Potassium, quick energy, zero prep</p></div>
+        <div class="card"><h3>Chicken Broth or Soup 🍲</h3><p>Salt and fluids in one go — gentle and warm</p></div>
+        <div class="card"><h3>Greek Yogurt + Honey 🥣</h3><p>Protein and probiotics, cold and soothing</p></div>
+        <div class="card"><h3>Plain Crackers + Cheese 🧀</h3><p>Salt and carbs, easy on a sensitive stomach</p></div>
+        <div class="card"><h3>Electrolyte-Packed Smoothie 🍓</h3><p>Frozen fruit + yogurt + a splash of juice, blended</p></div>
+        <div class="card"><h3>Toast + Butter, Plain 🍞</h3><p>Sometimes the simplest thing is exactly what your stomach wants</p></div>
+        <div class="card"><h3>Cold Watermelon or Citrus 🍉</h3><p>Hydration and natural sugar in one bite</p></div>
+        <div class="card"><h3>Instant Miso Soup 🍜</h3><p>Salty, warm, and gentle if you have some in the pantry</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-coral">
+    <div class="container">
+      <span class="section-kicker">Skip these for now</span>
+      <h2 class="section-title">🚫 3 things to avoid until you feel better</h2>
+      <div class="chip-grid">
+        <div class="chip"><span class="chip-emoji">☕</span><strong>Too much caffeine</strong></div>
+        <div class="chip"><span class="chip-emoji">🌶️</span><strong>Very spicy or heavy food</strong></div>
+        <div class="chip"><span class="chip-emoji">🥤</span><strong>More alcohol ("hair of the dog")</strong></div>
+      </div>
+      <p style="margin-top:22px;">Caffeine can worsen dehydration, heavy or spicy food can irritate an already-unsettled stomach, and drinking more alcohol just delays how you'll feel — it doesn't actually fix anything.</p>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="container cta-box">
+      <h2>🤖 Too foggy to figure out what's edible right now?</h2>
+      <p>Tell Fridge Chef what's in your fridge and it'll suggest something easy and gentle to make — because thinking hard about food is the last thing you want to do right now. 🍋</p>
+      <a class="btn" href="https://questmart.online/fridge-chef/">Try Fridge Chef free →</a>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Quick answers</span>
+      <h2 class="section-title">❓ Frequently asked questions</h2>
+      <details><summary>Should I eat if I feel nauseous?</summary><p>Start small — plain crackers, toast, or a few sips of broth. Forcing a big meal on a nauseous stomach usually backfires; ease in gently instead.</p></details>
+      <details><summary>Is coffee a good idea for a hangover?</summary><p>A small amount is usually fine, but too much can worsen dehydration and jitteriness. Prioritize water first.</p></details>
+      <details><summary>What actually causes hangover symptoms?</summary><p>A combination of dehydration, low blood sugar, inflammation, and disrupted sleep — which is why fluids, gentle food, and rest all help, rather than any single "cure."</p></details>
+      <details><summary>When should I be concerned rather than just riding it out?</summary><p>If you're unable to keep any fluids down, feel severely dizzy or confused, or symptoms last more than 24 hours, it's worth checking in with a doctor rather than waiting it out.</p></details>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container wrap-narrow">
+      <h2 class="section-title">🎉 Final thoughts</h2>
+      <p>There's no miracle cure, but water first, gentle salty-and-potassium-rich food second, and genuine rest third will get you back to functional faster than powering through on willpower alone. 💧🥑</p>
+      <p>And if standing in front of the fridge feels like too much right now? <a href="https://questmart.online/fridge-chef/">Fridge Chef</a> will figure it out for you. 🙌</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fridge Chef · Turn what's in your fridge into what's for dinner 🧊🍽️</footer>
+
+</body>
+</html>
