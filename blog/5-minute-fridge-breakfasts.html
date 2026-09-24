@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5-Minute Fridge Breakfasts for People Who Are Always Running Late</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#FFF7ED; --bg-white:#FFFFFF;
+    --ink:#2B1E14; --ink-soft:#5C4A3A;
+    --sunrise1:#FF7E54; --sunrise1-dark:#D9573B;
+    --sunrise2:#FFB43C; --sunrise2-dark:#D6900F;
+    --sky:#4A7FB5; --sky-dark:#33587F;
+    --grape:#8C4A9E;
+    --cream-card:#FFFFFF; --line:rgba(43,30,20,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Public Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg-cream);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.08;margin:0 0 0.5em;font-weight:800;}
+  .container{max-width:760px;margin:0 auto;padding:0 24px;}
+  a{color:var(--sunrise1-dark);}
+  .wrap-narrow{max-width:680px;}
+
+  .hero{background:linear-gradient(155deg, var(--sky-dark) 0%, var(--grape) 45%, var(--sunrise1) 90%, var(--sunrise2) 130%);color:#FFF3E4;padding:78px 24px 100px;}
+  .hero .eyebrow{font-size:1.05rem;color:#FFE3B0;margin-bottom:14px;font-weight:700;}
+  .hero h1{font-size:clamp(2.1rem,5.2vw,3.2rem);max-width:16ch;color:#FFF8ED;}
+  .hero p{max-width:50ch;font-size:1.15rem;color:#FBE3CE;margin-top:14px;}
+  .hero-emoji-row{font-size:1.9rem;margin-top:28px;letter-spacing:8px;}
+  .wave{display:block;width:100%;height:56px;margin-bottom:-6px;}
+
+  .band{padding:62px 0;}
+  .band-cream{background:var(--bg-cream);}
+  .band-white{background:var(--bg-white);}
+  .band-peach{background:#FEE7D6;}
+  .band-sky{background:#DDEAF6;}
+  .band-dark{background:linear-gradient(135deg, var(--sky-dark) 0%, var(--sunrise1-dark) 130%);color:#FFF3E4;}
+
+  h2.section-title{font-size:clamp(1.5rem,3.4vw,2.05rem);margin-bottom:20px;}
+  .section-kicker{display:inline-block;font-size:0.95rem;font-weight:700;color:var(--sunrise1-dark);background:#FFFFFF;padding:4px 14px;border-radius:100px;margin-bottom:14px;border:1px solid var(--line);}
+
+  .formula-box{background:var(--sky);color:#F2F7FC;border-radius:18px;padding:24px 26px;margin:24px 0;font-size:1.08rem;}
+  .formula-box strong{color:#FFE3B0;}
+
+  .recipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:26px;}
+  .recipe-grid .card{background:var(--cream-card);border-radius:16px;padding:18px 20px;border:1px solid var(--line);border-top:4px solid var(--sunrise1);}
+  .recipe-grid .card h3{font-size:1rem;color:var(--sunrise1-dark);margin-bottom:6px;}
+  .recipe-grid .card .time{display:inline-block;font-size:0.78rem;font-weight:700;color:var(--sunrise2-dark);background:#FFF3D8;padding:2px 8px;border-radius:100px;margin-bottom:6px;}
+  .recipe-grid .card p{margin:0;font-size:0.92rem;color:var(--ink-soft);}
+
+  ul.recipe-list{list-style:none;padding:0;margin:22px 0;}
+  ul.recipe-list li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid var(--line);}
+  ul.recipe-list li:last-child{border-bottom:none;}
+  ul.recipe-list li::before{content:"⏰";position:absolute;left:0;top:11px;font-size:0.9rem;}
+
+  .cta-box{text-align:center;padding:48px 30px;border-radius:22px;}
+  .cta-box h2{color:#FFF8ED;font-size:clamp(1.5rem,3.5vw,2.1rem);}
+  .cta-box p{color:#FBE3CE;max-width:52ch;margin:14px auto 26px;}
+  .btn{display:inline-block;background:var(--sunrise2);color:#3A2508;font-weight:700;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:1.05rem;}
+  .btn:hover{background:#FFC369;}
+
+  details{background:var(--cream-card);border:1px solid var(--line);border-left:5px solid var(--sunrise1);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
+  summary{font-family:'Bricolage Grotesque';font-weight:700;cursor:pointer;font-size:1.02rem;}
+  details p{margin:10px 0 2px;color:var(--ink-soft);}
+
+  footer{text-align:center;padding:40px 24px 60px;color:var(--ink-soft);font-size:0.92rem;}
+  @media (max-width:560px){.band{padding:46px 0;}.hero{padding:58px 20px 84px;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">⏰ Running-Late Breakfast Club</div>
+    <h1>5-minute fridge breakfasts for people who are always running late</h1>
+    <p>Skipping breakfast isn't a personality trait — here's what to eat when you have exactly zero spare minutes.</p>
+    <div class="hero-emoji-row">🥐 🍳 🥤 ⏱️</div>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 56" preserveAspectRatio="none"><path fill="#FFF7ED" d="M0,28 C240,56 480,0 720,18 C960,36 1200,56 1440,20 L1440,56 L0,56 Z"/></svg>
+
+<main>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">The morning reality</span>
+      <h2 class="section-title">⏱️ You don't need a 20-minute recipe — you need a 90-second one</h2>
+      <p>Every "healthy breakfast" article assumes you have time to whisk a bowl of overnight oats the night before, or slow-cook something elaborate. Meanwhile you're brushing your teeth with one hand and looking for your keys with the other. This guide skips the fantasy and goes straight to what you can actually eat between waking up and walking out the door. ⏰</p>
+    </div>
+  </section>
+
+  <section class="band band-sky">
+    <div class="container">
+      <span class="section-kicker">The rule</span>
+      <h2 class="section-title">🎯 The "grab, don't cook" rule</h2>
+      <div class="formula-box">🥐 <strong>The rule:</strong> if it takes longer to make than it does to eat, it's not a running-late breakfast. Everything below is grab-and-go or ready in under 5 minutes flat.</div>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container">
+      <span class="section-kicker">Zero cooking</span>
+      <h2 class="section-title">🥣 8 grab-and-go breakfasts (0 minutes of cooking)</h2>
+      <div class="recipe-grid">
+        <div class="card"><span class="time">30 sec</span><h3>Greek Yogurt + Granola 🥣</h3><p>Grab, top, walk out the door eating it</p></div>
+        <div class="card"><span class="time">0 sec</span><h3>String Cheese + Fruit 🧀</h3><p>Two items, zero prep, actually filling</p></div>
+        <div class="card"><span class="time">1 min</span><h3>PB Banana Roll-Up 🍌</h3><p>Tortilla + peanut butter + banana, rolled and go</p></div>
+        <div class="card"><span class="time">0 sec</span><h3>Hard-Boiled Egg + Fruit 🥚</h3><p>Boil a batch on Sunday, grab one each morning</p></div>
+        <div class="card"><span class="time">1 min</span><h3>Cottage Cheese Cup 🧀</h3><p>Pre-portion into small containers ahead of time</p></div>
+        <div class="card"><span class="time">2 min</span><h3>Overnight Oats Jar 🥣</h3><p>Made the night before, just grab from the fridge</p></div>
+        <div class="card"><span class="time">1 min</span><h3>Trail Mix + Milk Box 🥤</h3><p>Nuts, dried fruit, and a portable drink</p></div>
+        <div class="card"><span class="time">30 sec</span><h3>Pre-Made Smoothie Cup 🍓</h3><p>Blend a batch Sunday night, grab and sip</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-peach">
+    <div class="container">
+      <span class="section-kicker">If you have 5 minutes</span>
+      <h2 class="section-title">🍳 5 breakfasts that need a little heat</h2>
+      <ul class="recipe-list">
+        <li><strong>Microwave scrambled eggs</strong> — whisk in a mug, microwave 90 seconds, eat on the go</li>
+        <li><strong>Toast + egg + cheese sandwich</strong> — fried egg, cheese, toast, wrapped in foil for the commute</li>
+        <li><strong>Reheated leftover rice + egg</strong> — microwave 60 seconds, stir in a fried or scrambled egg</li>
+        <li><strong>Instant oatmeal + peanut butter</strong> — microwave 90 seconds, stir in a spoonful of peanut butter</li>
+        <li><strong>Quesadilla, quick version</strong> — cheese folded in a tortilla, 60 seconds in the microwave or pan</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Do this Sunday</span>
+      <h2 class="section-title">📦 The 15-minute Sunday prep that fixes your whole week</h2>
+      <p>Almost every "0-minute" option above only works because of 15 minutes of prep once a week:</p>
+      <ul class="recipe-list">
+        <li>Boil a batch of 6–8 eggs</li>
+        <li>Portion yogurt or cottage cheese into small containers</li>
+        <li>Blend and freeze or refrigerate a few smoothie portions</li>
+        <li>Make 2–3 jars of overnight oats</li>
+      </ul>
+      <p>That's it — 15 minutes on a Sunday buys you five mornings of genuinely zero-effort breakfast.</p>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="container cta-box">
+      <h2>🤖 Nothing in the fridge feels breakfast-ready?</h2>
+      <p>Tell Fridge Chef what you've got and it'll instantly suggest something fast — so you're not standing there staring at the fridge while the clock runs out. ⏰</p>
+      <a class="btn" href="https://questmart.online/fridge-chef/">Try Fridge Chef free →</a>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Quick answers</span>
+      <h2 class="section-title">❓ Frequently asked questions</h2>
+      <details><summary>Is it actually bad to skip breakfast entirely?</summary><p>Effects vary a lot by person — some people do fine without it, while others notice better focus and energy when they eat something. If you consistently feel foggy or shaky by mid-morning, a quick grab-and-go option is worth building into your routine.</p></details>
+      <details><summary>What's the single best zero-prep breakfast item to always have stocked?</summary><p>Hard-boiled eggs — they keep about a week in the fridge, need zero morning effort, and provide real protein to start the day.</p></details>
+      <details><summary>How far ahead can I make overnight oats?</summary><p>Most overnight oats stay good for 3–4 days in the fridge, so a Sunday batch of a few jars comfortably covers most of the work week.</p></details>
+      <details><summary>What if I don't have time to eat at home at all?</summary><p>Lean fully into the grab-and-go list — string cheese, a banana, a pre-made wrap — items you can eat one-handed on the way out the door.</p></details>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container wrap-narrow">
+      <h2 class="section-title">🎉 Final thoughts</h2>
+      <p>You don't need a Pinterest-worthy breakfast spread — you need a fridge stocked with a few grab-and-go staples and 15 minutes of prep once a week. That's the entire system. ⏰🥐</p>
+      <p>And on the mornings even that feels like too much? <a href="https://questmart.online/fridge-chef/">Fridge Chef</a> will sort it out fast. 🙌</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fridge Chef · Turn what's in your fridge into what's for dinner 🧊🍽️</footer>
+
+</body>
+</html>
