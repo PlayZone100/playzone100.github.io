@@ -375,6 +375,16 @@
     return valid;
   }
 
+  // Turns any server error (including old Persian ones) into a clear English message.
+  function friendlyError(msg){
+    const m = String(msg || "");
+    if(/[\u0600-\u06FF]/.test(m)){
+      if(m.includes("ایمیل")) return "This email is already registered. Please log in instead.";
+      return "Something went wrong. Please try again.";
+    }
+    return m || "Something went wrong. Please try again.";
+  }
+
   async function handleSubmit(e, role){
     e.preventDefault();
     const form = e.target;
@@ -416,13 +426,13 @@
 
       form.style.display = 'none';
       successMsg.textContent = role === 'client'
-        ? "حساب کارفرمایی‌ات ساخته شد. حالا می‌تونی پروژه پست کنی."
-        : "حساب فریلنسری‌ات ساخته شد. حالا می‌تونی پروژه‌های باز رو ببینی و قبول کنی.";
+        ? "Your client account is ready. You can now post a project."
+        : "Your freelancer account is ready. You can now browse open projects and accept the ones you like.";
       successBox.classList.add('show');
     } catch(err){
       submitBtn.disabled = false;
       submitBtn.textContent = role === 'client' ? "Create client account" : "Create freelancer account";
-      alert("مشکلی پیش اومد: " + err.message);
+      alert("Something went wrong: " + friendlyError(err.message));
     }
   }
 
