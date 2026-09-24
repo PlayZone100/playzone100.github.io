@@ -187,7 +187,7 @@
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('postModal')">✕</button>
     <h2 style="font-family:'Fraunces',serif; font-size:22px; color:var(--navy-deep); margin-bottom:4px;">Post a project</h2>
-    <p style="font-size:13px; color:#7A8096; margin-bottom:22px;">Freelancers will see this as soon as you post it.</p>
+    <p style="font-size:13px; color:#7A8096; margin-bottom:22px;">Next you'll be taken to payment — your project goes live once it's funded.</p>
     <div class="field"><label>Project title</label><input type="text" id="pTitle" placeholder="e.g. Redesign our landing page"></div>
     <div class="field">
       <label>Category</label>
@@ -198,7 +198,7 @@
     </div>
     <div class="field"><label>Description</label><textarea id="pDesc" placeholder="What needs to get done? Be specific about scope and deliverables."></textarea></div>
     <div class="field"><label>Budget</label><div class="budget-wrap"><input type="number" id="pBudget" placeholder="300" min="1"><span class="cur">USDT</span></div></div>
-    <button class="btn-apply" id="postSubmitBtn" onclick="postNewProject()">Post project</button>
+    <button class="btn-apply" id="postSubmitBtn" onclick="postNewProject()">Continue to payment</button>
   </div>
 </div>
 
@@ -217,6 +217,10 @@
 
 <script>
   const API_URL = "https://questmart-freelance-api.alice56885236.workers.dev";
+
+  // ⚠️ Change this to the real filename of your project-funding checkout page.
+  const CHECKOUT_URL = "checkout-project.html";
+
   const categories = ["Web Development","Design","Writing & Translation","Video & Animation","Marketing","Other"];
 
   let projects = [];
@@ -384,7 +388,7 @@
     const budget = parseFloat(document.getElementById('pBudget').value);
     if(!title || !desc || !budget || budget<=0){ alert("Please fill in the title, description, and budget."); return; }
     const btn = document.getElementById('postSubmitBtn');
-    btn.disabled = true; btn.textContent = "Posting…";
+    btn.disabled = true; btn.textContent = "Creating project…";
     try{
       const res = await fetch(`${API_URL}/api/projects`, {
         method:"POST",
@@ -392,17 +396,28 @@
         body: JSON.stringify({ title, description: desc, budget_usd: budget, currency: "USDT", category })
       });
       const result = await res.json();
-      if(result.error){ alert(result.error); btn.disabled=false; btn.textContent="Post project"; return; }
+      if(result.error){ alert(result.error); btn.disabled=false; btn.textContent="Continue to payment"; return; }
+
+      // Grab the new project's id from the Worker response (tries common field names)
+      const projectId = result.id ?? result.project_id ?? result.projectId ?? (result.project && result.project.id);
+      if(!projectId){
+        alert("Project was created, but no project id came back from the server.");
+        btn.disabled=false; btn.textContent="Continue to payment";
+        return;
+      }
+
       document.getElementById('pTitle').value = "";
       document.getElementById('pDesc').value = "";
       document.getElementById('pBudget').value = "";
       closeModal('postModal');
-      showToast("Project posted — now visible to freelancers.");
-      loadProjects();
+
+      // Redirect to the crypto checkout page to fund the project
+      window.location.href = `${CHECKOUT_URL}?project=${encodeURIComponent(projectId)}&budget=${encodeURIComponent(budget)}`;
+      return;
     } catch(e){
       alert("Something went wrong, please try again.");
     }
-    btn.disabled = false; btn.textContent = "Post project";
+    btn.disabled = false; btn.textContent = "Continue to payment";
   }
 
   function openLogin(){ document.getElementById('loginModal').classList.add('show'); }
