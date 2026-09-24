@@ -48,6 +48,7 @@ img#pv{width:100%;max-height:260px;object-fit:cover;border-radius:14px;margin-bo
 <label class="drop" id="drop">Tap to take or upload a photo of your fridge<input id="file" type="file" accept="image/*" capture="environment" class="hide"></label>
 <div id="msg" class="msg hide" role="status"></div>
 <p class="q"><span id="quota">3 free scans a day.</span> <a href="#pricing">See Pro plans</a></p>
+<p class="q"><a href="#" id="skip">Or skip the photo — just type what you have →</a></p>
 <details class="key"><summary>Have a Pro key?</summary><div class="row"><input id="lic" placeholder="Paste your Pro key"><button class="btn alt" id="licb">Activate</button></div></details>
 
 <section id="s2" class="hide">
@@ -84,7 +85,7 @@ quota({saved:!!lic});$('#licb').onclick=()=>{lic=$('#lic').value.trim();try{loca
 const fail=e=>{say(ERR[e?.error]||("Something went wrong. "+(e?.detail||e?.message||"")));if(e?.error==='limit')$('#pricing').scrollIntoView({behavior:'smooth'})};
 function chips(){$('#chips').innerHTML='';items.forEach((n,i)=>{const b=document.createElement('button');b.className='chip';b.innerHTML='<span></span><b>×</b>';b.firstChild.textContent=n;b.setAttribute('aria-label','Remove '+n);b.onclick=()=>{items.splice(i,1);chips()};$('#chips').append(b)})}
 $('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;say('Looking at your fridge…');$('#out').innerHTML='';
- try{photo=await resize(f);$('#pv').src=photo;const d=await api('scan',{image:photo});items=d.ingredients;chips();quota(d);$('#s2').classList.remove('hide');
+ try{photo=await resize(f);$('#pv').style.display='';$('#pv').src=photo;const d=await api('scan',{image:photo});items=d.ingredients;chips();quota(d);$('#s2').classList.remove('hide');
   say(items.length?'':"I couldn't spot any food. Add ingredients by hand. "+(d.raw||''))}catch(x){fail(x)}};
 const add=()=>{const v=$('#add').value.trim().toLowerCase();if(v&&items.length<30){items.push(v);$('#add').value='';chips()}};
 $('#addb').onclick=add;$('#add').onkeydown=e=>{if(e.key==='Enter')add()};
@@ -109,5 +110,6 @@ async function share(r){await document.fonts.ready;const c=document.createElemen
  c.toBlob(async b=>{const f=new File([b],'fridge-chef.png',{type:'image/png'});
   if(navigator.canShare?.({files:[f]}))try{await navigator.share({files:[f],title:r.title});return}catch(e){}
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fridge-chef.png';a.click()})}
+$('#skip').onclick=e=>{e.preventDefault();items=[];chips();$('#pv').style.display='none';$('#s2').classList.remove('hide');$('#s2').scrollIntoView({behavior:'smooth'})};
 </script></body></html>
 
