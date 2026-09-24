@@ -37,13 +37,17 @@ input{flex:1;min-width:140px}
 img#pv{width:100%;max-height:260px;object-fit:cover;border-radius:14px;margin-bottom:16px}
 .key{margin-top:10px;color:var(--mut);font-size:.95rem}.key summary{cursor:pointer}
 .q{color:var(--mut);font-size:.95rem;margin:10px 0 0}.q a{color:var(--teal);font-weight:600}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:480px){.plans{grid-template-columns:1fr}}
+.plan{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}.plan.best{border:2px solid var(--teal)}
+.price{font-size:2rem;font-weight:800;line-height:1.1}.plan ul{padding-left:18px;color:var(--mut);font-size:.95rem;margin:10px 0}
+.plan a.btn{display:block;text-align:center;text-decoration:none}
 </style></head><body><main>
 <h1>What's in your fridge? Here's dinner.</h1>
 <p class="sub">Take a photo, fix the ingredient list, get 3 recipes. No account. Photos are never stored.</p>
 
 <label class="drop" id="drop">Tap to take or upload a photo of your fridge<input id="file" type="file" accept="image/*" capture="environment" class="hide"></label>
 <div id="msg" class="msg hide" role="status"></div>
-<p class="q"><span id="quota">3 free scans a day.</span> <a href="checkout.html?plan=monthly">Go Pro</a></p>
+<p class="q"><span id="quota">3 free scans a day.</span> <a href="#pricing">See Pro plans</a></p>
 <details class="key"><summary>Have a Pro key?</summary><div class="row"><input id="lic" placeholder="Paste your Pro key"><button class="btn alt" id="licb">Activate</button></div></details>
 
 <section id="s2" class="hide">
@@ -58,6 +62,12 @@ img#pv{width:100%;max-height:260px;object-fit:cover;border-radius:14px;margin-bo
   </div>
 </section>
 <section id="out"></section>
+<section id="pricing"><h2>Go Pro</h2>
+<div class="plans">
+<div class="plan"><div class="price">$5.99</div><div class="meta">30 days</div><ul><li>50 scans a day</li><li>100 dish pictures a day</li></ul><a class="btn" href="checkout.html?plan=monthly">Get 30 days</a></div>
+<div class="plan best"><div class="price">$49</div><div class="meta">1 year · save 32%</div><ul><li>50 scans a day</li><li>100 dish pictures a day</li></ul><a class="btn alt" href="checkout.html?plan=yearly">Get 1 year</a></div>
+</div>
+<p class="meta">Free plan: 3 scans a day. Pay with crypto (USDT, BTC and more). Prepaid, no auto-renewal.</p></section>
 <p class="note">Dish pictures are AI-generated and may differ from the real result. Estimates only. Check every ingredient for allergies and freshness yourself; Fridge Chef can't tell if food is safe to eat.</p>
 </main>
 <script>
@@ -71,7 +81,7 @@ async function api(p,b){const r=await fetch(API+p,{method:'POST',headers:{'conte
 const ERR={limit:"You've reached today's scan limit. Come back tomorrow or go Pro for more.",busy:"We're busy right now. Try again in a little while.",bad_image:"That image didn't work. Try another photo.",few:"Add at least 2 ingredients first."};
 function quota(d){$('#quota').textContent=d.saved?'Pro key saved. It is checked on your next scan.':d.pro?'Pro active · '+d.remaining+' scans left today.':lic?'Your Pro key is expired or invalid.':d.remaining+' free scans left today.'}
 quota({saved:!!lic});$('#licb').onclick=()=>{lic=$('#lic').value.trim();try{localStorage.setItem('fc_lic',lic)}catch(e){}quota({saved:1})};
-const fail=e=>say(ERR[e?.error]||("Something went wrong. "+(e?.detail||e?.message||"")));
+const fail=e=>{say(ERR[e?.error]||("Something went wrong. "+(e?.detail||e?.message||"")));if(e?.error==='limit')$('#pricing').scrollIntoView({behavior:'smooth'})};
 function chips(){$('#chips').innerHTML='';items.forEach((n,i)=>{const b=document.createElement('button');b.className='chip';b.innerHTML='<span></span><b>×</b>';b.firstChild.textContent=n;b.setAttribute('aria-label','Remove '+n);b.onclick=()=>{items.splice(i,1);chips()};$('#chips').append(b)})}
 $('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;say('Looking at your fridge…');$('#out').innerHTML='';
  try{photo=await resize(f);$('#pv').src=photo;const d=await api('scan',{image:photo});items=d.ingredients;chips();quota(d);$('#s2').classList.remove('hide');
@@ -100,3 +110,4 @@ async function share(r){await document.fonts.ready;const c=document.createElemen
   if(navigator.canShare?.({files:[f]}))try{await navigator.share({files:[f],title:r.title});return}catch(e){}
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fridge-chef.png';a.click()})}
 </script></body></html>
+
