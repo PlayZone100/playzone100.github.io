@@ -38,5 +38,13 @@
     "name": "Certify Studio — Pro",
     "priceUSD": 69,
     "file": "products/certify-studio-pro.zip"
+  },
+  "fridge-chef-monthly": {
+    "name": "Fridge Chef Pro (30 days)",
+    "priceUSD": 5.99
+  },
+  "fridge-chef-yearly": {
+    "name": "Fridge Chef Pro (1 year)",
+    "priceUSD": 49
   }
 }
