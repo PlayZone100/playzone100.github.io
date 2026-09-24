@@ -412,6 +412,11 @@
       const result = await res.json();
       if(result.error){ alert(result.error); btn.disabled=false; btn.textContent="Continue to payment"; return; }
 
+      // 2) send the employer to the dedicated checkout page to fund the project
+      window.location.href = `checkout-project.html?project=${result.project_id}&budget=${encodeURIComponent(budget)}`;
+      return;
+
+      // (old in-modal payment flow below is no longer reached — safe to delete later)
       // 2) request a real payment address for the full budget
       const orderRes = await fetch(`${CRYPTO_WORKER_URL}/project-order`, {
         method:"POST",
