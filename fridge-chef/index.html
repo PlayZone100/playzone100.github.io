@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -62,11 +63,11 @@ const say=t=>{const m=$('#msg');m.textContent=t;m.classList.toggle('hide',!t)};
 const resize=f=>new Promise(r=>{const i=new Image();i.onload=()=>{const k=Math.min(1,1024/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.8))};i.src=URL.createObjectURL(f)});
 async function api(p,b){const r=await fetch(API+p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)});const d=await r.json().catch(()=>({}));if(!r.ok)throw d;return d}
 const ERR={limit:"You've used today's 3 free scans. Come back tomorrow.",busy:"We're busy right now. Try again in a little while.",bad_image:"That image didn't work. Try another photo.",few:"Add at least 2 ingredients first."};
-const fail=e=>say(ERR[e?.error]||"Something went wrong. Please try again.");
+const fail=e=>say(ERR[e?.error]||("Something went wrong. "+(e?.detail||e?.message||"")));
 function chips(){$('#chips').innerHTML='';items.forEach((n,i)=>{const b=document.createElement('button');b.className='chip';b.innerHTML='<span></span><b>×</b>';b.firstChild.textContent=n;b.setAttribute('aria-label','Remove '+n);b.onclick=()=>{items.splice(i,1);chips()};$('#chips').append(b)})}
 $('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;say('Looking at your fridge…');$('#out').innerHTML='';
  try{photo=await resize(f);$('#pv').src=photo;const d=await api('scan',{image:photo});items=d.ingredients;chips();$('#s2').classList.remove('hide');
-  say(items.length?'':"I couldn't spot any food. Add ingredients by hand.")}catch(x){fail(x)}};
+  say(items.length?'':"I couldn't spot any food. Add ingredients by hand. "+(d.raw||''))}catch(x){fail(x)}};
 const add=()=>{const v=$('#add').value.trim().toLowerCase();if(v&&items.length<30){items.push(v);$('#add').value='';chips()}};
 $('#addb').onclick=add;$('#add').onkeydown=e=>{if(e.key==='Enter')add()};
 $('#go').onclick=async()=>{const b=$('#go');b.disabled=true;say('Cooking up ideas…');
