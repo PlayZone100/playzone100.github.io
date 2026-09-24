@@ -31,15 +31,20 @@ input{flex:1;min-width:140px}
 .recipe ol{padding-left:20px;margin:10px 0 14px}
 .miss{background:#fff8d6;border-radius:8px;padding:6px 10px;display:inline-block;font-size:.95rem}
 .msg{padding:12px 14px;border-radius:10px;background:#fff8d6;margin-top:16px}
+.dish{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;margin:10px 0;background:#dfeaea}
 .note{color:var(--mut);font-size:.85rem;margin-top:40px}
 .hide{display:none}
 img#pv{width:100%;max-height:260px;object-fit:cover;border-radius:14px;margin-bottom:16px}
+.key{margin-top:10px;color:var(--mut);font-size:.95rem}.key summary{cursor:pointer}
+.q{color:var(--mut);font-size:.95rem;margin:10px 0 0}.q a{color:var(--teal);font-weight:600}
 </style></head><body><main>
 <h1>What's in your fridge? Here's dinner.</h1>
 <p class="sub">Take a photo, fix the ingredient list, get 3 recipes. No account. Photos are never stored.</p>
 
 <label class="drop" id="drop">Tap to take or upload a photo of your fridge<input id="file" type="file" accept="image/*" capture="environment" class="hide"></label>
 <div id="msg" class="msg hide" role="status"></div>
+<p class="q"><span id="quota">3 free scans a day.</span> <a href="checkout.html?plan=monthly">Go Pro</a></p>
+<details class="key"><summary>Have a Pro key?</summary><div class="row"><input id="lic" placeholder="Paste your Pro key"><button class="btn alt" id="licb">Activate</button></div></details>
 
 <section id="s2" class="hide">
   <img id="pv" alt="Your fridge photo">
@@ -53,19 +58,23 @@ img#pv{width:100%;max-height:260px;object-fit:cover;border-radius:14px;margin-bo
   </div>
 </section>
 <section id="out"></section>
-<p class="note">Estimates only. Check every ingredient for allergies and freshness yourself; Fridge Chef can't tell if food is safe to eat.</p>
+<p class="note">Dish pictures are AI-generated and may differ from the real result. Estimates only. Check every ingredient for allergies and freshness yourself; Fridge Chef can't tell if food is safe to eat.</p>
 </main>
 <script>
-const $=s=>document.querySelector(s);let photo='',items=[];
+const $=s=>document.querySelector(s);let photo='',items=[],lic='';
+try{lic=localStorage.getItem('fc_lic')||''}catch(e){}
+{const m=location.hash.match(/key=([^&]+)/);if(m){lic=decodeURIComponent(m[1]);try{localStorage.setItem('fc_lic',lic)}catch(e){}history.replaceState(null,'',location.pathname)}}
 const API='https://fridge-chef.alice56885236.workers.dev/api/';
 const say=t=>{const m=$('#msg');m.textContent=t;m.classList.toggle('hide',!t)};
 const resize=f=>new Promise(r=>{const i=new Image();i.onload=()=>{const k=Math.min(1,1024/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.8))};i.src=URL.createObjectURL(f)});
-async function api(p,b){const r=await fetch(API+p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)});const d=await r.json().catch(()=>({}));if(!r.ok)throw d;return d}
-const ERR={limit:"You've used today's 3 free scans. Come back tomorrow.",busy:"We're busy right now. Try again in a little while.",bad_image:"That image didn't work. Try another photo.",few:"Add at least 2 ingredients first."};
+async function api(p,b){const r=await fetch(API+p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...b,license:lic})});const d=await r.json().catch(()=>({}));if(!r.ok)throw d;return d}
+const ERR={limit:"You've reached today's scan limit. Come back tomorrow or go Pro for more.",busy:"We're busy right now. Try again in a little while.",bad_image:"That image didn't work. Try another photo.",few:"Add at least 2 ingredients first."};
+function quota(d){$('#quota').textContent=d.saved?'Pro key saved. It is checked on your next scan.':d.pro?'Pro active · '+d.remaining+' scans left today.':lic?'Your Pro key is expired or invalid.':d.remaining+' free scans left today.'}
+quota({saved:!!lic});$('#licb').onclick=()=>{lic=$('#lic').value.trim();try{localStorage.setItem('fc_lic',lic)}catch(e){}quota({saved:1})};
 const fail=e=>say(ERR[e?.error]||("Something went wrong. "+(e?.detail||e?.message||"")));
 function chips(){$('#chips').innerHTML='';items.forEach((n,i)=>{const b=document.createElement('button');b.className='chip';b.innerHTML='<span></span><b>×</b>';b.firstChild.textContent=n;b.setAttribute('aria-label','Remove '+n);b.onclick=()=>{items.splice(i,1);chips()};$('#chips').append(b)})}
 $('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;say('Looking at your fridge…');$('#out').innerHTML='';
- try{photo=await resize(f);$('#pv').src=photo;const d=await api('scan',{image:photo});items=d.ingredients;chips();$('#s2').classList.remove('hide');
+ try{photo=await resize(f);$('#pv').src=photo;const d=await api('scan',{image:photo});items=d.ingredients;chips();quota(d);$('#s2').classList.remove('hide');
   say(items.length?'':"I couldn't spot any food. Add ingredients by hand. "+(d.raw||''))}catch(x){fail(x)}};
 const add=()=>{const v=$('#add').value.trim().toLowerCase();if(v&&items.length<30){items.push(v);$('#add').value='';chips()}};
 $('#addb').onclick=add;$('#add').onkeydown=e=>{if(e.key==='Enter')add()};
@@ -73,14 +82,16 @@ $('#go').onclick=async()=>{const b=$('#go');b.disabled=true;say('Cooking up idea
  try{const d=await api('recipes',{ingredients:items,diet:$('#diet').value,minutes:$('#mins').value});say('');show(d.recipes)}catch(x){fail(x)}b.disabled=false};
 function show(rs){const o=$('#out');o.innerHTML='';rs.forEach(r=>{const d=document.createElement('div');d.className='recipe';
  const T=(t,x)=>{const e=document.createElement(t);e.textContent=x;return e};
- d.append(T('h3',r.title),T('div',(r.time_minutes||'?')+' min · uses '+(r.uses||[]).join(', ')));d.lastChild.className='meta';
+ d.append(T('h3',r.title),T('div',(r.time_minutes||'?')+' min · uses '+(r.uses||[]).join(', ')));d.lastChild.className='meta';const im=document.createElement('img');im.className='dish';im.alt='AI-generated picture of '+r.title;d.append(im);api('image',{title:r.title,uses:r.uses||[]}).then(x=>{r.img='data:image/jpeg;base64,'+x.image;im.src=r.img}).catch(()=>im.remove());
  if(r.missing?.length){const m=T('div','You may need: '+r.missing.join(', '));m.className='miss';d.append(m)}
  const ol=document.createElement('ol');(r.steps||[]).forEach(s=>ol.append(T('li',s)));d.append(ol);
  const sb=T('button','Share this dish');sb.className='btn alt';sb.onclick=()=>share(r);d.append(sb);o.append(d)});o.scrollIntoView({behavior:'smooth'})}
 function wrap(x,t,X,Y,W,LH,max){const w=t.split(' ');let l='',n=0;for(const a of w){const tt=l?l+' '+a:a;if(x.measureText(tt).width>W&&l){x.fillText(l,X,Y+n*LH);l=a;if(++n>=max)return n}else l=tt}x.fillText(l,X,Y+n*LH);return n+1}
 async function share(r){await document.fonts.ready;const c=document.createElement('canvas');c.width=1080;c.height=1350;const x=c.getContext('2d');
  x.fillStyle='#0E5A57';x.fillRect(0,0,1080,1350);const i=new Image();i.src=photo;await i.decode();
- const h=720,s=Math.max(1080/i.width,h/i.height);x.save();x.beginPath();x.rect(0,0,1080,h);x.clip();x.drawImage(i,(1080-i.width*s)/2,(h-i.height*s)/2,i.width*s,i.height*s);x.restore();
+ const cover=(m,X,Y,W,H)=>{const k=Math.max(W/m.width,H/m.height);x.save();x.beginPath();x.rect(X,Y,W,H);x.clip();x.drawImage(m,X+(W-m.width*k)/2,Y+(H-m.height*k)/2,m.width*k,m.height*k);x.restore()};
+ const h=720;let dm=null;if(r.img){dm=new Image();dm.src=r.img;await dm.decode().catch(()=>{dm=null})}
+ if(dm){cover(dm,0,0,1080,h);x.fillStyle='#fff';x.fillRect(40,h-300,260,260);cover(i,50,h-290,240,240)}else cover(i,0,0,1080,h);
  const F='"Bricolage Grotesque",system-ui,sans-serif';x.fillStyle='#F5D547';x.font='600 38px '+F;x.fillText('My fridge became dinner',60,h+80);
  x.fillStyle='#fff';x.font='800 70px '+F;const n=wrap(x,r.title,60,h+170,960,80,2);
  x.font='400 42px '+F;x.fillText((r.time_minutes||'?')+' minutes',60,h+170+n*80+20);
