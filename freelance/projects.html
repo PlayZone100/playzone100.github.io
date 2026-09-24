@@ -32,8 +32,9 @@
   .brand .mark{width:28px; height:28px; border-radius:8px; background:var(--navy); position:relative; flex:none;}
   .brand .mark::after{content:""; position:absolute; inset:8px; background:var(--amber); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);}
   nav.main-nav{display:flex; align-items:center; gap:6px; flex:1;}
-  nav.main-nav a{ text-decoration:none; font-size:13.5px; font-weight:600; color:#565D73; padding:8px 14px; border-radius:8px; }
+  nav.main-nav a{ text-decoration:none; font-size:13.5px; font-weight:600; color:#565D73; padding:8px 14px; border-radius:8px; position:relative; }
   nav.main-nav a.active{color:var(--navy-deep); background:var(--paper-dim);}
+  .nav-badge{ position:absolute; top:2px; right:2px; background:var(--rust); color:#fff; font-size:9px; font-weight:800; min-width:15px; height:15px; border-radius:8px; display:flex; align-items:center; justify-content:center; padding:0 3px; }
   .head-actions{display:flex; align-items:center; gap:10px; flex:none;}
   .btn-text{ background:none; border:none; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--navy); cursor:pointer; padding:8px 6px; }
   .btn-primary{
@@ -42,6 +43,7 @@
     transition:transform .15s ease;
   }
   .btn-primary:hover{transform:translateY(-1px);}
+  .btn-secondary{ background:var(--paper-dim); color:var(--navy-deep); border:none; border-radius:9px; padding:13px 15px; font-family:inherit; font-size:13.5px; font-weight:700; cursor:pointer; }
   .user-name{font-size:13px; color:#565D73; font-weight:600;}
 
   .page-head{max-width:1280px; margin:0 auto; padding:4vw 6vw 1.5vw;}
@@ -80,6 +82,7 @@
   .proj-foot{display:flex; align-items:center; gap:18px; margin-top:16px; padding-top:14px; border-top:1px solid var(--line); flex-wrap:wrap;}
   .proj-meta-item{display:flex; align-items:center; gap:6px; font-size:12.5px; color:#7A8096;}
   .escrow-tag{ display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:700; color:#4C6553; background:rgba(124,152,133,0.16); padding:4px 10px; border-radius:20px; margin-left:auto; }
+  .verified-tag{ display:inline-flex; align-items:center; gap:3px; color:#2C6FBF; font-weight:700; }
 
   .empty-state{ text-align:center; padding:60px 20px; color:#7A8096; font-size:14px; background:var(--white); border:1px dashed var(--line); border-radius:16px; }
 
@@ -103,11 +106,18 @@
   .btn-apply{ width:100%; background:var(--amber); color:var(--navy-deep); border:none; border-radius:10px; padding:15px; font-family:inherit; font-size:15px; font-weight:700; cursor:pointer; }
   .btn-apply.applied{background:var(--sage); color:var(--white); cursor:default;}
   .btn-apply:disabled{opacity:.6; cursor:default;}
+  .btn-withdraw{ width:100%; background:none; border:1px solid var(--line); color:var(--rust); border-radius:10px; padding:12px; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer; margin-top:10px; }
+  .status-pill{ display:inline-block; font-size:12px; font-weight:700; padding:6px 14px; border-radius:20px; margin-bottom:14px; }
+  .status-pill.pending{background:rgba(227,162,58,0.18); color:#9A6B1E;}
+  .status-pill.hired{background:rgba(124,152,133,0.2); color:#3F5B47;}
+  .status-pill.declined{background:rgba(192,67,46,0.14); color:var(--rust);}
+  .status-pill.withdrawn{background:var(--paper-dim); color:#7A8096;}
 
   .field{margin-bottom:16px;}
   .field label{display:block; font-size:12.5px; font-weight:700; color:var(--navy-deep); margin-bottom:6px;}
   .field input, .field select, .field textarea{ width:100%; border:1px solid var(--line); border-radius:9px; padding:11px 13px; font-family:inherit; font-size:13.5px; background:var(--paper); }
   .field textarea{resize:vertical; min-height:90px;}
+  .field .hint{font-size:11.5px; color:#9AA0B2; margin-top:5px;}
   .field .budget-wrap{position:relative;}
   .field .budget-wrap input{padding-right:56px;}
   .field .budget-wrap .cur{position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:12px; color:#9AA0B2; font-weight:700;}
@@ -133,6 +143,8 @@
   <nav class="main-nav">
     <a href="projects.html" class="active">Browse Projects</a>
     <a href="#" id="navPost">Post a Project</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="messages.html">Messages<span class="nav-badge" id="navUnread" style="display:none;"></span></a>
     <a href="index.html#how">How it works</a>
   </nav>
   <div class="head-actions" id="headActions"></div>
@@ -140,7 +152,7 @@
 
 <div class="page-head">
   <h1>Find your next project</h1>
-  <p>Post a project, or browse open ones below. QuestMart charges a flat 20% platform fee on every project — shown upfront, before you ever accept one. Payment to the freelancer is released as soon as the client approves the delivered work.</p>
+  <p>Post a project, or browse open ones below and send a proposal. The full budget is locked in escrow the moment a project is funded. Once the client approves your delivered work, QuestMart releases your payout — 80% of the budget, after our flat 20% platform fee.</p>
 </div>
 
 <div class="search-bar">
@@ -154,8 +166,8 @@
 </div>
 
 <div class="trust-strip">
+  <div class="item"><span class="ic">🔒</span> Full budget held in escrow until the client approves delivery</div>
   <div class="item"><span class="ic">💯</span> Flat 20% platform fee — shown upfront on every project</div>
-  <div class="item"><span class="ic">🔒</span> Freelancers are paid as soon as the client approves delivered work</div>
   <div class="item"><span class="ic">📩</span> Questions? <a href="mailto:support@questmart.online" style="text-decoration:underline;">support@questmart.online</a></div>
 </div>
 
@@ -185,9 +197,9 @@
 
 <div class="modal-overlay" id="postModal">
   <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('postModal')">✕</button>
+    <button class="modal-close" onclick="closeModal('postModal'); resetPostModal();">✕</button>
     <h2 style="font-family:'Fraunces',serif; font-size:22px; color:var(--navy-deep); margin-bottom:4px;">Post a project</h2>
-    <p style="font-size:13px; color:#7A8096; margin-bottom:22px;">Next you'll be taken to payment — your project goes live once it's funded.</p>
+    <p style="font-size:13px; color:#7A8096; margin-bottom:22px;">Freelancers will see this and send proposals once it's funded.</p>
     <div class="field"><label>Project title</label><input type="text" id="pTitle" placeholder="e.g. Redesign our landing page"></div>
     <div class="field">
       <label>Category</label>
@@ -197,7 +209,24 @@
       </select>
     </div>
     <div class="field"><label>Description</label><textarea id="pDesc" placeholder="What needs to get done? Be specific about scope and deliverables."></textarea></div>
-    <div class="field"><label>Budget</label><div class="budget-wrap"><input type="number" id="pBudget" placeholder="300" min="1"><span class="cur">USDT</span></div></div>
+    <div class="field"><label>Budget (USD)</label><div class="budget-wrap"><input type="number" id="pBudget" placeholder="300" min="1"><span class="cur">USD</span></div></div>
+    <div class="field">
+      <label>Pay with</label>
+      <select id="pCurrency">
+        <option value="USDT_TRC20">USDT (TRC20 / Tron)</option>
+        <option value="USDT_ERC20">USDT (ERC20 / Ethereum)</option>
+        <option value="USDT_BEP20">USDT (BNB Chain)</option>
+        <option value="USDT_SOL">USDT (Solana)</option>
+        <option value="USDT_AVAX">USDT (Avalanche)</option>
+        <option value="BTC">Bitcoin (BTC)</option>
+        <option value="ETH">Ethereum (ETH)</option>
+        <option value="DOGE">Dogecoin (DOGE)</option>
+        <option value="LTC">Litecoin (LTC)</option>
+        <option value="XRP">Ripple (XRP)</option>
+        <option value="ADA">Cardano (ADA)</option>
+      </select>
+    </div>
+    <p style="font-size:12px; color:#7A8096; margin-bottom:14px;">Your project goes live for freelancers only after the full budget is received — this funds the escrow that's released when you approve the delivered work.</p>
     <button class="btn-apply" id="postSubmitBtn" onclick="postNewProject()">Continue to payment</button>
   </div>
 </div>
@@ -217,10 +246,6 @@
 
 <script>
   const API_URL = "https://questmart-freelance-api.alice56885236.workers.dev";
-
-  // ⚠️ Change this to the real filename of your project-funding checkout page.
-  const CHECKOUT_URL = "checkout-project.html";
-
   const categories = ["Web Development","Design","Writing & Translation","Video & Animation","Marketing","Other"];
 
   let projects = [];
@@ -264,6 +289,25 @@
     return new Date(iso).toLocaleDateString();
   }
 
+  function authHeaders(extra){
+    const h = Object.assign({}, extra || {});
+    if(token) h["Authorization"] = "Bearer " + token;
+    return h;
+  }
+
+  async function refreshUnread(){
+    if(!token) return;
+    try{
+      const res = await fetch(`${API_URL}/api/me`, { headers: authHeaders() });
+      const me = await res.json();
+      if(me.error) return;
+      const badge = document.getElementById('navUnread');
+      if(me.unread > 0){ badge.style.display = 'flex'; badge.textContent = me.unread > 9 ? '9+' : me.unread; }
+      else badge.style.display = 'none';
+      if(currentUser) currentUser.wallet_address = me.wallet_address;
+    } catch(e){}
+  }
+
   async function loadProjects(){
     document.getElementById('projGrid').innerHTML = `<div class="empty-state">Loading projects…</div>`;
     try{
@@ -271,8 +315,10 @@
       const data = await res.json();
       projects = (Array.isArray(data) ? data : []).map(p => ({
         id: p.id, title: p.title, category: p.category || "Other",
-        client: p.employer_name, budget: Number(p.budget_usd), currency: p.currency,
-        postedAgo: timeAgo(p.created_at), desc: p.description
+        client: p.employer_name, employerId: p.employer_id, employerVerified: !!p.employer_verified,
+        budget: Number(p.budget_usd), currency: p.currency,
+        postedAgo: timeAgo(p.created_at), desc: p.description,
+        proposalsCount: p.proposals_count || 0
       }));
     } catch(e){
       projects = [];
@@ -314,8 +360,9 @@
           </div>
         </div>
         <div class="proj-foot">
-          <span class="proj-meta-item">👤 ${escapeHtml(p.client || '')}</span>
+          <span class="proj-meta-item">👤 ${escapeHtml(p.client || '')}${p.employerVerified ? ' <span class="verified-tag">✔</span>' : ''}</span>
           <span class="proj-meta-item">🕒 ${p.postedAgo}</span>
+          <span class="proj-meta-item">📩 ${p.proposalsCount} proposal${p.proposalsCount===1?'':'s'}</span>
           <span class="escrow-tag">🔒 Open</span>
         </div>
       </div>
@@ -324,47 +371,142 @@
 
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
-  function openDetail(id){
-    const p = projects.find(x=>x.id===id);
+  // ---------- project detail + proposal flow ----------
+  async function openDetail(id){
+    const listItem = projects.find(x=>x.id===id) || {};
+    document.getElementById('detailContent').innerHTML = `<button class="modal-close" onclick="closeModal('detailModal')">✕</button><div class="empty-state" style="border:none;">Loading…</div>`;
+    document.getElementById('detailModal').classList.add('show');
+
+    let d;
+    try{
+      const res = await fetch(`${API_URL}/api/projects/${id}`, { headers: authHeaders() });
+      d = await res.json();
+    } catch(e){
+      document.getElementById('detailContent').innerHTML = `<button class="modal-close" onclick="closeModal('detailModal')">✕</button><div class="empty-state" style="border:none;">Couldn't load this project. Try again.</div>`;
+      return;
+    }
+    if(d.error){
+      document.getElementById('detailContent').innerHTML = `<button class="modal-close" onclick="closeModal('detailModal')">✕</button><div class="empty-state" style="border:none;">${escapeHtml(d.error)}</div>`;
+      return;
+    }
+    renderDetail(d, listItem);
+  }
+
+  function renderDetail(d, listItem){
+    const p = d.project;
+    const isOwnProject = currentUser && p.employer_id === currentUser.id;
+    const isLoggedIn = !!(currentUser && token);
+
+    let actionHtml;
+    if(!isLoggedIn){
+      actionHtml = `<button class="btn-apply" onclick="closeModal('detailModal'); openLogin();">Log in to send a proposal</button>`;
+    } else if(isOwnProject){
+      actionHtml = `<div class="status-pill pending">This is your project — proposals will appear on your dashboard.</div>`;
+    } else if(d.my_proposal){
+      const s = d.my_proposal.status;
+      const labels = { pending:"Proposal sent — waiting on the client", hired:"You're hired on this project 🎉", declined:"This proposal was declined", withdrawn:"You withdrew this proposal" };
+      actionHtml = `<div class="status-pill ${s}">${labels[s] || s}</div>`;
+      if(s === 'pending'){
+        actionHtml += `<button class="btn-withdraw" onclick="withdrawProposal(${d.my_proposal.id}, ${p.id})">Withdraw proposal</button>`;
+      }
+      if(s === 'hired'){
+        actionHtml += `<a href="messages.html" style="display:block;"><button class="btn-apply" style="margin-top:10px;">Open conversation</button></a>`;
+      }
+    } else {
+      actionHtml = `
+        <div class="field"><label>Cover letter — why are you a good fit?</label><textarea id="propCover" placeholder="At least a few sentences on your approach and relevant experience..."></textarea></div>
+        <div class="field"><label>Delivery time (days, optional)</label><input type="number" id="propDays" min="1" max="365" placeholder="e.g. 5"></div>
+        <div id="walletFieldWrap"></div>
+        <button class="btn-apply" id="sendProposalBtn" onclick="sendProposal(${p.id})">Send proposal</button>
+      `;
+    }
+
     document.getElementById('detailContent').innerHTML = `
       <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
       <span class="proj-cat">${p.category}</span>
       <h2>${escapeHtml(p.title)}</h2>
-      <div class="modal-client">Posted by ${escapeHtml(p.client || '')} · ${p.postedAgo}</div>
+      <div class="modal-client">Posted by ${escapeHtml(d.employer ? d.employer.name : (listItem.client||''))}${d.employer && d.employer.badges && d.employer.badges.verified ? ' <span class="verified-tag">✔ Verified</span>' : ''} · ${listItem.postedAgo || ''}</div>
       <div class="modal-stats">
-        <div class="modal-stat"><div class="l">Budget</div><div class="v">$${p.budget}</div></div>
-        <div class="modal-stat"><div class="l">Currency</div><div class="v" style="font-size:14px;">${p.currency || 'USDT'}</div></div>
+        <div class="modal-stat"><div class="l">Budget</div><div class="v">$${p.budget_usd}</div></div>
+        <div class="modal-stat"><div class="l">You'd receive</div><div class="v" style="font-size:14px;">$${d.fee.freelancer_payout}</div></div>
         <div class="modal-stat"><div class="l">Category</div><div class="v" style="font-size:14px;">${p.category}</div></div>
       </div>
-      <div class="modal-desc">${escapeHtml(p.desc || '')}</div>
-      <div class="modal-escrow">🔒 <b>How payment works:</b> once you accept this project, deliver your work through your dashboard. The client reviews it and approves the delivery — as soon as they do, your payout (80% of the budget, after our flat 20% platform fee) is released to you. The fee is always shown upfront on every project, with no hidden costs. Questions? <a href="mailto:support@questmart.online" style="text-decoration:underline;color:var(--navy);">support@questmart.online</a></div>
-      <button class="btn-apply" id="acceptBtn" onclick="applyToProject(${p.id})">Accept this project</button>
+      <div class="modal-desc">${escapeHtml(p.description || '')}</div>
+      <div class="modal-escrow">🔒 This project is escrow-protected: the full budget is already locked with QuestMart. Once you're hired, deliver your work in-app and the client approves it. QuestMart then releases your payout (${escapeHtml(String(d.fee.freelancer_payout))} USD, after our flat 20% fee) to your wallet.</div>
+      ${actionHtml}
     `;
-    document.getElementById('detailModal').classList.add('show');
+
+    if(isLoggedIn && !isOwnProject && !d.my_proposal){
+      if(!currentUser.wallet_address){
+        document.getElementById('walletFieldWrap').innerHTML = `
+          <div class="field"><label>Your payout wallet address</label><input type="text" id="propWallet" placeholder="Where should we send your payment?"></div>
+          <p class="hint" style="margin-top:-10px; margin-bottom:14px;">Required once, before your first proposal. You can update it later from your profile.</p>
+        `;
+      }
+    }
   }
 
-  async function applyToProject(id){
-    if(!currentUser || !token){
-      closeModal('detailModal');
-      openLogin();
-      alert("Please log in first to accept this project.");
-      return;
+  async function sendProposal(projectId){
+    const cover = (document.getElementById('propCover').value || '').trim();
+    const days = document.getElementById('propDays').value;
+    const walletInput = document.getElementById('propWallet');
+    const btn = document.getElementById('sendProposalBtn');
+
+    if(cover.length < 30){ alert("Write at least a few sentences: why are you a good fit, and how will you approach it?"); return; }
+
+    btn.disabled = true; btn.textContent = "Sending…";
+
+    // Save wallet first if the field was shown
+    if(walletInput){
+      const wallet = walletInput.value.trim();
+      if(!wallet){ alert("Add your payout wallet address first."); btn.disabled=false; btn.textContent="Send proposal"; return; }
+      try{
+        const wRes = await fetch(`${API_URL}/api/me/profile`, {
+          method:"PUT", headers: authHeaders({ "Content-Type":"application/json" }),
+          body: JSON.stringify({ wallet_address: wallet })
+        });
+        const wResult = await wRes.json();
+        if(wResult.error){ alert(wResult.error); btn.disabled=false; btn.textContent="Send proposal"; return; }
+        currentUser.wallet_address = wallet;
+        localStorage.setItem('qm_user', JSON.stringify(currentUser));
+      } catch(e){
+        alert("Couldn't save your wallet address, try again.");
+        btn.disabled=false; btn.textContent="Send proposal";
+        return;
+      }
     }
-    const btn = document.getElementById('acceptBtn');
-    btn.disabled = true; btn.textContent = "Accepting…";
+
     try{
-      const res = await fetch(`${API_URL}/api/projects/${id}/accept`, {
-        method:"POST", headers:{ "Authorization": "Bearer " + token }
+      const body = { cover_letter: cover };
+      if(days) body.delivery_days = Number(days);
+      const res = await fetch(`${API_URL}/api/projects/${projectId}/proposals`, {
+        method:"POST", headers: authHeaders({ "Content-Type":"application/json" }),
+        body: JSON.stringify(body)
       });
       const result = await res.json();
-      if(result.error){ alert(result.error); btn.disabled=false; btn.textContent="Accept this project"; return; }
-      btn.textContent = "Accepted ✓"; btn.classList.add('applied');
-      showToast("Project accepted — it's now assigned to you.");
+      if(result.error){
+        alert(result.error);
+        btn.disabled=false; btn.textContent="Send proposal";
+        return;
+      }
+      showToast("Proposal sent!");
+      closeModal('detailModal');
       loadProjects();
     } catch(e){
       alert("Something went wrong, please try again.");
-      btn.disabled=false; btn.textContent="Accept this project";
+      btn.disabled=false; btn.textContent="Send proposal";
     }
+  }
+
+  async function withdrawProposal(proposalId, projectId){
+    if(!confirm("Withdraw this proposal?")) return;
+    try{
+      const res = await fetch(`${API_URL}/api/proposals/${proposalId}/withdraw`, { method:"POST", headers: authHeaders() });
+      const result = await res.json();
+      if(result.error){ alert(result.error); return; }
+      showToast("Proposal withdrawn");
+      openDetail(projectId);
+    } catch(e){ alert("Something went wrong, please try again."); }
   }
 
   function closeModal(id){ document.getElementById(id).classList.remove('show'); }
@@ -373,7 +515,7 @@
   function openPost(){
     if(!currentUser || !token){
       openLogin();
-      alert("Please log in first to post a project.");
+      alert("برای پست کردن پروژه اول باید وارد حسابت بشی.");
       return;
     }
     document.getElementById('postModal').classList.add('show');
@@ -386,37 +528,30 @@
     const category = document.getElementById('pCategory').value;
     const desc = document.getElementById('pDesc').value.trim();
     const budget = parseFloat(document.getElementById('pBudget').value);
+    const currency = document.getElementById('pCurrency').value;
     if(!title || !desc || !budget || budget<=0){ alert("Please fill in the title, description, and budget."); return; }
     const btn = document.getElementById('postSubmitBtn');
-    btn.disabled = true; btn.textContent = "Creating project…";
+    btn.disabled = true; btn.textContent = "Creating…";
     try{
       const res = await fetch(`${API_URL}/api/projects`, {
         method:"POST",
-        headers:{ "Content-Type":"application/json", "Authorization":"Bearer " + token },
-        body: JSON.stringify({ title, description: desc, budget_usd: budget, currency: "USDT", category })
+        headers: authHeaders({ "Content-Type":"application/json" }),
+        body: JSON.stringify({ title, description: desc, budget_usd: budget, currency, category })
       });
       const result = await res.json();
       if(result.error){ alert(result.error); btn.disabled=false; btn.textContent="Continue to payment"; return; }
-
-      // Grab the new project's id from the Worker response (tries common field names)
-      const projectId = result.id ?? result.project_id ?? result.projectId ?? (result.project && result.project.id);
-      if(!projectId){
-        alert("Project was created, but no project id came back from the server.");
-        btn.disabled=false; btn.textContent="Continue to payment";
-        return;
-      }
-
-      document.getElementById('pTitle').value = "";
-      document.getElementById('pDesc').value = "";
-      document.getElementById('pBudget').value = "";
-      closeModal('postModal');
-
-      // Redirect to the crypto checkout page to fund the project
-      window.location.href = `${CHECKOUT_URL}?project=${encodeURIComponent(projectId)}&budget=${encodeURIComponent(budget)}`;
-      return;
+      window.location.href = `checkout-project.html?project=${result.project_id}&budget=${encodeURIComponent(budget)}`;
     } catch(e){
-      alert("Something went wrong, please try again.");
+      alert("مشکلی پیش اومد، دوباره امتحان کن.");
+      btn.disabled = false; btn.textContent = "Continue to payment";
     }
+  }
+
+  function resetPostModal(){
+    document.getElementById('pTitle').value = "";
+    document.getElementById('pDesc').value = "";
+    document.getElementById('pBudget').value = "";
+    const btn = document.getElementById('postSubmitBtn');
     btn.disabled = false; btn.textContent = "Continue to payment";
   }
 
@@ -440,9 +575,10 @@
       localStorage.setItem('qm_user', JSON.stringify(currentUser));
       closeModal('loginModal');
       updateAuthUI();
+      refreshUnread();
       showToast("Logged in as " + currentUser.name);
     } catch(e){
-      alert("Something went wrong, please try again.");
+      alert("مشکلی پیش اومد، دوباره امتحان کن.");
     }
     btn.disabled = false; btn.textContent = "Log in";
   }
@@ -478,68 +614,7 @@
 
   updateAuthUI();
   loadProjects();
-</script>
-
-<div id="qm-chat"></div>
-<script>
-(function(){
-  const faqs = [
-    { q:"Is QuestMart Freelance legit?", a:"Yes — we're a small, real team (5 people). Every project shows its 20% platform fee upfront before you accept or post it, and payouts are released as soon as the client approves the work. Still unsure? Email support@questmart.online and a real person will reply." },
-    { q:"How does the 20% fee work?", a:"When a project is completed and approved, the freelancer gets 80% of the agreed budget and QuestMart keeps a flat 20% platform fee. It's always shown on the project page — no hidden deductions." },
-    { q:"When do I get paid?", a:"As soon as the client reviews and approves your delivered work. There's no extra manual delay on our side beyond that approval." },
-    { q:"How do I post a project?", a:"Click \"+ Post a Project\" at the top of this page. You'll need to log in or create an account first, then fill in the title, category, description and budget." },
-    { q:"What if the client won't approve my work?", a:"If there's a disagreement, either side can email support@questmart.online. Our team manually reviews the project and delivered work and makes a fair call — see /terms.html for details." },
-    { q:"I have another question", a:"Happy to help — email us directly at support@questmart.online and we'll get back to you personally." }
-  ];
-  const wrap = document.createElement('div');
-  wrap.innerHTML = `
-    <style>
-      #qm-chat-bubble{position:fixed;bottom:22px;right:22px;width:56px;height:56px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;cursor:pointer;box-shadow:0 14px 30px -12px rgba(0,0,0,0.4);z-index:999;border:none;}
-      #qm-chat-panel{position:fixed;bottom:88px;right:22px;width:min(340px,88vw);max-height:70vh;background:#fff;border-radius:18px;box-shadow:0 24px 50px -20px rgba(0,0,0,0.45);z-index:999;display:none;flex-direction:column;overflow:hidden;font-family:'Inter',sans-serif;}
-      #qm-chat-panel.open{display:flex;}
-      #qm-chat-head{background:var(--navy);color:#fff;padding:16px 18px;font-weight:700;font-size:0.95rem;display:flex;justify-content:space-between;align-items:center;}
-      #qm-chat-close{background:none;border:none;color:#fff;font-size:1.1rem;cursor:pointer;}
-      #qm-chat-body{padding:14px;overflow-y:auto;flex:1;background:var(--paper);}
-      .qm-msg{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 13px;font-size:0.85rem;margin-bottom:10px;line-height:1.6;color:var(--ink);}
-      .qm-q-btn{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-size:0.83rem;margin-bottom:8px;cursor:pointer;font-family:inherit;color:var(--ink);}
-      .qm-q-btn:hover{border-color:var(--navy);}
-      #qm-chat-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;text-align:center;}
-      #qm-chat-foot a{color:var(--navy);font-weight:700;font-size:0.8rem;text-decoration:underline;}
-    </style>
-    <button id="qm-chat-bubble" aria-label="Open support chat">💬</button>
-    <div id="qm-chat-panel">
-      <div id="qm-chat-head">
-        Support
-        <button id="qm-chat-close">✕</button>
-      </div>
-      <div id="qm-chat-body">
-        <div class="qm-msg">Hi! Pick a question below, or email us any time.</div>
-        <div id="qm-chat-questions"></div>
-      </div>
-      <div id="qm-chat-foot">Prefer email? <a href="mailto:support@questmart.online">support@questmart.online</a></div>
-    </div>
-  `;
-  document.body.appendChild(wrap);
-  const qEl = wrap.querySelector('#qm-chat-questions');
-  const bodyEl = wrap.querySelector('#qm-chat-body');
-  faqs.forEach(f=>{
-    const b = document.createElement('button');
-    b.className = 'qm-q-btn';
-    b.textContent = f.q;
-    b.onclick = ()=>{
-      const ans = document.createElement('div');
-      ans.className = 'qm-msg';
-      ans.textContent = f.a;
-      bodyEl.appendChild(ans);
-      bodyEl.scrollTop = bodyEl.scrollHeight;
-      b.disabled = true; b.style.opacity = 0.5;
-    };
-    qEl.appendChild(b);
-  });
-  const panel = wrap.querySelector('#qm-chat-panel');
-  wrap.querySelector('#qm-chat-bubble').onclick = ()=> panel.classList.add('open');
-  wrap.querySelector('#qm-chat-close').onclick = ()=> panel.classList.remove('open');
-})();
+  refreshUnread();
 </script>
 
 </body>
