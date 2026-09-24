@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fridge to Air Fryer: 30 Ridiculously Easy Recipes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#FFF6EC; --bg-white:#FFFFFF;
+    --ink:#231A14; --ink-soft:#5C4B3C;
+    --char:#231A14; --char2:#3A2B21;
+    --flame:#F5511E; --flame-dark:#C93D10;
+    --amber:#FFB238; --amber-dark:#D68C10;
+    --olive:#7A8B3F;
+    --cream-card:#FFFDF8; --line:rgba(35,26,20,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Public Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg-cream);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.08;margin:0 0 0.5em;font-weight:800;}
+  .container{max-width:760px;margin:0 auto;padding:0 24px;}
+  a{color:var(--flame-dark);}
+  .wrap-narrow{max-width:680px;}
+
+  .hero{background:radial-gradient(circle at 20% 20%, #4A2E1B 0%, var(--char) 55%, #170F0A 100%);color:#FFEFDB;padding:78px 24px 100px;position:relative;}
+  .hero .eyebrow{font-size:1.05rem;color:var(--amber);margin-bottom:14px;font-weight:600;}
+  .hero h1{font-size:clamp(2.1rem,5.2vw,3.3rem);max-width:15ch;color:#FFF6EC;}
+  .hero p{max-width:50ch;font-size:1.15rem;color:#F0D9C2;margin-top:14px;}
+  .hero-emoji-row{font-size:1.9rem;margin-top:28px;letter-spacing:8px;}
+  .wave{display:block;width:100%;height:56px;margin-bottom:-6px;}
+
+  .band{padding:64px 0;}
+  .band-cream{background:var(--bg-cream);}
+  .band-white{background:var(--bg-white);}
+  .band-amber{background:#FCE7C4;}
+  .band-olive{background:#E7EAD9;}
+  .band-dark{background:radial-gradient(circle at 70% 30%, #3A2416 0%, var(--char) 70%);color:#FFEFDB;}
+
+  h2.section-title{font-size:clamp(1.5rem,3.4vw,2.05rem);margin-bottom:20px;}
+  .section-kicker{display:inline-block;font-size:0.95rem;font-weight:700;color:var(--flame-dark);background:#FFFFFF;padding:4px 14px;border-radius:100px;margin-bottom:14px;border:1px solid var(--line);}
+
+  .formula-box{background:var(--flame);color:#FFF3E8;border-radius:18px;padding:24px 26px;margin:24px 0;font-size:1.08rem;}
+  .formula-box strong{color:#FFE7A8;}
+
+  .chip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:26px;}
+  .chip{background:var(--cream-card);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;}
+  .chip .chip-emoji{font-size:1.7rem;display:block;margin-bottom:8px;}
+  .chip strong{font-size:0.98rem;}
+
+  .recipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:26px;}
+  .recipe-grid .card{background:var(--cream-card);border-radius:16px;padding:18px 20px;border:1px solid var(--line);border-top:4px solid var(--flame);}
+  .recipe-grid .card h3{font-size:1rem;color:var(--flame-dark);margin-bottom:6px;}
+  .recipe-grid .card p{margin:0;font-size:0.92rem;color:var(--ink-soft);}
+
+  ul.recipe-list{list-style:none;padding:0;margin:22px 0;}
+  ul.recipe-list li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid var(--line);}
+  ul.recipe-list li:last-child{border-bottom:none;}
+  ul.recipe-list li::before{content:"🔥";position:absolute;left:0;top:11px;font-size:0.92rem;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:24px;}
+  .stat-card{background:var(--cream-card);border:1px solid var(--line);border-radius:16px;padding:20px;text-align:center;}
+  .stat-card .num{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.6rem;color:var(--flame-dark);display:block;}
+  .stat-card .lbl{color:var(--ink-soft);font-size:0.88rem;}
+
+  .cta-box{text-align:center;padding:48px 30px;border-radius:22px;}
+  .cta-box h2{color:#FFF6EC;font-size:clamp(1.5rem,3.5vw,2.1rem);}
+  .cta-box p{color:#F0D9C2;max-width:52ch;margin:14px auto 26px;}
+  .btn{display:inline-block;background:var(--amber);color:#3A2508;font-weight:700;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:1.05rem;}
+  .btn:hover{background:#FFC369;}
+
+  details{background:var(--cream-card);border:1px solid var(--line);border-left:5px solid var(--flame);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
+  summary{font-family:'Bricolage Grotesque';font-weight:700;cursor:pointer;font-size:1.02rem;}
+  details p{margin:10px 0 2px;color:var(--ink-soft);}
+
+  footer{text-align:center;padding:40px 24px 60px;color:var(--ink-soft);font-size:0.92rem;}
+  @media (max-width:560px){.band{padding:48px 0;}.hero{padding:58px 20px 84px;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">🔥 Air Fryer Fridge Hacks</div>
+    <h1>Fridge to air fryer: 30 ridiculously easy recipes</h1>
+    <p>No preheating the oven, no scrubbing pans — just fridge leftovers, crisped to perfection in under 20 minutes.</p>
+    <div class="hero-emoji-row">🍗 🥔 🧀 🥦</div>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 56" preserveAspectRatio="none"><path fill="#FFF6EC" d="M0,28 C240,56 480,0 720,18 C960,36 1200,56 1440,20 L1440,56 L0,56 Z"/></svg>
+
+<main>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Why the air fryer wins</span>
+      <h2 class="section-title">🍳 The laziest way to turn leftovers into something crispy</h2>
+      <p>The air fryer isn't just for frozen fries. It's secretly the best tool for reviving whatever's sitting in your fridge — random veggies, leftover meat, half a bag of cheese — into something that tastes freshly cooked, not reheated. No oil splatter, no 400°F oven heating up your whole kitchen, no dishes beyond one basket. 🙌</p>
+      <div class="stat-grid">
+        <div class="stat-card"><span class="num">&lt;20 min</span><span class="lbl">average cook time</span></div>
+        <div class="stat-card"><span class="num">1 basket</span><span class="lbl">to wash, not 3 pans</span></div>
+        <div class="stat-card"><span class="num">Zero</span><span class="lbl">preheating an oven for one plate</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-amber">
+    <div class="container">
+      <span class="section-kicker">The base formula</span>
+      <h2 class="section-title">⚡ The "anything crisps" formula</h2>
+      <p>You genuinely don't need a recipe most of the time. Learn this once:</p>
+      <div class="formula-box">🔥 <strong>The formula:</strong> any veg or leftover protein + a drizzle of oil + salt, pepper, whatever spice you like → 375–400°F for 8–15 minutes, shaking the basket halfway.</div>
+      <p>That single formula covers roasted vegetables, reheated fried food that actually stays crispy, crunchy chickpeas, re-crisped rotisserie chicken, and dozens of the recipes below.</p>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container">
+      <span class="section-kicker">10 minutes or less</span>
+      <h2 class="section-title">🥔 10 quick fridge-to-air-fryer wins</h2>
+      <div class="recipe-grid">
+        <div class="card"><h3>Re-Crisped Leftovers 🍗</h3><p>4–6 min at 375°F brings soggy takeout, fries, or pizza back to life — crispier than the microwave, no exceptions.</p></div>
+        <div class="card"><h3>Crispy Chickpeas 🫘</h3><p>Canned chickpeas + oil + spice of choice, 12 min at 400°F, shaking twice.</p></div>
+        <div class="card"><h3>Cheese-Stuffed Anything 🧀</h3><p>Leftover potato or pepper, stuffed with cheese, 8–10 min until melty and golden.</p></div>
+        <div class="card"><h3>Veggie Chips 🥕</h3><p>Thin-sliced carrots, zucchini, or beets + oil + salt, 10–12 min, shaking often.</p></div>
+        <div class="card"><h3>Frozen Veg Upgrade 🥦</h3><p>Frozen broccoli or cauliflower straight from the freezer, 12 min at 400°F — crispier than roasting.</p></div>
+        <div class="card"><h3>Loaded Fridge Nachos 🌮</h3><p>Chips + cheese + any leftover protein or beans, 4–5 min until melted.</p></div>
+        <div class="card"><h3>Garlic Bread Revival 🥖</h3><p>Stale bread + butter + garlic, 5 min, tastes fresh again.</p></div>
+        <div class="card"><h3>Crispy Tofu Cubes 🍢</h3><p>Cubed tofu + cornstarch + oil, 12–15 min, shaking halfway.</p></div>
+        <div class="card"><h3>Egg-in-a-Basket 🍳</h3><p>Bread with a hole cut out + egg cracked in, 6–7 min for a fast breakfast-for-dinner.</p></div>
+        <div class="card"><h3>Roasted Whatever's-Left Veg 🌶️</h3><p>Every vegetable about to turn, tossed in oil and spice, 10–12 min at 400°F.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-olive">
+    <div class="container">
+      <span class="section-kicker">Full meals, not just sides</span>
+      <h2 class="section-title">🍽️ 10 real dinners the air fryer can handle</h2>
+      <ul class="recipe-list">
+        <li><strong>Air fryer fajitas</strong> — sliced peppers, onion, and leftover chicken or steak, 12 min, tossed in tortillas</li>
+        <li><strong>Crispy salmon</strong> — leftover or fresh salmon + lemon + spice, 8–9 min at 400°F</li>
+        <li><strong>Stuffed peppers</strong> — halved peppers filled with rice, beans, and cheese, 12–14 min</li>
+        <li><strong>Whole roasted chicken thighs</strong> — seasoned and air-fried 20–22 min, no oven needed</li>
+        <li><strong>Fried rice, air-fryer style</strong> — cooked rice + veg + egg tossed together, 8 min, stirred halfway</li>
+        <li><strong>Meatballs from scratch or frozen</strong> — 10–12 min at 380°F, no oil splatter</li>
+        <li><strong>Quesadilla</strong> — cheese and leftovers folded in a tortilla, 6 min for a crispy shell</li>
+        <li><strong>Shrimp skewers</strong> — quick-marinated shrimp, 6–7 min at 400°F</li>
+        <li><strong>Loaded sweet potato</strong> — halved and air-fried 15–18 min, topped with anything</li>
+        <li><strong>Veggie & protein grain bowl</strong> — roast the protein and veg together, serve over rice or greens</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Do this, not that</span>
+      <h2 class="section-title">🚫 3 mistakes that ruin air fryer leftovers</h2>
+      <div class="chip-grid">
+        <div class="chip"><span class="chip-emoji">🧺</span><strong>Overcrowding the basket</strong></div>
+        <div class="chip"><span class="chip-emoji">💧</span><strong>Skipping the oil drizzle</strong></div>
+        <div class="chip"><span class="chip-emoji">🔇</span><strong>Never shaking the basket</strong></div>
+      </div>
+      <p style="margin-top:22px;">Overcrowding steams food instead of crisping it — cook in batches if needed. A light oil drizzle is what actually gets you the crunch, and shaking the basket halfway through ensures everything crisps evenly, not just the top layer.</p>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="container cta-box">
+      <h2>🤖 Not sure what to throw in the basket tonight?</h2>
+      <p>Tell Fridge Chef what's actually in your fridge, and it'll instantly suggest what to cook — air fryer, stovetop, or otherwise. No more standing there wondering if random leftovers "go together." 🔥</p>
+      <a class="btn" href="https://questmart.online/fridge-chef/">Try Fridge Chef free →</a>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Quick answers</span>
+      <h2 class="section-title">❓ Frequently asked questions</h2>
+      <details><summary>What temperature should I use for most leftovers?</summary><p>375–400°F works for almost everything. Higher heat crisps faster; lower heat is gentler on delicate leftovers like fish.</p></details>
+      <details><summary>Do I need to preheat the air fryer?</summary><p>Not strictly, but preheating 2–3 minutes gives a crispier result, especially for reheating fried food.</p></details>
+      <details><summary>Can I air fry frozen vegetables straight from the freezer?</summary><p>Yes — no need to thaw first. Frozen veg often comes out crispier than fresh roasted in the oven.</p></details>
+      <details><summary>How much oil do I actually need?</summary><p>A light drizzle or spray is enough — usually 1–2 teaspoons for a full basket. More than that just makes things soggy, not crispier.</p></details>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container wrap-narrow">
+      <h2 class="section-title">🎉 Final thoughts</h2>
+      <p>The air fryer turns "I guess I'll eat this sad leftover" into "wait, this actually slaps." 🔥 Once you learn the base formula — oil, seasoning, 375–400°F, shake halfway — almost anything in your fridge becomes fair game.</p>
+      <p>And if you're staring at the fridge with zero inspiration? <a href="https://questmart.online/fridge-chef/">Fridge Chef</a> will sort that out in seconds. 🙌</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fridge Chef · Turn what's in your fridge into what's for dinner 🧊🍽️</footer>
+
+</body>
+</html>
