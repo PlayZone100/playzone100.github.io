@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What's In My Fridge? 60+ Genius Recipes to Cook Tonight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#FFF6E9;
+    --bg-white:#FFFFFF;
+    --ink:#2B2118;
+    --ink-soft:#5A4E42;
+    --tomato:#E1503B;
+    --tomato-dark:#B83A2A;
+    --avocado:#4F7A3E;
+    --avocado-dark:#375B29;
+    --mustard:#F2A93C;
+    --mustard-dark:#C9821F;
+    --eggplant:#4B2A46;
+    --eggplant-light:#6E3B5C;
+    --cream-card:#FFFDF8;
+    --line:rgba(43,33,24,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Public Sans', system-ui, sans-serif;
+    color:var(--ink);
+    background:var(--bg-cream);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;}
+  h1,h2,h3{
+    font-family:'Bricolage Grotesque', system-ui, sans-serif;
+    line-height:1.1;
+    margin:0 0 0.5em;
+    font-weight:700;
+  }
+  .container{max-width:760px;margin:0 auto;padding:0 24px;}
+  a{color:var(--tomato-dark);}
+  .wrap-narrow{max-width:680px;}
+
+  /* HERO */
+  .hero{
+    background:linear-gradient(160deg, var(--eggplant) 0%, var(--eggplant-light) 55%, var(--tomato-dark) 130%);
+    color:#FFF6E9;
+    padding:76px 24px 96px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .eyebrow{
+    font-size:1.05rem;
+    color:#F6D9A8;
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-size:clamp(2.1rem, 5vw, 3.2rem);
+    max-width:14ch;
+    color:#FFFDF8;
+  }
+  .hero p{
+    max-width:48ch;
+    font-size:1.15rem;
+    color:#F3DFC9;
+    margin-top:14px;
+  }
+  .hero-emoji-row{font-size:1.8rem; margin-top:28px; letter-spacing:6px;}
+
+  .wave{display:block;width:100%;height:60px;margin-bottom:-6px;}
+
+  /* BANDS */
+  .band{padding:64px 0;}
+  .band-cream{background:var(--bg-cream);}
+  .band-white{background:var(--bg-white);}
+  .band-yellow{background:#FCEBC9;}
+  .band-green{background:#E3EDD8;}
+  .band-red{background:#F9DCD3;}
+  .band-dark{background:linear-gradient(135deg, var(--eggplant) 0%, var(--tomato-dark) 130%); color:#FFF6E9;}
+
+  h2.section-title{
+    font-size:clamp(1.5rem, 3.4vw, 2.05rem);
+    margin-bottom:20px;
+  }
+  .section-kicker{
+    display:inline-block;
+    font-size:0.95rem;
+    font-weight:600;
+    color:var(--tomato-dark);
+    background:#FFFFFF;
+    padding:4px 14px;
+    border-radius:100px;
+    margin-bottom:14px;
+    border:1px solid var(--line);
+  }
+
+  /* INTRO BENEFIT CHIPS */
+  .chip-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(190px,1fr));
+    gap:14px;
+    margin-top:30px;
+  }
+  .chip{
+    background:var(--cream-card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:18px 18px;
+  }
+  .chip .chip-emoji{font-size:1.6rem; display:block; margin-bottom:8px;}
+  .chip strong{display:block; margin-bottom:4px; font-size:1.02rem;}
+  .chip span.sub{color:var(--ink-soft); font-size:0.92rem;}
+
+  /* TIP BOX */
+  .tip-box{
+    background:#FFFDF8;
+    border:2px dashed var(--mustard-dark);
+    border-radius:14px;
+    padding:18px 22px;
+    margin:28px 0;
+  }
+  .tip-box .label{font-weight:700; color:var(--mustard-dark);}
+
+  /* RECIPE CARD LIST */
+  ul.recipe-list{list-style:none; padding:0; margin:22px 0;}
+  ul.recipe-list li{
+    padding:12px 0 12px 34px;
+    position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  ul.recipe-list li:last-child{border-bottom:none;}
+  ul.recipe-list li::before{
+    content:"🍽";
+    position:absolute;
+    left:0;
+    top:11px;
+    font-size:1rem;
+  }
+  ul.recipe-list li strong{color:var(--tomato-dark);}
+
+  /* FORMULA BOX */
+  .formula-box{
+    background:var(--avocado);
+    color:#F2F8EA;
+    border-radius:18px;
+    padding:24px 26px;
+    margin:24px 0;
+    font-size:1.08rem;
+  }
+  .formula-box strong{color:#FFF3D0;}
+
+  /* PANTRY TABLE */
+  .table-wrap{overflow-x:auto; margin-top:24px; border-radius:14px; border:1px solid var(--line);}
+  table{border-collapse:collapse; width:100%; background:#FFFDF8; min-width:480px;}
+  th,td{text-align:left; padding:13px 16px; font-size:0.98rem;}
+  thead th{background:var(--mustard); color:#3A2508; font-family:'Bricolage Grotesque'; font-weight:700;}
+  tbody tr:nth-child(odd){background:#FFF8EA;}
+  tbody tr:not(:last-child) td{border-bottom:1px solid var(--line);}
+
+  /* FULL RECIPE GRID */
+  .recipe-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+    gap:18px;
+    margin-top:28px;
+  }
+  .recipe-grid .card{
+    background:var(--cream-card);
+    border-radius:18px;
+    padding:22px;
+    border:1px solid var(--line);
+    box-shadow:0 2px 0 var(--line);
+  }
+  .recipe-grid .card h3{font-size:1.08rem; color:var(--tomato-dark); margin-bottom:8px;}
+  .recipe-grid .card p{margin:0; font-size:0.96rem; color:var(--ink-soft);}
+
+  /* CTA */
+  .cta-box{
+    text-align:center;
+    padding:48px 30px;
+    border-radius:22px;
+  }
+  .cta-box h2{color:#FFFDF8; font-size:clamp(1.5rem,3.5vw,2.1rem);}
+  .cta-box p{color:#F3DFC9; max-width:52ch; margin:14px auto 26px;}
+  .btn{
+    display:inline-block;
+    background:var(--mustard);
+    color:#3A2508;
+    font-weight:700;
+    padding:14px 30px;
+    border-radius:100px;
+    text-decoration:none;
+    font-size:1.05rem;
+  }
+  .btn:hover{background:#FFC369;}
+
+  /* FAQ */
+  details{
+    background:var(--cream-card);
+    border:1px solid var(--line);
+    border-left:5px solid var(--avocado);
+    border-radius:12px;
+    padding:14px 18px;
+    margin-bottom:12px;
+  }
+  summary{
+    font-family:'Bricolage Grotesque';
+    font-weight:700;
+    cursor:pointer;
+    font-size:1.02rem;
+  }
+  details p{margin:10px 0 2px; color:var(--ink-soft);}
+
+  footer{
+    text-align:center;
+    padding:40px 24px 60px;
+    color:var(--ink-soft);
+    font-size:0.92rem;
+  }
+
+  @media (max-width:560px){
+    .band{padding:48px 0;}
+    .hero{padding:56px 20px 80px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">🧊 Fridge Cooking Guide</div>
+    <h1>What's in my fridge? 60+ genius recipes to cook tonight</h1>
+    <p>No grocery run needed — just what's already hiding behind the mustard jar.</p>
+    <div class="hero-emoji-row">🍳 🥑 🍅 🧀 🥦</div>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none"><path fill="#FFF6E9" d="M0,32 C240,60 480,0 720,20 C960,40 1200,60 1440,24 L1440,60 L0,60 Z"/></svg>
+
+<main>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Why it matters</span>
+      <h2 class="section-title">Fridge cooking is the smartest skill you'll ever learn</h2>
+      <p>It's 6:47pm, you're starving, and you open the fridge thinking "there's nothing to eat." Except there usually <em>is</em> something — half an onion, a few eggs, a nub of cheese. That's not nothing. That's dinner waiting to happen. 🎉</p>
+      <div class="chip-grid">
+        <div class="chip"><span class="chip-emoji">💰</span><strong>Save money</strong><span class="sub">Stop tossing groceries you already paid for.</span></div>
+        <div class="chip"><span class="chip-emoji">🌍</span><strong>Cut food waste</strong><span class="sub">Wilted veg is one of the biggest culprits.</span></div>
+        <div class="chip"><span class="chip-emoji">⏱️</span><strong>Save time</strong><span class="sub">No traffic, no checkout lines.</span></div>
+        <div class="chip"><span class="chip-emoji">🧠</span><strong>Cook better</strong><span class="sub">Improvising is how real chefs train.</span></div>
+        <div class="chip"><span class="chip-emoji">😌</span><strong>Less stress</strong><span class="sub">No more scrolling recipe blogs at 7pm.</span></div>
+      </div>
+      <div class="tip-box"><span class="label">Pro tip 💡</span> — Do a 2-minute "fridge audit" before you cook. Whatever's closest to going bad should be your starting point, not the ingredients with a month of shelf life left.</div>
+    </div>
+  </section>
+
+  <section class="band band-yellow">
+    <div class="container">
+      <span class="section-kicker">Rule #1</span>
+      <h2 class="section-title">🍳 The "almost anything" egg method</h2>
+      <p>Eggs are the most versatile fridge ingredient on the planet, and they're usually sitting right there in the door. If you have eggs and literally anything else, you have a meal.</p>
+      <div class="formula-box">🍳 <strong>The formula:</strong> 2–3 eggs + 1 cup chopped vegetables + a handful of cheese (optional) + salt, pepper, whatever spices you have = dinner.</div>
+      <ul class="recipe-list">
+        <li><strong>Fridge frittata</strong> — whisk eggs over sautéed veg in a hot pan, cook low and slow, finish under the broiler 2 minutes</li>
+        <li><strong>Fried rice omelet</strong> — scramble eggs with leftover rice, soy sauce, and any chopped veg</li>
+        <li><strong>Shakshuka-style eggs</strong> — simmer tomatoes with garlic and spices, crack in eggs, cover and poach</li>
+        <li><strong>Egg fried everything</strong> — any leftover roasted vegetable, chopped and fried with eggs and soy sauce</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-green">
+    <div class="container">
+      <span class="section-kicker">Rule #2</span>
+      <h2 class="section-title">🍜 Turn leftover rice or pasta into a new meal</h2>
+      <p>Cooked rice and pasta are secretly some of the most valuable things in your fridge — they act as a blank canvas for whatever else needs using up.</p>
+      <h3>🍚 Leftover rice ideas</h3>
+      <ul class="recipe-list">
+        <li><strong>Fried rice</strong> — any protein + any vegetable + soy sauce, sesame oil, garlic</li>
+        <li><strong>Rice bowls</strong> — topped with a fried egg, hot sauce, and whatever veg needs using</li>
+        <li><strong>Stuffed peppers</strong> — rice, cheese, and canned beans or ground meat</li>
+        <li><strong>Rice soup</strong> — simmered in broth with roasted vegetables and shredded chicken</li>
+      </ul>
+      <h3>🍝 Leftover pasta ideas</h3>
+      <ul class="recipe-list">
+        <li><strong>Pasta frittata</strong> — mix cold pasta with eggs and cheese, pan-fry like a cake</li>
+        <li><strong>Pasta salad</strong> — olive oil, vinegar, raw veg, canned tuna or beans</li>
+        <li><strong>Baked pasta</strong> — any sauce and cheese, baked until bubbly</li>
+      </ul>
+      <div class="tip-box"><span class="label">Rule of thumb 🎯</span> — Any cooked starch + protein + vegetable + sauce = a legitimate meal. This formula alone solves 80% of "what's for dinner" panics.</div>
+    </div>
+  </section>
+
+  <section class="band band-red">
+    <div class="container">
+      <span class="section-kicker">Rescue mission</span>
+      <h2 class="section-title">🥕 The sad vegetable drawer rescue guide</h2>
+      <p>Every fridge has one: the drawer where things go to be forgotten. Wilting spinach, a rubbery carrot, half a cabbage. Here's how to save them all. 🥬🥕🍄</p>
+      <ul class="recipe-list">
+        <li><strong>Wilting greens</strong> → sauté with garlic, fold into pasta, eggs, or grain bowls</li>
+        <li><strong>Soft carrots or celery</strong> → roast with olive oil, or simmer into soup</li>
+        <li><strong>Limp broccoli or cauliflower</strong> → roast at high heat until crispy — heat fixes almost everything</li>
+        <li><strong>Half an onion, pepper, mushrooms</strong> → the base of any stir-fry, soup, or omelet</li>
+        <li><strong>Overripe tomatoes</strong> → simmer into a quick sauce with garlic and olive oil</li>
+        <li><strong>Sad herbs</strong> → blend with oil, garlic, nuts and parmesan into a quick pesto</li>
+      </ul>
+      <div class="formula-box">🍲 <strong>One-pot fridge clean-out soup:</strong> chop every vegetable that's about to turn, sauté in a pot with olive oil, add broth, simmer 20 minutes, season generously. Add leftover rice, pasta, or beans to bulk it up.</div>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Emergency kit</span>
+      <h2 class="section-title">🧀 The cheese & bread emergency kit</h2>
+      <p>If your fridge has cheese and your pantry has bread, you're never more than 10 minutes from a satisfying meal.</p>
+      <ul class="recipe-list">
+        <li><strong>Grilled cheese upgrades</strong> — caramelized onion, sliced apple, roasted veg, or a fried egg inside</li>
+        <li><strong>Quesadillas</strong> — cheese + tortilla + anything, folded and pan-fried</li>
+        <li><strong>Cheesy toast</strong> — broil bread with cheese and any topping for 3 minutes</li>
+        <li><strong>Croque Madame</strong> — grilled cheese topped with a fried egg 🍳</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-yellow">
+    <div class="container">
+      <span class="section-kicker">Combos that never fail</span>
+      <h2 class="section-title">🥫 Pantry + fridge combo meals</h2>
+      <p>Keep these staples on hand and you'll never truly be stuck:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pantry staple</th><th>Combine with</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>Canned beans 🫘</td><td>Any veg + spices</td><td>Hearty bean stew or taco filling</td></tr>
+            <tr><td>Canned tomatoes 🍅</td><td>Garlic + pasta</td><td>15-minute pasta sauce</td></tr>
+            <tr><td>Broth/bouillon 🍲</td><td>Any veg + protein</td><td>Instant soup</td></tr>
+            <tr><td>Tortillas 🌯</td><td>Anything</td><td>Tacos, quesadillas, wraps</td></tr>
+            <tr><td>Soy sauce + rice vinegar 🥢</td><td>Any veg + protein</td><td>Stir-fry</td></tr>
+            <tr><td>Curry paste/powder 🍛</td><td>Coconut milk + veg</td><td>Curry in 20 minutes</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-green">
+    <div class="container">
+      <span class="section-kicker">Give it a second life</span>
+      <h2 class="section-title">🍗 What to do with random leftover protein</h2>
+      <p>Half a rotisserie chicken, two slices of ham, a cup of ground beef — protein is usually the most expensive thing in your fridge, so it deserves a second life.</p>
+      <ul class="recipe-list">
+        <li><strong>Shredded/diced chicken</strong> → quesadillas, fried rice, chicken salad, soup, grain bowls</li>
+        <li><strong>Ground meat</strong> → tacos, pasta sauce, stuffed peppers, fried rice</li>
+        <li><strong>Ham or deli meat</strong> → fried rice, frittata, sandwiches, carbonara-style pasta</li>
+        <li><strong>Canned tuna or salmon</strong> → pasta, salad, sandwiches, rice bowls</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container">
+      <span class="section-kicker">Try tonight</span>
+      <h2 class="section-title">🥑 5 full "fridge-only" recipes</h2>
+      <div class="recipe-grid">
+        <div class="card"><h3>🍚 Kitchen sink fried rice</h3><p>Cold rice + any chopped veg + any diced protein + 2 eggs + soy sauce + garlic + sesame oil. Fry rice till crispy, push aside, scramble eggs, mix, season.</p></div>
+        <div class="card"><h3>🍲 Everything-but-the-kitchen-sink soup</h3><p>Sauté onion, garlic, any veg. Add broth. Simmer 20 min. Add cooked grain, pasta, or beans. Season generously, finish with lemon or vinegar.</p></div>
+        <div class="card"><h3>🥙 The "whatever's left" wrap</h3><p>Tortilla + spread + protein + cheese + any veg + hot sauce. Roll tight, pan-sear 2 min a side for crunch.</p></div>
+        <div class="card"><h3>🍝 5-ingredient fridge pasta</h3><p>Pasta + olive oil + garlic + any veg + parmesan. Boil pasta, sauté veg, toss with pasta water, top with cheese.</p></div>
+        <div class="card"><h3>🥗 The big salad that's actually a meal</h3><p>Greens + leftover protein + roasted or raw veg + cheese + nuts + a simple oil-and-vinegar dressing.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="container cta-box">
+      <h2>🤖 Still staring at the fridge?</h2>
+      <p>Tell Fridge Chef exactly what's in your fridge right now, and get real meal ideas in seconds — no scrolling, no guessing, no 8 open tabs. It's the fastest way to turn "there's nothing to eat" into "dinner's ready." 🍽️✨</p>
+      <a class="btn" href="https://questmart.online/fridge-chef/">Try Fridge Chef free →</a>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Quick answers</span>
+      <h2 class="section-title">❓ Frequently asked questions</h2>
+
+      <details>
+        <summary>How do I know if a vegetable is still safe to cook with?</summary>
+        <p>If it's soft, wilted, or slightly discolored but has no mold, slime, or off smell, it's almost always fine to cook. Heat kills most surface bacteria — roasting or sautéing "tired" vegetables often makes them taste even better.</p>
+      </details>
+      <details>
+        <summary>What's the single most useful ingredient for fridge cooking?</summary>
+        <p>Eggs. They combine with almost any vegetable, grain, or protein and cook in under 5 minutes.</p>
+      </details>
+      <details>
+        <summary>I don't have any fresh vegetables left — now what?</summary>
+        <p>Check your freezer and pantry. Frozen vegetables, canned beans, and canned tomatoes are just as valid and often get overlooked.</p>
+      </details>
+      <details>
+        <summary>How do I make fridge-cooking a habit, not a once-in-a-while trick?</summary>
+        <p>Do a 2-minute fridge audit every few days, and lean on a tool like Fridge Chef to instantly turn what's on hand into a meal idea — less friction means more consistency.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container wrap-narrow">
+      <h2 class="section-title">🎉 Final thoughts</h2>
+      <p>Next time you open the fridge and think "there's nothing here," remember: there almost always <em>is</em> something. A few eggs, some wilting greens, a nub of cheese — that's the start of dinner. 🍳🥗🍝</p>
+      <p>And on the nights your brain is too tired to improvise? That's exactly what <a href="https://questmart.online/fridge-chef/">Fridge Chef</a> is there for. 🙌</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fridge Chef · Turn what's in your fridge into what's for dinner 🧊🍽️</footer>
+
+</body>
+</html>
