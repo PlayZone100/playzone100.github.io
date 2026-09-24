@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Broke College Student's Guide to Surviving on a Tiny Fridge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#F6F4FF; --bg-white:#FFFFFF;
+    --ink:#1D1A2E; --ink-soft:#4B4766;
+    --royal:#2E2A6E; --royal-dark:#1C1949;
+    --lime:#C6F24E; --lime-dark:#8FB420;
+    --pink:#FF5D8F; --pink-dark:#D93E70;
+    --cream-card:#FFFFFF; --line:rgba(29,26,46,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Public Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg-cream);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.08;margin:0 0 0.5em;font-weight:800;}
+  .container{max-width:760px;margin:0 auto;padding:0 24px;}
+  a{color:var(--pink-dark);}
+  .wrap-narrow{max-width:680px;}
+
+  .hero{background:linear-gradient(155deg, var(--royal-dark) 0%, var(--royal) 60%, var(--pink-dark) 130%);color:#F1EEFF;padding:78px 24px 100px;}
+  .hero .eyebrow{font-size:1.05rem;color:var(--lime);margin-bottom:14px;font-weight:700;}
+  .hero h1{font-size:clamp(2.1rem,5.2vw,3.2rem);max-width:16ch;color:#FAFAFF;}
+  .hero p{max-width:50ch;font-size:1.15rem;color:#DCD8F5;margin-top:14px;}
+  .hero-emoji-row{font-size:1.9rem;margin-top:28px;letter-spacing:8px;}
+  .wave{display:block;width:100%;height:56px;margin-bottom:-6px;}
+
+  .band{padding:64px 0;}
+  .band-cream{background:var(--bg-cream);}
+  .band-white{background:var(--bg-white);}
+  .band-lime{background:#EEF9CE;}
+  .band-pink{background:#FDE3EC;}
+  .band-dark{background:linear-gradient(135deg, var(--royal-dark) 0%, var(--pink-dark) 130%);color:#F1EEFF;}
+
+  h2.section-title{font-size:clamp(1.5rem,3.4vw,2.05rem);margin-bottom:20px;}
+  .section-kicker{display:inline-block;font-size:0.95rem;font-weight:700;color:var(--pink-dark);background:#FFFFFF;padding:4px 14px;border-radius:100px;margin-bottom:14px;border:1px solid var(--line);}
+
+  .formula-box{background:var(--royal);color:#EFEDFF;border-radius:18px;padding:24px 26px;margin:24px 0;font-size:1.08rem;}
+  .formula-box strong{color:var(--lime);}
+
+  .chip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:26px;}
+  .chip{background:var(--cream-card);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;}
+  .chip .chip-emoji{font-size:1.7rem;display:block;margin-bottom:8px;}
+  .chip strong{font-size:0.98rem;}
+
+  .recipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:26px;}
+  .recipe-grid .card{background:var(--cream-card);border-radius:16px;padding:18px 20px;border:1px solid var(--line);border-top:4px solid var(--pink);}
+  .recipe-grid .card h3{font-size:1rem;color:var(--pink-dark);margin-bottom:6px;}
+  .recipe-grid .card p{margin:0;font-size:0.92rem;color:var(--ink-soft);}
+
+  ul.recipe-list{list-style:none;padding:0;margin:22px 0;}
+  ul.recipe-list li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid var(--line);}
+  ul.recipe-list li:last-child{border-bottom:none;}
+  ul.recipe-list li::before{content:"⚡";position:absolute;left:0;top:11px;font-size:0.9rem;}
+
+  .table-wrap{overflow-x:auto;margin-top:24px;border-radius:14px;border:1px solid var(--line);}
+  table{border-collapse:collapse;width:100%;background:#FFFFFF;min-width:420px;}
+  th,td{text-align:left;padding:13px 16px;font-size:0.98rem;}
+  thead th{background:var(--lime);color:#28330A;font-family:'Bricolage Grotesque';font-weight:700;}
+  tbody tr:nth-child(odd){background:#F8F7FF;}
+  tbody tr:not(:last-child) td{border-bottom:1px solid var(--line);}
+
+  .cta-box{text-align:center;padding:48px 30px;border-radius:22px;}
+  .cta-box h2{color:#FAFAFF;font-size:clamp(1.5rem,3.5vw,2.1rem);}
+  .cta-box p{color:#DCD8F5;max-width:52ch;margin:14px auto 26px;}
+  .btn{display:inline-block;background:var(--lime);color:#28330A;font-weight:700;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:1.05rem;}
+  .btn:hover{background:#D8FF6E;}
+
+  details{background:var(--cream-card);border:1px solid var(--line);border-left:5px solid var(--pink);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
+  summary{font-family:'Bricolage Grotesque';font-weight:700;cursor:pointer;font-size:1.02rem;}
+  details p{margin:10px 0 2px;color:var(--ink-soft);}
+
+  footer{text-align:center;padding:40px 24px 60px;color:var(--ink-soft);font-size:0.92rem;}
+  @media (max-width:560px){.band{padding:48px 0;}.hero{padding:58px 20px 84px;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">🎓 Dorm Fridge Survival Kit</div>
+    <h1>The broke college student's guide to surviving on a tiny fridge</h1>
+    <p>No stove sometimes, no money always, and a fridge the size of a nightstand. Here's how to actually eat well anyway.</p>
+    <div class="hero-emoji-row">🍜 🥪 🧃 🔌</div>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 56" preserveAspectRatio="none"><path fill="#F6F4FF" d="M0,28 C240,56 480,0 720,18 C960,36 1200,56 1440,20 L1440,56 L0,56 Z"/></svg>
+
+<main>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">The dorm reality</span>
+      <h2 class="section-title">🧊 Small fridge, smaller budget, zero patience for cooking</h2>
+      <p>You've got a mini fridge, maybe a microwave, maybe a hot plate if your dorm allows it, and a bank account that flinches every time you open a food delivery app. 💸 The good news: you don't need a full kitchen to eat better than instant noodles every night — you just need to know which ingredients pull the most weight per dollar and per cubic inch of fridge space.</p>
+    </div>
+  </section>
+
+  <section class="band band-lime">
+    <div class="container">
+      <span class="section-kicker">Buy these, not that</span>
+      <h2 class="section-title">🛒 The 10 items that carry an entire semester</h2>
+      <p>These ingredients are cheap, barely take up space, last a while, and combine with almost anything:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ingredient</th><th>Why it earns its spot</th></tr></thead>
+          <tbody>
+            <tr><td>Eggs 🥚</td><td>Cheapest protein, cooks in a microwave mug or hot plate</td></tr>
+            <tr><td>Instant rice or noodles 🍜</td><td>Ready in minutes, the base for everything</td></tr>
+            <tr><td>Peanut butter 🥜</td><td>Protein + fat, no cooking required at all</td></tr>
+            <tr><td>Shredded cheese 🧀</td><td>Makes literally anything taste like a real meal</td></tr>
+            <tr><td>Canned beans 🫘</td><td>Protein and fiber for under a dollar a can</td></tr>
+            <tr><td>Tortillas 🌯</td><td>Turns any leftover into a wrap in 10 seconds</td></tr>
+            <tr><td>Frozen mixed veg 🥦</td><td>Never spoils, microwaves in 3 minutes</td></tr>
+            <tr><td>Hot sauce / soy sauce 🌶️</td><td>Makes bland dorm food taste intentional</td></tr>
+            <tr><td>Bread 🍞</td><td>The base of half the recipes below</td></tr>
+            <tr><td>Canned tuna 🐟</td><td>No-cook protein, keeps for ages in the pantry</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container">
+      <span class="section-kicker">Zero stove required</span>
+      <h2 class="section-title">🔌 10 dorm meals with just a microwave</h2>
+      <div class="recipe-grid">
+        <div class="card"><h3>Mug Scrambled Eggs 🥚</h3><p>Whisk 2 eggs + splash of milk in a mug, microwave 60–90 sec, stirring halfway.</p></div>
+        <div class="card"><h3>Instant Ramen Upgrade 🍜</h3><p>Ramen + frozen veg + an egg cracked in during the last minute of cooking.</p></div>
+        <div class="card"><h3>Microwave Quesadilla 🌯</h3><p>Tortilla + cheese folded over, microwaved 45 sec until melted.</p></div>
+        <div class="card"><h3>Loaded Baked Potato 🥔</h3><p>Microwave a potato 5–6 min, top with cheese, beans, or hot sauce.</p></div>
+        <div class="card"><h3>Rice Bowl 🍚</h3><p>Instant rice + canned beans + hot sauce + cheese, microwaved together.</p></div>
+        <div class="card"><h3>PB Toast (no toaster) 🥪</h3><p>Bread straight with peanut butter — still counts as a real meal at 11pm.</p></div>
+        <div class="card"><h3>Tuna Melt Mug 🐟</h3><p>Canned tuna + cheese in a mug, microwaved 30 sec, eaten with crackers.</p></div>
+        <div class="card"><h3>Mac & Cheese, Doctored 🧀</h3><p>Boxed mac and cheese + frozen veg + hot sauce stirred in.</p></div>
+        <div class="card"><h3>Frozen Veg + Egg Bowl 🥦</h3><p>Microwave frozen veg, top with a fried or scrambled egg and soy sauce.</p></div>
+        <div class="card"><h3>Bean & Cheese Burrito 🌯</h3><p>Tortilla + canned beans + cheese, microwaved 45 sec, rolled tight.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-pink">
+    <div class="container">
+      <span class="section-kicker">Money math</span>
+      <h2 class="section-title">💸 Why this actually beats delivery apps</h2>
+      <p>A single delivery order easily runs $15–25 after fees and tips. The ingredients above cost that much for an entire <em>week</em> of meals, not one dinner. Learning 5–6 of these combos on repeat isn't boring — it's the difference between running out of money by week two of the semester or actually making it to finals with cash left over. 📚💰</p>
+      <div class="formula-box">🎯 <strong>The dorm formula:</strong> a cheap carb (rice, noodles, bread, tortilla) + a cheap protein (egg, beans, tuna, cheese) + a flavor boost (hot sauce, soy sauce, salsa) = a real meal, every time.</div>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Small space, big wins</span>
+      <h2 class="section-title">🧊 3 mini-fridge organization tricks</h2>
+      <div class="chip-grid">
+        <div class="chip"><span class="chip-emoji">📦</span><strong>Use the door for staples</strong></div>
+        <div class="chip"><span class="chip-emoji">🥫</span><strong>Keep canned backups in your desk drawer</strong></div>
+        <div class="chip"><span class="chip-emoji">🏷️</span><strong>Label leftovers with the date</strong></div>
+      </div>
+      <p style="margin-top:22px;">Dorm fridges fill up fast, so save shelf space for things that actually need cold storage (eggs, cheese, leftovers) and keep shelf-stable stuff like canned beans, peanut butter, and tortillas in your desk instead.</p>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="container cta-box">
+      <h2>🤖 Out of ideas with what's left in the mini fridge?</h2>
+      <p>Tell Fridge Chef exactly what you've got — even if it's just eggs, cheese, and half a bag of rice — and get a real meal idea instantly. No 20-minute scroll through recipe blogs between classes. 🎓</p>
+      <a class="btn" href="https://questmart.online/fridge-chef/">Try Fridge Chef free →</a>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Quick answers</span>
+      <h2 class="section-title">❓ Frequently asked questions</h2>
+      <details><summary>Can I actually cook real meals with just a microwave?</summary><p>Yes — eggs, rice, frozen vegetables, and even some proteins cook surprisingly well in a microwave. The trick is layering flavors (cheese, hot sauce, soy sauce) so it doesn't taste like "just microwaved food."</p></details>
+      <details><summary>What should I always keep stocked, even on a tight budget?</summary><p>Eggs, rice or noodles, canned beans, and cheese — these four cover breakfast, lunch, and dinner combinations without much variety fatigue.</p></details>
+      <details><summary>How do I avoid food going bad in a shared or tiny fridge?</summary><p>Buy smaller quantities more often rather than bulk shopping, and prioritize shelf-stable staples (canned, dried) that don't need fridge space at all.</p></details>
+      <details><summary>What's the cheapest source of protein for a dorm diet?</summary><p>Eggs and canned beans are typically the cheapest per gram of protein, followed closely by canned tuna and peanut butter.</p></details>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container wrap-narrow">
+      <h2 class="section-title">🎉 Final thoughts</h2>
+      <p>Surviving college on a tiny fridge and a tighter budget doesn't mean eating badly for four years. A handful of cheap staples and a couple of go-to combos will carry you through finals week, 2am study sessions, and everything in between. 🍜📚</p>
+      <p>And when you genuinely can't figure out what to do with what's left? <a href="https://questmart.online/fridge-chef/">Fridge Chef</a> has you covered. 🙌</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fridge Chef · Turn what's in your fridge into what's for dinner 🧊🍽️</footer>
+
+</body>
+</html>
