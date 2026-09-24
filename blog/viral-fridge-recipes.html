@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viral Fridge Recipes Everyone's Making Right Now</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#FAF6FB; --bg-white:#FFFFFF;
+    --ink:#180E1F; --ink-soft:#4A3A54;
+    --black:#0F0A13; --black2:#1E1424;
+    --hotpink:#FF2E88; --hotpink-dark:#D31468;
+    --cyan:#26E0D6; --cyan-dark:#0FADA5;
+    --violet:#7A3BFF; --violet-dark:#5A24C9;
+    --cream-card:#FFFFFF; --line:rgba(24,14,31,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Public Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg-cream);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.06;margin:0 0 0.5em;font-weight:800;}
+  .container{max-width:760px;margin:0 auto;padding:0 24px;}
+  a{color:var(--hotpink-dark);}
+  .wrap-narrow{max-width:680px;}
+
+  .hero{background:radial-gradient(circle at 25% 20%, var(--violet) 0%, var(--black) 55%, var(--black2) 100%);color:#F6EEFF;padding:78px 24px 100px;}
+  .hero .eyebrow{font-size:1.05rem;color:var(--cyan);margin-bottom:14px;font-weight:700;}
+  .hero h1{font-size:clamp(2.1rem,5.2vw,3.3rem);max-width:15ch;color:#FEF3FA;}
+  .hero p{max-width:50ch;font-size:1.15rem;color:#E3D6F5;margin-top:14px;}
+  .hero-emoji-row{font-size:1.9rem;margin-top:28px;letter-spacing:8px;}
+  .wave{display:block;width:100%;height:56px;margin-bottom:-6px;}
+
+  .band{padding:60px 0;}
+  .band-cream{background:var(--bg-cream);}
+  .band-white{background:var(--bg-white);}
+  .band-pink{background:#FEE3F0;}
+  .band-cyan{background:#DFF9F6;}
+  .band-violet{background:#EFE7FB;}
+  .band-dark{background:radial-gradient(circle at 70% 30%, var(--violet-dark) 0%, var(--black) 70%);color:#F6EEFF;}
+
+  h2.section-title{font-size:clamp(1.5rem,3.4vw,2.05rem);margin-bottom:20px;}
+  .section-kicker{display:inline-block;font-size:0.95rem;font-weight:700;color:var(--hotpink-dark);background:#FFFFFF;padding:4px 14px;border-radius:100px;margin-bottom:14px;border:1px solid var(--line);}
+
+  .formula-box{background:var(--violet);color:#F3EEFF;border-radius:18px;padding:24px 26px;margin:24px 0;font-size:1.08rem;}
+  .formula-box strong{color:var(--cyan);}
+
+  .recipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:26px;}
+  .recipe-grid .card{background:var(--cream-card);border-radius:16px;padding:18px 20px;border:1px solid var(--line);border-top:4px solid var(--hotpink);}
+  .recipe-grid .card h3{font-size:1rem;color:var(--hotpink-dark);margin-bottom:6px;}
+  .recipe-grid .card .tag{display:inline-block;font-size:0.75rem;font-weight:700;color:var(--violet-dark);background:#EFE7FB;padding:2px 8px;border-radius:100px;margin-bottom:6px;}
+  .recipe-grid .card p{margin:0;font-size:0.92rem;color:var(--ink-soft);}
+
+  ul.recipe-list{list-style:none;padding:0;margin:22px 0;}
+  ul.recipe-list li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid var(--line);}
+  ul.recipe-list li:last-child{border-bottom:none;}
+  ul.recipe-list li::before{content:"✨";position:absolute;left:0;top:11px;font-size:0.9rem;}
+
+  .cta-box{text-align:center;padding:48px 30px;border-radius:22px;}
+  .cta-box h2{color:#FEF3FA;font-size:clamp(1.5rem,3.5vw,2.1rem);}
+  .cta-box p{color:#E3D6F5;max-width:52ch;margin:14px auto 26px;}
+  .btn{display:inline-block;background:var(--cyan);color:#0A2E2B;font-weight:700;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:1.05rem;}
+  .btn:hover{background:#5CF0E6;}
+
+  details{background:var(--cream-card);border:1px solid var(--line);border-left:5px solid var(--hotpink);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
+  summary{font-family:'Bricolage Grotesque';font-weight:700;cursor:pointer;font-size:1.02rem;}
+  details p{margin:10px 0 2px;color:var(--ink-soft);}
+
+  footer{text-align:center;padding:40px 24px 60px;color:var(--ink-soft);font-size:0.92rem;}
+  @media (max-width:560px){.band{padding:44px 0;}.hero{padding:58px 20px 84px;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">📱 Internet-Famous Fridge Recipes</div>
+    <h1>Viral fridge recipes everyone's making right now</h1>
+    <p>The internet's favorite "throw it together" recipes, explained — no hunting through 40 comments for the actual recipe.</p>
+    <div class="hero-emoji-row">🧊 🥢 🧀 ✨</div>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 56" preserveAspectRatio="none"><path fill="#FAF6FB" d="M0,28 C240,56 480,0 720,18 C960,36 1200,56 1440,20 L1440,56 L0,56 Z"/></svg>
+
+<main>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Why these blew up</span>
+      <h2 class="section-title">🔥 What makes a fridge recipe actually go viral</h2>
+      <p>The recipes that take over your feed almost always share the same three traits: they use ingredients people already have, they take under 15 minutes, and they look way more impressive than the effort they actually require. Here's a rundown of the ones worth trying — no scrolling through a 6-minute video for a recipe that's really four steps.</p>
+    </div>
+  </section>
+
+  <section class="band band-pink">
+    <div class="container">
+      <span class="section-kicker">The classics</span>
+      <h2 class="section-title">🧊 8 fridge recipes that took over everyone's feed</h2>
+      <div class="recipe-grid">
+        <div class="card"><span class="tag">Grated Everything</span><h3>Grated Tomato Pasta 🍅</h3><p>Grate a whole tomato into hot olive oil and garlic, toss with pasta and parmesan — that's the entire trick.</p></div>
+        <div class="card"><span class="tag">Feta Bake</span><h3>Baked Feta Pasta 🧀</h3><p>Block of feta + cherry tomatoes + olive oil, baked until soft, mashed together, tossed with pasta.</p></div>
+        <div class="card"><span class="tag">Cottage Cheese Wave</span><h3>Whipped Cottage Cheese Toast 🥑</h3><p>Blend cottage cheese until smooth, spread on toast, top with anything savory or sweet.</p></div>
+        <div class="card"><span class="tag">Rice Trend</span><h3>Butter Soy Sauce Rice 🍚</h3><p>Warm rice + a pat of butter + a splash of soy sauce, mixed — sounds too simple, tastes incredible.</p></div>
+        <div class="card"><span class="tag">Sauce Trend</span><h3>Marry Me Chicken Sauce 🍗</h3><p>Cream + parmesan + sun-dried tomato + garlic, simmered with chicken — the sauce is the whole point.</p></div>
+        <div class="card"><span class="tag">Wrap Trend</span><h3>Chopped Sandwich Wrap 🌯</h3><p>Finely chopped deli meat, cheese, and veggies mixed together, rolled tight in a tortilla, pan-seared.</p></div>
+        <div class="card"><span class="tag">Egg Trend</span><h3>Cloud Eggs / Egg Bites 🍳</h3><p>Whipped egg whites baked into a fluffy base, yolk added back in for a photogenic breakfast.</p></div>
+        <div class="card"><span class="tag">Salad Trend</span><h3>Cucumber Salad, Viral Style 🥒</h3><p>Thin-sliced cucumber + rice vinegar + sesame oil + chili crisp — five minutes, addictive.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-cyan">
+    <div class="container">
+      <span class="section-kicker">The pattern</span>
+      <h2 class="section-title">✨ The formula behind almost every viral fridge trend</h2>
+      <div class="formula-box">🎯 <strong>The pattern:</strong> one unexpected pairing (butter + soy sauce, feta + tomatoes, whipped cottage cheese) + a familiar base (pasta, toast, rice) = something that looks new but takes zero new skills to make.</div>
+      <p>Once you spot the pattern, you can basically invent your own "viral" combos — try any unexpected pairing on a familiar base and see what sticks.</p>
+    </div>
+  </section>
+
+  <section class="band band-violet">
+    <div class="container">
+      <span class="section-kicker">Before you try it</span>
+      <h2 class="section-title">📝 3 tips for actually nailing a viral recipe on the first try</h2>
+      <ul class="recipe-list">
+        <li><strong>Read the full method before starting</strong> — a lot of viral recipes skip a key step in the caption that's shown but not written</li>
+        <li><strong>Salt and taste as you go</strong> — the videos rarely show seasoning adjustments, but almost every recipe needs them</li>
+        <li><strong>Don't skip the resting or mashing step</strong> — the baked feta and grated tomato recipes especially depend on that final mix-together moment</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="container cta-box">
+      <h2>🤖 Want a "viral-style" idea built around your exact fridge?</h2>
+      <p>Tell Fridge Chef what you've got, and it'll suggest an easy, shareable combo — no filming required, just dinner. ✨</p>
+      <a class="btn" href="https://questmart.online/fridge-chef/">Try Fridge Chef free →</a>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Quick answers</span>
+      <h2 class="section-title">❓ Frequently asked questions</h2>
+      <details><summary>Are viral recipes actually as good as they look?</summary><p>Most of the ones here genuinely are — they trend because they're simple and surprisingly tasty, not just because they photograph well.</p></details>
+      <details><summary>Can I make baked feta pasta without cherry tomatoes?</summary><p>Yes — any small, juicy tomato works, and even canned diced tomatoes can be substituted in a pinch.</p></details>
+      <details><summary>What's the easiest viral recipe to start with?</summary><p>Butter soy sauce rice — it's two ingredients stirred into warm rice, with zero technique required.</p></details>
+      <details><summary>Do these recipes actually save time compared to a normal dinner?</summary><p>Most take 10–15 minutes and use ingredients you likely already have, which is exactly why they spread — they're genuinely fast, not just trendy.</p></details>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container wrap-narrow">
+      <h2 class="section-title">🎉 Final thoughts</h2>
+      <p>Viral fridge recipes stick around because they actually work — simple ingredients, unexpected pairings, minimal effort. Pick one, try it tonight, and see what the hype is about. ✨🧊</p>
+      <p>And if you want your own viral-worthy combo built from what's already in your fridge? <a href="https://questmart.online/fridge-chef/">Fridge Chef</a> can figure that out too. 🙌</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fridge Chef · Turn what's in your fridge into what's for dinner 🧊🍽️</footer>
+
+</body>
+</html>
