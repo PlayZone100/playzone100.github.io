@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Picky Eater Fixes: Fridge Meals Kids Will Actually Eat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#FFF8EF; --bg-white:#FFFFFF;
+    --ink:#25201A; --ink-soft:#5A4F42;
+    --sunny:#FFC93C; --sunny-dark:#D6A013;
+    --sky:#3DA9E0; --sky-dark:#2380AE;
+    --berry:#E8446B; --berry-dark:#C22B4E;
+    --leaf:#5CAD5B; --leaf-dark:#3E8A3E;
+    --cream-card:#FFFFFF; --line:rgba(37,32,26,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Public Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg-cream);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.08;margin:0 0 0.5em;font-weight:800;}
+  .container{max-width:760px;margin:0 auto;padding:0 24px;}
+  a{color:var(--berry-dark);}
+  .wrap-narrow{max-width:680px;}
+
+  .hero{background:linear-gradient(150deg, var(--sky-dark) 0%, var(--sky) 45%, var(--sunny) 100%);color:#1E2A33;padding:78px 24px 100px;}
+  .hero .eyebrow{font-size:1.05rem;color:#0F3A50;margin-bottom:14px;font-weight:700;}
+  .hero h1{font-size:clamp(2.1rem,5.2vw,3.2rem);max-width:16ch;color:#0F2733;}
+  .hero p{max-width:50ch;font-size:1.15rem;color:#1E3B4A;margin-top:14px;}
+  .hero-emoji-row{font-size:1.9rem;margin-top:28px;letter-spacing:8px;}
+  .wave{display:block;width:100%;height:56px;margin-bottom:-6px;}
+
+  .band{padding:60px 0;}
+  .band-cream{background:var(--bg-cream);}
+  .band-white{background:var(--bg-white);}
+  .band-sunny{background:#FFF1C7;}
+  .band-berry{background:#FBE0E7;}
+  .band-leaf{background:#E5F1E1;}
+  .band-dark{background:linear-gradient(135deg, var(--sky-dark) 0%, var(--berry-dark) 130%);color:#FFF6F2;}
+
+  h2.section-title{font-size:clamp(1.5rem,3.4vw,2.05rem);margin-bottom:20px;}
+  .section-kicker{display:inline-block;font-size:0.95rem;font-weight:700;color:var(--berry-dark);background:#FFFFFF;padding:4px 14px;border-radius:100px;margin-bottom:14px;border:1px solid var(--line);}
+
+  .formula-box{background:var(--leaf);color:#F0FAEE;border-radius:18px;padding:24px 26px;margin:24px 0;font-size:1.08rem;}
+  .formula-box strong{color:#FFF0A8;}
+
+  .chip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:26px;}
+  .chip{background:var(--cream-card);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;}
+  .chip .chip-emoji{font-size:1.7rem;display:block;margin-bottom:8px;}
+  .chip strong{font-size:0.96rem;}
+
+  .recipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:26px;}
+  .recipe-grid .card{background:var(--cream-card);border-radius:16px;padding:18px 20px;border:1px solid var(--line);border-top:4px solid var(--berry);}
+  .recipe-grid .card h3{font-size:1rem;color:var(--berry-dark);margin-bottom:6px;}
+  .recipe-grid .card p{margin:0;font-size:0.92rem;color:var(--ink-soft);}
+
+  ul.recipe-list{list-style:none;padding:0;margin:22px 0;}
+  ul.recipe-list li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid var(--line);}
+  ul.recipe-list li:last-child{border-bottom:none;}
+  ul.recipe-list li::before{content:"🌟";position:absolute;left:0;top:11px;font-size:0.9rem;}
+
+  .cta-box{text-align:center;padding:48px 30px;border-radius:22px;}
+  .cta-box h2{color:#FFF6F2;font-size:clamp(1.5rem,3.5vw,2.1rem);}
+  .cta-box p{color:#FBDCE2;max-width:52ch;margin:14px auto 26px;}
+  .btn{display:inline-block;background:var(--sunny);color:#3A2A00;font-weight:700;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:1.05rem;}
+  .btn:hover{background:#FFDB70;}
+
+  details{background:var(--cream-card);border:1px solid var(--line);border-left:5px solid var(--sky);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
+  summary{font-family:'Bricolage Grotesque';font-weight:700;cursor:pointer;font-size:1.02rem;}
+  details p{margin:10px 0 2px;color:var(--ink-soft);}
+
+  footer{text-align:center;padding:40px 24px 60px;color:var(--ink-soft);font-size:0.92rem;}
+  @media (max-width:560px){.band{padding:44px 0;}.hero{padding:58px 20px 84px;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">🧒 Picky Eater Rescue Kit</div>
+    <h1>Picky eater fixes: fridge meals kids will actually eat</h1>
+    <p>No hiding vegetables in smoothies out of desperation — just meals that work with picky eating, not against it.</p>
+    <div class="hero-emoji-row">🍕 🧀 🍓 🥕</div>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 56" preserveAspectRatio="none"><path fill="#FFF8EF" d="M0,28 C240,56 480,0 720,18 C960,36 1200,56 1440,20 L1440,56 L0,56 Z"/></svg>
+
+<main>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Take a breath</span>
+      <h2 class="section-title">🍽️ Picky eating is normal — here's how to work with it, not against it</h2>
+      <p>If dinner has turned into a negotiation and half the plate ends up on the floor, you are extremely not alone. Picky eating is a completely normal phase for a lot of kids, and the meals that actually work usually share a few traits: familiar shapes, separated components (not mixed-together dishes), and at least one thing on the plate you already know they'll eat. 🌟</p>
+    </div>
+  </section>
+
+  <section class="band band-sunny">
+    <div class="container">
+      <span class="section-kicker">The formula</span>
+      <h2 class="section-title">🎯 The "safe + new" plate method</h2>
+      <div class="formula-box">🌟 <strong>The formula:</strong> 1 food you know they'll eat + 1 new or less-favorite food, served separately, no pressure to finish either one.</div>
+      <p>This takes the pressure off both of you — there's always something they'll actually eat, and the new food gets normalized over time without a fight over every bite.</p>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container">
+      <span class="section-kicker">Kid-tested combos</span>
+      <h2 class="section-title">🍕 10 fridge meals picky eaters tend to actually finish</h2>
+      <div class="recipe-grid">
+        <div class="card"><h3>DIY Mini Pizzas 🍕</h3><p>English muffin + sauce + cheese, kids add their own toppings</p></div>
+        <div class="card"><h3>Cheese Quesadilla Triangles 🧀</h3><p>Cut into fun shapes, served with a mild dip on the side</p></div>
+        <div class="card"><h3>Build-Your-Own Snack Plate 🍓</h3><p>Small portions of 4–5 familiar items, no mixing required</p></div>
+        <div class="card"><h3>Pasta with Butter & Parmesan 🍝</h3><p>Simple, familiar, and a safe base for adding veggies on the side</p></div>
+        <div class="card"><h3>Chicken Nuggets + Dip Bar 🍗</h3><p>Homemade or store-bought, with 2–3 dips to make it feel like a choice</p></div>
+        <div class="card"><h3>Fruit & Yogurt Parfait Cup 🍓</h3><p>Layered so each part stays separate and visible</p></div>
+        <div class="card"><h3>Mini Muffin-Tin Meals 🧁</h3><p>Each cup holds a different small portion — variety without overwhelm</p></div>
+        <div class="card"><h3>Grilled Cheese Dippers 🧀</h3><p>Cut into strips, served with a small cup of tomato soup for dipping</p></div>
+        <div class="card"><h3>Veggie & Ranch Cups 🥕</h3><p>Familiar dip makes new vegetables feel less intimidating</p></div>
+        <div class="card"><h3>Scrambled Egg Cups 🥚</h3><p>Mini muffin-tin eggs with a little cheese, easy to hold and eat</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-leaf">
+    <div class="container">
+      <span class="section-kicker">Sneaky, not tricky</span>
+      <h2 class="section-title">🥕 3 gentle ways to add nutrition without a fight</h2>
+      <div class="chip-grid">
+        <div class="chip"><span class="chip-emoji">🥣</span><strong>Offer, don't insist</strong></div>
+        <div class="chip"><span class="chip-emoji">🔁</span><strong>Reintroduce foods repeatedly</strong></div>
+        <div class="chip"><span class="chip-emoji">🍽️</span><strong>Let them help prepare it</strong></div>
+      </div>
+      <p style="margin-top:22px;">It can take 10+ exposures before a new food is accepted — that's normal, not a sign something's wrong. Letting kids help wash, stir, or plate food also tends to increase willingness to actually try it.</p>
+    </div>
+  </section>
+
+  <section class="band band-berry">
+    <div class="container">
+      <span class="section-kicker">A note from the sidelines</span>
+      <h2 class="section-title">💛 This part is genuinely temporary</h2>
+      <p>Most picky eating phases ease with time, patience, and low-pressure repeated exposure — not with forcing bites or making mealtime a battle. If you're ever worried it's affecting growth or nutrition beyond typical pickiness, a pediatrician or a registered dietitian is the right person to check in with, not a search engine at 6pm.</p>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="container cta-box">
+      <h2>🤖 Fridge full of odds and ends, no kid-friendly plan?</h2>
+      <p>Tell Fridge Chef what's in the fridge and get a simple, low-stress meal idea — one less decision on an already long day. 🍕</p>
+      <a class="btn" href="https://questmart.online/fridge-chef/">Try Fridge Chef free →</a>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Quick answers</span>
+      <h2 class="section-title">❓ Frequently asked questions</h2>
+      <details><summary>Is it okay to serve the same few meals on repeat?</summary><p>Yes — a rotation of familiar, accepted meals is completely fine while you slowly introduce new foods alongside them, without pressure.</p></details>
+      <details><summary>How many times should I offer a food a child rejected before giving up?</summary><p>Research generally suggests it can take 10 or more exposures before a new food is accepted, so repeated, low-pressure offering matters more than any single meal.</p></details>
+      <details><summary>Should I make a separate meal for a picky eater every night?</summary><p>Many pediatric feeding experts suggest including at least one familiar item alongside the family meal, rather than cooking an entirely separate dish every time — it keeps mealtime simpler for everyone.</p></details>
+      <details><summary>When is picky eating something to bring up with a doctor?</summary><p>If it's affecting weight, growth, or the range of foods is extremely limited and not improving over time, it's worth discussing with a pediatrician rather than waiting it out.</p></details>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container wrap-narrow">
+      <h2 class="section-title">🎉 Final thoughts</h2>
+      <p>Picky eating isn't a parenting failure — it's a phase, and meals that keep familiar and new foods separate, low-pressure, and easy to prep tend to make it much less stressful for everyone at the table. 🌟🍽️</p>
+      <p>And on the nights you're fresh out of ideas? <a href="https://questmart.online/fridge-chef/">Fridge Chef</a> can help you figure out what to make. 🙌</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fridge Chef · Turn what's in your fridge into what's for dinner 🧊🍽️</footer>
+
+</body>
+</html>
