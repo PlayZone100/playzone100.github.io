@@ -136,7 +136,7 @@
 
 <div class="page-head">
   <h1>Find your next project</h1>
-  <p>Post a project, or browse open ones below. Payouts are sent manually by our team once you approve delivered work.</p>
+  <p>Post a project, or browse open ones below. Funds are held in escrow the moment a project is funded, and released automatically once you approve the delivered work.</p>
 </div>
 
 <div class="search-bar">
@@ -349,7 +349,7 @@
         <div class="modal-stat"><div class="l">Category</div><div class="v" style="font-size:14px;">${p.category}</div></div>
       </div>
       <div class="modal-desc">${escapeHtml(p.desc || '')}</div>
-      <div class="modal-escrow">🔒 Once you accept this project, deliver your work through your dashboard. Payment (80%, minus a 20% platform fee) is sent manually by our team once the client approves.</div>
+      <div class="modal-escrow">🔒 This project is escrow-protected: the full budget is already locked with QuestMart and cannot be reclaimed by the client or withdrawn early by either side. Once you accept and deliver through your dashboard, payment (80%, minus the 20% platform fee) is released automatically to your wallet as soon as the client approves — or after our review team resolves the matter if there's a dispute.</div>
       <button class="btn-apply" id="acceptBtn" onclick="applyToProject(${p.id})">Accept this project</button>
     `;
     document.getElementById('detailModal').classList.add('show');
