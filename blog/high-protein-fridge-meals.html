@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>High-Protein Fridge Meals: Build Muscle Without Grocery Runs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#F3F7EF; --bg-white:#FFFFFF;
+    --ink:#161B14; --ink-soft:#454F41;
+    --black:#141712; --black2:#20261C;
+    --acid:#B6FF3C; --acid-dark:#7FBF17;
+    --steel:#2D3A2A;
+    --coral:#FF6B57; --coral-dark:#D6472F;
+    --cream-card:#FFFFFF; --line:rgba(22,27,20,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Public Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg-cream);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.06;margin:0 0 0.5em;font-weight:800;}
+  .container{max-width:760px;margin:0 auto;padding:0 24px;}
+  a{color:var(--coral-dark);}
+  .wrap-narrow{max-width:680px;}
+
+  .hero{background:linear-gradient(150deg, var(--black) 0%, var(--steel) 60%, #3C4A33 130%);color:#EFF6E8;padding:78px 24px 100px;}
+  .hero .eyebrow{font-size:1.05rem;color:var(--acid);margin-bottom:14px;font-weight:700;}
+  .hero h1{font-size:clamp(2.1rem,5.2vw,3.2rem);max-width:16ch;color:#F6FBF0;}
+  .hero p{max-width:50ch;font-size:1.15rem;color:#D7E3CE;margin-top:14px;}
+  .hero-emoji-row{font-size:1.9rem;margin-top:28px;letter-spacing:8px;}
+  .wave{display:block;width:100%;height:56px;margin-bottom:-6px;}
+
+  .band{padding:64px 0;}
+  .band-cream{background:var(--bg-cream);}
+  .band-white{background:var(--bg-white);}
+  .band-acid{background:#E9F7C9;}
+  .band-coral{background:#FDE4DE;}
+  .band-dark{background:linear-gradient(135deg, var(--black) 0%, var(--coral-dark) 130%);color:#F6FBF0;}
+
+  h2.section-title{font-size:clamp(1.5rem,3.4vw,2.05rem);margin-bottom:20px;}
+  .section-kicker{display:inline-block;font-size:0.95rem;font-weight:700;color:var(--coral-dark);background:#FFFFFF;padding:4px 14px;border-radius:100px;margin-bottom:14px;border:1px solid var(--line);}
+
+  .formula-box{background:var(--steel);color:#EAF5E2;border-radius:18px;padding:24px 26px;margin:24px 0;font-size:1.08rem;}
+  .formula-box strong{color:var(--acid);}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:24px;}
+  .stat-card{background:var(--cream-card);border:1px solid var(--line);border-radius:16px;padding:20px;text-align:center;}
+  .stat-card .num{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.6rem;color:var(--coral-dark);display:block;}
+  .stat-card .lbl{color:var(--ink-soft);font-size:0.88rem;}
+
+  .table-wrap{overflow-x:auto;margin-top:24px;border-radius:14px;border:1px solid var(--line);}
+  table{border-collapse:collapse;width:100%;background:#FFFFFF;min-width:460px;}
+  th,td{text-align:left;padding:13px 16px;font-size:0.98rem;}
+  thead th{background:var(--acid);color:#22300F;font-family:'Bricolage Grotesque';font-weight:700;}
+  tbody tr:nth-child(odd){background:#F6FAF1;}
+  tbody tr:not(:last-child) td{border-bottom:1px solid var(--line);}
+
+  .recipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:26px;}
+  .recipe-grid .card{background:var(--cream-card);border-radius:16px;padding:18px 20px;border:1px solid var(--line);border-top:4px solid var(--coral);}
+  .recipe-grid .card h3{font-size:1rem;color:var(--coral-dark);margin-bottom:6px;}
+  .recipe-grid .card p{margin:0;font-size:0.92rem;color:var(--ink-soft);}
+
+  ul.recipe-list{list-style:none;padding:0;margin:22px 0;}
+  ul.recipe-list li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid var(--line);}
+  ul.recipe-list li:last-child{border-bottom:none;}
+  ul.recipe-list li::before{content:"💪";position:absolute;left:0;top:11px;font-size:0.9rem;}
+
+  .cta-box{text-align:center;padding:48px 30px;border-radius:22px;}
+  .cta-box h2{color:#F6FBF0;font-size:clamp(1.5rem,3.5vw,2.1rem);}
+  .cta-box p{color:#D7E3CE;max-width:52ch;margin:14px auto 26px;}
+  .btn{display:inline-block;background:var(--acid);color:#22300F;font-weight:700;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:1.05rem;}
+  .btn:hover{background:#CBFF6E;}
+
+  details{background:var(--cream-card);border:1px solid var(--line);border-left:5px solid var(--coral);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
+  summary{font-family:'Bricolage Grotesque';font-weight:700;cursor:pointer;font-size:1.02rem;}
+  details p{margin:10px 0 2px;color:var(--ink-soft);}
+
+  footer{text-align:center;padding:40px 24px 60px;color:var(--ink-soft);font-size:0.92rem;}
+  @media (max-width:560px){.band{padding:48px 0;}.hero{padding:58px 20px 84px;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">💪 High-Protein Fridge Guide</div>
+    <h1>High-protein fridge meals: build muscle without grocery runs</h1>
+    <p>Hit your protein target without meal-prepping every Sunday like it's a part-time job.</p>
+    <div class="hero-emoji-row">🥚 🍗 🧀 🥛</div>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 56" preserveAspectRatio="none"><path fill="#F3F7EF" d="M0,28 C240,56 480,0 720,18 C960,36 1200,56 1440,20 L1440,56 L0,56 Z"/></svg>
+
+<main>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">The real bottleneck</span>
+      <h2 class="section-title">🎯 Hitting your protein goal isn't a cooking problem — it's a planning problem</h2>
+      <p>Most people don't fall short on protein because high-protein food is hard to cook. They fall short because by 7pm, tired and hungry, the path of least resistance is whatever's easiest — and that's rarely the chicken breast defrosting in the sink. The fix isn't more discipline. It's stocking a fridge where the easiest option <em>is</em> the high-protein one. 💪</p>
+    </div>
+  </section>
+
+  <section class="band band-acid">
+    <div class="container">
+      <span class="section-kicker">Stock these</span>
+      <h2 class="section-title">🥚 The 8 fridge staples that make protein effortless</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ingredient</th><th>Protein per serving</th><th>Zero-effort use</th></tr></thead>
+          <tbody>
+            <tr><td>Eggs 🥚</td><td>~6g each</td><td>Scrambled, boiled, in anything</td></tr>
+            <tr><td>Greek yogurt 🥛</td><td>~15–20g/cup</td><td>Straight from the tub, sweet or savory</td></tr>
+            <tr><td>Cottage cheese 🧀</td><td>~24g/cup</td><td>Spoon it straight, no prep</td></tr>
+            <tr><td>Rotisserie or grilled chicken 🍗</td><td>~25g/100g</td><td>Shred and add to anything</td></tr>
+            <tr><td>Canned tuna or salmon 🐟</td><td>~22g/can</td><td>No cooking required at all</td></tr>
+            <tr><td>Deli turkey or ham 🥪</td><td>~9g/2 slices</td><td>Roll it up, eat it plain or in a wrap</td></tr>
+            <tr><td>Tofu, pressed 🍢</td><td>~10g/half cup</td><td>Cube and pan-sear or add to stir-fry</td></tr>
+            <tr><td>Canned beans/lentils 🫘</td><td>~15g/cup</td><td>Straight into any bowl or wrap</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container">
+      <span class="section-kicker">Under 10 minutes</span>
+      <h2 class="section-title">🍳 10 high-protein meals with almost no cooking</h2>
+      <div class="recipe-grid">
+        <div class="card"><h3>Cottage Cheese Bowl 🧀</h3><p>~28g protein — cottage cheese + hot sauce or honey + everything bagel seasoning</p></div>
+        <div class="card"><h3>3-Egg Scramble + Cheese 🥚</h3><p>~24g protein — eggs + cheese + whatever veg needs using, 4 minutes</p></div>
+        <div class="card"><h3>Greek Yogurt Protein Bowl 🥣</h3><p>~25g protein — yogurt + nuts + fruit or honey, zero cooking</p></div>
+        <div class="card"><h3>Tuna & Cracker Plate 🐟</h3><p>~22g protein — canned tuna + mayo + crackers, ready in 2 minutes</p></div>
+        <div class="card"><h3>Turkey & Cheese Roll-Ups 🥪</h3><p>~18g protein — deli turkey rolled with cheese, no bread needed</p></div>
+        <div class="card"><h3>Protein Rice Bowl 🍚</h3><p>~30g protein — rice + shredded chicken + beans + hot sauce</p></div>
+        <div class="card"><h3>Egg & Avocado Toast 🥑</h3><p>~15g protein — fried egg over avocado toast, 5 minutes</p></div>
+        <div class="card"><h3>Tofu Stir-Fry 🍢</h3><p>~20g protein — pressed tofu cubes pan-seared with any veg and soy sauce</p></div>
+        <div class="card"><h3>Chicken Caesar Wrap 🌯</h3><p>~28g protein — shredded chicken + lettuce + dressing in a tortilla</p></div>
+        <div class="card"><h3>Protein Quesadilla 🧀</h3><p>~26g protein — tortilla + cheese + shredded chicken or beans, pan-fried</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-coral">
+    <div class="container">
+      <span class="section-kicker">Do the math once</span>
+      <h2 class="section-title">📊 What a realistic high-protein day actually looks like</h2>
+      <div class="stat-grid">
+        <div class="stat-card"><span class="num">~25g</span><span class="lbl">breakfast: eggs + Greek yogurt</span></div>
+        <div class="stat-card"><span class="num">~30g</span><span class="lbl">lunch: chicken rice bowl</span></div>
+        <div class="stat-card"><span class="num">~28g</span><span class="lbl">dinner: tofu or salmon stir-fry</span></div>
+      </div>
+      <p style="margin-top:22px;">That's roughly 80g+ from three normal meals — no protein shakes, no meal-prep containers lined up like a factory line. Just a fridge stocked with the right defaults.</p>
+      <div class="formula-box">🎯 <strong>The formula:</strong> a lean protein (egg, chicken, tofu, beans) + a carb + a vegetable + a sauce = a high-protein meal that doesn't feel like "diet food."</div>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Batch it once, eat all week</span>
+      <h2 class="section-title">🍗 The 20-minute protein prep that covers 4 days</h2>
+      <ul class="recipe-list">
+        <li><strong>Boil a dozen eggs</strong> — grab-and-go protein for the entire week</li>
+        <li><strong>Roast or grill a big batch of chicken</strong> — shred it, use it across 4–5 different meals</li>
+        <li><strong>Cook a pot of rice or quinoa</strong> — the base for every bowl you'll make</li>
+        <li><strong>Portion Greek yogurt or cottage cheese into containers</strong> — grab-and-go, zero decisions needed</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="container cta-box">
+      <h2>🤖 Have protein sources but no idea how to combine them?</h2>
+      <p>Tell Fridge Chef what's in your fridge — chicken, eggs, tofu, whatever — and get a real high-protein meal idea instantly, without doing the math yourself. 💪</p>
+      <a class="btn" href="https://questmart.online/fridge-chef/">Try Fridge Chef free →</a>
+    </div>
+  </section>
+
+  <section class="band band-cream">
+    <div class="container">
+      <span class="section-kicker">Quick answers</span>
+      <h2 class="section-title">❓ Frequently asked questions</h2>
+      <details><summary>What's the easiest way to hit a high protein target without meal prepping all day?</summary><p>Stock 3–4 zero-effort staples (eggs, Greek yogurt, cottage cheese, canned tuna or beans) so the fastest option in your fridge is automatically a high-protein one.</p></details>
+      <details><summary>Is cottage cheese actually a good protein source?</summary><p>Yes — it's one of the highest-protein-per-calorie dairy options available, and needs zero preparation.</p></details>
+      <details><summary>Do I need protein powder to hit my goals?</summary><p>Not necessarily. Whole-food sources like eggs, chicken, tofu, and Greek yogurt can cover most people's needs without any supplements, though a shake can help fill gaps on busy days.</p></details>
+      <details><summary>How much protein should I aim for per meal?</summary><p>General guidance from nutrition research suggests roughly 20–40g per meal supports muscle maintenance and growth well, though individual needs vary — a registered dietitian can help tailor this to you.</p></details>
+    </div>
+  </section>
+
+  <section class="band band-white">
+    <div class="container wrap-narrow">
+      <h2 class="section-title">🎉 Final thoughts</h2>
+      <p>Hitting your protein goals doesn't require a spreadsheet or seven meal-prep containers lined up on a Sunday. It requires a fridge stocked with a handful of zero-effort staples, and a couple of 20-minute formulas you can make on autopilot. 💪🍗</p>
+      <p>And when you've got protein sources but zero inspiration? <a href="https://questmart.online/fridge-chef/">Fridge Chef</a> will put it together for you. 🙌</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fridge Chef · Turn what's in your fridge into what's for dinner 🧊🍽️</footer>
+
+</body>
+</html>
