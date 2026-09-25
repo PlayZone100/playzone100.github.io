@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +22,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;m
 h1{font-size:2.4rem;line-height:1.2;margin-bottom:.2em}
 h2{font-size:1.6rem;margin-top:2.8em;border-bottom:3px solid #2e7d32;padding-bottom:.3em}
 h3{font-size:1.2rem;margin-top:1.5em}
-img, iframe{max-width:100%;border-radius:12px;display:block;margin:1.5em auto}
+img, video{max-width:100%;border-radius:12px;display:block;margin:1.5em auto}
 .meta{color:#888;font-size:.95rem;margin-bottom:2em}
 .cta-box{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:2px solid #2e7d32;border-radius:16px;padding:28px;margin:2.5em 0;text-align:center}
 .cta-box a.button{display:inline-block;background:#2e7d32;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1.1rem;margin-top:12px;box-shadow:0 4px 12px rgba(46,125,50,.3)}
@@ -29,8 +30,8 @@ img, iframe{max-width:100%;border-radius:12px;display:block;margin:1.5em auto}
 .stat{background:#f7f7f2;padding:16px;border-radius:12px;text-align:center;border:1px solid #eee}
 .stat b{font-size:1.8rem;color:#2e7d32;display:block}
 blockquote{border-left:4px solid #2e7d32;margin:1.5em 0;padding:.8em 1.2em;background:#f7f7f2;font-style:italic}
-.video-box{background:#000;border-radius:16px;overflow:hidden;margin:2em 0;position:relative;padding-top:56.25%}
-.video-box iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.video-wrapper{background:#000;border-radius:16px;overflow:hidden;margin:2em 0;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.video-wrapper video{width:100%;display:block;margin:0;border-radius:0;max-height:650px}
 a{color:#2e7d32}
 .faq{margin-top:1em}
 .faq b{display:block;margin-top:1em}
@@ -55,9 +56,11 @@ a{color:#2e7d32}
 
 <h2>Watch: Day 1 vs Day 30 Fridge Scan (1 min)</h2>
 
-<div class="video-box">
-<!-- این ویدیو رو خودت با گوشی بگیر، تو یوتیوب آپلود کن و لینکش رو اینجا بذار -->
-<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" title="Fridge Scan Challenge" allowfullscreen></iframe>
+<div class="video-wrapper">
+<video controls autoplay muted loop playsinline preload="metadata" poster="https://hungryforever.net/wp-content/uploads/2017/04/FRIDGE_3167330b.jpg">
+  <source src="https://cdn.videy.co/Jtv84XCV1.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 </div>
 <p style="text-align:center;font-size:.9rem;color:#777">^ My actual fridge scan on Day 1. AI found 11 usable ingredients I thought were trash.</p>
 
@@ -135,7 +138,6 @@ Fridge Chef has allergy filter - gluten, dairy, halal, vegan.
 
 <b>Can I really go 30 days no grocery?</b>
 Start with 7 days. Most people do 7, then realize they can do 30.
-
 </div>
 
 <p style="margin-top:3em;color:#888;font-size:.9rem">P.S. Want my full budget breakdown? I tracked every meal. DM me on Instagram @questmart - I'll send the sheet.</p>
