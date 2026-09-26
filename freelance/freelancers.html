@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Find Freelancers — QuestMart Freelance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#141A2E; --navy-deep:#0D111F; --amber:#E3A23A; --sage:#7C9885;
+    --rust:#C0432E; --paper:#F4F1EA; --paper-dim:#E7E2D6; --ink:#1C2233;
+    --line:rgba(20,26,46,0.14); --white:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ font-family:'Inter', sans-serif; background:var(--paper); color:var(--ink);
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+  a{color:inherit;}
+
+  header.site{
+    position:sticky; top:0; z-index:60; background:rgba(244,241,234,0.94); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line); padding:14px 6vw; padding-top:calc(14px + env(safe-area-inset-top,0px));
+    display:flex; align-items:center; justify-content:space-between; gap:20px;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px; flex:none; text-decoration:none;}
+  .brand .mark{width:28px; height:28px; border-radius:8px; background:var(--navy); position:relative; flex:none;}
+  .brand .mark::after{content:""; position:absolute; inset:8px; background:var(--amber); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);}
+  nav.main-nav{display:flex; align-items:center; gap:6px; flex:1;}
+  nav.main-nav a{ text-decoration:none; font-size:13.5px; font-weight:600; color:#565D73; padding:8px 14px; border-radius:8px; position:relative; }
+  nav.main-nav a.active{color:var(--navy-deep); background:var(--paper-dim);}
+  .nav-badge{ position:absolute; top:2px; right:2px; background:var(--rust); color:#fff; font-size:9px; font-weight:800; min-width:15px; height:15px; border-radius:8px; display:flex; align-items:center; justify-content:center; padding:0 3px; }
+  .head-actions{display:flex; align-items:center; gap:10px; flex:none;}
+  .btn-text{ background:none; border:none; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--navy); cursor:pointer; padding:8px 6px; }
+  .btn-primary{ background:var(--amber); color:var(--navy-deep); border:none; border-radius:8px; padding:10px 18px; font-family:inherit; font-size:13.5px; font-weight:700; cursor:pointer; }
+  .user-name{font-size:13px; color:#565D73; font-weight:600;}
+
+  .page-head{max-width:1280px; margin:0 auto; padding:4vw 6vw 1.5vw;}
+  .page-head h1{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(26px,3.2vw,36px); color:var(--navy-deep);}
+  .page-head p{margin-top:8px; color:#565D73; font-size:15px;}
+
+  .search-bar{ max-width:1280px; margin:0 auto; padding:0 6vw 1.5vw; display:flex; gap:10px; flex-wrap:wrap; }
+  .search-bar input[type="text"]{ flex:1; min-width:220px; border:1px solid var(--line); border-radius:10px; padding:13px 16px; font-family:inherit; font-size:14px; background:var(--white); }
+  .search-bar select{ border:1px solid var(--line); border-radius:10px; padding:13px 14px; font-family:inherit; font-size:13.5px; background:var(--white); color:var(--ink); }
+
+  .layout{max-width:1280px; margin:0 auto; padding:0 6vw 8vw; display:grid; grid-template-columns:250px 1fr; gap:32px; align-items:start;}
+  .filters{ background:var(--white); border:1px solid var(--line); border-radius:16px; padding:20px; position:sticky; top:90px; }
+  .filters h3{font-size:13px; font-weight:700; color:var(--navy-deep); margin-bottom:12px;}
+  .filter-group{margin-bottom:22px;}
+  .filter-group:last-child{margin-bottom:0;}
+  .filter-group input[type="text"], .filter-group input[type="number"]{ width:100%; border:1px solid var(--line); border-radius:9px; padding:10px 12px; font-family:inherit; font-size:13px; background:var(--paper); }
+  .rate-inputs{display:flex; align-items:center; gap:8px;}
+  .rate-inputs input{width:100%;}
+  .clear-filters{ background:none; border:none; font-family:inherit; font-size:12.5px; font-weight:700; color:var(--rust); cursor:pointer; margin-top:6px; padding:0; }
+
+  .results-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px;}
+  .results-count{font-size:14px; color:#565D73;}
+  .results-count b{color:var(--navy-deep);}
+
+  .fl-grid{display:flex; flex-direction:column; gap:14px;}
+  .fl-card{ background:var(--white); border:1px solid var(--line); border-radius:16px; padding:22px; cursor:pointer; transition:border-color .15s, box-shadow .15s; display:flex; gap:18px; align-items:flex-start; text-decoration:none; }
+  .fl-card:hover{border-color:var(--navy); box-shadow:0 10px 26px -18px rgba(20,26,46,0.35);}
+  .fl-avatar{ width:52px; height:52px; border-radius:14px; background:var(--navy); color:var(--amber); font-family:'Fraunces',serif; font-weight:600; font-size:20px; display:flex; align-items:center; justify-content:center; flex:none; }
+  .fl-main{flex:1; min-width:0;}
+  .fl-name-row{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .fl-name{font-size:16px; font-weight:700; color:var(--navy-deep);}
+  .verified-tag{ display:inline-flex; align-items:center; gap:3px; color:#2C6FBF; font-weight:700; font-size:12.5px; }
+  .fl-headline{font-size:13.5px; color:#565D73; margin-top:4px;}
+  .fl-meta{display:flex; gap:14px; flex-wrap:wrap; margin-top:10px; font-size:12.5px; color:#7A8096;}
+  .fl-skills{margin-top:10px;}
+  .skill-chip{ display:inline-block; font-size:11.5px; font-weight:600; color:#3F5B47; background:rgba(124,152,133,0.14); padding:4px 11px; border-radius:20px; margin:0 6px 6px 0; }
+  .fl-rate-box{text-align:right; flex:none;}
+  .fl-rate{font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:600; color:var(--navy-deep);}
+  .fl-rate-sub{font-size:11px; color:#9AA0B2; margin-top:2px;}
+  .fl-stars{color:var(--amber); font-size:12.5px; margin-top:6px;}
+
+  .empty-state{ text-align:center; padding:60px 20px; color:#7A8096; font-size:14px; background:var(--white); border:1px dashed var(--line); border-radius:16px; }
+
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr;}
+    .filters{position:static;}
+    nav.main-nav{display:none;}
+    .fl-rate-box{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <a class="brand" href="index.html"><span class="mark"></span> QuestMart Freelance</a>
+  <nav class="main-nav">
+    <a href="projects.html">Browse Projects</a>
+    <a href="freelancers.html" class="active">Find Freelancers</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="messages.html">Messages<span class="nav-badge" id="navUnread" style="display:none;"></span></a>
+  </nav>
+  <div class="head-actions" id="headActions"></div>
+</header>
+
+<div class="page-head">
+  <h1>Find a freelancer</h1>
+  <p>Browse freelancers by skill, rate and rating. To hire someone, post a project and invite them to apply, or wait for them to send a proposal.</p>
+</div>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search by name, headline or skill — e.g. React, logo design...">
+  <select id="sortSelect">
+    <option value="rating">Sort: Top rated</option>
+    <option value="jobs">Sort: Most jobs completed</option>
+    <option value="rate_low">Sort: Rate (low to high)</option>
+    <option value="rate_high">Sort: Rate (high to low)</option>
+  </select>
+</div>
+
+<div class="layout">
+  <aside class="filters">
+    <h3>Skill</h3>
+    <div class="filter-group"><input type="text" id="skillInput" placeholder="e.g. WordPress"></div>
+    <h3>Hourly rate (USD)</h3>
+    <div class="filter-group">
+      <div class="rate-inputs">
+        <input type="number" id="minRate" placeholder="Min" min="0">
+        <span>–</span>
+        <input type="number" id="maxRate" placeholder="Max" min="0">
+      </div>
+    </div>
+    <button class="clear-filters" id="clearFilters">Clear all filters</button>
+  </aside>
+
+  <div>
+    <div class="results-head">
+      <div class="results-count"><b id="resultCount">0</b> freelancers found</div>
+    </div>
+    <div class="fl-grid" id="flGrid"><div class="empty-state">Loading freelancers…</div></div>
+  </div>
+</div>
+
+<script>
+  const API_URL = "https://questmart-freelance-api.alice56885236.workers.dev";
+  let token = localStorage.getItem('qm_token');
+  let currentUser = null;
+  try { currentUser = JSON.parse(localStorage.getItem('qm_user') || 'null'); } catch(e){ currentUser = null; }
+
+  let debounceTimer;
+  function debounced(fn, ms){ return (...args)=>{ clearTimeout(debounceTimer); debounceTimer = setTimeout(()=>fn(...args), ms); }; }
+
+  document.getElementById('searchInput').addEventListener('input', debounced(loadFreelancers, 350));
+  document.getElementById('skillInput').addEventListener('input', debounced(loadFreelancers, 350));
+  document.getElementById('minRate').addEventListener('input', debounced(loadFreelancers, 350));
+  document.getElementById('maxRate').addEventListener('input', debounced(loadFreelancers, 350));
+  document.getElementById('sortSelect').addEventListener('change', loadFreelancers);
+  document.getElementById('clearFilters').addEventListener('click', ()=>{
+    document.getElementById('searchInput').value = '';
+    document.getElementById('skillInput').value = '';
+    document.getElementById('minRate').value = '';
+    document.getElementById('maxRate').value = '';
+    document.getElementById('sortSelect').value = 'rating';
+    loadFreelancers();
+  });
+
+  function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  function initials(name){ return String(name||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
+  function stars(n){ if(n==null) return ''; const full = Math.round(n); return '★★★★★☆☆☆☆☆'.slice(5-full,10-full); }
+
+  function authHeaders(extra){
+    const h = Object.assign({}, extra || {});
+    if(token) h["Authorization"] = "Bearer " + token;
+    return h;
+  }
+
+  async function refreshUnread(){
+    if(!token) return;
+    try{
+      const res = await fetch(`${API_URL}/api/me`, { headers: authHeaders() });
+      const me = await res.json();
+      if(me.error) return;
+      const badge = document.getElementById('navUnread');
+      if(me.unread > 0){ badge.style.display = 'flex'; badge.textContent = me.unread > 9 ? '9+' : me.unread; }
+    } catch(e){}
+  }
+
+  function updateAuthUI(){
+    const el = document.getElementById('headActions');
+    if(currentUser){
+      el.innerHTML = `<span class="user-name">${escapeHtml(currentUser.name)}</span><button class="btn-text" id="logoutBtn">Log out</button>`;
+      document.getElementById('logoutBtn').addEventListener('click', ()=>{
+        localStorage.removeItem('qm_token'); localStorage.removeItem('qm_user');
+        location.reload();
+      });
+    } else {
+      el.innerHTML = `<a href="projects.html"><button class="btn-text">Log in</button></a><a href="signup.html"><button class="btn-primary">Sign up</button></a>`;
+    }
+  }
+
+  async function loadFreelancers(){
+    const grid = document.getElementById('flGrid');
+    grid.innerHTML = `<div class="empty-state">Loading freelancers…</div>`;
+    const params = new URLSearchParams();
+    const q = document.getElementById('searchInput').value.trim();
+    const skill = document.getElementById('skillInput').value.trim();
+    const minRate = document.getElementById('minRate').value;
+    const maxRate = document.getElementById('maxRate').value;
+    const sort = document.getElementById('sortSelect').value;
+    if(q) params.set('q', q);
+    if(skill) params.set('skill', skill);
+    if(minRate) params.set('min_rate', minRate);
+    if(maxRate) params.set('max_rate', maxRate);
+    if(sort) params.set('sort', sort);
+
+    try{
+      const res = await fetch(`${API_URL}/api/freelancers?${params.toString()}`);
+      const data = await res.json();
+      const list = Array.isArray(data) ? data : [];
+      document.getElementById('resultCount').textContent = list.length;
+      if(list.length === 0){
+        grid.innerHTML = `<div class="empty-state">No freelancers match these filters yet.</div>`;
+        return;
+      }
+      grid.innerHTML = list.map(u => `
+        <a class="fl-card" href="profile.html?id=${u.id}">
+          <div class="fl-avatar">${initials(u.name)}</div>
+          <div class="fl-main">
+            <div class="fl-name-row">
+              <span class="fl-name">${escapeHtml(u.name)}</span>
+              ${u.is_verified ? '<span class="verified-tag">✔ Verified</span>' : ''}
+            </div>
+            ${u.headline ? `<div class="fl-headline">${escapeHtml(u.headline)}</div>` : ''}
+            <div class="fl-meta">
+              ${u.country ? `<span>📍 ${escapeHtml(u.country)}</span>` : ''}
+              <span>✅ ${u.jobs_completed} job${u.jobs_completed===1?'':'s'} completed</span>
+            </div>
+            ${u.rating_count > 0 ? `<div class="fl-stars">${stars(u.rating_avg)} ${u.rating_avg} (${u.rating_count})</div>` : ''}
+            ${u.skills && u.skills.length ? `<div class="fl-skills">${u.skills.slice(0,6).map(s=>`<span class="skill-chip">${escapeHtml(s)}</span>`).join('')}</div>` : ''}
+          </div>
+          ${u.hourly_rate ? `<div class="fl-rate-box"><div class="fl-rate">$${u.hourly_rate}</div><div class="fl-rate-sub">per hour</div></div>` : ''}
+        </a>
+      `).join('');
+    } catch(e){
+      grid.innerHTML = `<div class="empty-state">Couldn't load freelancers. Try again.</div>`;
+    }
+  }
+
+  updateAuthUI();
+  refreshUnread();
+  loadFreelancers();
+</script>
+
+</body>
+</html>
