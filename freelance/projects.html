@@ -81,6 +81,8 @@
   .proj-budget-sub{font-size:11px; color:#9AA0B2; margin-top:2px;}
   .proj-foot{display:flex; align-items:center; gap:18px; margin-top:16px; padding-top:14px; border-top:1px solid var(--line); flex-wrap:wrap;}
   .proj-meta-item{display:flex; align-items:center; gap:6px; font-size:12.5px; color:#7A8096;}
+  .proj-meta-item.employer-link{font-weight:700; color:#3B4258; text-decoration:none; cursor:pointer;}
+  .proj-meta-item.employer-link:hover{text-decoration:underline;}
   .escrow-tag{ display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:700; color:#4C6553; background:rgba(124,152,133,0.16); padding:4px 10px; border-radius:20px; margin-left:auto; }
   .verified-tag{ display:inline-flex; align-items:center; gap:3px; color:#2C6FBF; font-weight:700; }
 
@@ -97,6 +99,8 @@
   .modal-box .proj-cat{margin-bottom:14px;}
   .modal-box h2{font-family:'Fraunces',serif; font-size:24px; color:var(--navy-deep); line-height:1.3; margin-bottom:6px; padding-right:30px;}
   .modal-client{font-size:13px; color:#7A8096; margin-bottom:20px;}
+  .modal-client a{font-weight:700; color:var(--navy); text-decoration:none;}
+  .modal-client a:hover{text-decoration:underline;}
   .modal-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:22px;}
   .modal-stat{background:var(--paper); border-radius:10px; padding:12px 14px;}
   .modal-stat .l{font-size:11px; color:#9AA0B2;}
@@ -142,6 +146,7 @@
   <a class="brand" href="index.html"><span class="mark"></span> QuestMart Freelance</a>
   <nav class="main-nav">
     <a href="projects.html" class="active">Browse Projects</a>
+    <a href="freelancers.html">Find Freelancers</a>
     <a href="#" id="navPost">Post a Project</a>
     <a href="dashboard.html">Dashboard</a>
     <a href="messages.html">Messages<span class="nav-badge" id="navUnread" style="display:none;"></span></a>
@@ -239,6 +244,7 @@
     <div class="field"><label>Email</label><input type="email" id="lEmail"></div>
     <div class="field"><label>Password</label><input type="password" id="lPassword"></div>
     <button class="btn-apply" id="loginSubmitBtn" onclick="submitLogin()">Log in</button>
+    <p style="font-size:12.5px; color:#7A8096; margin-top:14px; text-align:center;"><a href="forgot-password.html" style="color:var(--navy); font-weight:700;">Forgot your password?</a></p>
   </div>
 </div>
 
@@ -360,7 +366,7 @@
           </div>
         </div>
         <div class="proj-foot">
-          <span class="proj-meta-item">👤 ${escapeHtml(p.client || '')}${p.employerVerified ? ' <span class="verified-tag">✔</span>' : ''}</span>
+          <a class="proj-meta-item employer-link" href="profile.html?id=${p.employerId}" onclick="event.stopPropagation()">👤 ${escapeHtml(p.client || '')}${p.employerVerified ? ' <span class="verified-tag">✔</span>' : ''}</a>
           <span class="proj-meta-item">🕒 ${p.postedAgo}</span>
           <span class="proj-meta-item">📩 ${p.proposalsCount} proposal${p.proposalsCount===1?'':'s'}</span>
           <span class="escrow-tag">🔒 Open</span>
@@ -425,7 +431,7 @@
       <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
       <span class="proj-cat">${p.category}</span>
       <h2>${escapeHtml(p.title)}</h2>
-      <div class="modal-client">Posted by ${escapeHtml(d.employer ? d.employer.name : (listItem.client||''))}${d.employer && d.employer.badges && d.employer.badges.verified ? ' <span class="verified-tag">✔ Verified</span>' : ''} · ${listItem.postedAgo || ''}</div>
+      <div class="modal-client">Posted by <a href="profile.html?id=${p.employer_id}">${escapeHtml(d.employer ? d.employer.name : (listItem.client||''))}</a>${d.employer && d.employer.badges && d.employer.badges.verified ? ' <span class="verified-tag">✔ Verified</span>' : ''} · ${listItem.postedAgo || ''}</div>
       <div class="modal-stats">
         <div class="modal-stat"><div class="l">Budget</div><div class="v">$${p.budget_usd}</div></div>
         <div class="modal-stat"><div class="l">You'd receive</div><div class="v" style="font-size:14px;">$${d.fee.freelancer_payout}</div></div>
