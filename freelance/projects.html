@@ -515,7 +515,7 @@
   function openPost(){
     if(!currentUser || !token){
       openLogin();
-      alert("برای پست کردن پروژه اول باید وارد حسابت بشی.");
+      alert("You need to log in before posting a project.");
       return;
     }
     document.getElementById('postModal').classList.add('show');
@@ -542,7 +542,7 @@
       if(result.error){ alert(result.error); btn.disabled=false; btn.textContent="Continue to payment"; return; }
       window.location.href = `checkout-project.html?project=${result.project_id}&budget=${encodeURIComponent(budget)}`;
     } catch(e){
-      alert("مشکلی پیش اومد، دوباره امتحان کن.");
+      alert("Something went wrong, please try again.");
       btn.disabled = false; btn.textContent = "Continue to payment";
     }
   }
@@ -578,7 +578,7 @@
       refreshUnread();
       showToast("Logged in as " + currentUser.name);
     } catch(e){
-      alert("مشکلی پیش اومد، دوباره امتحان کن.");
+      alert("Something went wrong, please try again.");
     }
     btn.disabled = false; btn.textContent = "Log in";
   }
@@ -619,3 +619,4 @@
 
 </body>
 </html>
+
