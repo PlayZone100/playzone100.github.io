@@ -98,10 +98,16 @@
   .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;}
   .logo{font-family:'Sora',sans-serif;font-weight:700;font-size:1.32rem;letter-spacing:-0.01em;display:flex;align-items:center;gap:10px;}
   .logo span{color:var(--accent);}
-  .logo-mark{flex:none;filter:drop-shadow(0 0 9px rgba(124,92,255,0.55));}
+  .logo-mark{flex:none;filter:drop-shadow(0 0 9px rgba(124,92,255,0.55));transition:transform .25s ease;}
+  .logo:hover .logo-mark{transform:rotate(-6deg) scale(1.05);}
   .nav-links{display:flex;gap:32px;font-size:0.95rem;color:var(--text-muted);}
   .nav-links a:hover{color:var(--text);}
   .nav-actions{display:flex;align-items:center;gap:14px;}
+  .trust-strip{border-top:1px solid var(--line);}
+  .trust-strip-row{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;padding:9px 0;font-size:0.78rem;color:var(--text-muted);}
+  .trust-strip-row span{display:flex;align-items:center;gap:6px;white-space:nowrap;}
+  .trust-strip-row strong{color:var(--text);font-weight:600;}
+  @media (max-width:640px){ .trust-strip-row{gap:16px;font-size:0.72rem;} }
   .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:999px;font-size:0.92rem;font-weight:600;border:1px solid transparent;cursor:pointer;transition:transform .15s ease, background .15s ease, box-shadow .2s ease;}
   .btn-primary{background:var(--brand);color:#fff;}
   .btn-primary:hover{background:var(--brand-2);box-shadow:0 12px 26px -10px rgba(91,61,240,0.55);}
@@ -109,7 +115,12 @@
   .btn-ghost:hover{border-color:var(--violet);}
   @media (max-width:860px){ .nav-links{display:none;} }
 
-  .hero{padding:80px 0 64px;}
+  .hero{
+    padding:80px 0 64px;
+    background-image:radial-gradient(circle, rgba(98,102,122,0.16) 1px, transparent 1.4px);
+    background-size:26px 26px;
+    background-position:-6px -6px;
+  }
   .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;}
   @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
   .eyebrow{display:inline-block;font-size:0.85rem;color:var(--accent);background:var(--accent-soft);padding:6px 14px;border-radius:999px;margin-bottom:20px;}
@@ -119,6 +130,9 @@
   .stat-row{display:flex;gap:36px;flex-wrap:wrap;}
   .stat b{display:block;font-size:1.5rem;font-weight:800;}
   .stat span{font-size:0.85rem;color:var(--text-muted);}
+  .pay-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .pay-row span.lbl{font-size:0.78rem;color:var(--text-muted);}
+  .pay-chip{width:30px;height:30px;border-radius:9px;background:var(--surface);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:800;box-shadow:var(--shadow);}
 
   /* ---- Hero visual: one glowing Q mark as the single orchestrated moment, not scattered cards ---- */
   .hero-visual{position:relative;height:420px;display:flex;align-items:center;justify-content:center;}
@@ -454,16 +468,18 @@
 <header>
   <div class="wrap nav">
     <a class="logo" href="/" aria-label="QuestMart home">
-      <svg class="logo-mark" width="30" height="30" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <svg class="logo-mark" width="36" height="36" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-          <linearGradient id="qGradHeader" x1="0" y1="0" x2="34" y2="34">
+          <linearGradient id="qGradHeader" x1="2" y1="2" x2="38" y2="38">
             <stop offset="0" stop-color="#8B6BFF"/>
             <stop offset="1" stop-color="#3E7BFA"/>
           </linearGradient>
         </defs>
-        <rect width="34" height="34" rx="10" fill="url(#qGradHeader)"/>
-        <circle cx="17" cy="15" r="7" fill="none" stroke="#fff" stroke-width="2.6"/>
-        <line x1="21.5" y1="19.5" x2="26" y2="24" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+        <rect width="40" height="40" rx="13" fill="url(#qGradHeader)"/>
+        <circle cx="17" cy="17" r="8" fill="none" stroke="#fff" stroke-width="3"/>
+        <line x1="23" y1="23" x2="29" y2="29" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="30.5" cy="30.5" r="7.5" fill="#22C55E" stroke="var(--bg)" stroke-width="2.5"/>
+        <path d="M27.2 30.6 L29.6 33 L33.8 28.2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       Quest<span>Mart</span>
     </a>
@@ -477,6 +493,14 @@
     </nav>
     <div class="nav-actions">
       <a href="#products" class="btn btn-primary">Browse store</a>
+    </div>
+  </div>
+  <div class="trust-strip">
+    <div class="wrap trust-strip-row">
+      <span>🔒 <strong>Secure</strong> checkout</span>
+      <span>↩ <strong>14-day</strong> refund policy</span>
+      <span>🧑‍💻 Real team, <strong>real replies</strong></span>
+      <span>⚡ <strong>Instant</strong> digital delivery</span>
     </div>
   </div>
 </header>
@@ -496,6 +520,13 @@
           <div class="stat"><b>100%</b><span>one-time payments</span></div>
           <div class="stat"><b>20%</b><span>flat freelance fee</span></div>
           <div class="stat"><b>11</b><span>cryptocurrencies accepted</span></div>
+        </div>
+        <div class="pay-row" aria-hidden="true">
+          <span class="lbl">Paid in:</span>
+          <span class="pay-chip">₿</span>
+          <span class="pay-chip">Ξ</span>
+          <span class="pay-chip">₮</span>
+          <span class="pay-chip">+8</span>
         </div>
       </div>
       <div class="hero-visual" aria-hidden="true">
@@ -745,7 +776,9 @@
     <div class="wrap">
       <div class="section-head">
         <div>
-          <h2>Why people trust QuestMart</h2>
+          <h2 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">Why people trust QuestMart
+            <span style="font-size:0.72rem;font-weight:700;color:#166534;background:#DCFCE7;padding:5px 12px;border-radius:999px;display:inline-flex;align-items:center;gap:5px;">✓ Verified marketplace</span>
+          </h2>
           <p>We keep pricing and fees visible everywhere — no hidden costs, on products or on freelance projects.</p>
         </div>
       </div>
@@ -822,16 +855,18 @@
     <div class="foot-grid">
       <div>
         <a class="logo" href="/" style="margin-bottom:12px;" aria-label="QuestMart home">
-          <svg class="logo-mark" width="26" height="26" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <svg class="logo-mark" width="30" height="30" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <defs>
-              <linearGradient id="qGradFooter" x1="0" y1="0" x2="34" y2="34">
+              <linearGradient id="qGradFooter" x1="2" y1="2" x2="38" y2="38">
                 <stop offset="0" stop-color="#8B6BFF"/>
                 <stop offset="1" stop-color="#3E7BFA"/>
               </linearGradient>
             </defs>
-            <rect width="34" height="34" rx="10" fill="url(#qGradFooter)"/>
-            <circle cx="17" cy="15" r="7" fill="none" stroke="#fff" stroke-width="2.6"/>
-            <line x1="21.5" y1="19.5" x2="26" y2="24" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+            <rect width="40" height="40" rx="13" fill="url(#qGradFooter)"/>
+            <circle cx="17" cy="17" r="8" fill="none" stroke="#fff" stroke-width="3"/>
+            <line x1="23" y1="23" x2="29" y2="29" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="30.5" cy="30.5" r="7.5" fill="#22C55E" stroke="var(--bg)" stroke-width="2.5"/>
+            <path d="M27.2 30.6 L29.6 33 L33.8 28.2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Quest<span>Mart</span>
         </a>
