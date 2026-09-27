@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Checkout - QuestMart</title>
+<style>
+body{font-family:sans-serif;background:#0a0a0a;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh}
+.card{background:#151515;border:1px solid #333;border-radius:16px;padding:30px;max-width:400px;width:90%}
+button{width:100%;padding:14px;background:#fff;color:#000;border:none;border-radius:10px;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Checkout</h1>
+<p>Plan: <span id="plan"></span></p>
+<p id="price"></p>
+<button onclick="alert('Payment for '+new URLSearchParams(location.search).get('plan'))">Pay with Crypto</button>
+</div>
+<script>
+const plan = new URLSearchParams(location.search).get('plan') || 'monthly';
+document.getElementById('plan').innerText = plan;
+document.getElementById('price').innerText = plan=='yearly' ? '$290 / year' : '$29 / month';
+</script>
+</body>
+</html>
