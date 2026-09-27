@@ -122,8 +122,11 @@
   <div class="card paywall" id="paywallCard" style="display:none">
     <h3>You've used your free transform</h3>
     <p class="sub">Upgrade to Pro for unlimited transforms, all styles, no watermark.</p>
-    <!-- Real checkout page, same payment/license backend as Plant Doctor. -->
-    <a class="buy" href="/checkout-photo-trend/index.html?plan=monthly">Get Pro — $6/mo</a>
+    <!-- Real checkout page — checkout.html lives in this SAME folder. -->
+    <div class="row" style="gap:8px">
+      <a class="buy" style="flex:1" href="checkout.html?plan=monthly">Monthly — $6</a>
+      <a class="buy" style="flex:1" href="checkout.html?plan=yearly">Yearly — $45</a>
+    </div>
     <p class="sub" style="margin-top:10px">Already have an activation code?</p>
     <div class="row" style="gap:8px">
       <input type="text" id="licenseInput" placeholder="Paste your license key" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:#232329;color:var(--text);">
