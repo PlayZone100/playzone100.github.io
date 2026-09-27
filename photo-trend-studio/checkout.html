@@ -16,6 +16,13 @@
        to build or maintain.
     5. Show the license key with Copy + Download, plus a link back to
        Photo Trend Studio.
+
+  FIX (this version): previously, when order creation failed (network
+  error or the worker returning an error, e.g. because the productId
+  wasn't in products.json yet), the code wrote the error message into
+  #pay-status but never made #pay-box visible — so the error was silently
+  invisible and it looked like clicking the button did nothing. Both
+  failure branches below now show #pay-box so the real error is visible.
 -->
 <html lang="en">
 <head>
@@ -126,6 +133,17 @@
 
     let pollTimer = null;
 
+    // Helper: show the pay-box with an error message inside it (instead of
+    // silently updating hidden text — this was the bug).
+    function showOrderError(message) {
+      payAmount.textContent = "";
+      payAddress.textContent = "";
+      qr.removeAttribute("src");
+      payStatus.textContent = message;
+      payStatus.classList.add("error");
+      payBox.style.display = "block";
+    }
+
     createBtn.addEventListener("click", async () => {
       createBtn.disabled = true;
       createBtn.textContent = "Creating order…";
@@ -140,24 +158,24 @@
         });
         order = await res.json();
       } catch (e) {
-        payStatus.textContent = "Error: could not reach the payment server.";
-        payStatus.classList.add("error");
+        showOrderError("Error: could not reach the payment server.");
         createBtn.disabled = false;
         createBtn.textContent = "Generate payment address";
         return;
       }
 
       if (order.error) {
-        payStatus.textContent = "Error: " + order.error;
-        payStatus.classList.add("error");
+        showOrderError("Error: " + order.error);
         createBtn.disabled = false;
         createBtn.textContent = "Generate payment address";
         return;
       }
 
+      payStatus.classList.remove("error");
       payAmount.textContent = `${order.amount} ${order.currency.replace("_", " ")}`;
       payAddress.textContent = order.address;
       qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(order.address)}`;
+      payStatus.textContent = "Waiting for payment…";
       payBox.style.display = "block";
       createBtn.style.display = "none";
 
@@ -176,6 +194,7 @@
       if (data.status === "paid") {
         clearInterval(pollTimer);
         payStatus.textContent = "Payment confirmed! Issuing your license…";
+        payStatus.classList.remove("error");
         payStatus.classList.add("paid");
         await fetchLicense(orderId);
       } else if (data.status === "expired") {
