@@ -46,5 +46,13 @@
   "fridge-chef-yearly": {
     "name": "Fridge Chef Pro (1 year)",
     "priceUSD": 49
+  },
+  "photo-trend-monthly": {
+    "name": "Photo Trend Studio Pro (Monthly)",
+    "priceUSD": 6
+  },
+  "photo-trend-yearly": {
+    "name": "Photo Trend Studio Pro (Yearly)",
+    "priceUSD": 45
   }
 }
