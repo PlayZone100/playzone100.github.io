@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photo Trend Studio — QuestMart</title>
+<style>
+  :root {
+    --bg: #0f0f12;
+    --card: #1a1a1f;
+    --accent: #ff6b6b;
+    --text: #f2f2f2;
+    --muted: #9a9aa5;
+    --border: #2a2a30;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; margin-bottom: 4px; }
+  .sub { color: var(--muted); margin-bottom: 24px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .styles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 14px 0; }
+  .style-btn {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #232329;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+  .style-btn.selected { border-color: var(--accent); background: #2a1a1c; }
+
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .upload-zone:hover { border-color: var(--accent); }
+  input[type=file] { display: none; }
+
+  button.primary {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  img.preview, img.result { width: 100%; border-radius: 12px; margin-top: 12px; }
+  .row { display: flex; gap: 12px; }
+  .row > div { flex: 1; }
+
+  .paywall {
+    text-align: center;
+    padding: 20px;
+  }
+  .paywall a.buy {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 12px 24px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .status { font-size: 0.85rem; color: var(--muted); margin-top: 6px; text-align: center; }
+  .error { color: var(--accent); font-size: 0.9rem; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📸 Photo Trend Studio</h1>
+  <p class="sub">Turn any photo into a viral retro, cinematic or polaroid style. Free to try.</p>
+
+  <div class="card">
+    <div class="upload-zone" id="uploadZone">
+      <div id="uploadLabel">Tap to upload a photo</div>
+      <img id="preview" class="preview" style="display:none">
+    </div>
+    <input type="file" id="fileInput" accept="image/*">
+
+    <div class="styles" id="styleList"></div>
+
+    <button class="primary" id="goBtn" disabled>Transform photo</button>
+    <div class="error" id="errorMsg" style="display:none"></div>
+    <div class="status" id="statusLine"></div>
+  </div>
+
+  <div class="card" id="resultCard" style="display:none">
+    <img id="resultImg" class="result">
+    <div class="row" style="margin-top:12px">
+      <div><button class="primary" id="downloadBtn">Download</button></div>
+    </div>
+  </div>
+
+  <div class="card paywall" id="paywallCard" style="display:none">
+    <h3>You've used your free transform</h3>
+    <p class="sub">Upgrade to Pro for unlimited transforms, all styles, no watermark.</p>
+    <!-- TODO: replace with your real Pro checkout link (same one used on
+         Meme Studio / Plant Doctor — same license backend, same price). -->
+    <a class="buy" href="https://questmart.online/products/photo-trend-studio.html#buy-pro">Get Pro — $5.99/mo</a>
+  </div>
+</div>
+
+<script>
+// ---- CONFIG ----
+// Replace with your deployed worker URL for this product.
+const WORKER_URL = 'https://photo-trend-studio.YOUR-SUBDOMAIN.workers.dev';
+
+const STYLES = [
+  { key: 'retro80s', label: '80s Portrait' },
+  { key: 'retro90s', label: '90s Throwback' },
+  { key: 'cinematic', label: 'Cinematic' },
+  { key: 'polaroid', label: 'Polaroid' },
+];
+
+let selectedStyle = 'retro80s';
+let uploadedDataUrl = null;
+
+// Same localStorage key convention as your other products — stores the
+// license token issued after a Pro purchase, checked by the worker.
+function getLicense() {
+  try { return localStorage.getItem('qm_license') || ''; } catch (e) { return ''; }
+}
+
+function renderStyles() {
+  const list = document.getElementById('styleList');
+  list.innerHTML = '';
+  STYLES.forEach((s) => {
+    const btn = document.createElement('button');
+    btn.className = 'style-btn' + (s.key === selectedStyle ? ' selected' : '');
+    btn.textContent = s.label;
+    btn.onclick = () => { selectedStyle = s.key; renderStyles(); };
+    list.appendChild(btn);
+  });
+}
+renderStyles();
+
+document.getElementById('uploadZone').onclick = () => document.getElementById('fileInput').click();
+document.getElementById('fileInput').onchange = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    uploadedDataUrl = reader.result;
+    const preview = document.getElementById('preview');
+    preview.src = uploadedDataUrl;
+    preview.style.display = 'block';
+    document.getElementById('uploadLabel').style.display = 'none';
+    document.getElementById('goBtn').disabled = false;
+  };
+  reader.readAsDataURL(file);
+};
+
+async function refreshStatus() {
+  try {
+    const r = await fetch(WORKER_URL + '/status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ license: getLicense() }),
+    });
+    const d = await r.json();
+    const left = d.left && d.left.transform;
+    document.getElementById('statusLine').textContent = d.pro
+      ? 'Pro — unlimited transforms'
+      : (left > 0 ? left + ' free transform left' : 'Free transform used');
+  } catch (e) { /* ignore */ }
+}
+refreshStatus();
+
+document.getElementById('goBtn').onclick = async () => {
+  if (!uploadedDataUrl) return;
+  const errorEl = document.getElementById('errorMsg');
+  errorEl.style.display = 'none';
+  document.getElementById('paywallCard').style.display = 'none';
+  const goBtn = document.getElementById('goBtn');
+  goBtn.disabled = true;
+  goBtn.textContent = 'Transforming…';
+
+  try {
+    const r = await fetch(WORKER_URL + '/transform', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image: uploadedDataUrl, style: selectedStyle, license: getLicense() }),
+    });
+    const d = await r.json();
+
+    if (r.status === 402 || d.paywall) {
+      document.getElementById('paywallCard').style.display = 'block';
+    } else if (!r.ok) {
+      errorEl.textContent = d.error || 'Something went wrong.';
+      errorEl.style.display = 'block';
+    } else {
+      document.getElementById('resultImg').src = d.image;
+      document.getElementById('resultCard').style.display = 'block';
+      document.getElementById('downloadBtn').onclick = () => {
+        const a = document.createElement('a');
+        a.href = d.image;
+        a.download = 'photo-trend-result.png';
+        a.click();
+      };
+    }
+    refreshStatus();
+  } catch (e) {
+    errorEl.textContent = 'Network error. Please try again.';
+    errorEl.style.display = 'block';
+  } finally {
+    goBtn.disabled = false;
+    goBtn.textContent = 'Transform photo';
+  }
+};
+</script>
+</body>
+</html>
