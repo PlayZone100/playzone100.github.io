@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QuestMart | Digital Products Marketplace</title>
-<meta name="description" content="QuestMart — offline invoicing software, an AI fridge-to-recipe tool, plant care diagnosis, and a freelance projects marketplace, with instant delivery and no subscriptions.">
+<meta name="description" content="QuestMart — offline invoicing software, an AI fridge-to-recipe tool, plant care diagnosis, an AI photo style transformer, and a freelance projects marketplace, with instant delivery and no subscriptions.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="QuestMart | Digital Products Marketplace">
-<meta property="og:description" content="Offline invoicing software, an AI fridge-to-recipe tool, plant care diagnosis, a freelance projects marketplace, and digital tools for freelancers. No subscriptions.">
+<meta property="og:description" content="Offline invoicing software, an AI fridge-to-recipe tool, plant care diagnosis, an AI photo style transformer, a freelance projects marketplace, and digital tools for freelancers. No subscriptions.">
 <meta property="og:locale" content="en_US">
 <link rel="canonical" href="https://questmart.online/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,7 +33,8 @@
         { "@type": "ListItem", "position": 4, "url": "https://questmart.online/products/meme-fantasy-face-accessories-en.html", "name": "Meme Studio" },
         { "@type": "ListItem", "position": 5, "url": "https://questmart.online/products/certify-studio.html", "name": "Certify Studio" },
         { "@type": "ListItem", "position": 6, "url": "https://questmart.online/plant-doctor/", "name": "Plant Doctor Pro" },
-        { "@type": "ListItem", "position": 7, "url": "https://questmart.online/fridge-chef/", "name": "Fridge Chef" }
+        { "@type": "ListItem", "position": 7, "url": "https://questmart.online/fridge-chef/", "name": "Fridge Chef" },
+        { "@type": "ListItem", "position": 8, "url": "https://questmart.online/photo-trend-studio/", "name": "Photo Trend Studio" }
       ]
     }
   ]
@@ -173,6 +174,7 @@
   .prod-thumb.plant{background:linear-gradient(135deg, #1e4d2b 0%, #4f9a63 130%);}
   .prod-thumb.fridge{background:linear-gradient(135deg, #0E5A57 0%, #F5D547 160%);}
   .prod-thumb.freelance{background:linear-gradient(135deg, var(--violet-2) 0%, var(--blue-glow) 130%);}
+  .prod-thumb.photostyle{background:linear-gradient(135deg, #4285f4 0%, #9b72cb 55%, #d96570 130%);}
   .prod-body{padding:16px 18px 20px;}
   .prod-body .cat{font-size:0.75rem;color:var(--accent);margin-bottom:6px;display:block;}
   .prod-body h3{font-size:1.05rem;margin:0 0 8px;font-weight:700;font-family:'Sora',sans-serif;}
@@ -461,6 +463,64 @@
   .fc-c4{bottom:0%;right:12%;transform:rotate(-5deg);}
   @media (max-width:900px){ .fc-visual{height:230px;margin-top:8px;} .fc-fridge{width:100px;height:140px;font-size:1.9rem;} .fc-card2{width:140px;padding:10px 12px;} }
   @media (max-width:520px){ .fc-c4{display:none;} }
+
+  /* ====== PHOTO TREND STUDIO SHOWCASE — blue/violet/coral gradient family (matches the product's own brand) ====== */
+  .pts-showcase{padding:0 0 64px;}
+  .pts-card{
+    position:relative;overflow:hidden;border-radius:28px;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(66,133,244,0.35), transparent 42%),
+      radial-gradient(circle at 90% 82%, rgba(217,101,112,0.30), transparent 48%),
+      linear-gradient(135deg, #241a3d 0%, #140f22 100%);
+    box-shadow: var(--shadow);
+    padding:56px 48px;
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:40px;align-items:center;
+  }
+  @media (max-width:900px){ .pts-card{grid-template-columns:1fr;padding:40px 26px;} }
+  .pts-eyebrow{
+    display:inline-flex;align-items:center;gap:7px;font-size:0.8rem;font-weight:800;
+    color:#fff;background:linear-gradient(90deg,#4285f4,#9b72cb,#d96570);padding:6px 14px;border-radius:999px;margin-bottom:20px;letter-spacing:0.02em;
+    box-shadow:0 8px 20px -8px rgba(155,114,203,0.6);
+  }
+  .pts-copy h2{
+    color:#fff;font-size:clamp(1.6rem, 3vw, 2.35rem);line-height:1.2;margin:0 0 16px;font-weight:800;letter-spacing:-0.01em;
+  }
+  .pts-copy h2 em{font-style:normal;color:#c9a8ff;}
+  .pts-copy p{color:#CBC7DE;font-size:1rem;max-width:48ch;margin:0 0 28px;}
+  .pts-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+  .pts-tags span{
+    font-size:0.78rem;color:#EDE9FA;background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.14);padding:6px 12px;border-radius:999px;
+  }
+  .pts-cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .pts-btn{
+    background:linear-gradient(90deg,#4285f4,#9b72cb,#d96570);color:#fff;padding:14px 28px;font-size:0.98rem;font-weight:800;
+    border-radius:14px;box-shadow:0 14px 30px -14px rgba(155,114,203,0.65);
+  }
+  .pts-btn:hover{filter:brightness(1.08);}
+  .pts-note{color:#A6A0C4;font-size:0.85rem;}
+
+  .pts-visual{position:relative;height:300px;}
+  .pts-frame{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:130px;height:170px;border-radius:16px;
+    background:linear-gradient(135deg,#4285f4,#9b72cb 55%,#d96570);
+    box-shadow:0 0 60px rgba(155,114,203,0.45), 0 30px 60px -20px rgba(0,0,0,0.55);
+    display:flex;align-items:center;justify-content:center;font-size:2.4rem;
+  }
+  .pts-chip{
+    position:absolute;background:var(--surface);border-radius:16px;
+    padding:12px 14px;box-shadow:0 16px 28px -12px rgba(0,0,0,0.5);
+    display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:700;color:var(--text);
+    width:160px;
+  }
+  .pts-chip small{display:block;font-weight:500;color:var(--text-muted);font-size:0.72rem;}
+  .pts-c1{top:2%;left:0%;transform:rotate(-4deg);}
+  .pts-c2{top:14%;right:-2%;transform:rotate(6deg);}
+  .pts-c3{bottom:6%;left:-2%;transform:rotate(5deg);}
+  .pts-c4{bottom:0%;right:12%;transform:rotate(-5deg);}
+  @media (max-width:900px){ .pts-visual{height:230px;margin-top:8px;} .pts-frame{width:100px;height:130px;font-size:1.9rem;} .pts-chip{width:140px;padding:10px 12px;} }
+  @media (max-width:520px){ .pts-c4{display:none;} }
 </style>
 </head>
 <body>
@@ -487,6 +547,7 @@
       <a href="/">Home</a>
       <a href="/#products">Products</a>
       <a href="/freelance/projects.html">Freelance</a>
+      <a href="/photo-trend-studio/">Photo Styles</a>
       <a href="/#about">About</a>
       <a href="/blog/">Blog</a>
       <a href="mailto:support@questmart.online">Contact</a>
@@ -540,6 +601,35 @@
         </div>
         <div class="hero-chip chip-1">🔒 Escrow protected<small>Budget locked until approved</small></div>
         <div class="hero-chip chip-2">⚡ Instant payout<small>Paid the moment work's approved</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pts-showcase" aria-labelledby="pts-heading">
+    <div class="wrap">
+      <div class="pts-card">
+        <div class="pts-copy">
+          <span class="pts-eyebrow">🎨 NEW · Free to try</span>
+          <h2 id="pts-heading">Photo Trend Studio — turn any photo into <em>viral AI art</em></h2>
+          <p>Upload a photo, pick from 50 trending AI styles — anime, retro, cyberpunk, oil painting and more — and get a shareable result in seconds. No design skills, no Photoshop, nothing to install.</p>
+          <div class="pts-tags">
+            <span>🎨 50 AI art styles</span>
+            <span>⚡ Results in seconds</span>
+            <span>🆓 First transform free</span>
+            <span>📱 Works on mobile</span>
+          </div>
+          <div class="pts-cta">
+            <a href="/photo-trend-studio/" class="btn pts-btn">Try Photo Trend Studio →</a>
+            <span class="pts-note">Free to try · Pro unlocks unlimited transforms</span>
+          </div>
+        </div>
+        <div class="pts-visual" aria-hidden="true">
+          <div class="pts-frame">📸</div>
+          <div class="pts-chip pts-c1">🎨 Anime style<small>Applied in 4s</small></div>
+          <div class="pts-chip pts-c2">✅ Ready<small>Retro 80s Portrait</small></div>
+          <div class="pts-chip pts-c3">📥 Downloaded<small>Cyberpunk style</small></div>
+          <div class="pts-chip pts-c4">🔥 Trending<small>Oil Painting</small></div>
+        </div>
       </div>
     </div>
   </section>
@@ -679,6 +769,7 @@
       <div class="cat-grid">
         <div class="cat-card"><span class="icon">💼</span><b>Business tools</b><span>Invoicing, receipts, quotes</span></div>
         <div class="cat-card"><span class="icon">🤝</span><b>Freelance projects</b><span>Hire & get hired</span></div>
+        <div class="cat-card"><span class="icon">🎨</span><b>AI photo tools</b><span>Style transformation</span></div>
         <div class="cat-card"><span class="icon">🌿</span><b>AI plant care</b><span>Diagnosis & chat</span></div>
         <div class="cat-card"><span class="icon">🍳</span><b>AI recipe ideas</b><span>Fridge photo to dinner</span></div>
         <div class="cat-card"><span class="icon">📚</span><b>Guides & resources</b><span>Coming soon</span></div>
@@ -695,6 +786,16 @@
         </div>
       </div>
       <div class="prod-grid">
+        <a class="prod-card" href="/photo-trend-studio/">
+          <span class="badge-new">NEW</span>
+          <div class="prod-thumb photostyle">📸</div>
+          <div class="prod-body">
+            <span class="cat">AI tool</span>
+            <h3>Photo Trend Studio</h3>
+            <p>Upload any photo and transform it into 50 trending AI art styles — anime, retro, cyberpunk, oil painting and more — in seconds.</p>
+            <div class="prod-foot"><span class="price">Free <small>Pro from $6/mo</small></span></div>
+          </div>
+        </a>
         <a class="prod-card" href="/products/invoice-studio-pro.html">
           <div class="prod-thumb">💼</div>
           <div class="prod-body">
@@ -824,7 +925,7 @@
       <div class="about-copy">
         <span class="eyebrow">Who's behind QuestMart</span>
         <h2>A small, real team — not a faceless marketplace</h2>
-        <p>QuestMart is built and run by a five-person team of developers, designers and writers. We build every product ourselves, we answer support emails ourselves, and we personally review every freelance project that gets posted. That includes Plant Doctor and Fridge Chef — designed, built and maintained in-house by our team, powered by AI technology.</p>
+        <p>QuestMart is built and run by a five-person team of developers, designers and writers. We build every product ourselves, we answer support emails ourselves, and we personally review every freelance project that gets posted. That includes Plant Doctor, Fridge Chef and Photo Trend Studio — designed, built and maintained in-house by our team, powered by AI technology.</p>
         <p>QuestMart started from our own lead developer's 10+ years writing software and a genuine love for building useful tools — first for freelancers managing their own invoices, and now as a small marketplace for freelance work too. If something ever looks off or you just have a question, a real person on our team reads every message that comes in.</p>
         <a href="mailto:support@questmart.online" class="btn btn-primary">Email us — support@questmart.online</a>
       </div>
@@ -878,6 +979,7 @@
         <ul>
           <li><a href="/#products">Products</a></li>
           <li><a href="/freelance/projects.html">Freelance projects</a></li>
+          <li><a href="/photo-trend-studio/">Photo Trend Studio</a></li>
           <li><a href="/products/invoice-studio-pro.html">Invoice Studio Pro</a></li>
           <li><a href="/products/contract-proposal-generator-pro.html">Contract & Proposal Generator Pro</a></li>
           <li><a href="/products/creator-command-center.html">Creator Command Center</a></li>
