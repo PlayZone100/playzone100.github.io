@@ -614,7 +614,7 @@
           <div class="fr-tags">
             <span>📋 Funded, verified projects</span>
             <span>⚡ Instant crypto payout</span>
-            <span>🔒 100% escrow-protected</span>
+            <span>🔒 Escrow-protected on every project</span>
             <span>🌍 USDT, BTC, ETH & more</span>
           </div>
           <div class="fr-cta">
@@ -929,7 +929,8 @@
       #qm-chat-bubble{position:fixed;bottom:22px;right:22px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg, var(--violet, #7C5CFF) 0%, var(--blue-glow, #3E7BFA) 100%);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;cursor:pointer;box-shadow:0 14px 30px -12px rgba(124,92,255,0.55);z-index:999;border:none;}
       #qm-chat-panel{position:fixed;bottom:88px;right:22px;width:min(340px,88vw);max-height:70vh;background:#fff;border-radius:18px;box-shadow:0 24px 50px -20px rgba(0,0,0,0.45);z-index:999;display:none;flex-direction:column;overflow:hidden;font-family:'Inter',sans-serif;}
       #qm-chat-panel.open{display:flex;}
-      #qm-chat-head{background:${brand};color:#fff;padding:16px 18px;font-weight:700;font-size:0.95rem;display:flex;justify-content:space-between;align-items:center;}
+      #qm-chat-head{background:${brand};color:#fff;padding:14px 18px;font-weight:700;font-size:0.95rem;display:flex;flex-direction:column;gap:2px;}
+      #qm-chat-head .row{display:flex;justify-content:space-between;align-items:center;}
       #qm-chat-head span.sub{display:block;font-weight:500;font-size:0.75rem;opacity:0.8;margin-top:2px;}
       #qm-chat-close{background:none;border:none;color:#fff;font-size:1.1rem;cursor:pointer;}
       #qm-chat-body{padding:14px;overflow-y:auto;flex:1;background:#FAF8F4;}
@@ -939,17 +940,20 @@
       #qm-chat-foot{padding:12px 14px;border-top:1px solid #E7E2D6;background:#fff;text-align:center;}
       #qm-chat-foot a{color:${brand};font-weight:700;font-size:0.8rem;text-decoration:underline;}
     </style>
-    <button id="qm-chat-bubble" aria-label="Open support chat">💬</button>
+    <button id="qm-chat-bubble" aria-label="Open quick answers">❓</button>
     <div id="qm-chat-panel">
       <div id="qm-chat-head">
-        Support
-        <button id="qm-chat-close">✕</button>
+        <div class="row">
+          Quick answers
+          <button id="qm-chat-close">✕</button>
+        </div>
+        <span class="sub">Instant FAQ — not a live agent</span>
       </div>
       <div id="qm-chat-body">
-        <div class="qm-msg">Hi! Pick a question below, or email us any time.</div>
+        <div class="qm-msg">Tap a question for an instant answer. For anything else, a real person replies to your email.</div>
         <div id="qm-chat-questions"></div>
       </div>
-      <div id="qm-chat-foot">Prefer email? <a href="mailto:support@questmart.online">support@questmart.online</a></div>
+      <div id="qm-chat-foot">Need a human? <a href="mailto:support@questmart.online">support@questmart.online</a></div>
     </div>
   `;
   document.body.appendChild(wrap);
