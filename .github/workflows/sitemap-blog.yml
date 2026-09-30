@@ -1,0 +1,60 @@
+name: Update blog sitemap
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/*.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build sitemap-blog.xml
+        run: |
+          python3 - <<'PY'
+          import glob, os, subprocess
+          from urllib.parse import quote
+
+          base = "https://questmart.online"
+
+          def last(path):
+              out = subprocess.run(["git", "log", "-1", "--format=%cs", "--", path],
+                                   capture_output=True, text=True).stdout.strip()
+              return out or "2026-09-30"
+
+          rows = []
+          for f in glob.glob("blog/*.html"):
+              if os.path.basename(f) == "index.html":
+                  continue
+              rows.append((last(f), base + "/" + quote(f)))
+          rows.sort(reverse=True)
+
+          newest = max([r[0] for r in rows] + [last("blog/index.html")])
+          lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+                   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+                   '<url><loc>%s/blog/</loc><lastmod>%s</lastmod></url>' % (base, newest)]
+          for d, u in rows:
+              lines.append('<url><loc>%s</loc><lastmod>%s</lastmod></url>' % (u, d))
+          lines.append('</urlset>')
+          open("sitemap-blog.xml", "w", encoding="utf-8").write("\n".join(lines) + "\n")
+          print(len(rows), "articles")
+          PY
+
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain sitemap-blog.xml)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add sitemap-blog.xml
+            git commit -m "Update sitemap-blog.xml"
+            git push
+          fi
