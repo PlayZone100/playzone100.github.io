@@ -3,11 +3,15 @@
 Publishes new blog articles automatically in THREE places, without ever
 rewriting your existing templates:
 
-  1. blog/index.html      -> a card is INSERTED for every new article
-                             (existing cards/template untouched, chips counts refreshed)
+  1. blog/index.html      -> a card is INSERTED for every new article.
+                             If an article ALREADY has a card but its title,
+                             description, category, date or reading time changed,
+                             only those TEXT values inside the card are updated
+                             (markup/template untouched). Chips counts refreshed.
   2. guides/<topic>/index.html + guides/index.html
-                          -> new article is APPENDED to the matching topic list,
-                             counts are fixed (nothing is removed or rewritten)
+                          -> new article is APPENDED to the matching topic list;
+                             text of existing entries is refreshed if it changed.
+                             Counts are fixed (nothing is removed).
   3. sitemap.xml          -> only /blog/ URLs are touched
 
 Run from the repository root:  python scripts/build_blog.py
@@ -206,16 +210,20 @@ CARD = """<li class="card" data-cat="{cat_slug}" data-text="{search}">
     </li>"""
 
 
-def render_card(p):
+def card_meta(p):
     meta = fmt_date(p["date"])
     if p["minutes"]:
         meta += f" · {p['minutes']} min read"
+    return meta
+
+
+def render_card(p):
     return CARD.format(
         url=f"{BASE}/blog/{p['file']}",
         lang=html.escape(p["lang"], quote=True),
         title=html.escape(p["title"], quote=False),
         desc=html.escape(p["desc"], quote=False),
-        meta=meta,
+        meta=card_meta(p),
         cat=html.escape(p["cat"], quote=False),
         cat_slug=slug(p["cat"]),
         search=html.escape((p["title"] + " " + p["desc"]).lower(), quote=True),
@@ -358,7 +366,8 @@ footer.site{border-top:1px solid var(--line);padding:24px 0;margin-top:30px;font
 
 
 # ---------------------------------------------------------------------------
-# 1) blog/index.html : INSERT new cards only, never rewrite the template
+# 1) blog/index.html : INSERT new cards, REFRESH text of changed cards.
+#    The template/markup is never rewritten.
 # ---------------------------------------------------------------------------
 GRID = re.compile(r'(<ul\b[^>]*\bid="grid"[^>]*>)(.*?)(\s*</ul>)', re.S | re.I)
 CARD_BLOCK = re.compile(r"<li\b.*?</li>", re.S | re.I)
@@ -374,6 +383,45 @@ def card_date(block):
         return datetime.strptime(m.group(1).strip(), "%B %d, %Y").date()
     except ValueError:
         return None
+
+
+def card_file(block):
+    m = re.search(r"/blog/([A-Za-z0-9._-]+\.html)", block)
+    return m.group(1) if m else None
+
+
+def refresh_card(block, p):
+    """Updates ONLY the text values inside an existing card. Markup stays as is."""
+    b = block
+    cat = html.escape(p["cat"], quote=False)
+    title = html.escape(p["title"], quote=False)
+    desc = html.escape(p["desc"], quote=False)
+    search = html.escape((p["title"] + " " + p["desc"]).lower(), quote=True)
+
+    b = re.sub(r'(<span class="tag">).*?(</span>)',
+               lambda m: m.group(1) + cat + m.group(2), b, count=1, flags=re.S)
+    b = re.sub(r'(<li\b[^>]*?\bdata-cat=")[^"]*(")',
+               lambda m: m.group(1) + slug(p["cat"]) + m.group(2), b, count=1)
+    b = re.sub(r'(<li\b[^>]*?\bdata-text=")[^"]*(")',
+               lambda m: m.group(1) + search + m.group(2), b, count=1)
+    b = re.sub(r'(<h2\b[^>]*>\s*<a\b[^>]*>).*?(</a>)',
+               lambda m: m.group(1) + title + m.group(2), b, count=1, flags=re.S)
+    b = re.sub(r'(</h2>\s*<p\b[^>]*>).*?(</p>)',
+               lambda m: m.group(1) + desc + m.group(2), b, count=1, flags=re.S)
+    b = re.sub(r'(<span class="meta">).*?(</span>)',
+               lambda m: m.group(1) + card_meta(p) + m.group(2), b, count=1, flags=re.S)
+    return b
+
+
+def insert_sorted(blocks, card, d):
+    """Inserts a card so the list stays newest first."""
+    pos = len(blocks)
+    for i, b in enumerate(blocks):
+        bd = card_date(b)
+        if bd is not None and bd <= d:
+            pos = i
+            break
+    blocks.insert(pos, card)
 
 
 def chips_from_cards(blocks):
@@ -409,7 +457,8 @@ def update_blog_index(posts):
         return
 
     blocks = CARD_BLOCK.findall(m.group(2))
-    present = set(re.findall(r"/blog/([A-Za-z0-9._-]+\.html)", m.group(2)))
+    by_file = {p["file"]: p for p in posts}
+    present = {card_file(b) for b in blocks if card_file(b)}
     new = [p for p in posts if p["file"] not in present]
 
     # Warn about cards pointing to files that no longer exist (never auto-removed).
@@ -417,20 +466,34 @@ def update_blog_index(posts):
         if not (BLOG / f).exists():
             warn(f"blog/index.html has a card for '{f}' but the file does not exist")
 
-    if not new:
-        print("blog/index.html: no new articles, page left unchanged")
-        return
+    # Refresh existing cards whose article text/date/category changed.
+    refreshed, moved = 0, []
+    for i, b in enumerate(blocks):
+        p = by_file.get(card_file(b))
+        if not p:
+            continue
+        nb = refresh_card(b, p)
+        if nb != b:
+            blocks[i] = nb
+            refreshed += 1
+            print(f"blog/index.html: refreshed card for {p['file']}")
+        d = card_date(nb)
+        if d is not None and d != p["date"]:
+            moved.append(p["file"])
 
-    # Insert each new card at the right place (newest first), existing cards untouched.
-    for p in new:  # posts are already sorted newest first
-        card = render_card(p)
-        pos = len(blocks)
-        for i, b in enumerate(blocks):
-            d = card_date(b)
-            if d is not None and d <= p["date"]:
-                pos = i
-                break
-        blocks.insert(pos, card)
+    # Cards whose date changed are moved to the right place (newest first).
+    for f in moved:
+        i = next(i for i, b in enumerate(blocks) if card_file(b) == f)
+        b = blocks.pop(i)
+        insert_sorted(blocks, b, by_file[f]["date"])
+
+    # Insert each new card (posts are already sorted newest first).
+    for p in new:
+        insert_sorted(blocks, render_card(p), p["date"])
+
+    if not new and not refreshed and not moved:
+        print("blog/index.html: no new or changed articles, page left unchanged")
+        return
 
     items = "\n\n".join("    " + b.lstrip() for b in blocks)
     new_text = text[:m.start(2)] + "\n" + items + "\n  </ul>" + text[m.end(3):]
@@ -444,7 +507,8 @@ def update_blog_index(posts):
         warn('blog/index.html: <div id="chips"> not found, chips not updated')
 
     idx.write_text(new_text, encoding="utf-8")
-    print(f"blog/index.html: added {len(new)} new article(s), total {len(blocks)}")
+    print(f"blog/index.html: added {len(new)}, refreshed {refreshed}, "
+          f"moved {len(moved)}, total {len(blocks)}")
 
 
 # ---------------------------------------------------------------------------
@@ -514,7 +578,7 @@ def update_sitemap(posts):
 
 
 # ---------------------------------------------------------------------------
-# 3) guides/ : APPEND new articles, never remove or rewrite existing entries
+# 3) guides/ : APPEND new articles, refresh text of existing ones, never remove
 # ---------------------------------------------------------------------------
 GUIDES = ROOT / "guides"
 GUIDE_TOPICS = {
@@ -540,10 +604,33 @@ def guide_blurb(desc, limit=120):
     return s
 
 
+def refresh_guide_items(items, posts_by_file):
+    """Refreshes the link text/blurb of existing guide entries. Returns (items, n_changed)."""
+    changed = 0
+
+    def fix(m):
+        nonlocal changed
+        p = posts_by_file.get(m.group(2))
+        if not p:
+            return m.group(0)
+        blurb = guide_blurb(p["desc"])
+        link = (m.group(1) + html.escape(guide_title(p["title"]), quote=False) + "</a>")
+        tail = (" – " + html.escape(blurb, quote=False)) if blurb else ""
+        out = link + tail + m.group(5)
+        if out != m.group(0):
+            changed += 1
+        return out
+
+    pattern = re.compile(
+        r'(<a\b[^>]*href="[^"]*/blog/([A-Za-z0-9._-]+\.html)"[^>]*>)(.*?)</a>(\s*[–-][^<]*)?(</li>)',
+        re.S)
+    new_items = pattern.sub(fix, items)
+    return new_items, changed
+
+
 def update_guides(posts):
     """Appends NEW articles to the matching /guides/<topic>/ page and fixes the counts.
-    Never removes or rewrites existing entries. If a page layout is not recognized,
-    it is left untouched and a warning is printed."""
+    Never removes entries. If a page layout is not recognized, it is left untouched."""
     if not GUIDES.is_dir():
         return
 
@@ -553,6 +640,7 @@ def update_guides(posts):
                  f"so it is not listed there. Add <meta name=\"category\" "
                  f"content=\"...\"> with one of: {', '.join(GUIDE_TOPICS)}")
 
+    by_file = {p["file"]: p for p in posts}
     pages, present = {}, set()
     for topic in sorted(set(GUIDE_TOPICS.values())):
         f = GUIDES / topic / "index.html"
@@ -568,7 +656,7 @@ def update_guides(posts):
         if not m:
             warn(f"guides/{topic}: article list not recognized, page left unchanged")
             continue
-        items = m.group(4)
+        items, refreshed = refresh_guide_items(m.group(4), by_file)
         opens = re.findall(r"<li\b[^>]*>", items)
         open_tag = opens[-1] if opens else "<li>"
         add = ""
@@ -579,13 +667,13 @@ def update_guides(posts):
                     f'{" – " + html.escape(blurb, quote=False) if blurb else ""}</li>')
         total = len(opens) + len(new)
         counts[topic] = total
-        if not new:
+        if not new and not refreshed:
             continue
         new_text = (text[:m.start()] + m.group(1) + str(total) + m.group(3)
                     + items.rstrip() + add + "\n  " + m.group(5) + text[m.end():])
         if new_text != text:
             f.write_text(new_text, encoding="utf-8")
-            print(f"guides/{topic}: added {len(new)} guide(s), total {total}")
+            print(f"guides/{topic}: added {len(new)}, refreshed {refreshed}, total {total}")
 
     hub = GUIDES / "index.html"
     if hub.exists() and counts:
@@ -642,6 +730,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
