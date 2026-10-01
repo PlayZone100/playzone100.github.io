@@ -153,6 +153,7 @@ def read_post(path):
     return {
         "file": path.name, "title": title, "desc": desc, "date": d,
         "modified": dm, "minutes": minutes, "lang": lang,
+        "cat": categorize(path.name, title, parser.meta("category")),
     }
 
 
@@ -160,7 +161,36 @@ def fmt_date(d):
     return f"{d:%B} {d.day}, {d.year}"
 
 
-CARD = """    <li class="post">
+CATEGORIES = [
+    ("Plants", r"plant"),
+    ("Food & Fridge", r"fridge|recipe|dinner|meal|grocery|breakfast|cook|food"),
+    ("Invoicing & Contracts", r"invoice|contract|proposal|scope of work|scope creep|agreement|billing"),
+    ("Freelancing", r"freelanc|escrow|usdt|upwork|fiverr|hire|certify"),
+    ("Creators", r"creator|brand deal|sponsored|media kit|ugc|thumbnail|engagement|link-in-bio|caption|content calendar|posting|clips|platform"),
+    ("Photo & AI Art", r"photo|anime|cartoon|chibi|manga|avatar|portrait|camcorder|meme|ai art|picture"),
+]
+DEFAULT_CAT = "More Guides"
+
+
+def categorize(filename, title, override=""):
+    """Category from <meta name="category"> if present, else from keywords."""
+    if override.strip():
+        return override.strip()
+    if re.match(r"\d\d-", filename):
+        return "Creators"
+    hay = (filename.replace("-", " ") + " " + title).lower()
+    for name, pattern in CATEGORIES:
+        if re.search(pattern, hay):
+            return name
+    return DEFAULT_CAT
+
+
+def slug(s):
+    return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
+
+
+CARD = """    <li class="card" data-cat="{cat_slug}" data-text="{search}">
+      <span class="tag">{cat}</span>
       <h2><a href="{url}" lang="{lang}" dir="auto">{title}</a></h2>
       <p lang="{lang}" dir="auto">{desc}</p>
       <span class="meta">{meta}</span>
@@ -170,14 +200,28 @@ CARD = """    <li class="post">
 def render_card(p):
     meta = fmt_date(p["date"])
     if p["minutes"]:
-        meta += f" · {p['minutes']} minute read"
+        meta += f" · {p['minutes']} min read"
     return CARD.format(
         url=f"{BASE}/blog/{p['file']}",
         lang=html.escape(p["lang"], quote=True),
         title=html.escape(p["title"], quote=False),
         desc=html.escape(p["desc"], quote=False),
         meta=meta,
+        cat=html.escape(p["cat"], quote=False),
+        cat_slug=slug(p["cat"]),
+        search=html.escape((p["title"] + " " + p["desc"]).lower(), quote=True),
     )
+
+
+def render_chips(posts):
+    counts = {}
+    for p in posts:
+        counts[p["cat"]] = counts.get(p["cat"], 0) + 1
+    chips = [f'<button class="chip on" data-cat="all">All <b>{len(posts)}</b></button>']
+    for name, n in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])):
+        chips.append(f'<button class="chip" data-cat="{slug(name)}">'
+                     f'{html.escape(name, quote=False)} <b>{n}</b></button>')
+    return "\n    ".join(chips)
 
 
 PAGE = """<!DOCTYPE html>
@@ -186,50 +230,60 @@ PAGE = """<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Blog | QuestMart</title>
-<meta name="description" content="Practical guides on invoicing, freelancing and getting paid, including in crypto.">
+<meta name="description" content="Practical guides on AI photo styles, freelancing, invoicing, creators and everyday tools from QuestMart.">
 <link rel="canonical" href="https://questmart.online/blog/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Blog | QuestMart">
-<meta property="og:description" content="Practical guides on invoicing, freelancing and getting paid, including in crypto.">
+<meta property="og:description" content="Practical guides on AI photo styles, freelancing, invoicing, creators and everyday tools from QuestMart.">
 <meta property="og:url" content="https://questmart.online/blog/">
 <meta property="og:site_name" content="QuestMart">
 <meta property="og:image" content="https://questmart.online/blog/images/invoice-studio-og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <style>
-:root{
-  --ink:#1b1f23; --muted:#5b6470; --line:#e6e8eb; --bg:#ffffff; --panel:#f7f8f9;
-  --accent:#0f6b52; --accent-ink:#ffffff; --radius:10px; --maxw:760px;
-}
-*{box-sizing:border-box;}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;font-size:17px;}
-a{color:var(--accent);text-decoration:none;}
-a:hover{text-decoration:underline;}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;}
-header.site{border-bottom:1px solid var(--line);padding:16px 0;}
-header.site .wrap{display:flex;align-items:center;justify-content:space-between;}
-.brand{font-weight:700;font-size:18px;color:var(--ink);}
-.nav a{margin-left:18px;color:var(--muted);font-size:14.5px;}
-.crumb{font-size:13.5px;color:var(--muted);margin:28px 0 6px;}
-.crumb a{color:var(--muted);}
-h1{font-size:clamp(28px,4vw,38px);line-height:1.18;margin:6px 0 14px;}
-.lede{font-size:19px;color:var(--muted);margin-bottom:30px;}
-.post-list{list-style:none;margin:0;padding:0;}
-.post{border-top:1px solid var(--line);padding:24px 0;}
-.post:last-child{border-bottom:1px solid var(--line);}
-.post h2{font-size:22px;line-height:1.3;margin:0 0 8px;}
-.post h2 a{color:var(--ink);}
-.post h2 a:hover{color:var(--accent);text-decoration:none;}
-.post p{margin:0 0 8px;color:var(--muted);font-size:16px;}
-.meta{font-size:13.5px;color:var(--muted);}
-.final-cta{text-align:center;border:1px solid var(--line);border-radius:var(--radius);padding:36px 26px;margin:44px 0 30px;}
-.final-cta h2{margin-top:0;font-size:22px;}
-.btn{display:inline-block;padding:12px 20px;border-radius:8px;font-size:15px;font-weight:600;}
-.btn-primary{background:var(--accent);color:var(--accent-ink)!important;}
-.btn-primary:hover{opacity:.92;text-decoration:none;}
-footer.site{border-top:1px solid var(--line);padding:24px 0;margin-top:40px;font-size:13.5px;color:var(--muted);text-align:center;}
-footer.site a{color:var(--muted);}
-a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px;}
+:root{--ink:#16201d;--muted:#5d6b66;--line:#e2e9e6;--bg:#f5f8f6;--card:#fff;--accent:#0f6b52;--accent-soft:#e3f3ed;--accent-ink:#fff;--radius:16px;--maxw:1120px}
+@media(prefers-color-scheme:dark){:root{--ink:#e8f0ed;--muted:#9bada6;--line:#26332f;--bg:#0f1513;--card:#161e1b;--accent:#4cc9a0;--accent-soft:#17302a;--accent-ink:#06130f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;font-size:16.5px}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+header.site{background:var(--card);border-bottom:1px solid var(--line);padding:14px 0}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:800;font-size:19px;letter-spacing:-.01em}
+.nav a{margin-left:20px;color:var(--muted);font-size:14.5px}
+.nav a:hover{color:var(--accent)}
+.hero{padding:54px 0 26px;text-align:center}
+.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.12;margin:0 0 12px;letter-spacing:-.02em}
+.hero p{color:var(--muted);font-size:18px;max-width:620px;margin:0 auto 24px}
+.search{width:100%;max-width:460px;padding:13px 18px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font-size:15.5px}
+.search:focus{outline:2px solid var(--accent);border-color:transparent}
+.chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:22px 0 30px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 15px;border-radius:999px;font-size:14px;cursor:pointer;font-family:inherit}
+.chip b{font-weight:600;color:var(--muted);margin-left:4px}
+.chip:hover{border-color:var(--accent)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip.on b{color:inherit;opacity:.8}
+.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:10px;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(15,60,45,.12)}
+.card.hide{display:none}
+.card:first-child{grid-column:1/-1;padding:32px;background:linear-gradient(135deg,var(--accent-soft),var(--card) 70%)}
+.card:first-child h2{font-size:clamp(24px,3.4vw,32px)}
+.tag{align-self:flex-start;font-size:12.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:3px 11px;border-radius:999px}
+.card h2{font-size:19.5px;line-height:1.28;margin:0;letter-spacing:-.01em}
+.card h2 a::after{content:"";position:absolute;inset:0}
+.card p{margin:0;color:var(--muted);font-size:15px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card:first-child p{-webkit-line-clamp:4;font-size:16.5px}
+.meta{margin-top:auto;font-size:13px;color:var(--muted)}
+.empty{display:none;text-align:center;color:var(--muted);padding:40px 0}
+.final-cta{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:38px 26px;margin:48px 0 30px}
+.final-cta h2{margin:0 0 8px;font-size:22px}
+.final-cta p{color:var(--muted);margin:0 0 18px}
+.btn{display:inline-block;padding:12px 22px;border-radius:10px;font-size:15px;font-weight:600;background:var(--accent);color:var(--accent-ink)}
+.btn:hover{opacity:.9}
+footer.site{border-top:1px solid var(--line);padding:24px 0;margin-top:30px;font-size:13.5px;color:var(--muted);text-align:center}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.card{transition:none}}
 </style>
 </head>
 <body>
@@ -245,24 +299,49 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius
 </header>
 
 <main class="wrap">
-  <p class="crumb"><a href="https://questmart.online/">Home</a> / Blog</p>
-  <h1>Guides on invoicing, freelancing and getting paid</h1>
-  <p class="lede">Practical guides on invoicing, freelancing and getting paid, including in crypto.</p>
+  <section class="hero">
+    <h1>The QuestMart Blog</h1>
+    <p>Practical guides on AI photo styles, freelancing, invoicing, creators and everyday tools.</p>
+    <input class="search" id="q" type="search" placeholder="Search articles..." aria-label="Search articles">
+  </section>
 
-  <ul class="post-list">
+  <div class="chips" id="chips">
+    {chips}
+  </div>
+
+  <ul class="grid" id="grid">
 {cards}
   </ul>
+  <p class="empty" id="empty">No articles match your search.</p>
 
   <div class="final-cta">
     <h2>One file. One payment. Every invoice you will ever send.</h2>
     <p>Invoice Studio: 150+ currencies including crypto, 7 languages, 4 templates, offline and private. Pay once, $70.</p>
-    <a class="btn btn-primary" href="https://questmart.online/products/invoice-studio-pro.html">See Invoice Studio Pro</a>
+    <a class="btn" href="https://questmart.online/products/invoice-studio-pro.html">See Invoice Studio Pro</a>
   </div>
 </main>
 
 <footer class="site">
   © 2026 QuestMart. <a href="https://questmart.online/">Home</a> · <a href="https://questmart.online/blog/">Blog</a>
 </footer>
+<script>
+(function(){
+  var cat="all",q=document.getElementById("q"),cards=[].slice.call(document.querySelectorAll("#grid .card")),
+      chips=[].slice.call(document.querySelectorAll(".chip")),empty=document.getElementById("empty");
+  function run(){
+    var t=q.value.trim().toLowerCase(),n=0;
+    cards.forEach(function(c){
+      var ok=(cat==="all"||c.dataset.cat===cat)&&(!t||c.dataset.text.indexOf(t)>-1);
+      c.classList.toggle("hide",!ok);if(ok)n++;
+    });
+    empty.style.display=n?"none":"block";
+  }
+  chips.forEach(function(b){b.addEventListener("click",function(){
+    cat=b.dataset.cat;chips.forEach(function(x){x.classList.toggle("on",x===b)});run();
+  })});
+  q.addEventListener("input",run);
+})();
+</script>
 </body>
 </html>
 """
@@ -343,7 +422,8 @@ def main():
         print("ERROR: no articles found, refusing to overwrite blog/index.html", file=sys.stderr)
         sys.exit(1)
     posts.sort(key=lambda p: (p["date"], p["modified"], p["file"]), reverse=True)
-    out = PAGE.replace("{cards}", "\n\n".join(render_card(p) for p in posts))
+    out = (PAGE.replace("{chips}", render_chips(posts))
+              .replace("{cards}", "\n\n".join(render_card(p) for p in posts)))
     (BLOG / "index.html").write_text(out, encoding="utf-8")
     print(f"blog/index.html: {len(posts)} article(s)")
     update_sitemap(posts)
