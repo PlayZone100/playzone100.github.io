@@ -1,18 +1,25 @@
 #!/usr/bin/env python3
 """
-Rebuilds blog/index.html and keeps the blog URLs in sitemap.xml up to date.
+Publishes new blog articles automatically in THREE places, without ever
+rewriting your existing templates:
+
+  1. blog/index.html      -> a card is INSERTED for every new article
+                             (existing cards/template untouched, chips counts refreshed)
+  2. guides/<topic>/index.html + guides/index.html
+                          -> new article is APPENDED to the matching topic list,
+                             counts are fixed (nothing is removed or rewritten)
+  3. sitemap.xml          -> only /blog/ URLs are touched
 
 Run from the repository root:  python scripts/build_blog.py
 
-Every blog/*.html file (except index.html and files marked noindex) becomes a
-card on the blog page. The script reads, from each article:
+Every blog/*.html file (except index.html and files marked noindex) is read:
   - <title>                          -> card title (trailing " | Brand" removed)
   - <meta name="description">        -> card text (falls back to og:description)
   - "datePublished" in the JSON-LD   -> date + sort order (newest first)
   - "dateModified"  in the JSON-LD   -> sitemap <lastmod>
   - "N minute read" in the byline    -> reading time (optional)
-
-Sitemap: only /blog/ URLs are touched. Other pages are never modified.
+  - <meta name="category" content="Plants"> -> optional, forces the category
+    (must be one of the names in CATEGORIES to also appear in /guides/)
 """
 import html
 import re
@@ -191,7 +198,7 @@ def slug(s):
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
-CARD = """    <li class="card" data-cat="{cat_slug}" data-text="{search}">
+CARD = """<li class="card" data-cat="{cat_slug}" data-text="{search}">
       <span class="tag">{cat}</span>
       <h2><a href="{url}" lang="{lang}" dir="auto">{title}</a></h2>
       <p lang="{lang}" dir="auto">{desc}</p>
@@ -226,6 +233,7 @@ def render_chips(posts):
     return "\n    ".join(chips)
 
 
+# Used ONLY when blog/index.html does not exist yet (first-time bootstrap).
 PAGE = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -312,7 +320,7 @@ footer.site{border-top:1px solid var(--line);padding:24px 0;margin-top:30px;font
   </div>
 
   <ul class="grid" id="grid">
-{cards}
+    {cards}
   </ul>
   <p class="empty" id="empty">No articles match your search.</p>
 
@@ -349,6 +357,99 @@ footer.site{border-top:1px solid var(--line);padding:24px 0;margin-top:30px;font
 """
 
 
+# ---------------------------------------------------------------------------
+# 1) blog/index.html : INSERT new cards only, never rewrite the template
+# ---------------------------------------------------------------------------
+GRID = re.compile(r'(<ul\b[^>]*\bid="grid"[^>]*>)(.*?)(\s*</ul>)', re.S | re.I)
+CARD_BLOCK = re.compile(r"<li\b.*?</li>", re.S | re.I)
+CHIPS = re.compile(r'(<div\b[^>]*\bid="chips"[^>]*>)(.*?)(</div>)', re.S | re.I)
+
+
+def card_date(block):
+    """Reads the date shown in an existing card ('October 1, 2026 · 5 min read')."""
+    m = re.search(r'<span class="meta">\s*([^<·]*?)\s*(?:·[^<]*)?</span>', block)
+    if not m:
+        return None
+    try:
+        return datetime.strptime(m.group(1).strip(), "%B %d, %Y").date()
+    except ValueError:
+        return None
+
+
+def chips_from_cards(blocks):
+    counts, names = {}, {}
+    for b in blocks:
+        c = re.search(r'data-cat="([^"]*)"', b)
+        t = re.search(r'<span class="tag">(.*?)</span>', b, re.S)
+        if not c or not t:
+            continue
+        counts[c.group(1)] = counts.get(c.group(1), 0) + 1
+        names[c.group(1)] = t.group(1).strip()
+    chips = [f'<button class="chip on" data-cat="all">All <b>{len(blocks)}</b></button>']
+    for key, n in sorted(counts.items(), key=lambda kv: (-kv[1], names[kv[0]])):
+        chips.append(f'<button class="chip" data-cat="{key}">{names[key]} <b>{n}</b></button>')
+    return "\n    ".join(chips)
+
+
+def update_blog_index(posts):
+    idx = BLOG / "index.html"
+
+    # First-time bootstrap only: the page does not exist yet.
+    if not idx.exists():
+        out = (PAGE.replace("{chips}", render_chips(posts))
+                   .replace("{cards}", "\n\n    ".join(render_card(p) for p in posts)))
+        idx.write_text(out, encoding="utf-8")
+        print(f"blog/index.html: created with {len(posts)} article(s)")
+        return
+
+    text = idx.read_text(encoding="utf-8")
+    m = GRID.search(text)
+    if not m:
+        warn('blog/index.html: <ul id="grid"> not found, page left unchanged')
+        return
+
+    blocks = CARD_BLOCK.findall(m.group(2))
+    present = set(re.findall(r"/blog/([A-Za-z0-9._-]+\.html)", m.group(2)))
+    new = [p for p in posts if p["file"] not in present]
+
+    # Warn about cards pointing to files that no longer exist (never auto-removed).
+    for f in sorted(present):
+        if not (BLOG / f).exists():
+            warn(f"blog/index.html has a card for '{f}' but the file does not exist")
+
+    if not new:
+        print("blog/index.html: no new articles, page left unchanged")
+        return
+
+    # Insert each new card at the right place (newest first), existing cards untouched.
+    for p in new:  # posts are already sorted newest first
+        card = render_card(p)
+        pos = len(blocks)
+        for i, b in enumerate(blocks):
+            d = card_date(b)
+            if d is not None and d <= p["date"]:
+                pos = i
+                break
+        blocks.insert(pos, card)
+
+    items = "\n\n".join("    " + b.lstrip() for b in blocks)
+    new_text = text[:m.start(2)] + "\n" + items + "\n  </ul>" + text[m.end(3):]
+
+    # Refresh only the category chips (counts), built from the cards themselves.
+    cm = CHIPS.search(new_text)
+    if cm:
+        new_text = (new_text[:cm.start(2)] + "\n    " + chips_from_cards(blocks)
+                    + "\n  " + new_text[cm.end(2):])
+    else:
+        warn('blog/index.html: <div id="chips"> not found, chips not updated')
+
+    idx.write_text(new_text, encoding="utf-8")
+    print(f"blog/index.html: added {len(new)} new article(s), total {len(blocks)}")
+
+
+# ---------------------------------------------------------------------------
+# 2) sitemap.xml : only /blog/ URLs
+# ---------------------------------------------------------------------------
 URL_BLOCK = re.compile(r"[ \t]*<url>.*?</url>[ \t]*\n?", re.S)
 LASTMOD = re.compile(r"<lastmod>\s*([^<]*?)\s*</lastmod>")
 
@@ -378,8 +479,8 @@ def update_sitemap(posts):
             return block                      # not a blog URL: untouched
         name = loc[len(prefix):]
         if name not in target:
-            # a /blog/ page URL that no longer exists (renamed/deleted/noindex/bad name)
-            if name.endswith(".html") or not SAFE_NAME.match(name or "x.html"):
+            # a /blog/ article URL that no longer exists (renamed/deleted/noindex)
+            if name.endswith(".html"):
                 stats["removed"] += 1
                 print(f"sitemap.xml: removed stale URL {loc}")
                 return ""
@@ -412,6 +513,9 @@ def update_sitemap(posts):
           f"removed {stats['removed']}")
 
 
+# ---------------------------------------------------------------------------
+# 3) guides/ : APPEND new articles, never remove or rewrite existing entries
+# ---------------------------------------------------------------------------
 GUIDES = ROOT / "guides"
 GUIDE_TOPICS = {
     "Photo & AI Art": "ai-photo",
@@ -442,19 +546,27 @@ def update_guides(posts):
     it is left untouched and a warning is printed."""
     if not GUIDES.is_dir():
         return
+
+    for p in posts:
+        if p["cat"] not in GUIDE_TOPICS:
+            warn(f"{p['file']}: category '{p['cat']}' has no /guides/ page, "
+                 f"so it is not listed there. Add <meta name=\"category\" "
+                 f"content=\"...\"> with one of: {', '.join(GUIDE_TOPICS)}")
+
     pages, present = {}, set()
-    for slug in sorted(set(GUIDE_TOPICS.values())):
-        f = GUIDES / slug / "index.html"
+    for topic in sorted(set(GUIDE_TOPICS.values())):
+        f = GUIDES / topic / "index.html"
         if f.exists():
             text = f.read_text(encoding="utf-8")
-            pages[slug] = (f, text)
+            pages[topic] = (f, text)
             present |= set(re.findall(r"/blog/([A-Za-z0-9._-]+\.html)", text))
+
     counts = {}
-    for slug, (f, text) in pages.items():
-        new = [p for p in posts if GUIDE_TOPICS.get(p["cat"]) == slug and p["file"] not in present]
+    for topic, (f, text) in pages.items():
+        new = [p for p in posts if GUIDE_TOPICS.get(p["cat"]) == topic and p["file"] not in present]
         m = GUIDE_LIST.search(text)
         if not m:
-            warn(f"guides/{slug}: article list not recognized, page left unchanged")
+            warn(f"guides/{topic}: article list not recognized, page left unchanged")
             continue
         items = m.group(4)
         opens = re.findall(r"<li\b[^>]*>", items)
@@ -466,23 +578,28 @@ def update_guides(posts):
                     f'{html.escape(guide_title(p["title"]), quote=False)}</a>'
                     f'{" – " + html.escape(blurb, quote=False) if blurb else ""}</li>')
         total = len(opens) + len(new)
-        counts[slug] = total
+        counts[topic] = total
+        if not new:
+            continue
         new_text = (text[:m.start()] + m.group(1) + str(total) + m.group(3)
                     + items.rstrip() + add + "\n  " + m.group(5) + text[m.end():])
         if new_text != text:
             f.write_text(new_text, encoding="utf-8")
-            print(f"guides/{slug}: added {len(new)} guide(s), total {total}")
+            print(f"guides/{topic}: added {len(new)} guide(s), total {total}")
+
     hub = GUIDES / "index.html"
     if hub.exists() and counts:
-        h = hub.read_text(encoding="utf-8")
-        for slug, n in counts.items():
-            h = re.sub(r'(href="[^"]*/guides/' + re.escape(slug) + r'/?"[^>]*>(?:(?!</a>).)*?)(\d+)(\s*guides)',
+        old = hub.read_text(encoding="utf-8")
+        h = old
+        for topic, n in counts.items():
+            h = re.sub(r'(href="[^"]*/guides/' + re.escape(topic) + r'/?"[^>]*>(?:(?!</a>).)*?)(\d+)(\s*guides)',
                        lambda m: m.group(1) + str(n) + m.group(3), h, count=1, flags=re.S)
-        if h != hub.read_text(encoding="utf-8"):
+        if h != old:
             hub.write_text(h, encoding="utf-8")
             print("guides/index.html: counts updated")
 
 
+# ---------------------------------------------------------------------------
 def fix_unsafe_names():
     """Auto-rename files whose names are not URL-safe (spaces, ':', '(1)', non-English)."""
     for path in sorted(BLOG.glob("*.html")):
@@ -511,29 +628,20 @@ def main():
         if p:
             posts.append(p)
     if not posts:
-        print("ERROR: no articles found, refusing to overwrite blog/index.html", file=sys.stderr)
+        print("ERROR: no articles found, refusing to touch blog/index.html", file=sys.stderr)
         sys.exit(1)
     posts.sort(key=lambda p: (p["date"], p["modified"], p["file"]), reverse=True)
-    # Safety guard: never publish a blog page that suddenly lost many articles
-    idx = BLOG / "index.html"
-    if idx.exists():
-        prev = idx.read_text(encoding="utf-8")
-        before = prev.count('class="card"') + prev.count('class="post"')
-        if before >= 5 and len(posts) < before * 0.8:
-            print(f"ERROR: only {len(posts)} articles found but the current blog page has "
-                  f"{before}. Refusing to overwrite. Check blog/ for renamed or broken files.",
-                  file=sys.stderr)
-            sys.exit(1)
-    out = (PAGE.replace("{chips}", render_chips(posts))
-              .replace("{cards}", "\n\n".join(render_card(p) for p in posts)))
-    (BLOG / "index.html").write_text(out, encoding="utf-8")
-    print(f"blog/index.html: {len(posts)} article(s)")
-    update_sitemap(posts)
+
+    update_blog_index(posts)      # 1) /blog/
+    update_sitemap(posts)         # 2) sitemap.xml (blog URLs only)
     try:
-        update_guides(posts)
+        update_guides(posts)      # 3) /guides/
     except Exception as e:  # the guides update must never break the blog build
         warn(f"guides update skipped: {e}")
 
 
 if __name__ == "__main__":
     main()
+
+
+
