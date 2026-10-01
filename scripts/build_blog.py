@@ -21,6 +21,8 @@ import sys
 from datetime import date, datetime
 from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import quote
+import unicodedata
 
 ROOT = Path(__file__).resolve().parent.parent
 BLOG = ROOT / "blog"
@@ -410,7 +412,26 @@ def update_sitemap(posts):
           f"removed {stats['removed']}")
 
 
+def fix_unsafe_names():
+    """Auto-rename files whose names are not URL-safe (spaces, ':', '(1)', non-English)."""
+    for path in sorted(BLOG.glob("*.html")):
+        if path.name == "index.html" or SAFE_NAME.match(path.name):
+            continue
+        stem = unicodedata.normalize("NFKD", path.stem).encode("ascii", "ignore").decode()
+        stem = re.sub(r"[^a-z0-9]+", "-", stem.lower()).strip("-") or "article"
+        new, n = f"{stem}.html", 2
+        while (BLOG / new).exists():
+            new, n = f"{stem}-{n}.html", n + 1
+        text = path.read_text(encoding="utf-8")
+        for old in {path.name, quote(path.name)}:
+            text = text.replace(old, new)
+        (BLOG / new).write_text(text, encoding="utf-8")
+        path.unlink()
+        print(f"::notice::Renamed '{path.name}' to '{new}'")
+
+
 def main():
+    fix_unsafe_names()
     posts = []
     for path in sorted(BLOG.glob("*.html")):
         if path.name == "index.html":
