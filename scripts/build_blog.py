@@ -102,6 +102,18 @@ def parse_day(s):
         return None
 
 
+def first_paragraph(text, limit=160):
+    """Fallback card text: the first real paragraph of the article, trimmed."""
+    body = re.sub(r"<(script|style)\b.*?</\1>", " ", text, flags=re.S | re.I)
+    for raw in re.findall(r"<p\b[^>]*>(.*?)</p>", body, flags=re.S | re.I):
+        s = clean(re.sub(r"<[^>]+>", " ", raw))
+        if len(s) >= 60:
+            if len(s) > limit:
+                s = s[:limit].rsplit(" ", 1)[0].rstrip(",.;:") + "…"
+            return s
+    return ""
+
+
 def read_post(path):
     if not SAFE_NAME.match(path.name):
         warn(f"'{path.name}' has an unsafe file name (spaces, colon or other "
@@ -124,7 +136,9 @@ def read_post(path):
 
     desc = clean(parser.meta("description") or parser.meta("og:description", "property"))
     if not desc:
-        warn(f"{path.name} has no meta description (card will have no text)")
+        desc = first_paragraph(text)
+        warn(f"{path.name} has no meta description: used the first paragraph for the "
+             f"card. Add <meta name=\"description\"> for better Google snippets.")
 
     published = parse_day(first(r'"datePublished"\s*:\s*"([^"]+)"', text)
                           or parser.meta("article:published_time", "property"))
