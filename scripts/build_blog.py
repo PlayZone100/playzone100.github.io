@@ -422,6 +422,16 @@ def main():
         print("ERROR: no articles found, refusing to overwrite blog/index.html", file=sys.stderr)
         sys.exit(1)
     posts.sort(key=lambda p: (p["date"], p["modified"], p["file"]), reverse=True)
+    # Safety guard: never publish a blog page that suddenly lost many articles
+    idx = BLOG / "index.html"
+    if idx.exists():
+        prev = idx.read_text(encoding="utf-8")
+        before = prev.count('class="card"') + prev.count('class="post"')
+        if before >= 5 and len(posts) < before * 0.8:
+            print(f"ERROR: only {len(posts)} articles found but the current blog page has "
+                  f"{before}. Refusing to overwrite. Check blog/ for renamed or broken files.",
+                  file=sys.stderr)
+            sys.exit(1)
     out = (PAGE.replace("{chips}", render_chips(posts))
               .replace("{cards}", "\n\n".join(render_card(p) for p in posts)))
     (BLOG / "index.html").write_text(out, encoding="utf-8")
