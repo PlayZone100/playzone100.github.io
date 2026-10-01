@@ -412,6 +412,77 @@ def update_sitemap(posts):
           f"removed {stats['removed']}")
 
 
+GUIDES = ROOT / "guides"
+GUIDE_TOPICS = {
+    "Photo & AI Art": "ai-photo",
+    "Food & Fridge": "fridge-chef",
+    "Plants": "plant-care",
+    "Freelancing": "freelance-and-crypto-payments",
+    "Invoicing & Contracts": "invoicing-and-contracts",
+    "Creators": "creator-tools",
+}
+GUIDE_LIST = re.compile(
+    r'(<h2[^>]*>[^<]*?\bguides\s*\()(\d+)(\)[^<]*</h2>\s*<ul[^>]*>)(.*?)(</ul>)', re.S | re.I)
+
+
+def guide_title(t):
+    return re.sub(r"\s*\((?:[^)]*\b2026\b[^)]*)\)\s*$", "", t).strip()
+
+
+def guide_blurb(desc, limit=120):
+    s = re.split(r"(?<=[.!?])\s", desc.strip())[0] if desc else ""
+    if len(s) > limit:
+        s = s[:limit].rsplit(" ", 1)[0].rstrip(",.;:") + "…"
+    return s
+
+
+def update_guides(posts):
+    """Appends NEW articles to the matching /guides/<topic>/ page and fixes the counts.
+    Never removes or rewrites existing entries. If a page layout is not recognized,
+    it is left untouched and a warning is printed."""
+    if not GUIDES.is_dir():
+        return
+    pages, present = {}, set()
+    for slug in sorted(set(GUIDE_TOPICS.values())):
+        f = GUIDES / slug / "index.html"
+        if f.exists():
+            text = f.read_text(encoding="utf-8")
+            pages[slug] = (f, text)
+            present |= set(re.findall(r"/blog/([A-Za-z0-9._-]+\.html)", text))
+    counts = {}
+    for slug, (f, text) in pages.items():
+        new = [p for p in posts if GUIDE_TOPICS.get(p["cat"]) == slug and p["file"] not in present]
+        m = GUIDE_LIST.search(text)
+        if not m:
+            warn(f"guides/{slug}: article list not recognized, page left unchanged")
+            continue
+        items = m.group(4)
+        opens = re.findall(r"<li\b[^>]*>", items)
+        open_tag = opens[-1] if opens else "<li>"
+        add = ""
+        for p in new:
+            blurb = guide_blurb(p["desc"])
+            add += (f'\n    {open_tag}<a href="{BASE}/blog/{p["file"]}">'
+                    f'{html.escape(guide_title(p["title"]), quote=False)}</a>'
+                    f'{" – " + html.escape(blurb, quote=False) if blurb else ""}</li>')
+        total = len(opens) + len(new)
+        counts[slug] = total
+        new_text = (text[:m.start()] + m.group(1) + str(total) + m.group(3)
+                    + items.rstrip() + add + "\n  " + m.group(5) + text[m.end():])
+        if new_text != text:
+            f.write_text(new_text, encoding="utf-8")
+            print(f"guides/{slug}: added {len(new)} guide(s), total {total}")
+    hub = GUIDES / "index.html"
+    if hub.exists() and counts:
+        h = hub.read_text(encoding="utf-8")
+        for slug, n in counts.items():
+            h = re.sub(r'(href="[^"]*/guides/' + re.escape(slug) + r'/?"[^>]*>(?:(?!</a>).)*?)(\d+)(\s*guides)',
+                       lambda m: m.group(1) + str(n) + m.group(3), h, count=1, flags=re.S)
+        if h != hub.read_text(encoding="utf-8"):
+            hub.write_text(h, encoding="utf-8")
+            print("guides/index.html: counts updated")
+
+
 def fix_unsafe_names():
     """Auto-rename files whose names are not URL-safe (spaces, ':', '(1)', non-English)."""
     for path in sorted(BLOG.glob("*.html")):
@@ -458,6 +529,10 @@ def main():
     (BLOG / "index.html").write_text(out, encoding="utf-8")
     print(f"blog/index.html: {len(posts)} article(s)")
     update_sitemap(posts)
+    try:
+        update_guides(posts)
+    except Exception as e:  # the guides update must never break the blog build
+        warn(f"guides update skipped: {e}")
 
 
 if __name__ == "__main__":
