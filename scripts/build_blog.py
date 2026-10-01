@@ -1,33 +1,84 @@
 #!/usr/bin/env python3
 """
-Rebuilds blog/index.html and adds missing blog URLs to sitemap.xml.
+Rebuilds blog/index.html and keeps the blog URLs in sitemap.xml up to date.
 
 Run from the repository root:  python scripts/build_blog.py
 
 Every blog/*.html file (except index.html and files marked noindex) becomes a
 card on the blog page. The script reads, from each article:
-  - <title>                          -> card title (" | QuestMart" is removed)
-  - <meta name="description">        -> card text
+  - <title>                          -> card title (trailing " | Brand" removed)
+  - <meta name="description">        -> card text (falls back to og:description)
   - "datePublished" in the JSON-LD   -> date + sort order (newest first)
+  - "dateModified"  in the JSON-LD   -> sitemap <lastmod>
   - "N minute read" in the byline    -> reading time (optional)
+
+Sitemap: only /blog/ URLs are touched. Other pages are never modified.
 """
 import html
 import re
 import subprocess
 import sys
 from datetime import date, datetime
+from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 BLOG = ROOT / "blog"
 SITEMAP = ROOT / "sitemap.xml"
 BASE = "https://questmart.online"
-SITE_NAME = "QuestMart"
+
+# Only simple, URL-safe file names are allowed (no spaces, colons, etc.)
+SAFE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*\.html$")
+
+
+def warn(msg):
+    # "::warning::" shows up as a yellow warning in the GitHub Actions log
+    print(f"::warning::{msg}", file=sys.stderr)
 
 
 def first(pattern, text, flags=re.S | re.I):
     m = re.search(pattern, text, flags)
     return m.group(1).strip() if m else ""
+
+
+def clean(s):
+    return " ".join(html.unescape(s).split())
+
+
+class HeadParser(HTMLParser):
+    """Reads <html lang>, <title> and all <meta> tags, in any attribute order."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.metas = []
+        self.title = ""
+        self.lang = ""
+        self._in_title = False
+        self._title_done = False
+
+    def handle_starttag(self, tag, attrs):
+        a = {k.lower(): (v or "") for k, v in attrs}
+        if tag == "meta":
+            self.metas.append(a)
+        elif tag == "title" and not self._title_done:
+            self._in_title = True
+        elif tag == "html" and not self.lang:
+            self.lang = a.get("lang", "")
+
+    def handle_endtag(self, tag):
+        if tag == "title" and self._in_title:
+            self._in_title = False
+            self._title_done = True
+
+    def handle_data(self, data):
+        if self._in_title:
+            self.title += data
+
+    def meta(self, key, attr="name"):
+        for m in self.metas:
+            if m.get(attr, "").lower() == key:
+                return m.get("content", "").strip()
+        return ""
 
 
 def git_date(path):
@@ -44,28 +95,47 @@ def git_date(path):
     return date.today()
 
 
+def parse_day(s):
+    try:
+        return datetime.strptime(s[:10], "%Y-%m-%d").date()
+    except ValueError:
+        return None
+
+
 def read_post(path):
+    if not SAFE_NAME.match(path.name):
+        warn(f"'{path.name}' has an unsafe file name (spaces, colon or other "
+             f"special characters). SKIPPED. Rename it, e.g. 'my-article.html'.")
+        return None
     text = path.read_text(encoding="utf-8")
-    if re.search(r'<meta[^>]+name=["\']robots["\'][^>]+noindex', text, re.I):
+    parser = HeadParser()
+    parser.feed(text)
+
+    if "noindex" in parser.meta("robots").lower():
         return None
-    title = html.unescape(first(r"<title>(.*?)</title>", text))
-    title = re.sub(r"\s*\|\s*" + re.escape(SITE_NAME) + r"\s*$", "", title)
+
+    title = clean(parser.title)
+    # remove a trailing " | Brand" (any brand name)
+    shorter = re.sub(r"\s+\|\s+[^|]+$", "", title)
+    title = shorter or title
     if not title:
-        print(f"WARNING: {path.name} has no <title>, skipped", file=sys.stderr)
+        warn(f"{path.name} has no <title>, skipped")
         return None
-    desc = html.unescape(first(r'<meta\s+name=["\']description["\']\s+content=["\']([^"\']*)["\']', text))
-    published = first(r'"datePublished"\s*:\s*"(\d{4}-\d{2}-\d{2})', text)
-    modified = first(r'"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})', text)
-    try:
-        d = datetime.strptime(published, "%Y-%m-%d").date()
-    except ValueError:
-        d = git_date(path)
-    try:
-        dm = datetime.strptime(modified, "%Y-%m-%d").date()
-    except ValueError:
-        dm = d
+
+    desc = clean(parser.meta("description") or parser.meta("og:description", "property"))
+    if not desc:
+        warn(f"{path.name} has no meta description (card will have no text)")
+
+    published = parse_day(first(r'"datePublished"\s*:\s*"([^"]+)"', text)
+                          or parser.meta("article:published_time", "property"))
+    modified = parse_day(first(r'"dateModified"\s*:\s*"([^"]+)"', text)
+                         or parser.meta("article:modified_time", "property"))
+    fallback = git_date(path)
+    d = published or fallback
+    dm = max(modified or fallback, d)
+
     minutes = first(r"(\d+)\s*(?:minute|min)\s*read", text)
-    lang = first(r"<html[^>]*\blang=[\"']([^\"']+)", text) or "en"
+    lang = parser.lang or "en"
     return {
         "file": path.name, "title": title, "desc": desc, "date": d,
         "modified": dm, "minutes": minutes, "lang": lang,
@@ -184,28 +254,67 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius
 """
 
 
+URL_BLOCK = re.compile(r"[ \t]*<url>.*?</url>[ \t]*\n?", re.S)
+LASTMOD = re.compile(r"<lastmod>\s*([^<]*?)\s*</lastmod>")
+
+
 def update_sitemap(posts):
+    """Touches ONLY URLs under /blog/. Everything else is left exactly as is."""
     if SITEMAP.exists():
         xml = SITEMAP.read_text(encoding="utf-8")
     else:
         xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n</urlset>\n')
     if "</urlset>" not in xml:
-        print("WARNING: sitemap.xml has no </urlset>, left unchanged", file=sys.stderr)
+        warn("sitemap.xml has no </urlset>, left unchanged")
         return
-    existing = set(re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", xml))
-    wanted = [(f"{BASE}/blog/", max((p["modified"] for p in posts), default=date.today()))]
-    wanted += [(f"{BASE}/blog/{p['file']}", p["modified"]) for p in posts]
+
+    prefix = f"{BASE}/blog/"
+    index_mod = max((p["modified"] for p in posts), default=date.today())
+    target = {p["file"]: p["modified"] for p in posts}
+    target[""] = index_mod
+    target["index.html"] = index_mod
+    stats = {"removed": 0, "updated": 0, "added": 0}
+
+    def fix(m):
+        block = m.group(0)
+        loc = first(r"<loc>\s*(.*?)\s*</loc>", block)
+        if not loc.startswith(prefix):
+            return block                      # not a blog URL: untouched
+        name = loc[len(prefix):]
+        if name not in target:
+            # a /blog/ page URL that no longer exists (renamed/deleted/noindex/bad name)
+            if name.endswith(".html") or not SAFE_NAME.match(name or "x.html"):
+                stats["removed"] += 1
+                print(f"sitemap.xml: removed stale URL {loc}")
+                return ""
+            return block
+        want = target[name]
+        old = LASTMOD.search(block)
+        old_day = parse_day(old.group(1)) if old else None
+        if old_day and old_day >= want:
+            return block                      # already up to date
+        stats["updated"] += 1
+        if old:
+            return block[:old.start()] + f"<lastmod>{want.isoformat()}</lastmod>" + block[old.end():]
+        return block.replace("</url>", f"  <lastmod>{want.isoformat()}</lastmod>\n  </url>")
+
+    new_xml = URL_BLOCK.sub(fix, xml)
+
+    existing = set(re.findall(r"<loc>\s*([^<]+?)\s*</loc>", new_xml))
+    wanted = [(prefix, index_mod)] + [(prefix + p["file"], p["modified"]) for p in posts]
     add = ""
     for loc, lastmod in wanted:
         if loc not in existing and loc + "index.html" not in existing:
             add += f"  <url>\n    <loc>{loc}</loc>\n    <lastmod>{lastmod.isoformat()}</lastmod>\n  </url>\n"
+            stats["added"] += 1
     if add:
-        xml = xml.replace("</urlset>", add + "</urlset>")
-        SITEMAP.write_text(xml, encoding="utf-8")
-        print(f"sitemap.xml: added {add.count('<url>')} URL(s)")
-    else:
-        print("sitemap.xml: nothing to add")
+        new_xml = new_xml.replace("</urlset>", add + "</urlset>")
+
+    if new_xml != xml:
+        SITEMAP.write_text(new_xml, encoding="utf-8")
+    print(f"sitemap.xml: added {stats['added']}, updated {stats['updated']}, "
+          f"removed {stats['removed']}")
 
 
 def main():
@@ -216,6 +325,9 @@ def main():
         p = read_post(path)
         if p:
             posts.append(p)
+    if not posts:
+        print("ERROR: no articles found, refusing to overwrite blog/index.html", file=sys.stderr)
+        sys.exit(1)
     posts.sort(key=lambda p: (p["date"], p["modified"], p["file"]), reverse=True)
     out = PAGE.replace("{cards}", "\n\n".join(render_card(p) for p in posts))
     (BLOG / "index.html").write_text(out, encoding="utf-8")
