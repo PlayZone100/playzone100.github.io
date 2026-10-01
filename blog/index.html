@@ -2,574 +2,241 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Blog | QuestMart</title>
-<meta name="description" content="Practical guides on invoicing, freelancing and getting paid, including in crypto.">
+<meta name="description" content="Practical guides on AI photo styles, fridge recipes, plant care, freelancing, crypto payments, invoicing and creator income.">
 <link rel="canonical" href="https://questmart.online/blog/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Blog | QuestMart">
-<meta property="og:description" content="Practical guides on invoicing, freelancing and getting paid, including in crypto.">
+<meta property="og:description" content="Practical guides on AI photo styles, fridge recipes, plant care, freelancing, crypto payments, invoicing and creator income.">
 <meta property="og:url" content="https://questmart.online/blog/">
 <meta property="og:site_name" content="QuestMart">
 <meta property="og:image" content="https://questmart.online/blog/images/invoice-studio-og.jpg">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":"QuestMart Blog","url":"https://questmart.online/blog/","description":"Practical guides on AI photo styles, fridge recipes, plant care, freelancing, crypto payments, invoicing and creator income.","dateModified":"2026-09-30","isPartOf":{"@type":"WebSite","name":"QuestMart","url":"https://questmart.online/"}}
+</script>
 <style>
-:root{
-  --ink:#1b1f23; --muted:#5b6470; --line:#e6e8eb; --bg:#ffffff; --panel:#f7f8f9;
-  --accent:#0f6b52; --accent-ink:#ffffff; --radius:10px; --maxw:760px;
-}
-*{box-sizing:border-box;}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;font-size:17px;}
-a{color:var(--accent);text-decoration:none;}
-a:hover{text-decoration:underline;}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;}
-header.site{border-bottom:1px solid var(--line);padding:16px 0;}
-header.site .wrap{display:flex;align-items:center;justify-content:space-between;}
-.brand{font-weight:700;font-size:18px;color:var(--ink);}
-.nav a{margin-left:18px;color:var(--muted);font-size:14.5px;}
-.crumb{font-size:13.5px;color:var(--muted);margin:28px 0 6px;}
-.crumb a{color:var(--muted);}
-h1{font-size:clamp(28px,4vw,38px);line-height:1.18;margin:6px 0 14px;}
-.lede{font-size:19px;color:var(--muted);margin-bottom:30px;}
-.post-list{list-style:none;margin:0;padding:0;}
-.post{border-top:1px solid var(--line);padding:24px 0;}
-.post:last-child{border-bottom:1px solid var(--line);}
-.post h2{font-size:22px;line-height:1.3;margin:0 0 8px;}
-.post h2 a{color:var(--ink);}
-.post h2 a:hover{color:var(--accent);text-decoration:none;}
-.post p{margin:0 0 8px;color:var(--muted);font-size:16px;}
-.meta{font-size:13.5px;color:var(--muted);}
-.final-cta{text-align:center;border:1px solid var(--line);border-radius:var(--radius);padding:36px 26px;margin:44px 0 30px;}
-.final-cta h2{margin-top:0;font-size:22px;}
-.btn{display:inline-block;padding:12px 20px;border-radius:8px;font-size:15px;font-weight:600;}
-.btn-primary{background:var(--accent);color:var(--accent-ink)!important;}
-.btn-primary:hover{opacity:.92;text-decoration:none;}
-footer.site{border-top:1px solid var(--line);padding:24px 0;margin-top:40px;font-size:13.5px;color:var(--muted);text-align:center;}
-footer.site a{color:var(--muted);}
-a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px;}
+:root{--bg:#FAF8F4;--surface:#fff;--surface-2:#F1EEE6;--text:#1B1E2B;--muted:#62667A;--line:#E7E2D6;--brand:#263866;--brand-2:#1A2747;--accent:#C08A3E;--accent-soft:#F1E2C8;--violet:#7C5CFF;--blue:#3E7BFA;--shadow:0 20px 40px -24px rgba(27,30,43,.25)}
+@media (prefers-color-scheme:dark){:root{--bg:#14161F;--surface:#1B1E2B;--surface-2:#232636;--text:#F2F1EC;--muted:#A2A6BC;--line:#2E3143;--accent-soft:#3A331F;--shadow:0 20px 40px -24px rgba(0,0,0,.5)}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,Segoe UI,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:inherit;text-decoration:none}
+h1,h2{font-family:'Sora','Inter',sans-serif;letter-spacing:-.01em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:4px}
+header.site{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:16px}
+.brand{font-family:'Sora',sans-serif;font-weight:700;font-size:1.3rem}
+.brand span{color:var(--accent)}
+.nav-links{display:flex;gap:26px;font-size:.93rem;color:var(--muted);flex-wrap:wrap}
+.nav-links a:hover,.nav-links a[aria-current]{color:var(--text)}
+.nav-links a[aria-current]{font-weight:600}
+@media(max-width:700px){.nav-links{gap:14px;font-size:.85rem}.brand{font-size:1.1rem}}
+.crumb{font-size:.85rem;color:var(--muted);margin:28px 0 0}
+.crumb a:hover{color:var(--text)}
+.hero{padding:20px 0 8px}
+h1{font-size:clamp(2rem,4vw,3rem);line-height:1.15;font-weight:800;margin:10px 0 14px;max-width:20ch}
+.lede{font-size:1.08rem;color:var(--muted);max-width:60ch;margin:0 0 26px}
+.topics{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 8px}
+.topics a{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:.88rem;font-weight:500;transition:border-color .15s,background .15s}
+.topics a:hover{border-color:var(--violet);background:var(--surface-2)}
+.topics-label{font-size:.88rem;color:var(--muted);margin:0 0 10px}
+h2.sec{font-size:1.35rem;font-weight:800;margin:48px 0 18px}
+.latest{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.latest{grid-template-columns:1fr}}
+.feat{position:relative;display:flex;flex-direction:column;gap:10px;padding:26px;border-radius:20px;color:#fff;min-height:210px;box-shadow:var(--shadow);background:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 100%);transition:transform .15s}
+.feat:nth-child(2){background:linear-gradient(135deg,var(--violet) 0%,var(--blue) 130%)}
+.feat:nth-child(3){background:linear-gradient(135deg,#0E5A57 0%,#143a1e 130%)}
+.feat:hover{transform:translateY(-3px)}
+.feat b{font-family:'Sora',sans-serif;font-size:1.12rem;line-height:1.3}
+.feat span{font-size:.85rem;opacity:.8;margin-top:auto}
+.feat i{font-style:normal;font-size:.75rem;font-weight:800;background:var(--accent);color:#1B1E2B;padding:3px 10px;border-radius:999px;align-self:flex-start}
+.search{display:flex;gap:12px;align-items:center;margin:0 0 20px}
+.search input{flex:1;max-width:420px;font:inherit;padding:12px 18px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--text)}
+.search input:focus{outline:2px solid var(--violet);outline-offset:2px}
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-top:48px}
+.head-row h2{margin:0 0 16px;font-size:1.35rem;font-weight:800}
+.post-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.post{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;transition:border-color .15s,transform .15s}
+.post:hover{border-color:var(--violet);transform:translateY(-2px)}
+.post h2{font-size:1.02rem;line-height:1.35;margin:0 0 8px;font-weight:700}
+.post h2 a:hover{color:var(--brand);text-decoration:underline}
+.post p{margin:0 0 12px;color:var(--muted);font-size:.9rem}
+.post p:empty{display:none}
+.meta{font-size:.78rem;color:var(--muted);margin-top:auto}
+.none{color:var(--muted);padding:24px 0}
+.cta-band{border-radius:24px;padding:48px 40px;margin:56px 0 24px;color:#fff;text-align:center;background:radial-gradient(circle at 85% 20%,rgba(124,92,255,.35),transparent 55%),linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 100%)}
+.cta-band h2{margin:0 0 10px;font-size:1.5rem}
+.cta-band p{margin:0 auto 22px;color:#C9D0E6;max-width:52ch}
+.btn{display:inline-block;padding:12px 24px;border-radius:999px;font-weight:600;font-size:.95rem;background:var(--accent);color:#1B1E2B!important}
+.btn:hover{background:#D4A05A}
+footer.site{border-top:1px solid var(--line);padding:28px 0;margin-top:40px;font-size:.85rem;color:var(--muted);text-align:center}
+footer.site a:hover{color:var(--text)}
 </style>
 </head>
 <body>
 <header class="site">
-  <div class="wrap">
-    <a class="brand" href="https://questmart.online/">QuestMart</a>
-    <nav class="nav">
+  <div class="wrap nav">
+    <a class="brand" href="https://questmart.online/">Quest<span>Mart</span></a>
+    <nav class="nav-links" aria-label="Main">
       <a href="https://questmart.online/">Home</a>
-      <a href="https://questmart.online/blog/">Blog</a>
-      <a href="https://questmart.online/contact.html">Contact</a>
+      <a href="https://questmart.online/#products">Products</a>
+      <a href="https://questmart.online/freelance/projects.html">Freelance</a>
+      <a href="https://questmart.online/blog/" aria-current="page">Blog</a>
+      <a href="https://questmart.online/guides/">Guides</a>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
   <p class="crumb"><a href="https://questmart.online/">Home</a> / Blog</p>
-  <h1>Guides on invoicing, freelancing and getting paid</h1>
-  <p class="lede">Practical guides on invoicing, freelancing and getting paid, including in crypto.</p>
-
-  <ul class="post-list">
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/turn-pet-photo-into-cartoon-ai-free-2026.html" lang="en" dir="auto">How to Turn Your Dog or Cat Photo Into a Cartoon, Anime or Painting With AI (Free, 2026)</a></h2>
-      <p lang="en" dir="auto">Turn a dog or cat photo into a cartoon, anime, watercolor or oil painting with AI for free. Best styles for black dogs, white cats and puppies, how to shoot the photo, and 12 FAQs.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/retro-camcorder-photo-filter-ai-guide-2026.html" lang="en" dir="auto">Retro Camcorder Photo Filter AI: 90s and Y2K Look (Free Guide 2026)</a></h2>
-      <p lang="en" dir="auto">Give any photo a retro camcorder, disposable camera or Y2K look with AI: 5 styles, best photos, prompts, a free 5-step workflow, fixes and FAQ. Updated 2026.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/photo-to-pixel-art-ai-guide-2026.html" lang="en" dir="auto">Photo to Pixel Art AI: Turn Any Photo Into Pixel Art (Free Guide 2026)</a></h2>
-      <p lang="en" dir="auto">Turn a photo into pixel art with AI: 8-bit vs 16-bit, resolution and palette choices, which photos survive pixelation, a free 5-step workflow, game avatar and Discord uses, fixes and FAQ. Updated 2026.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/photo-to-manga-ai-guide-2026.html" lang="en" dir="auto">Photo to Manga AI: Turn Any Photo Into a Manga Panel (Free Guide 2026)</a></h2>
-      <p lang="en" dir="auto">Turn a photo into manga with AI: 5 manga looks, best photos, lighting tips, prompts, a free 5-step workflow, fixes and FAQ. Updated 2026.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/photo-to-chibi-ai-guide-2026.html" lang="en" dir="auto">Photo to Chibi AI: Turn Any Photo Into a Chibi Avatar (Free Guide 2026)</a></h2>
-      <p lang="en" dir="auto">Turn a photo into a chibi with AI: 5 chibi styles, the best photos to use, prompts, a free 5-step workflow, fixes for common problems, and a full FAQ. Updated 2026.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/photo-to-cartoon-ai-15-styles-guide-2026.html" lang="en" dir="auto">Photo to Cartoon AI: 15 Cartoon Styles Explained (With a Free Way to Try Them)</a></h2>
-      <p lang="en" dir="auto">Turn a photo into a cartoon with AI: 15 cartoon styles explained (3D animated, comic, caricature, vector, sticker and more), a style finder, a cartoonability checklist and fixes. Free to try.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/photo-to-anime-ai-guide-2026.html" lang="en" dir="auto">Photo to Anime AI: How to Turn Any Photo Into Anime Art (Free Guide 2026)</a></h2>
-      <p lang="en" dir="auto">Turn a photo into anime with AI: the 6 anime looks explained, which photos work best, a free 5-step workflow, likeness tips, fixes for common problems, and a full FAQ. Updated 2026.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/photo-to-action-figure-ai-guide-2026.html" lang="en" dir="auto">Photo to Action Figure AI: Turn Yourself Into a Toy (Free Guide 2026)</a></h2>
-      <p lang="en" dir="auto">Turn a photo into an action figure with AI: 5 toy styles, the best photos, accessory ideas, prompts, a free 5-step workflow, fixes and FAQ. Updated 2026.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/photo-to-3d-cartoon-ai-guide-2026.html" lang="en" dir="auto">Photo to 3D Cartoon AI: Turn Yourself Into a 3D Avatar (Free Guide 2026)</a></h2>
-      <p lang="en" dir="auto">Turn a photo into a 3D cartoon with AI: 5 styles, best photos, prompts, a free 5-step workflow, profile picture tips, fixes and FAQ. Updated 2026.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/ai-profile-picture-guide-2026.html" lang="en" dir="auto">AI Profile Picture Guide 2026: How to Make a Perfect AI Avatar for Instagram, LinkedIn, Discord &amp; More</a></h2>
-      <p lang="en" dir="auto">The complete 2026 guide to AI profile pictures: which AI avatar style fits each platform, how to prepare your photo, a free step-by-step workflow, common mistakes, and privacy tips.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/ai-photo-gift-ideas-2026.html" lang="en" dir="auto">AI Photo Gift Ideas 2026: 25 Personalized Gifts You Can Make From One Photo</a></h2>
-      <p lang="en" dir="auto">25 personalized AI photo gift ideas for 2026: portraits for partners, parents, kids, friends and pets, plus print tips, occasion calendar, budget guide and a free workflow.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/ai-photo-generator-free-trending-styles-2026.html" lang="en" dir="auto">AI Photo Generator Free: 12 Trending AI Photo Styles You Can Try Today (2026)</a></h2>
-      <p lang="en" dir="auto">Free AI photo generator guide for 2026: 12 trending AI photo styles (anime, cyberpunk, oil painting, Polaroid and more), how to pick one, how to prepare your photo, and how to post it.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/ai-pet-portrait-guide-2026.html" lang="en" dir="auto">AI Pet Portrait: Turn Your Dog or Cat Into Anime, Chibi or Toy (Free Guide 2026)</a></h2>
-      <p lang="en" dir="auto">Turn a pet photo into an AI portrait: 5 styles, how to photograph pets, prompts, a free 5-step workflow, fixes for markings and eyes, and FAQ. Updated 2026.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/ai-couple-portrait-gift-guide-2026.html" lang="en" dir="auto">AI Couple Portrait: Anime, Chibi and Pastel Gift Ideas (Free Guide 2026)</a></h2>
-      <p lang="en" dir="auto">Turn a couple photo into an AI portrait gift: 5 styles, photo tips, anniversary and wedding ideas, printing advice, a free workflow and FAQ. Updated 2026.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/90s-camcorder-photo-filter-free-ai.html" lang="en" dir="auto">Retro Camcorder Photo Filter AI: 90s, Y2K and Disposable Camera Look (Complete Guide 2026)</a></h2>
-      <p lang="en" dir="auto">The complete 2026 guide to the retro camcorder photo filter: 90s camcorder, disposable camera flash, Y2K compact, VHS and CRT looks, free workflow, prompts, fixes and FAQ.</p>
-      <span class="meta">September 30, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/how-to-turn-photo-into-ai-art-free-2026.html" lang="en" dir="auto">How to Turn Any Photo Into AI Art (Free): 8 Viral Styles That Work in 2026</a></h2>
-      <p lang="en" dir="auto">Turn any photo into anime, cyberpunk, oil painting and more with AI. See 8 viral styles, a 4-step free workflow, photo tips and common mistakes to avoid.</p>
-      <span class="meta">September 29, 2026 · 8 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/ai-photo-trends-2026.html" lang="en" dir="auto">AI Photo Trends 2026: The Complete Guide to Anime, Retro, Cyberpunk &amp; Oil Painting Photo Filters</a></h2>
-      <p lang="en" dir="auto">A 5,000-word field guide to AI photo trends: how AI photo filters work, which styles suit which photos, how to prepare images, and how to post them. Includes a free tool to try.</p>
-      <span class="meta">September 27, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/hire-freelancer-without-getting-burned.html" lang="en" dir="auto">How to Hire a Freelancer Without Getting Burned</a></h2>
-      <p lang="en" dir="auto">A client</p>
-      <span class="meta">September 26, 2026 · 8 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/best-freelance-marketplace-2026-escrow-crypto-guide.html" lang="en" dir="auto">Best Freelance Marketplace in 2026: The Escrow + Crypto Guide | QuestMart Freelance</a></h2>
-      <p lang="en" dir="auto">Looking for the best freelance marketplace in 2026? Here</p>
-      <span class="meta">September 26, 2026 · 14 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/zero-grocery-challenge-30-days-saved-412.html" lang="en" dir="auto">I Did the $0 Grocery Challenge for 30 Days (AI Scanned My Fridge) - Saved $412</a></h2>
-      <p lang="en" dir="auto">I tried the $0 grocery challenge for 30 days using only my fridge + AI. Saved $412, lost 3 lbs, zero waste. See exactly what I ate, with fridge photos and AI recipes.</p>
-      <span class="meta">September 25, 2026 · 12 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/what-to-cook-with-what-i-have-in-my-fridge.html" lang="en" dir="auto">What To Cook With What I Have In My Fridge? I Tried It For 30 Days (No Grocery Store)</a></h2>
-      <p lang="en" dir="auto">I had $200 of food in my fridge and nothing to eat. I tried the no grocery challenge for 30 days using only AI to scan my fridge. Saved $412. Here</p>
-      <span class="meta">September 25, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/stop-wasting-food-ai-fridge-scanner.html" lang="en" dir="auto">Stop Wasting Food: How an AI Fridge Scanner Turns Leftovers Into Real Meals</a></h2>
-      <p lang="en" dir="auto">Learn how to stop food waste at home by turning whatever is in your fridge into real recipes with an AI-powered fridge photo scanner. Practical tips, storage guide, and how Fridge Chef Pro works.</p>
-      <span class="meta">September 25, 2026 · 10 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/fridge-dump-dinners-15-meals-no-grocery-run.html" lang="en" dir="auto">Fridge Dump Dinners: 15 Meals That Look Expensive But Cost $0 Extra (No Grocery Run)</a></h2>
-      <p lang="en" dir="auto">15 fridge dump dinners you can make tonight with only what</p>
-      <span class="meta">September 25, 2026 · 10 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/viral-fridge-recipes.html" lang="en" dir="auto">Viral Fridge Recipes Everyone's Making Right Now</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 24, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/plant-not-growing-dropping-leaves-guide.html" lang="en" dir="auto">Why Is My Plant Not Growing or Dropping Leaves? Complete Guide (2026)</a></h2>
-      <p lang="en" dir="auto">A healthy-looking plant that stalls out or drops leaves for no obvious reason usually has one of these 9 causes — light, roots, season, shock, or something less obvious. Here</p>
-      <span class="meta">September 24, 2026 · 12 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/plant-emergency-guide.html" lang="en" dir="auto">Plant Emergency Guide: What to Do Right Now for 8 Common Crises (2026)</a></h2>
-      <p lang="en" dir="auto">Severely wilted, snapped stem, frost-damaged, sun-scorched, knocked over, flooded, or left without water for weeks — a complete first-aid guide for the 8 most common houseplant emergencies.</p>
-      <span class="meta">September 24, 2026 · 19 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/picky-eater-fridge-meals.html" lang="en" dir="auto">Picky Eater Fixes: Fridge Meals Kids Will Actually Eat</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 24, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/meal-prep-sunday-guide.html" lang="en" dir="auto">Meal Prep Sunday: Prep Once, Eat Well All Week</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 24, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/high-protein-fridge-meals.html" lang="en" dir="auto">High-Protein Fridge Meals: Build Muscle Without Grocery Runs</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 24, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/hangover-fridge-fixes.html" lang="en" dir="auto">Hangover Fridge Fixes: The Ultimate Guide to Feeling Human Again</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 24, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/global-flavor-bombs-fridge.html" lang="en" dir="auto">Around the World in Your Fridge: 5 Global Flavor Bombs</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 24, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/get-paid-in-usdt-freelancer-guide.html" lang="en" dir="auto">Get Paid in USDT as a Freelancer: Complete 2026 Guide</a></h2>
-      <p lang="en" dir="auto">Learn how to get paid in USDT as a freelancer: choose the right network, set up a safe wallet, send invoices, avoid scams, cash out and handle taxes. Step-by-step 2026 guide.</p>
-      <span class="meta">September 24, 2026 · 35 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/fridge-to-air-fryer-recipes.html" lang="en" dir="auto">Fridge to Air Fryer: 30 Ridiculously Easy Recipes</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 24, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/freelance-jobs-online-guide-2026.html" lang="en" dir="auto">Freelance Jobs Online 2026: The Complete Beginner's Guide</a></h2>
-      <p lang="en" dir="auto">Learn how to start freelancing, find freelance jobs online, write winning proposals, set your rates and get paid safely, even in USDT. Free 2026 guide.</p>
-      <span class="meta">September 24, 2026 · 30 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/easy-weeknight-dinner-ideas.html" lang="en" dir="auto">40+ Easy Weeknight Dinner Ideas When You're Too Tired to Think</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 24, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/broke-college-student-fridge-guide.html" lang="en" dir="auto">The Broke College Student's Guide to Surviving on a Tiny Fridge</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 24, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/best-freelance-platforms-2026.html" lang="en" dir="auto">Best Freelance Platforms in 2026: Upwork vs Fiverr vs Toptal vs QuestMart (Full Comparison)</a></h2>
-      <p lang="en" dir="auto">Best freelance platforms in 2026 compared: fees, payout speed, crypto/USDT support and who each one is really for — Upwork, Fiverr, Freelancer.com, Toptal, PeoplePerHour and QuestMart Freelance.</p>
-      <span class="meta">September 24, 2026 · 16 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/5-minute-fridge-breakfasts.html" lang="en" dir="auto">5-Minute Fridge Breakfasts for People Who Are Always Running Late</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 24, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/best-light-for-indoor-plants-guide.html" lang="en" dir="auto">Best Light for Indoor Plants: The Complete Guide (Low, Medium &amp; Bright)</a></h2>
-      <p lang="en" dir="auto">Not sure how much light your houseplants need? Learn the 4 light levels, how to test any window, which plants fit each spot, signs of too little or too much light, and how to use grow lights.</p>
-      <span class="meta">September 23, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/: about-questmart-digital-products-marketplace.html" lang="en" dir="auto">What Is QuestMart? A Digital Products Marketplace for Tools, Templates &amp; Software</a></h2>
-      <p lang="en" dir="auto">QuestMart is an online marketplace for practical digital products: invoicing software, contract and proposal generators, an AI plant-care tool, a meme maker and a freelance platform. See what we build and why.</p>
-      <span class="meta">September 23, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/vaultwork-crypto-escrow-freelance-guide.html" lang="en" dir="auto">Crypto Escrow for Freelancers: Why Funded-First Freelancing Beats Upwork and Fiverr | Vaultwork</a></h2>
-      <p lang="en" dir="auto">Every freelance marketplace promises fast, safe payment — few deliver it. Here</p>
-      <span class="meta">September 22, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/meme-studio-guide.html" lang="en" dir="auto">How to Make a Meme From Any Photo in Under a Minute (No App Install) | Meme Studio</a></h2>
-      <p lang="en" dir="auto">A complete guide to turning any photo into a meme, GIF, or funny avatar using nothing but your browser — face detection, props, warp effects, and batch mode explained, plus privacy, sizing, and prop ideas for every occasion.</p>
-      <span class="meta">September 22, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/certify-studio-guide.html" lang="en" dir="auto">How to Prove You Wrote Something: A Freelancer's Guide to Authorship Certificates | Certify Studio</a></h2>
-      <p lang="en" dir="auto">AI accusations, stolen drafts, and clients who</p>
-      <span class="meta">September 22, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/20-first-brand-deal-what-to-expect.html" lang="en" dir="auto">Your First Brand Deal: What Actually Happens, Step by Step</a></h2>
-      <p lang="en" dir="auto">The uncertainty before a first brand deal is usually worse than the deal itself. Here</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/19-creator-tax-mistakes-to-avoid.html" lang="en" dir="auto">Creator Tax Mistakes That Are Easy to Avoid Once You Know About Them</a></h2>
-      <p lang="en" dir="auto">Nobody teaches creators this part, and it usually shows up as a surprise bill the year after your income actually grows. None of this is tax advice for your ...</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/18-managing-multiple-brand-deals-at-once.html" lang="en" dir="auto">Managing Five Brand Conversations Without Dropping One</a></h2>
-      <p lang="en" dir="auto">At some point,</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/17-long-form-into-short-clips-that-work.html" lang="en" dir="auto">Turning One Long Video Into Clips That Don't Feel Chopped Up</a></h2>
-      <p lang="en" dir="auto">Pulling five random 30-second chunks out of a 20-minute video is why most</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/16-too-many-creator-apps-consolidate.html" lang="en" dir="auto">You Probably Have Too Many Creator Apps Open</a></h2>
-      <p lang="en" dir="auto">A scheduling app, a rate calculator, a spreadsheet for income, a separate editor, a third-party media kit site, a link-in-bio tool — each one solved a single...</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/15-grow-engagement-rate-without-gimmicks.html" lang="en" dir="auto">Growing Your Engagement Rate Without Engagement-Bait</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/14-thumbnails-that-actually-get-clicked.html" lang="en" dir="auto">Thumbnails That Actually Get Clicked</a></h2>
-      <p lang="en" dir="auto">A great video with a weak thumbnail loses to a mediocre video with a strong one, almost every time. The thumbnail is the ad for your content — most viewers d...</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/13-pricing-ugc-content-for-brands.html" lang="en" dir="auto">Pricing UGC (User-Generated Content) When There's No Audience to Point To</a></h2>
-      <p lang="en" dir="auto">UGC is different from a normal sponsored post: the brand isn</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/12-which-platform-should-you-focus-on.html" lang="en" dir="auto">Which Platform Should You Actually Focus On?</a></h2>
-      <p lang="en" dir="auto">Trying to be great on eight platforms at once is how most creators end up mediocre on all of them. The creators who grow fastest usually pick one primary pla...</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/11-negotiate-brand-deal-like-a-pro.html" lang="en" dir="auto">How to Negotiate a Brand Deal Without Losing the Offer</a></h2>
-      <p lang="en" dir="auto">Most creators either accept the first number a brand sends, or ask for more and immediately worry they blew the whole deal. Negotiation isn</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/10-creator-tools-that-keep-your-data-private.html" lang="en" dir="auto">Why More Creators Are Choosing Offline Tools Over Cloud Dashboards</a></h2>
-      <p lang="en" dir="auto">Every new creator tool wants your login, your content, and your income numbers on their server. That</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/09-content-calendar-for-solo-creators.html" lang="en" dir="auto">A Content Calendar That Actually Fits a Solo Creator's Week</a></h2>
-      <p lang="en" dir="auto">Content calendars built for marketing teams assume you have someone drafting, someone approving, and someone scheduling. As a solo creator, you</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/08-link-in-bio-page-without-subscription.html" lang="en" dir="auto">A Link-in-Bio Page You Own, Without a Monthly Fee</a></h2>
-      <p lang="en" dir="auto">The classic link-in-bio tools are convenient, but almost all of them put your page on their domain and charge a recurring fee once you go past a handful of l...</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/07-auto-captions-offline.html" lang="en" dir="auto">Auto-Generated Captions for Video, Without a Subscription</a></h2>
-      <p lang="en" dir="auto">Burned-in captions increase watch time on nearly every short-form platform — most viewers watch with sound off, especially on their commute or in public. The...</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/06-remove-photo-background-without-uploading.html" lang="en" dir="auto">Removing a Photo Background Without Uploading It Anywhere</a></h2>
-      <p lang="en" dir="auto">Most free background removal tools work the same way: you upload your photo to someone else</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/05-posting-consistency-without-burnout.html" lang="en" dir="auto">Posting Consistently Without Burning Out: What Actually Works</a></h2>
-      <p lang="en" dir="auto"></p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/04-media-kit-that-gets-you-booked.html" lang="en" dir="auto">What Actually Belongs in a Media Kit (and What Brands Skip Past)</a></h2>
-      <p lang="en" dir="auto">A media kit</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/03-how-much-to-charge-sponsored-post.html" lang="en" dir="auto">How Much Should You Charge for a Sponsored Post? A Starting Formula</a></h2>
-      <p lang="en" dir="auto">New creators either guess low out of fear, or guess high and get ghosted. Neither helps you build a sustainable rate. Here</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/02-track-creator-income-without-spreadsheet.html" lang="en" dir="auto">Tracking Creator Income When You're Paid From Five Different Places</a></h2>
-      <p lang="en" dir="auto">If your money comes in from brand deals, platform payouts, affiliate links and the occasional PayPal invoice,</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/01-repurpose-content-8-platforms.html" lang="en" dir="auto">How to Turn One Idea Into Posts for 8 Platforms Without Burning Out</a></h2>
-      <p lang="en" dir="auto">Most creators don</p>
-      <span class="meta">September 21, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/service-agreement-template-small-business.html" lang="en" dir="auto">Service Agreement Template for Small Business: Clauses &amp; Guide (2026)</a></h2>
-      <p lang="en" dir="auto">What a service agreement is, the clauses every small business needs, sample wording, and mistakes to avoid. Build yours faster with Contract &amp; Proposal Generator Pro.</p>
-      <span class="meta">September 20, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/scope-of-work-template.html" lang="en" dir="auto">Scope of Work Template: How to Write One (With Examples)</a></h2>
-      <p lang="en" dir="auto">Learn how to write a scope of work with a copy-ready template, example wording, and tips to prevent misunderstandings. Includes checklist and FAQ.</p>
-      <span class="meta">September 20, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/international-freelance-contract-clauses.html" lang="en" dir="auto">International Freelance Contract Clauses: 10 Essentials for Global Clients</a></h2>
-      <p lang="en" dir="auto">Working with clients abroad? Learn the 10 contract clauses every international freelancer needs: currency, governing law, taxes, payment methods, time zones and more.</p>
-      <span class="meta">September 20, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/how-to-write-a-business-proposal.html" lang="en" dir="auto">How to Write a Business Proposal: Step-by-Step Guide (2026)</a></h2>
-      <p lang="en" dir="auto">Learn how to write a business proposal that wins clients: the 10 sections to include, pricing tips, example wording and common mistakes to avoid.</p>
-      <span class="meta">September 20, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/how-to-prevent-scope-creep-freelancers.html" lang="en" dir="auto">How to Prevent Scope Creep as a Freelancer: 12 Proven Tactics</a></h2>
-      <p lang="en" dir="auto">Scope creep drains freelancers</p>
-      <span class="meta">September 20, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/how-to-create-a-professional-invoice.html" lang="en" dir="auto">How to Create a Professional Invoice: The Complete Guide</a></h2>
-      <p lang="en" dir="auto">Everything a professional invoice needs: required fields, numbering, tax, currency, payment terms, reminders and tools, with a checklist and examples.</p>
-      <span class="meta">September 20, 2026 · 22 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/freelance-proposal-template.html" lang="en" dir="auto">Freelance Proposal Template: Structure, Example &amp; Tips (2026)</a></h2>
-      <p lang="en" dir="auto">Use this freelance proposal template to win more clients. Copy-ready structure, example wording for each section, pricing tips and mistakes to avoid.</p>
-      <span class="meta">September 20, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/freelance-contract-template-guide.html" lang="en" dir="auto">Freelance Contract Template: What to Include (2026 Guide)</a></h2>
-      <p lang="en" dir="auto">Learn what a freelance contract must include, with 12 essential clauses, common mistakes, and a checklist. Create yours in minutes with Contract &amp; Proposal Generator Pro.</p>
-      <span class="meta">September 20, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/best-contract-proposal-software-no-subscription.html" lang="en" dir="auto">Contract &amp; Proposal Software Without a Subscription: Buyer's Guide (2026)</a></h2>
-      <p lang="en" dir="auto">Tired of monthly fees? Compare subscription vs one-time contract and proposal software, see the real cost over time, and learn what to check before you buy.</p>
-      <span class="meta">September 20, 2026</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/private-invoice-software-no-cloud.html" lang="en" dir="auto">Private Invoice Software: Keep Client Data Off Someone Else's Server</a></h2>
-      <p lang="en" dir="auto">Private invoice software that keeps client names, amounts and wallet addresses on your own computer. What local-only invoicing means, and its one trade-off.</p>
-      <span class="meta">September 19, 2026 · 6 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/one-time-payment-invoice-software.html" lang="en" dir="auto">One-Time Payment Invoice Software: How the Math Works</a></h2>
-      <p lang="en" dir="auto">What</p>
-      <span class="meta">September 19, 2026 · 6 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/offline-invoice-software-small-business.html" lang="en" dir="auto">Offline Invoice Software for Small Business</a></h2>
-      <p lang="en" dir="auto">When offline invoice software fits a small business, how to manage recurring clients without a cloud account, and when to graduate to full accounting software.</p>
-      <span class="meta">September 19, 2026 · 6 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/offline-invoice-generator.html" lang="en" dir="auto">Offline Invoice Generator (No Subscription, Crypto-Ready)</a></h2>
-      <p lang="en" dir="auto">Make invoices, quotes and receipts offline with no account or monthly fee. 150+ currencies, VAT, USDT and Bitcoin wallet lines, PDF export. Full guide.</p>
-      <span class="meta">September 19, 2026 · 9 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/multi-currency-invoice-generator.html" lang="en" dir="auto">Multi-Currency Invoice Generator for Freelancers</a></h2>
-      <p lang="en" dir="auto">What a proper multi-currency invoice generator needs to handle: symbol placement, decimal precision, 150+ currencies including crypto, and tax across currencies.</p>
-      <span class="meta">September 19, 2026 · 6 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/invoice-software-without-subscription.html" lang="en" dir="auto">Invoice Software Without a Subscription: What It Actually Costs You Either Way</a></h2>
-      <p lang="en" dir="auto">A plain-numbers look at invoice software without a subscription vs monthly plans: real 1, 3 and 5-year costs, what you give up, and who each option suits.</p>
-      <span class="meta">September 19, 2026 · 7 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/invoice-software-for-freelancers.html" lang="en" dir="auto">Invoice Software for Freelancers: What Actually Matters</a></h2>
-      <p lang="en" dir="auto">What freelancers really need from invoice software, real invoice line-item examples by role, and why most freelance billing doesn</p>
-      <span class="meta">September 19, 2026 · 7 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/invoice-generator-without-signup.html" lang="en" dir="auto">Invoice Generator Without Signup: What to Look For</a></h2>
-      <p lang="en" dir="auto">Need to send an invoice right now, with no account to create? Here</p>
-      <span class="meta">September 19, 2026 · 6 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/how-to-invoice-international-clients.html" lang="en" dir="auto">How to Invoice International Clients</a></h2>
-      <p lang="en" dir="auto">How to invoice international clients correctly: currency choice, tax treatment across borders, payment rails, and language, with a practical checklist.</p>
-      <span class="meta">September 19, 2026 · 7 minute read</span>
-    </li>
-
-    <li class="post">
-      <h2><a href="https://questmart.online/blog/crypto-invoice-generator-usdt-bitcoin.html" lang="en" dir="auto">Crypto Invoice Generator: USDT and Bitcoin Invoices Done Right</a></h2>
-      <p lang="en" dir="auto">How to build a crypto invoice that actually gets paid correctly: network labeling, decimal precision, multiple wallets, and stablecoin vs floating pricing.</p>
-      <span class="meta">September 19, 2026 · 7 minute read</span>
-    </li>
+  <section class="hero">
+    <h1>Guides on photos, food, plants, freelancing and getting paid</h1>
+    <p class="lede">Practical, step-by-step articles for each QuestMart tool. Pick a topic or search below.</p>
+    <p class="topics-label">Browse by topic</p>
+    <nav class="topics" aria-label="Browse by topic">
+      <a href="https://questmart.online/guides/ai-photo/">AI Photo and Image Tools</a>
+      <a href="https://questmart.online/guides/fridge-chef/">Fridge Chef: Recipes From What You Have</a>
+      <a href="https://questmart.online/guides/plant-care/">Plant Doctor: Houseplant Care Guides</a>
+      <a href="https://questmart.online/guides/freelance-and-crypto-payments/">Freelancing, Escrow and Crypto Payments</a>
+      <a href="https://questmart.online/guides/invoicing-and-contracts/">Invoicing, Contracts and Proposals</a>
+      <a href="https://questmart.online/guides/creator-tools/">Creator Tools: Brand Deals, Content and Income</a>
+    </nav>
+  </section>
+
+  <h2 class="sec">Newest articles</h2>
+  <div class="latest">
+    <a class="feat" href="https://questmart.online/blog/turn-pet-photo-into-cartoon-ai-free-2026.html"><i>New</i><b>How to Turn Your Dog or Cat Photo Into a Cartoon, Anime or Painting With AI</b><span>September 30, 2026</span></a>
+    <a class="feat" href="https://questmart.online/blog/90s-camcorder-photo-filter-free-ai.html"><i>New</i><b>90s Camcorder Photo Filter: Make Any Photo Look Vintage with AI</b><span>September 30, 2026</span></a>
+    <a class="feat" href="https://questmart.online/blog/photo-to-pixel-art-ai-guide-2026.html"><i>New</i><b>Photo to Pixel Art AI: Turn Any Photo Into Pixel Art</b><span>September 30, 2026</span></a>
+  </div>
+
+  <div class="head-row"><h2>All articles</h2></div>
+  <div class="search">
+    <input id="q" type="search" placeholder="Search articles, e.g. invoice, anime, plant" aria-label="Search articles" autocomplete="off">
+  </div>
+
+  <ul class="post-list" id="post-list">
+<li class="post"><h2><a href="https://questmart.online/blog/turn-pet-photo-into-cartoon-ai-free-2026.html">How to Turn Your Dog or Cat Photo Into a Cartoon, Anime or Painting With AI (Free, 2026)</a></h2><p>Turn a dog or cat photo into a cartoon, anime, watercolor or oil painting with AI for free. Best styles for black dogs, white cats and puppies, how to shoot the photo, and 12 FAQs.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/90s-camcorder-photo-filter-free-ai.html">90s Camcorder Photo Filter: Make Any Photo Look Vintage with AI (Free, 2026)</a></h2><p>The free 90s camcorder photo filter guide for 2026: disposable camera, Y2K, VHS and CRT looks, a simple workflow, prompts, fixes and FAQ.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/retro-camcorder-photo-filter-ai-guide-2026.html">Retro Camcorder Photo Filter AI: 90s and Y2K Look (Free Guide 2026)</a></h2><p>Give any photo a retro camcorder, disposable camera or Y2K look with AI: 5 styles, best photos, prompts, a free 5-step workflow, fixes and FAQ. Updated 2026.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/photo-to-pixel-art-ai-guide-2026.html">Photo to Pixel Art AI: Turn Any Photo Into Pixel Art (Free Guide 2026)</a></h2><p>Turn a photo into pixel art with AI: 8-bit vs 16-bit, resolution and palette choices, which photos survive pixelation, a free 5-step workflow, game avatar and Discord uses, fixes and FAQ. Updated 2026.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/photo-to-manga-ai-guide-2026.html">Photo to Manga AI: Turn Any Photo Into a Manga Panel (Free Guide 2026)</a></h2><p>Turn a photo into manga with AI: 5 manga looks, best photos, lighting tips, prompts, a free 5-step workflow, fixes and FAQ. Updated 2026.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/photo-to-chibi-ai-guide-2026.html">Photo to Chibi AI: Turn Any Photo Into a Chibi Avatar (Free Guide 2026)</a></h2><p>Turn a photo into a chibi with AI: 5 chibi styles, the best photos to use, prompts, a free 5-step workflow, fixes for common problems, and a full FAQ. Updated 2026.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/photo-to-cartoon-ai-15-styles-guide-2026.html">Photo to Cartoon AI: 15 Cartoon Styles Explained (With a Free Way to Try Them)</a></h2><p>Turn a photo into a cartoon with AI: 15 cartoon styles explained (3D animated, comic, caricature, vector, sticker and more), a style finder, a cartoonability checklist and fixes. Free to try.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/photo-to-anime-ai-guide-2026.html">Photo to Anime AI: How to Turn Any Photo Into Anime Art (Free Guide 2026)</a></h2><p>Turn a photo into anime with AI: the 6 anime looks explained, which photos work best, a free 5-step workflow, likeness tips, fixes for common problems, and a full FAQ. Updated 2026.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/photo-to-action-figure-ai-guide-2026.html">Photo to Action Figure AI: Turn Yourself Into a Toy (Free Guide 2026)</a></h2><p>Turn a photo into an action figure with AI: 5 toy styles, the best photos, accessory ideas, prompts, a free 5-step workflow, fixes and FAQ. Updated 2026.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/photo-to-3d-cartoon-ai-guide-2026.html">Photo to 3D Cartoon AI: Turn Yourself Into a 3D Avatar (Free Guide 2026)</a></h2><p>Turn a photo into a 3D cartoon with AI: 5 styles, best photos, prompts, a free 5-step workflow, profile picture tips, fixes and FAQ. Updated 2026.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/ai-profile-picture-guide-2026.html">AI Profile Picture Guide 2026: How to Make a Perfect AI Avatar for Instagram, LinkedIn, Discord &amp; More</a></h2><p>The complete 2026 guide to AI profile pictures: which AI avatar style fits each platform, how to prepare your photo, a free step-by-step workflow, common mistakes, and privacy tips.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/ai-photo-gift-ideas-2026.html">AI Photo Gift Ideas 2026: 25 Personalized Gifts You Can Make From One Photo</a></h2><p>25 personalized AI photo gift ideas for 2026: portraits for partners, parents, kids, friends and pets, plus print tips, occasion calendar, budget guide and a free workflow.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/ai-photo-generator-free-trending-styles-2026.html">AI Photo Generator Free: 12 Trending AI Photo Styles You Can Try Today (2026)</a></h2><p>Free AI photo generator guide for 2026: 12 trending AI photo styles (anime, cyberpunk, oil painting, Polaroid and more), how to pick one, how to prepare your photo, and how to post it.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/ai-pet-portrait-guide-2026.html">AI Pet Portrait: Turn Your Dog or Cat Into Anime, Chibi or Toy (Free Guide 2026)</a></h2><p>Turn a pet photo into an AI portrait: 5 styles, how to photograph pets, prompts, a free 5-step workflow, fixes for markings and eyes, and FAQ. Updated 2026.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/ai-couple-portrait-gift-guide-2026.html">AI Couple Portrait: Anime, Chibi and Pastel Gift Ideas (Free Guide 2026)</a></h2><p>Turn a couple photo into an AI portrait gift: 5 styles, photo tips, anniversary and wedding ideas, printing advice, a free workflow and FAQ. Updated 2026.</p><span class="meta">September 30, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/how-to-turn-photo-into-ai-art-free-2026.html">How to Turn Any Photo Into AI Art (Free): 8 Viral Styles That Work in 2026</a></h2><p>Turn any photo into anime, cyberpunk, oil painting and more with AI. See 8 viral styles, a 4-step free workflow, photo tips and common mistakes to avoid.</p><span class="meta">September 29, 2026 · 8 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/ai-photo-trends-2026.html">AI Photo Trends 2026: The Complete Guide to Anime, Retro, Cyberpunk &amp; Oil Painting Photo Filters</a></h2><p>A 5,000-word field guide to AI photo trends: how AI photo filters work, which styles suit which photos, how to prepare images, and how to post them. Includes a free tool to try.</p><span class="meta">September 27, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/hire-freelancer-without-getting-burned.html">How to Hire a Freelancer Without Getting Burned</a></h2><span class="meta">September 26, 2026 · 8 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/best-freelance-marketplace-2026-escrow-crypto-guide.html">Best Freelance Marketplace in 2026: The Escrow + Crypto Guide | QuestMart Freelance</a></h2><span class="meta">September 26, 2026 · 14 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/zero-grocery-challenge-30-days-saved-412.html">I Did the $0 Grocery Challenge for 30 Days (AI Scanned My Fridge) - Saved $412</a></h2><span class="meta">September 25, 2026 · 12 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/what-to-cook-with-what-i-have-in-my-fridge.html">What To Cook With What I Have In My Fridge? I Tried It For 30 Days (No Grocery Store)</a></h2><span class="meta">September 25, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/stop-wasting-food-ai-fridge-scanner.html">Stop Wasting Food: How an AI Fridge Scanner Turns Leftovers Into Real Meals</a></h2><span class="meta">September 25, 2026 · 10 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/fridge-dump-dinners-15-meals-no-grocery-run.html">Fridge Dump Dinners: 15 Meals That Look Expensive But Cost $0 Extra (No Grocery Run)</a></h2><span class="meta">September 25, 2026 · 10 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/viral-fridge-recipes.html">Viral Fridge Recipes Everyone's Making Right Now</a></h2><span class="meta">September 24, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/plant-not-growing-dropping-leaves-guide.html">Why Is My Plant Not Growing or Dropping Leaves? Complete Guide (2026)</a></h2><span class="meta">September 24, 2026 · 12 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/plant-emergency-guide.html">Plant Emergency Guide: What to Do Right Now for 8 Common Crises (2026)</a></h2><span class="meta">September 24, 2026 · 19 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/picky-eater-fridge-meals.html">Picky Eater Fixes: Fridge Meals Kids Will Actually Eat</a></h2><span class="meta">September 24, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/meal-prep-sunday-guide.html">Meal Prep Sunday: Prep Once, Eat Well All Week</a></h2><span class="meta">September 24, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/high-protein-fridge-meals.html">High-Protein Fridge Meals: Build Muscle Without Grocery Runs</a></h2><span class="meta">September 24, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/hangover-fridge-fixes.html">Hangover Fridge Fixes: The Ultimate Guide to Feeling Human Again</a></h2><span class="meta">September 24, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/global-flavor-bombs-fridge.html">Around the World in Your Fridge: 5 Global Flavor Bombs</a></h2><span class="meta">September 24, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/get-paid-in-usdt-freelancer-guide.html">Get Paid in USDT as a Freelancer: Complete 2026 Guide</a></h2><span class="meta">September 24, 2026 · 35 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/fridge-to-air-fryer-recipes.html">Fridge to Air Fryer: 30 Ridiculously Easy Recipes</a></h2><span class="meta">September 24, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/freelance-jobs-online-guide-2026.html">Freelance Jobs Online 2026: The Complete Beginner's Guide</a></h2><span class="meta">September 24, 2026 · 30 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/easy-weeknight-dinner-ideas.html">40+ Easy Weeknight Dinner Ideas When You're Too Tired to Think</a></h2><span class="meta">September 24, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/broke-college-student-fridge-guide.html">The Broke College Student's Guide to Surviving on a Tiny Fridge</a></h2><span class="meta">September 24, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/best-freelance-platforms-2026.html">Best Freelance Platforms in 2026: Upwork vs Fiverr vs Toptal vs QuestMart (Full Comparison)</a></h2><span class="meta">September 24, 2026 · 16 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/5-minute-fridge-breakfasts.html">5-Minute Fridge Breakfasts for People Who Are Always Running Late</a></h2><span class="meta">September 24, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/best-light-for-indoor-plants-guide.html">Best Light for Indoor Plants: The Complete Guide (Low, Medium &amp; Bright)</a></h2><span class="meta">September 23, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/about-questmart-digital-products-marketplace.html">What Is QuestMart? A Digital Products Marketplace for Tools, Templates &amp; Software</a></h2><span class="meta">September 23, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/vaultwork-crypto-escrow-freelance-guide.html">Crypto Escrow for Freelancers: Why Funded-First Freelancing Beats Upwork and Fiverr | Vaultwork</a></h2><span class="meta">September 22, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/meme-studio-guide.html">How to Make a Meme From Any Photo in Under a Minute (No App Install) | Meme Studio</a></h2><span class="meta">September 22, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/certify-studio-guide.html">How to Prove You Wrote Something: A Freelancer's Guide to Authorship Certificates | Certify Studio</a></h2><span class="meta">September 22, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/20-first-brand-deal-what-to-expect.html">Your First Brand Deal: What Actually Happens, Step by Step</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/19-creator-tax-mistakes-to-avoid.html">Creator Tax Mistakes That Are Easy to Avoid Once You Know About Them</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/18-managing-multiple-brand-deals-at-once.html">Managing Five Brand Conversations Without Dropping One</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/17-long-form-into-short-clips-that-work.html">Turning One Long Video Into Clips That Don't Feel Chopped Up</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/16-too-many-creator-apps-consolidate.html">You Probably Have Too Many Creator Apps Open</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/15-grow-engagement-rate-without-gimmicks.html">Growing Your Engagement Rate Without Engagement-Bait</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/14-thumbnails-that-actually-get-clicked.html">Thumbnails That Actually Get Clicked</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/13-pricing-ugc-content-for-brands.html">Pricing UGC (User-Generated Content) When There's No Audience to Point To</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/12-which-platform-should-you-focus-on.html">Which Platform Should You Actually Focus On?</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/11-negotiate-brand-deal-like-a-pro.html">How to Negotiate a Brand Deal Without Losing the Offer</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/10-creator-tools-that-keep-your-data-private.html">Why More Creators Are Choosing Offline Tools Over Cloud Dashboards</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/09-content-calendar-for-solo-creators.html">A Content Calendar That Actually Fits a Solo Creator's Week</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/08-link-in-bio-page-without-subscription.html">A Link-in-Bio Page You Own, Without a Monthly Fee</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/07-auto-captions-offline.html">Auto-Generated Captions for Video, Without a Subscription</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/06-remove-photo-background-without-uploading.html">Removing a Photo Background Without Uploading It Anywhere</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/05-posting-consistency-without-burnout.html">Posting Consistently Without Burning Out: What Actually Works</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/04-media-kit-that-gets-you-booked.html">What Actually Belongs in a Media Kit (and What Brands Skip Past)</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/03-how-much-to-charge-sponsored-post.html">How Much Should You Charge for a Sponsored Post? A Starting Formula</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/02-track-creator-income-without-spreadsheet.html">Tracking Creator Income When You're Paid From Five Different Places</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/01-repurpose-content-8-platforms.html">How to Turn One Idea Into Posts for 8 Platforms Without Burning Out</a></h2><span class="meta">September 21, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/service-agreement-template-small-business.html">Service Agreement Template for Small Business: Clauses &amp; Guide (2026)</a></h2><span class="meta">September 20, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/scope-of-work-template.html">Scope of Work Template: How to Write One (With Examples)</a></h2><span class="meta">September 20, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/international-freelance-contract-clauses.html">International Freelance Contract Clauses: 10 Essentials for Global Clients</a></h2><span class="meta">September 20, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/how-to-write-a-business-proposal.html">How to Write a Business Proposal: Step-by-Step Guide (2026)</a></h2><span class="meta">September 20, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/how-to-prevent-scope-creep-freelancers.html">How to Prevent Scope Creep as a Freelancer: 12 Proven Tactics</a></h2><span class="meta">September 20, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/how-to-create-a-professional-invoice.html">How to Create a Professional Invoice: The Complete Guide</a></h2><span class="meta">September 20, 2026 · 22 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/freelance-proposal-template.html">Freelance Proposal Template: Structure, Example &amp; Tips (2026)</a></h2><span class="meta">September 20, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/freelance-contract-template-guide.html">Freelance Contract Template: What to Include (2026 Guide)</a></h2><span class="meta">September 20, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/best-contract-proposal-software-no-subscription.html">Contract &amp; Proposal Software Without a Subscription: Buyer's Guide (2026)</a></h2><span class="meta">September 20, 2026</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/private-invoice-software-no-cloud.html">Private Invoice Software: Keep Client Data Off Someone Else's Server</a></h2><span class="meta">September 19, 2026 · 6 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/one-time-payment-invoice-software.html">One-Time Payment Invoice Software: How the Math Works</a></h2><span class="meta">September 19, 2026 · 6 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/offline-invoice-software-small-business.html">Offline Invoice Software for Small Business</a></h2><span class="meta">September 19, 2026 · 6 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/offline-invoice-generator.html">Offline Invoice Generator (No Subscription, Crypto-Ready)</a></h2><span class="meta">September 19, 2026 · 9 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/multi-currency-invoice-generator.html">Multi-Currency Invoice Generator for Freelancers</a></h2><span class="meta">September 19, 2026 · 6 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/invoice-software-without-subscription.html">Invoice Software Without a Subscription: What It Actually Costs You Either Way</a></h2><span class="meta">September 19, 2026 · 7 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/invoice-software-for-freelancers.html">Invoice Software for Freelancers: What Actually Matters</a></h2><span class="meta">September 19, 2026 · 7 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/invoice-generator-without-signup.html">Invoice Generator Without Signup: What to Look For</a></h2><span class="meta">September 19, 2026 · 6 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/how-to-invoice-international-clients.html">How to Invoice International Clients</a></h2><span class="meta">September 19, 2026 · 7 minute read</span></li>
+<li class="post"><h2><a href="https://questmart.online/blog/crypto-invoice-generator-usdt-bitcoin.html">Crypto Invoice Generator: USDT and Bitcoin Invoices Done Right</a></h2><span class="meta">September 19, 2026 · 7 minute read</span></li>
   </ul>
+  <p class="none" id="none" hidden>No articles match your search. Try a shorter word.</p>
 
-  <div class="final-cta">
+  <div class="cta-band">
     <h2>One file. One payment. Every invoice you will ever send.</h2>
     <p>Invoice Studio: 150+ currencies including crypto, 7 languages, 4 templates, offline and private. Pay once, $70.</p>
-    <a class="btn btn-primary" href="https://questmart.online/products/invoice-studio-pro.html">See Invoice Studio Pro</a>
+    <a class="btn" href="https://questmart.online/products/invoice-studio-pro.html">See Invoice Studio Pro</a>
   </div>
 </main>
 
 <footer class="site">
-  © 2026 QuestMart. <a href="https://questmart.online/">Home</a> · <a href="https://questmart.online/blog/">Blog</a>
+  <div class="wrap">© 2026 QuestMart. <a href="https://questmart.online/">Home</a> · <a href="https://questmart.online/blog/">Blog</a> · <a href="https://questmart.online/guides/">Guides</a></div>
 </footer>
+
+<script>
+(function(){
+  var items=[].slice.call(document.querySelectorAll('#post-list .post'));
+  var q=document.getElementById('q'),none=document.getElementById('none');
+  if(q){q.addEventListener('input',function(){
+    var v=q.value.trim().toLowerCase(),n=0;
+    items.forEach(function(li){var ok=!v||li.textContent.toLowerCase().indexOf(v)>-1;li.hidden=!ok;if(ok)n++;});
+    none.hidden=n>0;
+  });}
+  try{
+    var list=[];
+    items.forEach(function(li){var a=li.querySelector('h2 a');if(a)list.push({"@type":"ListItem","position":list.length+1,"url":a.href,"name":a.textContent.trim()});});
+    var s=document.createElement('script');s.type='application/ld+json';
+    s.text=JSON.stringify({"@context":"https://schema.org","@type":"ItemList","itemListElement":list});
+    document.head.appendChild(s);
+  }catch(e){}
+})();
+</script>
 </body>
 </html>
