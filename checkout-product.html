@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Checkout | QuestMart</title><meta name="robots" content="noindex">
+<style>
+body{font-family:system-ui,sans-serif;background:#f4f5f7;color:#14161a;max-width:480px;margin:50px auto;padding:0 20px}
+.card{background:#fff;border:1px solid #dde0e5;border-radius:16px;padding:28px}
+h1{font-size:1.25rem;margin:0 0 6px}.sub{color:#5b6270;font-size:.9rem;margin:0 0 18px}
+select,button{font:inherit}select{width:100%;padding:10px;border-radius:8px;border:1px solid #dde0e5;margin-bottom:14px}
+button{width:100%;padding:12px;border-radius:999px;border:0;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer}
+button:disabled{opacity:.6}
+.pay,.done{display:none;margin-top:20px;padding:18px;border-radius:12px}.pay{border:1px dashed #4f46e5}.done{border:2px solid #16a34a;background:#f0fdf4}
+.pay img{display:block;margin:0 auto 12px}.amt{font-size:1.4rem;font-weight:800;text-align:center;margin-bottom:12px}
+.addr{word-break:break-all;background:#eef0f3;padding:10px;border-radius:8px;font:.82rem monospace;margin-bottom:10px}
+.st{text-align:center;font-size:.9rem;color:#5b6270;margin-top:12px}.st.ok{color:#16a34a;font-weight:700}.st.err{color:#b3341f;font-weight:600}
+.fine{font-size:.8rem;color:#5b6270;margin-top:14px}
+</style></head><body><div class="card">
+<h1 id="title">Loading…</h1><p class="sub" id="sub"></p>
+<select id="cur">
+<option value="USDT_TRC20">USDT (TRC20 / Tron)</option><option value="USDT_ERC20">USDT (ERC20 / Ethereum)</option>
+<option value="BTC">Bitcoin (BTC)</option><option value="ETH">Ethereum (ETH)</option><option value="USDT_SOL">USDT (Solana)</option>
+<option value="DOGE">Dogecoin (DOGE)</option><option value="LTC">Litecoin (LTC)</option><option value="XRP">Ripple (XRP)</option>
+<option value="ADA">Cardano (ADA)</option><option value="USDT_AVAX">USDT (Avalanche)</option><option value="USDT_BEP20">USDT (BNB Chain)</option>
+</select>
+<button id="go">Generate payment address</button>
+<div class="pay" id="pay"><div class="amt" id="amt"></div><div class="addr" id="addr"></div>
+<img id="qr" width="180" height="180" alt="Payment QR code"><div class="st" id="st">Waiting for payment…</div></div>
+<div class="done" id="done"><b>Payment confirmed</b>
+<p class="sub">Download your file now. Save it right away: the link works only once. Your order id: <span id="oid"></span></p>
+<button id="dl">Download product</button><div class="st" id="dst"></div></div>
+<p class="fine">One-time purchase. Send the exact amount shown, on the selected network only.</p>
+</div>
+<script>
+const PAY="https://morning-shape-c098.alice56885236.workers.dev";
+const product=new URLSearchParams(location.search).get("product")||"";
+const $=i=>document.getElementById(i);let timer,orderId;
+$("title").textContent=product?product.replace(/-/g," "):"No product selected";
+$("sub").textContent="Pay with the crypto of your choice";
+if(!product)$("go").disabled=true;
+const st=(t,c)=>{$("st").textContent=t;$("st").className="st "+(c||"")};
+const reset=()=>{$("go").disabled=false;$("go").textContent="Generate payment address"};
+$("go").onclick=async()=>{
+ $("go").disabled=true;$("go").textContent="Creating order…";
+ let o;try{o=await(await fetch(PAY+"/order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({productId:product,currency:$("cur").value})})).json()}
+ catch(e){$("pay").style.display="block";st("Could not reach the payment server.","err");return reset()}
+ if(o.error){$("pay").style.display="block";st("Error: "+o.error,"err");return reset()}
+ orderId=o.id;
+ $("amt").textContent=o.amount+" "+o.currency.replace("_"," ");$("addr").textContent=o.address;
+ $("qr").src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data="+encodeURIComponent(o.address);
+ $("pay").style.display="block";$("go").style.display="none";$("cur").style.display="none";st("Waiting for payment…");
+ timer=setInterval(poll,8000)};
+async function poll(){let d;try{d=await(await fetch(PAY+"/order/"+orderId+"/status")).json()}catch(e){return}
+ if(d.status==="paid"){clearInterval(timer);$("pay").style.display="none";$("done").style.display="block";$("oid").textContent=orderId}
+ else if(d.status==="expired"){clearInterval(timer);st("This payment window expired. Refresh and try again.","err")}}
+$("dl").onclick=async()=>{
+ $("dl").disabled=true;$("dst").textContent="Preparing…";
+ try{const r=await fetch(PAY+"/order/"+orderId+"/download");
+  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||("HTTP "+r.status))}
+  const cd=r.headers.get("Content-Disposition")||"";const m=cd.match(/filename="([^"]+)"/);
+  const a=document.createElement("a");a.href=URL.createObjectURL(await r.blob());a.download=m?m[1]:product+".html";
+  document.body.appendChild(a);a.click();a.remove();$("dst").textContent="Downloaded. Keep the file safe.";$("dst").className="st ok"}
+ catch(e){$("dst").textContent="Download failed: "+e.message+". Contact support with order id "+orderId;$("dst").className="st err";$("dl").disabled=false}};
+</script></body></html>
