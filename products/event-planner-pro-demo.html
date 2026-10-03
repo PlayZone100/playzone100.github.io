@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head><script>window.QM_DEMO=true;</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Planner Pro</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; background-color: #f4f4f9; color: #333; transition: background-color 0.3s, color 0.3s; }
+body.dark { background-color: #222; color: #eee; }
+.container { width: 90%; max-width: 800px; margin-top: 20px; }
+header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+h1 { margin: 0; }
+.demo-banner { background-color: #ffcccb; color: #8b0000; padding: 10px; width: 100%; text-align: center; margin-bottom: 20px; }
+nav { display: flex; gap: 10px; }
+nav button { padding: 10px 20px; border: none; background-color: #007bff; color: white; cursor: pointer; border-radius: 5px; transition: background-color 0.3s; }
+nav button:hover { background-color: #0056b3; }
+nav button:disabled { background-color: #ccc; cursor: not-allowed; }
+section { margin-bottom: 20px; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+th { background-color: #f2f2f2; }
+tr:hover { background-color: #f1f1f1; }
+input[type="text"], input[type="number"], textarea { width: calc(100% - 22px); padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 5px; }
+button.add { background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
+button.add:hover { background-color: #218838; }
+button.delete { background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
+button.delete:hover { background-color: #c82333; }
+footer { margin-top: auto; padding: 10px; text-align: center; }
+@media (max-width: 600px) { nav { flex-direction: column; } }
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>Event Planner Pro</h1>
+<button onclick="toggleTheme()">Toggle Theme</button>
+</header>
+<div id="demoBanner" class="demo-banner" style="display:none;">Demo version - limited functionality</div>
+<nav>
+<button onclick="showSection('tasks')">Tasks</button>
+<button onclick="showSection('budget')">Budget</button>
+<button onclick="showSection('guests')">Guests</button>
+<button onclick="showSection('settings')">Settings</button>
+<button onclick="exportPlan()" id="exportBtn">Export</button>
+<button onclick="printPlan()" id="printBtn">Print</button>
+<button onclick="downloadPlan()" id="downloadBtn">Download</button>
+<button onclick="copyAll()" id="copyBtn">Copy All</button>
+<button onclick="savePlan()">Save</button>
+<button onclick="clearAllData()">Clear All</button>
+</nav>
+<section id="tasks" style="display:block;">
+<h2>Tasks</h2>
+<table id="tasksTable">
+<thead><tr><th>Task</th><th>Date</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td>Book Venue</td><td>2023-10-01</td><td><button class="delete" onclick="deleteRow(this)">Delete</button></td></tr>
+</tbody>
+</table>
+<input type="text" id="taskInput" placeholder="Enter task">
+<input type="date" id="dateInput">
+<button class="add" onclick="addTask()">Add Task</button>
+</section>
+<section id="budget" style="display:none;">
+<h2>Budget</h2>
+<table id="budgetTable">
+<thead><tr><th>Item</th><th>Cost</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td>Venue Rental</td><td>$1500</td><td><button class="delete" onclick="deleteRow(this)">Delete</button></td></tr>
+</tbody>
+</table>
+<input type="text" id="itemInput" placeholder="Enter item">
+<input type="number" id="costInput" placeholder="Enter cost">
+<button class="add" onclick="addBudgetItem()">Add Item</button>
+</section>
+<section id="guests" style="display:none;">
+<h2>Guests</h2>
+<table id="guestsTable">
+<thead><tr><th>Name</th><th>Email</th><th>RSVP</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td>John Doe</td><td>john@example.com</td><td>Confirmed</td><td><button class="delete" onclick="deleteRow(this)">Delete</button></td></tr>
+</tbody>
+</table>
+<input type="text" id="nameInput" placeholder="Enter name">
+<input type="email" id="emailInput" placeholder="Enter email">
+<select id="rsvpInput">
+<option value="Pending">Pending</option>
+<option value="Confirmed">Confirmed</option>
+<option value="Declined">Declined</option>
+</select>
+<button class="add" onclick="addGuest()">Add Guest</button>
+</section>
+<section id="settings" style="display:none;">
+<h2>Settings</h2>
+<p>Theme: <span id="themeStatus"></span></p>
+</section>
+<footer>
+<p>&copy; 2023 Event Planner Pro</p>
+</footer>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+loadData();
+checkDemoMode();
+});
+
+function checkDemoMode() {
+if (window.QM_DEMO) {
+document.getElementById('demoBanner').style.display = 'block';
+document.getElementById('exportBtn').disabled = true;
+document.getElementById('printBtn').disabled = true;
+document.getElementById('downloadBtn').disabled = true;
+document.getElementById('copyBtn').disabled = true;
+document.getElementById('saveBtn').disabled = true;
+}
+}
+
+function toggleTheme() {
+document.body.classList.toggle('dark');
+localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+document.getElementById('themeStatus').textContent = document.body.classList.contains('dark') ? 'Dark' : 'Light';
+}
+
+function loadData() {
+const theme = localStorage.getItem('theme') || 'light';
+document.body.classList.toggle('dark', theme === 'dark');
+document.getElementById('themeStatus').textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+
+const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+const budget = JSON.parse(localStorage.getItem('budget')) || [];
+const guests = JSON.parse(localStorage.getItem('guests')) || [];
+
+tasks.forEach(task => addTask(task.task, task.date));
+budget.forEach(item => addBudgetItem(item.item, item.cost));
+guests.forEach(guest => addGuest(guest.name, guest.email, guest.rsvp));
+}
+
+function savePlan() {
+const tasks = Array.from(document.querySelectorAll('#tasksTable tbody tr')).map(row => ({
+task: row.cells[0].textContent,
+date: row.cells[1].textContent
+}));
+const budget = Array.from(document.querySelectorAll('#budgetTable tbody tr')).map(row => ({
+item: row.cells[0].textContent,
+cost: parseFloat(row.cells[1].textContent.replace('$', ''))
+}));
+const guests = Array.from(document.querySelectorAll('#guestsTable tbody tr')).map(row => ({
+name: row.cells[0].textContent,
+email: row.cells[1].textContent,
+rsvp: row.cells[2].textContent
+}));
+
+localStorage.setItem('tasks', JSON.stringify(tasks));
+localStorage.setItem('budget', JSON.stringify(budget));
+localStorage.setItem('guests', JSON.stringify(guests));
+
+alert('Plan saved successfully!');
+}
+
+function clearAllData() {
+localStorage.removeItem('tasks');
+localStorage.removeItem('budget');
+localStorage.removeItem('guests');
+location.reload();
+}
+
+function showSection(sectionId) {
+document.querySelectorAll('section').forEach(section => section.style.display = 'none');
+document.getElementById(sectionId).style.display = 'block';
+}
+
+function addTask(task = '', date = '') {
+const table = document.getElementById('tasksTable').getElementsByTagName('tbody')[0];
+const row = table.insertRow(-1);
+const cell1 = row.insertCell(0);
+const cell2 = row.insertCell(1);
+const cell3 = row.insertCell(2);
+cell1.textContent = task || document.getElementById('taskInput').value;
+cell2.textContent = date || document.getElementById('dateInput').value;
+cell3.innerHTML = '<button class="delete" onclick="deleteRow(this)">Delete</button>';
+document.getElementById('taskInput').value = '';
+document.getElementById('dateInput').value = '';
+}
+
+function addBudgetItem(item = '', cost = '') {
+const table = document.getElementById('budgetTable').getElementsByTagName('tbody')[0];
+const row = table.insertRow(-1);
+const cell1 = row.insertCell(0);
+const cell2 = row.insertCell(1);
+const cell3 = row.insertCell(2);
+cell1.textContent = item || document.getElementById('itemInput').value;
+cell2.textContent = `$${parseFloat(cost || document.getElementById('costInput').value).toFixed(2)}`;
+cell3.innerHTML = '<button class="delete" onclick="deleteRow(this)">Delete</button>';
+document.getElementById('itemInput').value = '';
+document.getElementById('costInput').value = '';
+}
+
+function addGuest(name = '', email = '', rsvp = 'Pending') {
+const table = document.getElementById('guestsTable').getElementsByTagName('tbody')[0];
+const row = table.insertRow(-1);
+const cell1 = row.insertCell(0);
+const cell2 = row.insertCell(1);
+const cell3 = row.insertCell(2);
+const cell4 = row.insertCell(3);
+cell1.textContent = name || document.getElementById('nameInput').value;
+cell2.textContent = email || document.getElementById('emailInput').value;
+cell3.textContent = rsvp || document.getElementById('rsvpInput').value;
+cell4.innerHTML = '<button class="delete" onclick="deleteRow(this)">Delete</button>';
+document.getElementById('nameInput').value = '';
+document.getElementById('emailInput').value = '';
+document.getElementById('rsvpInput').value = 'Pending';
+}
+
+function deleteRow(button) {
+button.parentNode.parentNode.remove();
+}
+
+function exportPlan() {
+const tasks = Array.from(document.querySelectorAll('#tasksTable tbody tr')).map(row => ({
+task: row.cells[0].textContent,
+date: row.cells[1].textContent
+}));
+const budget = Array.from(document.querySelectorAll('#budgetTable tbody tr')).map(row => ({
+item: row.cells[0].textContent,
+cost: parseFloat(row.cells[1].textContent.replace('$', ''))
+}));
+const guests = Array.from(document.querySelectorAll('#guestsTable tbody tr')).map(row => ({
+name: row.cells[0].textContent,
+email: row.cells[1].textContent,
+rsvp: row.cells[2].textContent
+}));
+
+const plan = `Tasks:\n${tasks.map(t => `- ${t.task} (${t.date})`).join('\n')}\n\nBudget:\n${budget.map(b => `- ${b.item}: $${b.cost.toFixed(2)}`).join('\n')}\n\nGuests:\n${guests.map(g => `- ${g.name} (${g.email}, ${g.rsvp})`).join('\n')}`;
+
+const blob = new Blob([plan], { type: 'text/plain' });
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = 'event_plan.txt';
+a.click();
+URL.revokeObjectURL(url);
+}
+
+function printPlan() {
+const printContents = `
+<h1>Event Plan</h1>
+<h2>Tasks</h2>
+<table>${document.getElementById('tasksTable').innerHTML}</table>
+<h2>Budget</h2>
+<table>${document.getElementById('budgetTable').innerHTML}</table>
+<h2>Guests</h2>
+<table>${document.getElementById('guestsTable').innerHTML}</table>
+`;
+
+const originalContents = document.body.innerHTML;
+document.body.innerHTML = printContents;
+window.print();
+document.body.innerHTML = originalContents;
+}
+
+function downloadPlan() {
+const tasks = Array.from(document.querySelectorAll('#tasksTable tbody tr')).map(row => ({
+task: row.cells[0].textContent,
+date: row.cells[1].textContent
+}));
+const budget = Array.from(document.querySelectorAll('#budgetTable tbody tr')).map(row => ({
+item: row.cells[0].textContent,
+cost: parseFloat(row.cells[1].textContent.replace('$', ''))
+}));
+const guests = Array.from(document.querySelectorAll('#guestsTable tbody tr')).map(row => ({
+name: row.cells[0].textContent,
+email: row.cells[1].textContent,
+rsvp: row.cells[2].textContent
+}));
+
+const plan = `Tasks:\n${tasks.map(t => `- ${t.task} (${t.date})`).join('\n')}\n\nBudget:\n${budget.map(b => `- ${b.item}: $${b.cost.toFixed(2)}`).join('\n')}\n\nGuests:\n${guests.map(g => `- ${g.name} (${g.email}, ${g.rsvp})`).join('\n')}`;
+
+const blob = new Blob([plan], { type: 'application/pdf' });
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = 'event_plan.pdf';
+a.click();
+URL.revokeObjectURL(url);
+}
+
+function copyAll() {
+const tasks = Array.from(document.querySelectorAll('#tasksTable tbody tr')).map(row => ({
+task: row.cells[0].textContent,
+date: row.cells[1].textContent
+}));
+const budget = Array.from(document.querySelectorAll('#budgetTable tbody tr')).map(row => ({
+item: row.cells[0].textContent,
+cost: parseFloat(row.cells[1].textContent.replace('$', ''))
+}));
+const guests = Array.from(document.querySelectorAll('#guestsTable tbody tr')).map(row => ({
+name: row.cells[0].textContent,
+email: row.cells[1].textContent,
+rsvp: row.cells[2].textContent
+}));
+
+const plan = `Tasks:\n${tasks.map(t => `- ${t.task} (${t.date})`).join('\n')}\n\nBudget:\n${budget.map(b => `- ${b.item}: $${b.cost.toFixed(2)}`).join('\n')}\n\nGuests:\n${guests.map(g => `- ${g.name} (${g.email}, ${g.rsvp})`).join('\n')}`;
+
+navigator.clipboard.writeText(plan).then(() => alert('Plan copied to clipboard!'), () => alert('Failed to copy plan.'));
+}
+</script>
+</body>
+</html>
