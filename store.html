@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuestMart Store</title>
+<style>
+  :root { --bg:#ffffff; --fg:#14171f; --muted:#5b6475; --card:#f4f6fa; --line:#dfe3ec; --accent:#4f46e5; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0f1218; --fg:#eef1f7; --muted:#9aa4b8; --card:#171c26; --line:#272e3d; --accent:#8b86ff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height:1.5; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 24px 16px 64px; }
+  header { display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px; }
+  header a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  h1 { margin: 0 0 4px; font-size: 1.8rem; }
+  .sub { color: var(--muted); margin: 0 0 28px; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display:flex; flex-direction:column; gap: 10px; }
+  .card h2 { margin: 0; font-size: 1.1rem; }
+  .price { font-weight: 700; font-size: 1.2rem; }
+  .actions { display:flex; gap: 10px; margin-top: auto; flex-wrap: wrap; }
+  .btn { display:inline-block; padding: 9px 14px; border-radius: 10px; text-decoration:none; font-weight:600; font-size:.92rem; }
+  .btn.primary { background: var(--accent); color:#fff; }
+  .btn.ghost { border: 1px solid var(--line); color: var(--fg); }
+  .msg { color: var(--muted); padding: 24px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a href="/">QuestMart</a>
+  </header>
+  <h1>Store</h1>
+  <p class="sub">Digital tools you can buy with crypto. Try the demo first, then pay once.</p>
+  <div id="list" class="grid"></div>
+  <p id="msg" class="msg">Loading products...</p>
+</div>
+<script>
+(function () {
+  var list = document.getElementById('list');
+  var msg = document.getElementById('msg');
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  fetch('/store-products.json', { cache: 'no-store' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function (items) {
+      if (!items.length) { msg.textContent = 'No products yet. Check back soon.'; return; }
+      msg.remove();
+      items.forEach(function (p) {
+        var card = el('div', 'card');
+        card.appendChild(el('h2', '', p.name));
+        card.appendChild(el('div', 'price', '$' + p.priceUSD));
+        var actions = el('div', 'actions');
+        var demo = el('a', 'btn ghost', 'Try demo');
+        demo.href = '/products/' + encodeURIComponent(p.slug) + '-demo.html';
+        var buy = el('a', 'btn primary', 'Buy now');
+        buy.href = '/checkout-product.html?product=' + encodeURIComponent(p.slug);
+        actions.appendChild(demo);
+        actions.appendChild(buy);
+        card.appendChild(actions);
+        list.appendChild(card);
+      });
+    })
+    .catch(function () {
+      msg.textContent = 'Could not load the product list. Please refresh the page.';
+    });
+})();
+</script>
+</body>
+</html>
