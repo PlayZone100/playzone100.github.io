@@ -19,6 +19,8 @@
   .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display:flex; flex-direction:column; gap: 10px; }
   .card h2 { margin: 0; font-size: 1.1rem; }
+  .card h2 a { color: inherit; text-decoration: none; }
+  .card h2 a:hover { text-decoration: underline; }
   .price { font-weight: 700; font-size: 1.2rem; }
   .actions { display:flex; gap: 10px; margin-top: auto; flex-wrap: wrap; }
   .btn { display:inline-block; padding: 9px 14px; border-radius: 10px; text-decoration:none; font-weight:600; font-size:.92rem; }
@@ -33,7 +35,7 @@
     <a href="/">QuestMart</a>
   </header>
   <h1>Store</h1>
-  <p class="sub">Digital tools you can buy with crypto. Try the demo first, then pay once.</p>
+  <p class="sub">Digital tools you can buy with crypto. Read the details, try the demo, then pay once.</p>
   <div id="list" class="grid"></div>
   <p id="msg" class="msg">Loading products...</p>
 </div>
@@ -58,14 +60,29 @@
       if (!items.length) { msg.textContent = 'No products yet. Check back soon.'; return; }
       msg.remove();
       items.forEach(function (p) {
+        var slug = encodeURIComponent(p.slug);
         var card = el('div', 'card');
-        card.appendChild(el('h2', '', p.name));
+
+        var title = el('h2');
+        var titleLink = el('a', '', p.name);
+        titleLink.href = '/products/' + slug + '.html';
+        title.appendChild(titleLink);
+        card.appendChild(title);
+
         card.appendChild(el('div', 'price', '$' + p.priceUSD));
+
         var actions = el('div', 'actions');
+
+        var details = el('a', 'btn ghost', 'Details');
+        details.href = '/products/' + slug + '.html';
+
         var demo = el('a', 'btn ghost', 'Try demo');
-        demo.href = '/products/' + encodeURIComponent(p.slug) + '-demo.html';
+        demo.href = '/products/' + slug + '-demo.html';
+
         var buy = el('a', 'btn primary', 'Buy now');
-        buy.href = '/checkout-product.html?product=' + encodeURIComponent(p.slug);
+        buy.href = '/checkout-product.html?product=' + slug;
+
+        actions.appendChild(details);
         actions.appendChild(demo);
         actions.appendChild(buy);
         card.appendChild(actions);
