@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Planner & Task Board</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; color: #333; background-color: #f4f4f9; transition: background-color 0.3s, color 0.3s; }
+        body.dark { color: #ddd; background-color: #222; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header h1 { margin: 0; }
+        .theme-toggle { cursor: pointer; }
+        .demo-banner { background-color: #ffcccb; color: #8b0000; padding: 10px; text-align: center; margin-bottom: 20px; }
+        .task-input { display: flex; margin-bottom: 20px; }
+        .task-input input { flex: 1; padding: 10px; margin-right: 10px; }
+        .task-input button { padding: 10px 20px; }
+        .tasks { display: flex; flex-wrap: wrap; gap: 20px; }
+        .task { background-color: #fff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 15px; width: calc(33% - 20px); min-width: 250px; }
+        .task.completed { background-color: #e9ecef; }
+        .task h3 { margin-top: 0; }
+        .task p { margin: 5px 0 0; }
+        .task .actions { margin-top: 10px; }
+        .task .actions button { margin-right: 5px; padding: 5px 10px; }
+        @media (max-width: 768px) {
+            .task { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Daily Planner & Task Board</h1>
+        <div>
+            <button class="theme-toggle">Toggle Theme</button>
+        </div>
+    </div>
+    <div id="demo-banner" class="demo-banner" style="display:none;">Demo version - limited functionality.</div>
+    <div class="task-input">
+        <input type="text" id="taskInput" placeholder="Add a new task...">
+        <button onclick="addTask()">Add Task</button>
+    </div>
+    <div class="tasks" id="tasksContainer"></div>
+</div>
+
+<script>
+    const isDemo = window.QM_DEMO === true;
+    const tasksContainer = document.getElementById('tasksContainer');
+    const demoBanner = document.getElementById('demo-banner');
+
+    if (isDemo) {
+        demoBanner.style.display = 'block';
+    }
+
+    function loadTasks() {
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasksContainer.innerHTML = '';
+        tasks.forEach(task => renderTask(task));
+    }
+
+    function renderTask(task) {
+        const taskElement = document.createElement('div');
+        taskElement.className = `task ${task.completed ? 'completed' : ''}`;
+        taskElement.innerHTML = `
+            <h3>${task.title}</h3>
+            <p>${task.description}</p>
+            <div class="actions">
+                <button onclick="toggleComplete('${task.id}')">${task.completed ? 'Undo' : 'Complete'}</button>
+                <button onclick="deleteTask('${task.id}')">Delete</button>
+            </div>
+        `;
+        tasksContainer.appendChild(taskElement);
+    }
+
+    function addTask() {
+        const input = document.getElementById('taskInput');
+        const title = input.value.trim();
+        if (!title) {
+            alert('Please enter a task title.');
+            return;
+        }
+        const task = {
+            id: Date.now().toString(),
+            title: title,
+            description: 'No description provided.',
+            completed: false
+        };
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        if (isDemo && tasks.length >= 5) {
+            alert('Demo version limit reached. Please delete some tasks to add more.');
+            return;
+        }
+        tasks.push(task);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        renderTask(task);
+        input.value = '';
+    }
+
+    function toggleComplete(id) {
+        const tasks = JSON.parse(localStorage.getItem('tasks'));
+        const taskIndex = tasks.findIndex(task => task.id === id);
+        if (taskIndex !== -1) {
+            tasks[taskIndex].completed = !tasks[taskIndex].completed;
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            loadTasks();
+        }
+    }
+
+    function deleteTask(id) {
+        const tasks = JSON.parse(localStorage.getItem('tasks')).filter(task => task.id !== id);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        loadTasks();
+    }
+
+    document.querySelector('.theme-toggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    window.onload = () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.classList.add(savedTheme);
+        }
+        loadTasks();
+    };
+
+    // Sample data
+    if (!localStorage.getItem('tasks')) {
+        const sampleTasks = [
+            { id: '1', title: 'Meeting with Team', description: 'Discuss project progress.', completed: false },
+            { id: '2', title: 'Email Client', description: 'Send update on last week\'s meeting.', completed: true },
+            { id: '3', title: 'Prepare Presentation', description: 'For the upcoming client meeting.', completed: false }
+        ];
+        localStorage.setItem('tasks', JSON.stringify(sampleTasks));
+    }
+</script>
+</body>
+</html>

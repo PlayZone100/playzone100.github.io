@@ -54,5 +54,15 @@
   "photo-trend-yearly": {
     "name": "Photo Trend Studio Pro (Yearly)",
     "priceUSD": 45
+  },
+  "founders-agreement-generator": {
+    "name": "Founders Agreement Template Generator",
+    "priceUSD": 5,
+    "file": "files/founders-agreement-generator.html"
+  },
+  "daily-planner-task-board": {
+    "name": "Daily Planner & Task Board",
+    "priceUSD": 5,
+    "file": "files/daily-planner-task-board.html"
   }
 }

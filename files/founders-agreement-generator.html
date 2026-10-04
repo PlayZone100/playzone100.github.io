@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Founders Agreement Template Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+        .agreement-preview {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            height: 200px;
+            overflow-y: auto;
+        }
+        .demo-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffcc00;
+            color: black;
+            text-align: center;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --text-color: #e0e0e0;
+                --card-bg: #1e1e1e;
+            }
+        }
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: #ffffff;
+                --text-color: #333333;
+                --card-bg: #ffffff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="demo-banner" class="demo-banner" style="display:none;">Demo version - some features are limited.</div>
+    <h1>Founders Agreement Template Generator</h1>
+    <div class="container">
+        <h2>Enter Founders Details</h2>
+        <label for="founderName">Founder Name:</label>
+        <input type="text" id="founderName" placeholder="John Doe">
+        <label for="founderEmail">Founder Email:</label>
+        <input type="text" id="founderEmail" placeholder="john.doe@example.com">
+        <label for="sharePercentage">Share Percentage:</label>
+        <input type="text" id="sharePercentage" placeholder="50%">
+        <button onclick="generateAgreement()">Generate Agreement</button>
+        <button onclick="saveData()" id="saveButton">Save</button>
+        <button onclick="loadData()" id="loadButton">Load</button>
+        <button onclick="clearData()" id="clearButton">Clear</button>
+        <button onclick="copyToClipboard()" id="copyButton">Copy All</button>
+        <button onclick="downloadAgreement()" id="downloadButton">Download</button>
+        <button onclick="printAgreement()" id="printButton">Print</button>
+        <div class="agreement-preview" id="agreementPreview">
+            <p>Agreement preview will appear here...</p>
+        </div>
+    </div>
+
+    <script>
+        const demoMode = window.QM_DEMO === true;
+        if (demoMode) {
+            document.getElementById('demo-banner').style.display = 'block';
+            document.getElementById('saveButton').disabled = true;
+            document.getElementById('downloadButton').disabled = true;
+            document.getElementById('copyButton').disabled = true;
+            document.getElementById('printButton').disabled = true;
+        }
+
+        function generateAgreement() {
+            const founderName = document.getElementById('founderName').value.trim();
+            const founderEmail = document.getElementById('founderEmail').value.trim();
+            const sharePercentage = document.getElementById('sharePercentage').value.trim();
+
+            if (!founderName || !founderEmail || !sharePercentage) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            const agreementText = `
+                **FOUNDERS AGREEMENT**
+
+                This Founders Agreement ("Agreement") is made and entered into on [Date], by and between:
+
+                **${founderName}** ("Founder"), residing at [Address], with an email address of ${founderEmail}.
+
+                **1. SHARE ALLOCATION**
+                The Founder agrees to contribute to the startup and in exchange shall be granted ${sharePercentage} of the total shares of the company.
+
+                **2. RESPONSIBILITIES**
+                The Founder agrees to perform the duties as assigned by the board of directors of the company.
+
+                **3. CONFIDENTIALITY**
+                The Founder agrees to keep all proprietary information of the company confidential and not disclose it to any third party.
+
+                **4. TERM AND TERMINATION**
+                This Agreement shall commence on the date first above written and shall continue until terminated by mutual agreement of the parties.
+
+                **5. GOVERNING LAW**
+                This Agreement shall be governed by and construed in accordance with the laws of [State/Country].
+
+                **IN WITNESS WHEREOF**, the parties hereto have executed this Agreement as of the day and year first above written.
+
+                ____________________________
+                ${founderName}
+            `;
+
+            document.getElementById('agreementPreview').innerText = agreementText;
+        }
+
+        function saveData() {
+            const data = {
+                founderName: document.getElementById('founderName').value,
+                founderEmail: document.getElementById('founderEmail').value,
+                sharePercentage: document.getElementById('sharePercentage').value
+            };
+            localStorage.setItem('foundersAgreementData', JSON.stringify(data));
+            alert('Data saved successfully!');
+        }
+
+        function loadData() {
+            const data = JSON.parse(localStorage.getItem('foundersAgreementData'));
+            if (data) {
+                document.getElementById('founderName').value = data.founderName;
+                document.getElementById('founderEmail').value = data.founderEmail;
+                document.getElementById('sharePercentage').value = data.sharePercentage;
+                alert('Data loaded successfully!');
+            } else {
+                alert('No saved data found.');
+            }
+        }
+
+        function clearData() {
+            localStorage.removeItem('foundersAgreementData');
+            document.getElementById('founderName').value = '';
+            document.getElementById('founderEmail').value = '';
+            document.getElementById('sharePercentage').value = '';
+            document.getElementById('agreementPreview').innerText = 'Agreement preview will appear here...';
+            alert('All data cleared!');
+        }
+
+        function copyToClipboard() {
+            const text = document.getElementById('agreementPreview').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Agreement copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        function downloadAgreement() {
+            const text = document.getElementById('agreementPreview').innerText;
+            const blob = new Blob([text], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'founders_agreement.txt';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        function printAgreement() {
+            const printContents = document.getElementById('agreementPreview').innerHTML;
+            const originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+
+        // Load data on page load
+        window.onload = loadData;
+    </script>
+</body>
+</html>
