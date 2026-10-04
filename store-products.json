@@ -1,11 +1,5 @@
 [
   {
-    "slug": "margin-matrix",
-    "name": "MarginMatrix",
-    "priceUSD": 9,
-    "date": "2026-10-04"
-  },
-  {
     "slug": "founders-agreement-generator",
     "name": "Founders Agreement Template Generator",
     "priceUSD": 5,
